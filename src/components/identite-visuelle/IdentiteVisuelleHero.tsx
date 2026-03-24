@@ -92,7 +92,7 @@ export function IdentiteVisuelleHero() {
     >
       {/* SectionBackground with hero-grid + warm ambre-dominant orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
         orbs={[
           { color: "ambre", position: "bottom-0 right-0", size: "w-[550px] h-[550px]", opacity: "[0.10]" },
           { color: "ambre", position: "top-[20%] left-[10%]", size: "w-[400px] h-[400px]", opacity: "[0.06]" },

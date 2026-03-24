@@ -47,7 +47,7 @@ export function HomeTeam() {
       <div className="absolute top-[35%] left-[50%] w-[350px] h-[350px] bg-[#7c3aed]/[0.06] rounded-full blur-[130px] pointer-events-none z-[2]" />
       <div className="absolute top-[45%] right-[10%] w-[300px] h-[300px] bg-[#06b6d4]/[0.05] rounded-full blur-[120px] pointer-events-none z-[2]" />
       {/* Grid pattern like hero but gradient from top */}
-      <div className="absolute inset-0 z-0 pointer-events-none hero-grid" style={{ opacity: 0.2 }} />
+      <div className="absolute inset-0 z-0 pointer-events-none hero-grid" style={{ opacity: 0.1 }} />
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{ background: "none" }}

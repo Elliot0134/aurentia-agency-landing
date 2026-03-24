@@ -127,7 +127,7 @@ function MemberCard({
             group flex flex-col
             md:flex-row md:items-stretch
             ${!isEven ? "md:flex-row-reverse" : ""}
-            !bg-foreground/[0.04] backdrop-blur-xl border-foreground/10
+            !bg-background/60 backdrop-blur-xl !border-foreground/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)]
             hover:shadow-[0_0_40px_rgba(201,100,66,0.12)]
             hover:!translate-y-0 !transition-shadow !will-change-auto
             duration-700 ease-in-out
@@ -208,7 +208,7 @@ export function AboutTeam() {
   return (
     <Section id="equipe" className="relative overflow-hidden">
       <SectionBackground
-        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
         orbs={[
           { color: "orange", position: "top-[30%] left-[10%]", size: "w-[450px] h-[450px]", opacity: "[0.07]" },
           { color: "violet", position: "top-[50%] left-[50%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },

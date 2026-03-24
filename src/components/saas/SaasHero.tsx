@@ -65,7 +65,7 @@ export function SaasHero() {
     >
       {/* SectionBackground with hero-grid + orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
         orbs={[
           { color: "violet", position: "top-[20%] left-[15%]", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
           { color: "orange", position: "top-[40%] right-[10%]", size: "w-[450px] h-[450px]", opacity: "[0.06]" },

@@ -50,7 +50,7 @@ export function RealisationsHero() {
     >
       {/* Background: grid + orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
         orbs={[
           { color: "ambre", position: "top-[20%] left-[10%]", size: "w-[500px] h-[400px]", opacity: "[0.08]" },
           { color: "orange", position: "bottom-[10%] right-[15%]", size: "w-[450px] h-[350px]", opacity: "[0.05]" },

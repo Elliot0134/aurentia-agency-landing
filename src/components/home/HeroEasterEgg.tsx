@@ -83,7 +83,7 @@ export function HeroEasterEgg() {
           ═══════════════════════════════════════ */}
       <div ref={rouletteSectionRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
         {/* Grid pattern */}
-        <div className="absolute -inset-px z-0 pointer-events-none hero-grid" style={{ opacity: 0.2 }} />
+        <div className="absolute -inset-px z-0 pointer-events-none hero-grid" style={{ opacity: 0.1 }} />
 
         <div ref={rouletteContentRef} className="relative z-10 w-full">
           {hasInteracted ? (
@@ -122,7 +122,7 @@ export function HeroEasterEgg() {
           ═══════════════════════════════════════ */}
       <div ref={titleSectionRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
         {/* Grid pattern */}
-        <div className="absolute -inset-px z-0 pointer-events-none hero-grid" style={{ opacity: 0.2 }} />
+        <div className="absolute -inset-px z-0 pointer-events-none hero-grid" style={{ opacity: 0.1 }} />
 
         <div ref={titleContentRef} className="relative z-10 w-full text-center px-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/[0.06] backdrop-blur-xl border border-foreground/[0.1] mb-6">
