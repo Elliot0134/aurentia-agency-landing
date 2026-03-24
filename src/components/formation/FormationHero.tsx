@@ -50,7 +50,7 @@ export function FormationHero() {
       {/* SectionBackground with violet + orange orbs */}
       <SectionBackground
         variant="base"
-        showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         orbs={[
           { color: "violet", position: "top-[30%] left-[20%]", size: "w-[500px] h-[500px]", opacity: "[0.10]" },
           { color: "orange", position: "top-[50%] right-[15%]", size: "w-[400px] h-[400px]", opacity: "[0.05]" },

@@ -69,7 +69,7 @@ export function ConciergerieHero() {
     >
       {/* SectionBackground with hero-grid + dark orbs (narrative: dark beginning) */}
       <SectionBackground
-        showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         orbs={[
           { color: "orange", position: "top-[20%] left-[10%]", size: "w-[500px] h-[500px]", opacity: "[0.10]" },
           { color: "ambre", position: "top-[50%] right-[15%]", size: "w-[400px] h-[400px]", opacity: "[0.06]" },

@@ -208,7 +208,7 @@ export function AboutTeam() {
   return (
     <Section id="equipe" className="relative overflow-hidden">
       <SectionBackground
-        showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         orbs={[
           { color: "orange", position: "top-[30%] left-[10%]", size: "w-[450px] h-[450px]", opacity: "[0.07]" },
           { color: "violet", position: "top-[50%] left-[50%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },

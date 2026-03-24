@@ -125,7 +125,7 @@ export function LandingPagesHero() {
     >
       {/* SectionBackground with orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         orbs={[
           { color: "orange", position: "top-[25%] left-[20%]", size: "w-[500px] h-[500px]", opacity: "[0.07]" },
           { color: "violet", position: "bottom-[20%] right-[15%]", size: "w-[450px] h-[450px]", opacity: "[0.06]" },

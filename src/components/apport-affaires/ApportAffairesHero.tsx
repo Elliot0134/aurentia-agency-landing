@@ -52,7 +52,7 @@ export function ApportAffairesHero() {
       {/* SectionBackground with ambre + orange orbs */}
       <SectionBackground
         variant="base"
-        showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         orbs={[
           { color: "ambre", position: "top-[30%] left-[25%]", size: "w-[600px] h-[500px]", opacity: "[0.08]" },
           { color: "orange", position: "top-[50%] right-[20%]", size: "w-[400px] h-[400px]", opacity: "[0.05]" },

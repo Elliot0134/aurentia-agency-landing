@@ -56,7 +56,7 @@ export function LegalPageLayout({
               opacity: "[0.04]",
             },
           ]}
-          showGrid gridOpacity={0.4} gridFadeDirection="bottom"
+          showGrid gridOpacity={0.2} gridFadeDirection="bottom"
         />
       </div>
 
