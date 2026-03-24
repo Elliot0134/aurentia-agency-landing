@@ -8,7 +8,6 @@ export function CustomCursor() {
   const posRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Disable on touch devices
     if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
 
     const cursor = cursorRef.current;
@@ -20,16 +19,6 @@ export function CustomCursor() {
       posRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    const onMouseEnterInteractive = () => {
-      cursor.classList.add("cursor-hover");
-    };
-
-    const onMouseLeaveInteractive = () => {
-      cursor.classList.remove("cursor-hover");
-      cursor.classList.remove("cursor-text");
-    };
-
-    // Manual lerp for butter-smooth cursor (no tween overhead)
     const currentPos = { x: 0, y: 0 };
     const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
 
@@ -39,30 +28,16 @@ export function CustomCursor() {
       gsap.set(cursor, { x: currentPos.x, y: currentPos.y });
     };
 
-    // Initialize position
     currentPos.x = posRef.current.x;
     currentPos.y = posRef.current.y;
 
     gsap.ticker.add(ticker);
     window.addEventListener("mousemove", onMouseMove);
 
-    // Add hover listeners to interactive elements
-    const interactiveElements = document.querySelectorAll(
-      'a, button, [role="button"], input, textarea, [data-cursor="hover"]'
-    );
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", onMouseEnterInteractive);
-      el.addEventListener("mouseleave", onMouseLeaveInteractive);
-    });
-
     return () => {
       gsap.ticker.remove(ticker);
       window.removeEventListener("mousemove", onMouseMove);
       document.documentElement.classList.remove("has-custom-cursor");
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", onMouseEnterInteractive);
-        el.removeEventListener("mouseleave", onMouseLeaveInteractive);
-      });
     };
   }, []);
 

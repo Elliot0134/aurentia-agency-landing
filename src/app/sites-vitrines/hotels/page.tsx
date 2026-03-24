@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ComingSoon } from "@/components/shared/ComingSoon";
 
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 export default function HotelsPage() {
   return (
     <>
-      <Navbar />
       <main className="flex min-h-screen flex-col items-center w-full overflow-hidden pt-24">
         <ComingSoon
           title="Hôtels"

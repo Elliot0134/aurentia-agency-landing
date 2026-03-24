@@ -1,0 +1,273 @@
+{
+  "project": "Aurentia Agency — Design Polish All Pages",
+  "branchName": "ralph/design-polish",
+  "description": "Pixel-perfect design polish for all 13 pages. Add visual depth (orbs, hero-grid, gradient mesh), premium micro-interactions, massive typography, glassmorphism, page transitions. Reference: Linear.app / homepage Aurentia level.",
+  "userStories": [
+    {
+      "id": "US-D01",
+      "title": "Shared visual components + page transitions",
+      "description": "As a developer, I want reusable visual building blocks and page transitions so that every page has consistent premium quality",
+      "acceptanceCriteria": [
+        "Create src/components/ui/SectionBackground.tsx — accepts props: orbs (array of {color, position, size, opacity}), showGrid (boolean for hero-grid pattern), showGradientMesh (boolean), variant ('base'|'alt') for alternating bg",
+        "Create src/components/ui/SectionDivider.tsx — gradient line or fade transition between sections",
+        "Create src/components/ui/GradientPlaceholder.tsx — beautiful gradient card for missing images, accepts aspectRatio and label props, animated subtle gradient shift",
+        "Add page transition in src/app/template.tsx — fade + translateY(10px) entry animation on route change using Framer Motion AnimatePresence",
+        "SectionBackground supports hero-grid with variable opacity per page (prop: gridOpacity)",
+        "All components work in dark AND light mode with semantic tokens",
+        "Typecheck passes",
+        "Verify in browser: components render correctly, page transition works between pages"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Read the existing hero-grid CSS class in globals.css. Read HomeTeam.tsx for orbs pattern reference. Read the PRD at tasks/prd-design-polish-all-pages.md for full context. The page transition should be subtle (300-400ms fade, not jarring)."
+    },
+    {
+      "id": "US-D02",
+      "title": "/a-propos — Hero, Story, Values polish",
+      "description": "As a visitor, I want the about page top sections to feel immersive and layered like the homepage",
+      "acceptanceCriteria": [
+        "AboutHero: add SectionBackground with hero-grid + 3 orbs (orange/8, violet/5, cyan/4), grid fades to bottom",
+        "AboutHero: title upgraded to text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tighter leading-[0.95]",
+        "AboutHero: accent gradient (orange→ambre) on key words in H1 ('instrument de précision')",
+        "AboutStory: add subtle left border-l-2 accent-primary on each paragraph block",
+        "AboutStory: increase spacing to py-28 md:py-36",
+        "AboutStory: add SectionDivider between hero and story",
+        "AboutValues: add SectionBackground with orbs behind the bento grid",
+        "AboutValues: icons use accent-primary color with subtle bg glow (bg-accent-primary/10)",
+        "AboutValues: card 1 (span-2) has gradient border shimmer effect",
+        "AboutValues: increase spacing to py-28 md:py-36",
+        "Typecheck passes",
+        "Verify in browser: sections feel layered and immersive, dark+light mode OK"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Read src/components/about/AboutHero.tsx, AboutStory.tsx, AboutValues.tsx. Read HomeTeam.tsx for orbs reference. Do NOT change text content."
+    },
+    {
+      "id": "US-D03",
+      "title": "/a-propos — Team, FatherSon, Hackathons, Proof polish",
+      "description": "As a visitor, I want the about page middle sections to feel rich with premium cards and interactions",
+      "acceptanceCriteria": [
+        "AboutTeam: add SectionBackground with hero-grid + orbs, same as HomeTeam pattern",
+        "AboutTeam: add tilt 3D on hover for team cards (max 3-5deg rotation, GSAP)",
+        "AboutFatherSon: highlight quote in glassmorphism card with gradient border, text-2xl md:text-3xl lg:text-4xl",
+        "AboutFatherSon: increase section spacing to py-28 md:py-36",
+        "AboutHackathons: cards with glassmorphism + subtle ambre glow border on hover",
+        "AboutProof: counters in text-5xl md:text-6xl lg:text-7xl font-black with subtle glow underline",
+        "AboutProof: marquee items larger (text-lg), add dot separators between tech names",
+        "All sections alternate between base and alt backgrounds",
+        "Typecheck passes",
+        "Verify in browser: visual richness builds progressively through the page"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Read AboutTeam.tsx, AboutFatherSon.tsx, AboutHackathons.tsx, AboutProof.tsx. Read HomeTeam.tsx for tilt reference."
+    },
+    {
+      "id": "US-D04",
+      "title": "/a-propos — Approach, Audience, CTA polish + final assembly",
+      "description": "As a visitor, I want the about page final sections to build to a powerful visual crescendo",
+      "acceptanceCriteria": [
+        "AboutApproach: 3 pillars with distinct accent colors (orange, ambre, cyan) visible on icon bg + subtle glow behind each card",
+        "AboutAudience: check icons with accent-primary color, scale bounce more pronounced, items with subtle bg on hover",
+        "AboutCTA: gradient mesh MORE intense (orb opacities doubled), title text-4xl md:text-5xl lg:text-6xl",
+        "AboutCTA: proof points with larger check icons, more spacing between items",
+        "Page assembly: verify all sections flow together with proper SectionDividers or SectionBackground alternation",
+        "Spacing consistent: py-28 md:py-36 on all content sections",
+        "Typecheck passes",
+        "Verify in browser: scroll from top to bottom feels like a cinematic experience, crescendo visible"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Read AboutApproach.tsx, AboutAudience.tsx, AboutCTA.tsx."
+    },
+    {
+      "id": "US-D05",
+      "title": "/realisations — Portfolio page polish",
+      "description": "As a visitor, I want the portfolio page to feel like a premium gallery",
+      "acceptanceCriteria": [
+        "RealisationsHero: add SectionBackground with hero-grid + orbs (ambre/8, orange/5, rose/4)",
+        "RealisationsHero: title text-5xl md:text-6xl lg:text-7xl tracking-tighter",
+        "RealisationsCounters: numbers text-5xl md:text-6xl lg:text-7xl font-black with subtle accent glow underneath",
+        "RealisationsGrid: filter pills bigger (px-5 py-2.5 text-base font-medium), more spacing",
+        "RealisationsGrid: project cards image aspect-[16/9] rounded-2xl, gradient overlay at bottom on hover for text readability",
+        "RealisationsGrid: use GradientPlaceholder for projects without images",
+        "RealisationsInterlude: quote text-3xl md:text-4xl lg:text-5xl italic, decorative quote marks in accent text-6xl md:text-8xl",
+        "RealisationsInterlude: add orbs/glow behind the quote",
+        "RealisationsCTA: gradient mesh intense, same pattern as AboutCTA but with ambre tones",
+        "Typecheck passes",
+        "Verify in browser: page feels like browsing a high-end portfolio"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Read all files in src/components/realisations/. Use GradientPlaceholder from US-D01."
+    },
+    {
+      "id": "US-D06",
+      "title": "/realisations/[slug] — Case study polish",
+      "description": "As a visitor, I want each case study to feel like a premium portfolio piece",
+      "acceptanceCriteria": [
+        "ProjectHero: BrowserMockup with shadow-2xl + subtle accent glow ring around it",
+        "ProjectHero: metadata pills in glassmorphism style (bg-foreground/5 backdrop-blur border)",
+        "ProjectContext: wrap the 2 blocks in glassmorphism cards instead of bare text",
+        "ProjectSolution: feature icons with bg-accent-primary/10 + subtle glow, not just foreground color",
+        "ProjectGallery: images with shadow-xl rounded-2xl, subtle border-foreground/5, use GradientPlaceholder for missing images",
+        "ProjectResults: metric cards text-4xl md:text-5xl font-black with accent glow",
+        "ProjectTestimonial: decorative quote marks text-7xl md:text-8xl accent, glassmorphism card bg",
+        "ProjectNavigation: cards bigger with cover image visible, hover scale(1.03) + glow",
+        "ProjectCTA: gradient mesh bg with orbs",
+        "Typecheck passes",
+        "Verify in browser: a case study page feels premium and complete"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Read all files in src/components/realisations/project/."
+    },
+    {
+      "id": "US-D07",
+      "title": "/conciergeries — Sales page polish (most important page)",
+      "description": "As a visitor, I want the main sales page to be the most visually impressive page on the site",
+      "acceptanceCriteria": [
+        "ConciergerieHero: SectionBackground with hero-grid + animated orbs (orange/10, ambre/6, rose/4), title text-5xl to text-7xl",
+        "ConciergerieHero: stat cards in glassmorphism with glow",
+        "ConciergerieProblem: pain cards with subtle red/danger glow border, icons w-10 h-10 in colored bg circle",
+        "ConciergerieSolution: mockup with tilt 3D on hover, feature checks with bounce animation",
+        "ConciergerieInnovation: cards with large step numbers (01,02,03) in accent + glow",
+        "ConciergerieProcess: timeline nodes with scale bounce on scroll enter, line draw animation",
+        "ConciergeriePricing: Croissance card with glassmorphism + pulsing border accent, bigger price text",
+        "ConciergerieComparison: Aurentia column with bg-accent-primary/5, row hover highlight transition 500ms",
+        "ConciergerieFAQ: smooth height transition, chevron rotation, generous spacing between items",
+        "ConciergerieCTA: gradient mesh MAXIMUM intensity, multiple orbs, text-5xl to text-6xl",
+        "Visual narrative: page goes from dark (problem) → colorful (solution) → luminous (CTA) — verify scroll progression",
+        "Typecheck passes",
+        "Verify in browser: this is THE most impressive page on the site"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Read all files in src/components/conciergerie/. This is the #1 priority page for design quality."
+    },
+    {
+      "id": "US-D08",
+      "title": "/sites-vitrines — Service page polish",
+      "description": "As a visitor, I want the sites vitrines page to feel premium yet accessible",
+      "acceptanceCriteria": [
+        "Hero: SectionBackground with hero-grid + orbs, accent gradient on 'sur-mesure' and '48h' in title",
+        "Features: cards with varied sizes (card 1 span-2 with internal micro-animation), icons with accent color bg",
+        "Process: timeline with line draw animation on scroll, nodes with scale bounce",
+        "Niches: conciergeries card with gradient border shimmer, others with hover glow",
+        "Pricing: '900€' in gradient text-5xl md:text-6xl, glassmorphism card, glow pulse",
+        "Différenciateurs: colored icons (not monochrome) with subtle glow behind",
+        "Portfolio: GradientPlaceholder cards for missing images with project name overlay",
+        "FAQ: generous spacing, visual dividers between items",
+        "Sections alternate base/alt backgrounds",
+        "Typecheck passes",
+        "Verify in browser"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Read all files in src/components/sites-vitrines/."
+    },
+    {
+      "id": "US-D09",
+      "title": "/identite-visuelle — Craft-oriented page polish",
+      "description": "As a visitor, I want the visual identity page to feel artisanal and warm",
+      "acceptanceCriteria": [
+        "Hero: warm tones (ambre dominant), subtle floating geometric shapes (CSS), hero-grid with warm orbs",
+        "Prestations: 4 cards with larger icons (w-12 h-12), layout 2x2 with generous gap-8, glassmorphism hover",
+        "Process: organic feel (rounded shapes, warm colors) different from tech pages",
+        "Portfolio: masonry-style or pinterest layout rather than uniform grid, GradientPlaceholder for missing images",
+        "Pourquoi: Fabien section with photo tilt 3D, quote in glassmorphism card with ambre border",
+        "Tarifs: 'sur devis' card with premium glassmorphism, price factors with icons and accent color",
+        "Color palette: warmer overall (ambre/10, or/6, rose/4) vs the tech orange/violet of other pages",
+        "Typecheck passes",
+        "Verify in browser: page feels distinctly 'craft' and 'artisanal' compared to tech pages"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Read all files in src/components/identite-visuelle/."
+    },
+    {
+      "id": "US-D10",
+      "title": "/saas + /landing-pages — Tech pages polish",
+      "description": "As a visitor, I want the SaaS and Landing pages to feel high-tech and high-ticket",
+      "acceptanceCriteria": [
+        "SaaS Hero: intense gradient mesh (violet + orange orbs), title text-5xl to text-7xl",
+        "SaaS Services bento: cards with subtle code/dashboard micro-animation inside (even just a blinking cursor in a code block)",
+        "SaaS Stack: tech items with hover glow, grid more airy (gap-6)",
+        "SaaS Pricing: '5 000€' in massive gradient text (text-5xl md:text-6xl), glassmorphism premium card",
+        "SaaS: page feels 'high-ticket' — more padding, bigger typography, more breathing room throughout",
+        "LandingPages Hero: add floating mini BrowserMockup as decorative element",
+        "LandingPages Features: gradient border cards, colored icons",
+        "LandingPages Vitrine: BrowserMockup larger, callouts with connecting lines (annotation style)",
+        "LandingPages: the page itself IS a demo of what we can build — it must be spectacular",
+        "Both pages: SectionBackground on hero + CTA, alternating section bgs",
+        "Typecheck passes",
+        "Verify in browser: both pages feel high-end and worth the price"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Read all files in src/components/saas/ and src/components/landing-pages/."
+    },
+    {
+      "id": "US-D11",
+      "title": "/formation + /apport-affaires — Conversion pages polish",
+      "description": "As a visitor, I want the formation page to create FOMO and the referral page to make earning feel exciting",
+      "acceptanceCriteria": [
+        "Formation Hero: 'COMING SOON' badge with continuous glow pulse + subtle particle-like dots floating",
+        "Formation Hero: gradient mesh with violet touch (formation = knowledge, different from business pages)",
+        "Formation Modules: bento cards with terminal/code style icons (blinking cursor effect via CSS animation)",
+        "Formation Waitlist CTA: email input with gradient border animation, success state with confetti-like glow burst",
+        "Apport Hero: '10%' in text-8xl md:text-9xl gradient text with animated shimmer",
+        "Apport Steps: connecting line animated (stroke-dashoffset on scroll), numbered circles in glassmorphism",
+        "Apport Gains: commission amounts in large gradient text that glows on hover",
+        "Apport CTA: primary button VERY prominent (bigger than secondary), WhatsApp button with green accent",
+        "Both pages: SectionBackground on hero + CTA, proper spacing py-28 md:py-36",
+        "Typecheck passes",
+        "Verify in browser"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "Read all files in src/components/formation/ and src/components/apport-affaires/."
+    },
+    {
+      "id": "US-D12",
+      "title": "Pages légales — Clean polish",
+      "description": "As a visitor, I want the legal pages to be clean, readable, and not ugly",
+      "acceptanceCriteria": [
+        "Add subtle SectionBackground at top of each legal page (1 orb, low opacity, hero-grid faded)",
+        "ToC sidebar: smooth scroll on click, active item with accent-primary underline + subtle bg highlight",
+        "Section headers: add subtle left border-l-2 accent-primary",
+        "In-text links: underline on hover with accent color, transition 500ms",
+        "Spacing between articles: increase to mb-16",
+        "Mobile ToC: chevron with rotation animation, smooth open/close 700ms",
+        "Typecheck passes",
+        "Verify in browser: legal pages are clean and professional, not ugly"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Read src/components/legal/ and src/app/cgv/page.tsx, mentions-legales/page.tsx, politique-confidentialite/page.tsx."
+    },
+    {
+      "id": "US-D13",
+      "title": "Cross-page consistency + final verification",
+      "description": "As a developer, I want all pages to share the same visual DNA and have zero bugs",
+      "acceptanceCriteria": [
+        "ALL pages use SectionBackground for at least hero + CTA sections",
+        "ALL page heroes have hero-grid pattern (with variable opacity per page)",
+        "ALL page CTAs have gradient mesh with orbs + MagneticButton glow",
+        "Sections alternate between base/alt backgrounds on every page",
+        "Spacing is consistent: py-28 md:py-36 on content sections across all pages",
+        "Homepage is NOT broken — verify it still works exactly as before",
+        "Every page verified in dark mode — no broken colors, no invisible text",
+        "Every page verified in light mode — same check",
+        "Every page verified at 375px width — no overflow, no cut text, no broken layout",
+        "Navigate between all pages — transitions are smooth, no flash of unstyled content",
+        "Typecheck passes",
+        "Verify in browser: navigate home → each page → back, experience is seamless and premium"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "This is the final QA pass. Check EVERY page. Fix anything that doesn't meet the standard."
+    }
+  ]
+}

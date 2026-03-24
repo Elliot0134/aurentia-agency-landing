@@ -14,6 +14,7 @@ export function SplashWrapper() {
   }, []);
 
   // On non-homepage routes, immediately reveal navbar and content
+  // Must depend on pathname so it re-runs when template.tsx remounts children on navigation
   useEffect(() => {
     if (!isHome) {
       const navbar = document.querySelector("[data-splash-navbar]") as HTMLElement | null;
@@ -27,7 +28,7 @@ export function SplashWrapper() {
         content.style.opacity = "1";
       }
     }
-  }, [isHome]);
+  }, [isHome, pathname]);
 
   if (!showSplash) return null;
 

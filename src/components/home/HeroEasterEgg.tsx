@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SecretSlotMachine3D } from "./SecretSlotMachine3D";
+import { TextReveal } from "@/components/animations/TextReveal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -131,14 +132,25 @@ export function HeroEasterEgg() {
             </span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold text-foreground leading-[1.05]">
-            La curiosit&eacute;<br />
-            paie{" "}
-            <span className="text-accent-primary relative">
-              toujours
-              <span className="absolute -bottom-1 left-0 right-0 h-[3px] bg-accent-primary/30 rounded-full" />
-            </span>.
-          </h2>
+          <div className="space-y-0">
+            <TextReveal
+              elementType="h2"
+              className="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold text-foreground leading-[1.05] justify-center"
+            >
+              La curiosité
+            </TextReveal>
+            <TextReveal
+              elementType="h2"
+              className="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold text-foreground leading-[1.05] justify-center"
+              delay={0.15}
+            >
+              paie{" "}
+              <span className="text-accent-primary relative">
+                toujours
+                <span className="absolute -bottom-1 left-0 right-0 h-[3px] bg-accent-primary/30 rounded-full" />
+              </span>.
+            </TextReveal>
+          </div>
 
           <p className="text-base sm:text-lg text-foreground-muted max-w-lg mx-auto leading-relaxed mt-6">
             Tu as scroll&eacute; l&agrave; o&ugrave; personne ne regarde.

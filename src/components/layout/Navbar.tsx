@@ -3,8 +3,8 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { Sun, Moon, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { ThemeSwitch } from "@/components/unlumen-ui/theme-switch";
 import { siteConfig } from "@/data/content";
 import { CalModal } from "@/components/shared/CalModal";
 
@@ -15,21 +15,21 @@ const sitesVitrinesCibles = [
 
 const services = [
   { label: "Sites vitrines", href: "/sites-vitrines", hasSubmenu: true },
-  { label: "Création de SaaS", href: "/saas" },
-  { label: "Landing pages", href: "/landing-pages" },
-  { label: "Formation", href: "/formation" },
+  { label: "SaaS & Logiciels", href: "/saas" },
+  { label: "Landing Pages", href: "/landing-pages" },
+  { label: "Identité Visuelle", href: "/identite-visuelle" },
 ];
 
 const agenceItems = [
   { label: "À propos", href: "/a-propos" },
   { label: "Réalisations", href: "/realisations" },
+  { label: "Formation", href: "/formation", badge: "NEW" },
   { label: "Apport d'affaires", href: "/apport-affaires" },
   { label: "Blog", href: "/blog" },
 ];
 
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
-  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -228,16 +228,11 @@ export function Navbar() {
           {/* Right — Actions */}
           <div data-splash-nav-item className="hidden md:flex items-center gap-1.5 flex-1 justify-end">
             {/* Theme Toggle */}
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-foreground/5 transition-all duration-200 text-foreground/70 hover:text-foreground"
-                aria-label="Toggle theme"
-                data-splash-nav-el
-              >
-                {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-              </button>
-            )}
+            <ThemeSwitch
+              iconSize={16}
+              className="w-8 h-8 rounded-xl bg-transparent border-0 hover:bg-foreground/5 text-foreground/70 hover:text-foreground"
+              data-splash-nav-el
+            />
 
             {/* WhatsApp */}
             <a
@@ -258,7 +253,7 @@ export function Navbar() {
             <button
               onClick={() => setCalOpen(true)}
               data-splash-nav-el
-              className="px-4 py-1.5 text-sm font-semibold rounded-xl bg-foreground text-background hover:opacity-90 transition-all duration-200 shadow-sm"
+              className="px-4 py-1.5 text-sm font-semibold rounded-xl bg-foreground text-background hover:opacity-90 transition-all duration-500 shadow-sm"
             >
               Réserver un call
             </button>
@@ -266,15 +261,10 @@ export function Navbar() {
 
           {/* Mobile — Toggle + Actions */}
           <div className="flex md:hidden items-center gap-2">
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-foreground/5 transition-colors text-foreground/70"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-              </button>
-            )}
+            <ThemeSwitch
+              iconSize={16}
+              className="w-8 h-8 rounded-xl bg-transparent border-0 hover:bg-foreground/5 text-foreground/70"
+            />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="w-8 h-8 flex flex-col items-center justify-center gap-1 rounded-xl hover:bg-foreground/5 transition-colors"
@@ -336,9 +326,14 @@ export function Navbar() {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
               >
                 {item.label}
+                {item.badge && (
+                  <span className="px-1.5 py-0.5 text-[10px] font-bold leading-none rounded-full bg-orange-500 text-white uppercase tracking-wide">
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             ))}
 
@@ -491,9 +486,14 @@ export function Navbar() {
               key={item.label}
               href={item.href}
               onClick={() => setAgenceDropdownOpen(false)}
-              className="block px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors"
             >
               {item.label}
+              {item.badge && (
+                <span className="px-1.5 py-0.5 text-[10px] font-bold leading-none rounded-full bg-orange-500 text-white uppercase tracking-wide">
+                  {item.badge}
+                </span>
+              )}
             </Link>
           ))}
         </div>

@@ -16,7 +16,7 @@ export const siteConfig = {
 
 export const heroContent = {
   headline: "Votre site professionnel en 48h.",
-  headlineAccent: "Par l'IA. Moins de 1 000€.",
+  headlineAccent: "Par l'IA. À partir de 1 200€.",
   subtitle:
     "Un site unique pour votre conciergerie — pas un template. Design sur-mesure, SEO intégré, livré en 48h par notre alliance IA + 20 ans d'expertise web. Et on vous le montre AVANT que vous payiez.",
   ctaPrimary: "Voir ce qu'on peut faire pour vous",
@@ -82,7 +82,7 @@ export const solutionContent = {
     },
   ],
   promise:
-    "Un site professionnel, 100% unique, livré en 48h, pour moins de 1 000€. Et tant que c'est pas parfait, on ne lance pas.",
+    "Un site professionnel, 100% unique, livré en 48h, à partir de 1 200€. Et tant que c'est pas parfait, on ne lance pas.",
 };
 
 export const innovationContent = {
@@ -177,7 +177,7 @@ export const pricingContent = {
   plans: [
     {
       name: "Essentiel",
-      price: "900€",
+      price: "1 200€",
       description: "Votre vitrine professionnelle, prête en 48h",
       features: [
         "Site 5 pages, design unique",
@@ -235,7 +235,7 @@ export const comparisonContent = {
   title: "Pourquoi pas une agence classique ?",
   columns: ["Agence classique", "Freelance", "Template DIY", "Aurentia"],
   rows: [
-    { label: "Prix", values: ["3 000-8 000€", "1 500-3 000€", "0-200€", "900-1 490€"] },
+    { label: "Prix", values: ["3 000-8 000€", "1 500-3 000€", "0-200€", "1 200-1 990€"] },
     { label: "Délai", values: ["4-8 semaines", "2-4 semaines", "1-2 semaines", "48h"] },
     { label: "Design unique", values: [true, "Souvent", false, true] },
     { label: "SEO intégré", values: ["Parfois", "Rarement", false, true] },
@@ -257,7 +257,7 @@ export const faqContent = {
       answer: "Oui. Notre V1 est livrée en 24-48h. La livraison finale (avec vos retours et ajustements) prend 7 jours max.",
     },
     {
-      question: "900€ c'est pas trop peu pour un bon site ?",
+      question: "1 200€ c'est pas trop peu pour un bon site ?",
       answer:
         "Un site équivalent en agence classique coûte 3 000 à 8 000€. Notre prix est bas parce que notre process est efficace — pas parce que la qualité est basse.",
     },

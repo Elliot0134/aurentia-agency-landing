@@ -1,0 +1,696 @@
+{
+  "project": "Aurentia Agency Landing — All Pages",
+  "branchName": "ralph/all-pages",
+  "description": "Implementation of all 12 pages for the Aurentia Agency website: /a-propos, /realisations, /realisations/[slug], /conciergeries (refonte), /sites-vitrines, /identite-visuelle, /saas, /landing-pages, /formation, /apport-affaires, /cgv, /mentions-legales, /politique-confidentialite. Each page follows the PRD specs in the prd/ folder.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "About page — data file + types",
+      "description": "As a developer, I want the about-content.ts data file with all TypeScript interfaces and content so that the About page components can consume structured data",
+      "acceptanceCriteria": [
+        "File src/data/about-content.ts exists with all interfaces: TeamMember, ValueCard, ProofStat, ApproachPillar, HackathonCard, FatherSonBlock",
+        "All content from PRD-A-PROPOS.md is populated (team bios, values, stats, hackathons, father-son blocks)",
+        "Exports: teamMembers, valueCards, proofStats, approachPillars, hackathonCards, fatherSonBlocks, audienceItems arrays",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md for exact content. All text in French. Use Lucide icon names as strings."
+    },
+    {
+      "id": "US-002",
+      "title": "About page — Hero + Origin Story sections",
+      "description": "As a visitor, I want to see a compelling hero and origin story on /a-propos so that I understand who Aurentia is",
+      "acceptanceCriteria": [
+        "AboutHero component in src/components/about/AboutHero.tsx renders badge, H1 with TextReveal, subtitle with BlurReveal",
+        "AboutStory component in src/components/about/AboutStory.tsx renders 3 paragraphs with BlurReveal stagger and TextGradientReveal on first sentences",
+        "H1 text: 'L'IA comme instrument de précision. 20 ans d'expertise comme fondation.'",
+        "Responsive: text-3xl mobile → text-5xl md:text-6xl desktop",
+        "Uses semantic tokens (text-foreground, bg-background), no hardcoded colors",
+        "All transitions >= 500ms ease-in-out",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Section 1 + 2. Reuse existing TextReveal, BlurReveal, TextGradientReveal from src/components/animations/."
+    },
+    {
+      "id": "US-003",
+      "title": "About page — Values bento grid",
+      "description": "As a visitor, I want to see Aurentia's 5 values in an asymmetric bento grid so that I understand what they stand for",
+      "acceptanceCriteria": [
+        "AboutValues component in src/components/about/AboutValues.tsx renders 5 SpotlightCards in bento grid",
+        "Card 1 spans 2 columns on desktop, 1 column on mobile",
+        "Each card has Lucide icon, title, text from about-content.ts",
+        "Hover: translateY(-8px) + border more visible, transition 700ms",
+        "Icons: Sun, Zap, Shield, Eye, Users from lucide-react",
+        "Responsive: 1 col mobile, 2 cols tablet/desktop",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Section 3."
+    },
+    {
+      "id": "US-004",
+      "title": "About page — Team section (enriched bios)",
+      "description": "As a visitor, I want to see detailed team profiles with photos, enriched bios and competency tags so that I trust the team",
+      "acceptanceCriteria": [
+        "AboutTeam component in src/components/about/AboutTeam.tsx renders 3 team member cards",
+        "Layout: alternating image left/right on desktop, stacked on mobile",
+        "Each card has: photo, role badge, enriched bio, competency tags, LinkedIn link",
+        "Photos use existing /images/team/*.webp assets",
+        "Slide-in animation from left (even) or right (odd), BlurReveal, stagger 0.3s",
+        "Tags fade-in staggered 0.05s each",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Section 4. Bios are significantly more detailed than HomeTeam."
+    },
+    {
+      "id": "US-005",
+      "title": "About page — Father-Son story + LinkedIn embed component",
+      "description": "As a visitor, I want to read the father-son origin story with a timeline so that I connect emotionally with the brand",
+      "acceptanceCriteria": [
+        "AboutFatherSon component in src/components/about/AboutFatherSon.tsx renders 3 text blocks + highlight quote + photo",
+        "LinkedInEmbed shared component in src/components/shared/LinkedInEmbed.tsx renders responsive iframe or screenshot fallback",
+        "Timeline vertical line animates with stroke-dashoffset on scroll",
+        "Quote highlight: large typography, accent color",
+        "Photo with parallax scroll effect",
+        "Responsive: stacked mobile, 2-col desktop (photo 40% / text 60%)",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Section 5. LinkedInEmbed will be reused in Section 6."
+    },
+    {
+      "id": "US-006",
+      "title": "About page — Hackathons + Proof sections",
+      "description": "As a visitor, I want to see hackathon wins and key metrics so that I'm convinced of the team's capabilities",
+      "acceptanceCriteria": [
+        "AboutHackathons component in src/components/about/AboutHackathons.tsx renders 2 hackathon cards with photo, description, result, LinkedIn embed",
+        "AboutProof component in src/components/about/AboutProof.tsx renders 4 counter animations + tech stack marquee",
+        "Counters use NumberMorphing/CountUp animation triggered on scroll (20 ans, 48h, 15+, 100%)",
+        "Marquee: infinite horizontal scroll with fade edges for tech logos/names",
+        "Hackathon card placeholders clearly marked for photos and LinkedIn URLs",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Sections 6 + 7."
+    },
+    {
+      "id": "US-007",
+      "title": "About page — Approach + Audience + CTA sections",
+      "description": "As a visitor, I want to see what differentiates Aurentia, who they help, and a clear CTA so that I can book a call",
+      "acceptanceCriteria": [
+        "AboutApproach component renders 3 pillar cards (IA, Craft, Humain) with SpotlightCard",
+        "AboutAudience component renders checklist of 5 audience items with slide-in animations",
+        "AboutCTA component renders final CTA with TextGradientReveal title, magnetic button, 3 proof points",
+        "CTA button opens CalModal (cal.com/aurentia)",
+        "All 3 components in src/components/about/",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Sections 8 + 9 + 10."
+    },
+    {
+      "id": "US-008",
+      "title": "About page — page route + metadata + JSON-LD",
+      "description": "As a developer, I want the /a-propos page route assembling all About components with SEO metadata so that the page is live",
+      "acceptanceCriteria": [
+        "File src/app/a-propos/page.tsx exists and renders all 10 About sections in order",
+        "Next.js metadata export with title, description, openGraph from PRD",
+        "JSON-LD schema (Organization + BreadcrumbList) rendered in the page",
+        "Navbar and Footer included",
+        "ScrollToTop included",
+        "Page renders without errors in dev mode",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Read prd/PRD-A-PROPOS.md Section 1 (fiche page) + Section 2 (SEO)."
+    },
+    {
+      "id": "US-009",
+      "title": "Realisations — projects data file",
+      "description": "As a developer, I want a complete projects data file with all project data so that portfolio pages can consume it",
+      "acceptanceCriteria": [
+        "File src/data/projects.ts exists with Project interface and all sub-interfaces (ProjectFeature, ProjectResult, ProjectTestimonial)",
+        "Contains at least 6 projects: Conciergerie Azur, LuxStay Gestion, Côte & Clés, Balto, High Love, Courtier Immobilier",
+        "Each project has: slug, name, type, city, coverImage, images, tags, duration, status, context, problem, solution, features, results, testimonial, technologies, liveUrl",
+        "Export: projects array + getProjectBySlug helper + getProjectTypes helper",
+        "Image paths are placeholder paths clearly marked",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Section 5 for complete project data."
+    },
+    {
+      "id": "US-010",
+      "title": "Realisations — Hero + Counters",
+      "description": "As a visitor, I want to see a hero and social proof counters on the portfolio page so that I'm impressed by the track record",
+      "acceptanceCriteria": [
+        "RealisationsHero component renders badge, H1 'Chaque projet raconte une transformation.', subtitle with TextReveal + BlurReveal",
+        "RealisationsCounters component renders 4 animated counters (15+, 48h, 100%, 0 template)",
+        "Counters use NumberMorphing/CountUp animation triggered on scroll",
+        "Both components in src/components/realisations/",
+        "Typecheck passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Sections 1 + 2."
+    },
+    {
+      "id": "US-011",
+      "title": "Realisations — Filterable project grid",
+      "description": "As a visitor, I want to filter projects by type and click through to project details so that I can find relevant examples",
+      "acceptanceCriteria": [
+        "RealisationsGrid component renders filter pills (Tous, Site vitrine, SaaS, Landing page, Identité visuelle) + project cards grid",
+        "Filter pills have active state with gradient orange→ambre, transition 500ms",
+        "Cards show: image, type badge, name, city, tags, 'Découvrir' link on hover",
+        "Filtering uses Framer Motion AnimatePresence with fade+scale transitions",
+        "Cards link to /realisations/[slug]",
+        "SpotlightCard on each project card",
+        "Grid: 1 col mobile, 2 cols tablet, 3 cols desktop",
+        "Typecheck passes"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Section 3. Use projects data from src/data/projects.ts."
+    },
+    {
+      "id": "US-012",
+      "title": "Realisations — Interlude + CTA + page route",
+      "description": "As a developer, I want the portfolio page assembled with interlude and CTA so that /realisations is live",
+      "acceptanceCriteria": [
+        "RealisationsInterlude component renders centered quote 'On ne livre pas des sites web. On révèle des entreprises.'",
+        "RealisationsCTA component renders final CTA with booking button + proof points",
+        "File src/app/realisations/page.tsx assembles all sections: Hero, Counters, Grid, Interlude, CTA",
+        "Metadata export with title, description, openGraph, JSON-LD (CollectionPage + BreadcrumbList)",
+        "Navbar, Footer, ScrollToTop included",
+        "Typecheck passes"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Sections 4 + 5 + fiche page."
+    },
+    {
+      "id": "US-013",
+      "title": "Realisations/[slug] — Hero + Context sections",
+      "description": "As a visitor, I want to see a project's hero with browser mockup and its context/problem so that I understand the case study",
+      "acceptanceCriteria": [
+        "BrowserMockup shared component in src/components/shared/BrowserMockup.tsx renders screenshot in a browser-frame UI",
+        "ProjectBreadcrumb component renders Accueil > Réalisations > [Project Name]",
+        "ProjectHero component renders BrowserMockup + project name H1 + metadata pills (type, city, duration, status)",
+        "ProjectContext component renders 2 blocks: 'Le contexte' + 'Le défi'",
+        "All components in src/components/realisations/project/",
+        "Typecheck passes"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Part 2, Sections 1 + 2 + 3."
+    },
+    {
+      "id": "US-014",
+      "title": "Realisations/[slug] — Solution + Gallery",
+      "description": "As a visitor, I want to see what was built and screenshots so that I appreciate the quality",
+      "acceptanceCriteria": [
+        "ProjectSolution component renders title, intro paragraph, and feature grid (2-3 cols) with SpotlightCards",
+        "ProjectGallery component renders alternating layout (full-width + 2-col) screenshots with BlurReveal + parallax",
+        "Gallery images have rounded-2xl, subtle shadow, scale 1.02 on hover",
+        "Both components in src/components/realisations/project/",
+        "Typecheck passes"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Part 2, Sections 4 + 5."
+    },
+    {
+      "id": "US-015",
+      "title": "Realisations/[slug] — Results + Testimonial + Nav + CTA",
+      "description": "As a visitor, I want to see results, a client testimonial, and navigate to other projects so that I'm convinced and can explore more",
+      "acceptanceCriteria": [
+        "ProjectResults component renders metric cards with NumberMorphing",
+        "ProjectTestimonial component renders conditionally (only if testimonial exists), with large quote + author",
+        "ProjectTechnologies component renders tech pills row",
+        "ProjectNavigation component renders prev/next project cards (circular navigation)",
+        "ProjectCTA component renders contextual CTA based on project type (different Cal.com event types)",
+        "All components in src/components/realisations/project/",
+        "Typecheck passes"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Part 2, Sections 6-10."
+    },
+    {
+      "id": "US-016",
+      "title": "Realisations/[slug] — page route + SSG",
+      "description": "As a developer, I want the dynamic project page route with static generation so that each project has its own URL",
+      "acceptanceCriteria": [
+        "File src/app/realisations/[slug]/page.tsx exists",
+        "generateStaticParams returns slugs for all projects",
+        "generateMetadata dynamically sets title, description, openGraph per project",
+        "JSON-LD (CreativeWork + BreadcrumbList) rendered per project",
+        "Page assembles: Breadcrumb, Hero, Context, Solution, Gallery, Results, Testimonial, Technologies, Navigation, CTA",
+        "404 handling for unknown slugs (notFound())",
+        "Typecheck passes"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": "Read prd/PRD-REALISATIONS.md Part 2 for full structure."
+    },
+    {
+      "id": "US-017",
+      "title": "Conciergeries — data file",
+      "description": "As a developer, I want the conciergeries-content.ts data file with all structured content so that the refactored page can consume it",
+      "acceptanceCriteria": [
+        "File src/data/conciergeries-content.ts exists with all interfaces: ConciergeriePain, InnovationItem, ProcessStep, PricingPlan, ComparisonRow, FAQItem, LeadMagnetContent, SocialProofClient",
+        "All content from PRD-CONCIERGERIES.md is populated (pains with metrics, innovation items, process steps, 3 pricing plans, comparison data, 10 FAQ items, lead magnet, social proof)",
+        "Typecheck passes"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md for exact content. Replace existing content in src/data/content.ts where applicable."
+    },
+    {
+      "id": "US-018",
+      "title": "Conciergeries — Hero + Problem sections (refonte)",
+      "description": "As a visitor, I want a compelling hero focused on commission pain and a 3-pain problem section so that I feel the urgency",
+      "acceptanceCriteria": [
+        "ConciergerieHero refactored with new headline: 'Vos commissions Airbnb financent vos concurrents. Votre site les supprime.'",
+        "ConciergerieProblem refactored with 3 pain cards each containing: icon, title, text, animated metric, detail",
+        "Metric 10 000€ animates with NumberMorphing on scroll",
+        "All CTA buttons point to cal.com/aurentia/site-vitrine",
+        "Semantic tokens only, transitions >= 500ms",
+        "Typecheck passes"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md Sections 1 + 2. Rewrite existing components in src/components/conciergerie/."
+    },
+    {
+      "id": "US-019",
+      "title": "Conciergeries — Solution + Innovation sections (refonte)",
+      "description": "As a visitor, I want to see what Aurentia offers and their unique 'show before you pay' innovation so that I'm intrigued",
+      "acceptanceCriteria": [
+        "ConciergerieSolution refactored with new copy focusing on site vitrine features for conciergeries",
+        "ConciergerieInnovation refactored highlighting 'On vous montre votre site AVANT que vous payiez'",
+        "Innovation items: Votre futur site, Votre audit, Vos recommandations",
+        "TextGradientReveal on section titles",
+        "Typecheck passes"
+      ],
+      "priority": 19,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md Sections 3 + 4."
+    },
+    {
+      "id": "US-020",
+      "title": "Conciergeries — Process + Social Proof sections",
+      "description": "As a visitor, I want to see a clear 3-step process and real client proof so that I trust the delivery promise",
+      "acceptanceCriteria": [
+        "ConciergerieProcess NEW component (no longer reuses HomeProcess) with 3 steps dedicated to conciergeries, timeline layout",
+        "ConciergerieSocialProof NEW component showing 1 client site embed/screenshot + optional testimonial",
+        "Screenshot is clickable → opens live site URL",
+        "Process timeline animates line drawing on scroll",
+        "Both components in src/components/conciergerie/",
+        "Typecheck passes"
+      ],
+      "priority": 20,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md Sections 5 + 6. Social proof = 1 client only (embed or screenshot)."
+    },
+    {
+      "id": "US-021",
+      "title": "Conciergeries — Pricing + Comparison sections (refonte)",
+      "description": "As a visitor, I want to compare pricing packs and see how Aurentia compares to alternatives so that I can decide",
+      "acceptanceCriteria": [
+        "ConciergeriePricing refactored with 3 packs: Essentiel 900€, Croissance 1 490€ (recommended), Premium sur devis",
+        "Croissance card highlighted with glassmorphism + 'Recommandé' badge",
+        "ConciergerieComparison refactored with 4-column table: Agence classique, Freelance, Template DIY, Aurentia",
+        "Aurentia column highlighted with accent color",
+        "Check/X icons for boolean rows",
+        "Typecheck passes"
+      ],
+      "priority": 21,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md Sections 7 + 8."
+    },
+    {
+      "id": "US-022",
+      "title": "Conciergeries — FAQ + Lead Magnet + CTA sections (refonte)",
+      "description": "As a visitor, I want FAQ answers, a free guide, and a final CTA so that my objections are addressed and I can act",
+      "acceptanceCriteria": [
+        "ConciergerieFAQ refactored with 10 questions from PRD, accordion with smooth open/close transitions >= 500ms",
+        "ConciergerieLeadMagnet refactored with guide offer and email capture form (placeholder action)",
+        "ConciergerieCTA refactored with booking CTA cal.com/aurentia/site-vitrine + proof points + P.S.",
+        "All components in src/components/conciergerie/",
+        "Typecheck passes"
+      ],
+      "priority": 22,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md Sections 9 + 10 + 11."
+    },
+    {
+      "id": "US-023",
+      "title": "Conciergeries — page route update + metadata + JSON-LD",
+      "description": "As a developer, I want the /conciergeries page updated with all refactored sections and proper SEO so that the refonte is live",
+      "acceptanceCriteria": [
+        "src/app/conciergeries/page.tsx updated to use refactored components (no longer imports HomeProcess/HomePortfolio)",
+        "All 11 sections in correct order: Hero, Problem, Solution, Innovation, Process, SocialProof, Pricing, Comparison, FAQ, LeadMagnet, CTA",
+        "Metadata export with updated title, description, openGraph",
+        "JSON-LD (Service with 3 offers + FAQPage + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 23,
+      "passes": false,
+      "notes": "Read prd/PRD-CONCIERGERIES.md fiche page + SEO section."
+    },
+    {
+      "id": "US-024",
+      "title": "Sites Vitrines — data + Hero + Features",
+      "description": "As a visitor, I want to see the sites vitrines offer with a hero, price, and feature grid so that I understand the service",
+      "acceptanceCriteria": [
+        "File src/data/sites-vitrines-content.ts with all interfaces and content",
+        "SitesVitrinesHero component with H1 'Votre site vitrine sur-mesure. Livré en 48h. À partir de 900€.' + CTA cal.com/aurentia/site-vitrine",
+        "SitesVitrinesFeatures component with 6 feature cards in bento grid (Design, SEO, Responsive, Performance, Sécurité, Accompagnement)",
+        "All components in src/components/sites-vitrines/",
+        "Typecheck passes"
+      ],
+      "priority": 24,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 1, Sections 1 + 2."
+    },
+    {
+      "id": "US-025",
+      "title": "Sites Vitrines — Process + Niches + Pricing + Differenciateurs",
+      "description": "As a visitor, I want to see the process, supported niches, pricing and differentiators so that I'm convinced to book",
+      "acceptanceCriteria": [
+        "SitesVitrinesProcess component with 4-step timeline animated on scroll",
+        "SitesVitrinesNiches component with 6 niche cards (conciergeries highlighted with link to /conciergeries)",
+        "SitesVitrinesPricing component with 'à partir de 900€' card + inclus list (NOT detailed packs)",
+        "SitesVitrinesDifferenciateurs component with 3 pillars (IA + craft + preuve avant paiement)",
+        "All components in src/components/sites-vitrines/",
+        "Typecheck passes"
+      ],
+      "priority": 25,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 1, Sections 3 + 4 + 5 + 6."
+    },
+    {
+      "id": "US-026",
+      "title": "Sites Vitrines — Portfolio + FAQ + CTA + page route",
+      "description": "As a developer, I want the /sites-vitrines page complete with portfolio, FAQ, CTA, and proper SEO metadata",
+      "acceptanceCriteria": [
+        "SitesVitrinesPortfolio component renders mockups/screenshots of delivered sites",
+        "SitesVitrinesFAQ component with 8 FAQ items in accordion, links to /identite-visuelle and /conciergeries",
+        "SitesVitrinesCTA component with magnetic button → cal.com/aurentia/site-vitrine",
+        "File src/app/sites-vitrines/page.tsx assembles all 9 sections with metadata + JSON-LD (Service + FAQPage + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 26,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 1, Sections 7 + 8 + 9."
+    },
+    {
+      "id": "US-027",
+      "title": "Identité Visuelle — data + Hero + Prestations",
+      "description": "As a visitor, I want to see the visual identity service offer with a craft-oriented hero and service cards",
+      "acceptanceCriteria": [
+        "File src/data/identite-visuelle-content.ts with all interfaces and content",
+        "IdentiteVisuelleHero component with craft/artisanal tone, CTA cal.com/aurentia",
+        "IdentiteVisuellePrestations component with 4 service blocks (Logo, Charte graphique, Univers visuel, Papeterie digitale)",
+        "All components in src/components/identite-visuelle/",
+        "Typecheck passes"
+      ],
+      "priority": 27,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 2, Sections 1 + 2."
+    },
+    {
+      "id": "US-028",
+      "title": "Identité Visuelle — Process + Portfolio + Pourquoi",
+      "description": "As a visitor, I want to see the creative process, portfolio examples, and why Aurentia for visual identity",
+      "acceptanceCriteria": [
+        "IdentiteVisuelleProcess component with 4 steps (Immersion, Exploration, Création, Livraison)",
+        "IdentiteVisuellePortfolio component renders visual identity work examples (data-driven, placeholder images)",
+        "IdentiteVisuellePourquoi component highlighting Fabien's 20 years of creative direction + IA",
+        "All components in src/components/identite-visuelle/",
+        "Typecheck passes"
+      ],
+      "priority": 28,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 2, Sections 3 + 4 + 5."
+    },
+    {
+      "id": "US-029",
+      "title": "Identité Visuelle — Tarifs + FAQ + CTA + page route",
+      "description": "As a developer, I want the /identite-visuelle page complete with pricing, FAQ, CTA, and metadata",
+      "acceptanceCriteria": [
+        "IdentiteVisuelleTarifs component with 'sur devis' pricing + factors + cross-sell sites vitrines",
+        "IdentiteVisuelleFAQ component with 6 FAQ items, link to /sites-vitrines",
+        "IdentiteVisuelleCTA component with booking CTA",
+        "File src/app/identite-visuelle/page.tsx assembles all 8 sections with metadata + JSON-LD",
+        "Typecheck passes"
+      ],
+      "priority": 29,
+      "passes": false,
+      "notes": "Read prd/PRD-SITES-VITRINES-ET-IDENTITE-VISUELLE.md Page 2, Sections 6 + 7 + 8."
+    },
+    {
+      "id": "US-030",
+      "title": "SaaS — data + Hero + Services bento grid",
+      "description": "As a visitor, I want to see the SaaS development offer with a high-ticket hero and service categories",
+      "acceptanceCriteria": [
+        "File src/data/saas-content.ts with all interfaces and content",
+        "SaasHero component with H1 'Votre vision. Notre ingénierie. Propulsé par l'IA.' + CTA cal.com/aurentia/saas",
+        "SaasServices component with bento grid of 4 service cards (SaaS, Logiciels métier, Dashboards, Portails)",
+        "All components in src/components/saas/",
+        "Typecheck passes"
+      ],
+      "priority": 30,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 1, Sections 1 + 2."
+    },
+    {
+      "id": "US-031",
+      "title": "SaaS — Stack + Process + Portfolio",
+      "description": "As a visitor, I want to see the tech stack, development process, and example screenshots so that I trust the technical capability",
+      "acceptanceCriteria": [
+        "SaasStack component renders tech grid (8 technologies) + optional marquee",
+        "SaasProcess component renders 5-step timeline (call → specs → design → dev → deploy) with durations",
+        "SaasPortfolio component renders screenshot grid with placeholder images",
+        "All components in src/components/saas/",
+        "Typecheck passes"
+      ],
+      "priority": 31,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 1, Sections 3 + 4 + 5."
+    },
+    {
+      "id": "US-032",
+      "title": "SaaS — Pricing + FAQ + CTA + page route",
+      "description": "As a developer, I want the /saas page complete with pricing, FAQ, CTA and SEO",
+      "acceptanceCriteria": [
+        "SaasPricing component with 'à partir de 5 000€' card + inclus list + 'sur devis'",
+        "SaasFAQ component with 7 FAQ items in accordion",
+        "SaasCTA component with booking CTA cal.com/aurentia/saas + proof points",
+        "File src/app/saas/page.tsx assembles all 8 sections with metadata + JSON-LD (Service + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 32,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 1, Sections 6 + 7 + 8."
+    },
+    {
+      "id": "US-033",
+      "title": "Landing Pages — data + Hero + Features",
+      "description": "As a visitor, I want to see the landing page service with a compelling hero and feature bento grid",
+      "acceptanceCriteria": [
+        "File src/data/landing-pages-content.ts with all interfaces and content",
+        "LandingPagesHero component with H1 'Des landing pages qui convertissent. Pas qui décorent.' + CTA cal.com/aurentia/landing-page",
+        "LandingPagesFeatures component with bento grid of 6 features (design, animations, responsive, SEO, perf, dark/light)",
+        "All components in src/components/landing-pages/",
+        "Typecheck passes"
+      ],
+      "priority": 33,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 2, Sections 1 + 2."
+    },
+    {
+      "id": "US-034",
+      "title": "Landing Pages — Vitrine + Examples + Process",
+      "description": "As a visitor, I want to see aurentia.agency as a live example and the creation process so that I understand the quality level",
+      "acceptanceCriteria": [
+        "LandingPagesVitrine component renders BrowserMockup of aurentia.agency with callout annotations",
+        "LandingPagesExemples component renders portfolio grid (aurentia.agency + placeholder slots)",
+        "LandingPagesProcess component renders 4-step timeline",
+        "All components in src/components/landing-pages/",
+        "Typecheck passes"
+      ],
+      "priority": 34,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 2, Sections 3 + 4 + 5."
+    },
+    {
+      "id": "US-035",
+      "title": "Landing Pages — Pricing + FAQ + CTA + page route",
+      "description": "As a developer, I want the /landing-pages page complete with pricing, FAQ, CTA and SEO",
+      "acceptanceCriteria": [
+        "LandingPagesPricing component with 'à partir de 1 500€' card + inclus + sur devis",
+        "LandingPagesFAQ component with 6 FAQ items",
+        "LandingPagesCTA component with booking CTA cal.com/aurentia/landing-page",
+        "File src/app/landing-pages/page.tsx assembles all 8 sections with metadata + JSON-LD (Service + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 35,
+      "passes": false,
+      "notes": "Read prd/PRD-SAAS-ET-LANDING-PAGES.md Part 2, Sections 6 + 7 + 8."
+    },
+    {
+      "id": "US-036",
+      "title": "Formation — data + Hero + Vision + Modules",
+      "description": "As a visitor, I want to see the Aurentia Formation teaser with hero, vision, and module previews so that I join the waitlist",
+      "acceptanceCriteria": [
+        "File src/data/formation-content.ts with all interfaces and content",
+        "FormationHero component with 'coming soon' badge, H1 'Maîtrisez Claude AI. Avant tout le monde.', CTA waitlist",
+        "FormationVision component explaining why Claude, why Aurentia, why now",
+        "FormationModules component with bento grid of 5 module cards (Claude Code, Prompting, Skills, Automatisation, Projet)",
+        "All components in src/components/formation/",
+        "Typecheck passes"
+      ],
+      "priority": 36,
+      "passes": false,
+      "notes": "Read prd/PRD-FORMATION-ET-APPORT-AFFAIRES.md Part 1, Sections 1 + 2 + 3."
+    },
+    {
+      "id": "US-037",
+      "title": "Formation — Audience + Team + Format + FAQ + CTA + page route",
+      "description": "As a developer, I want the /formation page complete with all remaining sections and SEO",
+      "acceptanceCriteria": [
+        "FormationAudience component with 3 persona cards (devs, entrepreneurs, équipes)",
+        "FormationTeam component highlighting Elliot + Mathieu as instructors",
+        "FormationFormat component showing video + cours + skills bundles",
+        "FormationFAQ component with 7 FAQ items",
+        "FormationCTA component with waitlist email form (Server Action placeholder to Supabase waitlist table)",
+        "File src/app/formation/page.tsx assembles all 8 sections with metadata + JSON-LD (Course + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 37,
+      "passes": false,
+      "notes": "Read prd/PRD-FORMATION-ET-APPORT-AFFAIRES.md Part 1, Sections 4 + 5 + 6 + 7 + 8."
+    },
+    {
+      "id": "US-038",
+      "title": "Apport d'Affaires — data + Hero + Steps + Gains",
+      "description": "As a visitor, I want to see the referral program with a clear hero, 3 steps, and concrete earning examples",
+      "acceptanceCriteria": [
+        "File src/data/apport-affaires-content.ts with all interfaces and content",
+        "ApportAffairesHero component with large '10%' visual, H1 'Recommandez. Encaissez. C'est aussi simple que ça.'",
+        "ApportAffairesSteps component with 3 steps: Inscrivez-vous, Recommandez, Encaissez",
+        "ApportAffairesGains component with concrete earning examples (90€, 149€, 220€, 1 000€) from PRD",
+        "All components in src/components/apport-affaires/",
+        "Typecheck passes"
+      ],
+      "priority": 38,
+      "passes": false,
+      "notes": "Read prd/PRD-FORMATION-ET-APPORT-AFFAIRES.md Part 2, Sections 1 + 2 + 3."
+    },
+    {
+      "id": "US-039",
+      "title": "Apport d'Affaires — Audience + FAQ + CTA + page route",
+      "description": "As a developer, I want the /apport-affaires page complete with audience, FAQ, dual CTA and SEO",
+      "acceptanceCriteria": [
+        "ApportAffairesAudience component with 4 persona cards (freelances, agences, clients, tout le monde)",
+        "ApportAffairesFAQ component with 8 FAQ items in accordion",
+        "ApportAffairesCTA component with dual CTA: signup form + WhatsApp link",
+        "File src/app/apport-affaires/page.tsx assembles all 6 sections with metadata + JSON-LD (WebPage + BreadcrumbList)",
+        "Typecheck passes"
+      ],
+      "priority": 39,
+      "passes": false,
+      "notes": "Read prd/PRD-FORMATION-ET-APPORT-AFFAIRES.md Part 2, Sections 4 + 5 + 6."
+    },
+    {
+      "id": "US-040",
+      "title": "Legal pages — shared layout components",
+      "description": "As a developer, I want shared legal page components so that all 3 legal pages use the same layout",
+      "acceptanceCriteria": [
+        "LegalPageLayout component in src/components/legal/LegalPageLayout.tsx with props: title, lastUpdated, toc, children",
+        "LegalSection component in src/components/legal/LegalSection.tsx with props: id, title, children (H2 with anchor)",
+        "LegalToc component in src/components/legal/LegalToc.tsx: sidebar sticky desktop, inline accordion mobile, active section highlight with IntersectionObserver",
+        "Page entry animation: fade-in + translateY(20px), 700ms",
+        "Each section: fade-in on scroll, 500ms",
+        "Typecheck passes"
+      ],
+      "priority": 40,
+      "passes": false,
+      "notes": "Read prd/PRD-PAGES-LEGALES.md — Architecture commune section."
+    },
+    {
+      "id": "US-041",
+      "title": "CGV page — full legal text + route",
+      "description": "As a visitor, I want to read the complete Terms of Sale so that I understand the contractual terms",
+      "acceptanceCriteria": [
+        "File src/app/cgv/page.tsx renders LegalPageLayout with all 15 articles from PRD",
+        "Content includes: objet, commandes, prix, paiement 3x, délais 48h/7j, 3 révisions, PI, hébergement, résiliation, responsabilité, données personnelles, droit applicable",
+        "Placeholders marked [À COMPLÉTER] for SIRET, capital, address etc.",
+        "Metadata: title 'Conditions Générales de Vente | Aurentia Agency', noindex follow",
+        "BreadcrumbList JSON-LD",
+        "Typecheck passes"
+      ],
+      "priority": 41,
+      "passes": false,
+      "notes": "Read prd/PRD-PAGES-LEGALES.md — Page 1: /cgv. Full legal text in French."
+    },
+    {
+      "id": "US-042",
+      "title": "Mentions Légales page — full legal text + route",
+      "description": "As a visitor, I want to read the legal notices so that I know who operates the site",
+      "acceptanceCriteria": [
+        "File src/app/mentions-legales/page.tsx renders LegalPageLayout with all 8 articles from PRD",
+        "Content includes: éditeur (SAS), directeur publication, hébergeur (Vercel Inc.), PI, crédits, conditions",
+        "Placeholders [À COMPLÉTER] for company details",
+        "Metadata + BreadcrumbList JSON-LD, noindex follow",
+        "Typecheck passes"
+      ],
+      "priority": 42,
+      "passes": false,
+      "notes": "Read prd/PRD-PAGES-LEGALES.md — Page 2: /mentions-legales."
+    },
+    {
+      "id": "US-043",
+      "title": "Politique de Confidentialité page — full RGPD text + route",
+      "description": "As a visitor, I want to read the privacy policy so that I understand how my data is handled",
+      "acceptanceCriteria": [
+        "File src/app/politique-confidentialite/page.tsx renders LegalPageLayout with all 12 articles from PRD",
+        "Content includes: responsable traitement, données collectées, finalités, base légale, destinataires, durée conservation, droits (accès, rectification, suppression, portabilité, opposition), cookies, transferts hors UE, DPO contact",
+        "RGPD compliant, mentions CNIL",
+        "Metadata + BreadcrumbList JSON-LD, noindex follow",
+        "Typecheck passes"
+      ],
+      "priority": 43,
+      "passes": false,
+      "notes": "Read prd/PRD-PAGES-LEGALES.md — Page 3: /politique-confidentialite."
+    },
+    {
+      "id": "US-044",
+      "title": "Navigation — Update Navbar + Footer with all new pages",
+      "description": "As a visitor, I want to navigate to all new pages from the navbar and footer so that I can explore the full site",
+      "acceptanceCriteria": [
+        "Navbar updated with links/dropdown to: /a-propos, /realisations, /sites-vitrines, /saas, /landing-pages, /identite-visuelle, /formation, /apport-affaires, /conciergeries",
+        "Footer updated with all page links organized by category + legal pages (/cgv, /mentions-legales, /politique-confidentialite)",
+        "Navigation structure is mobile-friendly (hamburger/sheet menu)",
+        "All links work and point to correct routes",
+        "Typecheck passes"
+      ],
+      "priority": 44,
+      "passes": false,
+      "notes": "Read existing Navbar.tsx and Footer.tsx. Add new links without breaking existing structure."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,8 @@ if (typeof window !== "undefined") {
 }
 
 interface TextRevealProps {
-  text: string;
+  text?: string;
+  children?: React.ReactNode;
   className?: string;
   elementType?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   delay?: number;
@@ -18,6 +19,7 @@ interface TextRevealProps {
 
 export function TextReveal({
   text,
+  children,
   className,
   elementType = "p",
   delay = 0,
@@ -69,11 +71,20 @@ export function TextReveal({
     }
   }, [delay, hasAnimated]);
 
-  const wordsArray = text.split(" ");
   const Tag = elementType;
 
+  if (children) {
+    return (
+      <Tag ref={containerRef as React.Ref<never>} className={cn("flex flex-wrap gap-x-[0.18em]", className)}>
+        {wrapChildren(children)}
+      </Tag>
+    );
+  }
+
+  const wordsArray = (text ?? "").split(" ");
+
   return (
-    <Tag ref={containerRef as React.Ref<never>} className={cn("flex flex-wrap gap-x-[0.25em]", className)}>
+    <Tag ref={containerRef as React.Ref<never>} className={cn("flex flex-wrap gap-x-[0.18em]", className)}>
       {wordsArray.map((word, i) => (
         <span key={i} className="overflow-hidden inline-flex">
           <span className="word inline-block origin-bottom">
@@ -83,4 +94,38 @@ export function TextReveal({
       ))}
     </Tag>
   );
+}
+
+function wrapChildren(node: React.ReactNode, inheritedClassName?: string): React.ReactNode {
+  if (typeof node === "string") {
+    return node.split(" ").filter(Boolean).map((word, i, arr) => (
+      <span key={i} className="overflow-hidden inline-flex">
+        <span className={cn("word inline-block origin-bottom", inheritedClassName)}>
+          {word}
+          {i < arr.length - 1 ? "\u00A0" : ""}
+        </span>
+      </span>
+    ));
+  }
+
+  if (Array.isArray(node)) {
+    return node.map((child, i) => (
+      <React.Fragment key={i}>{wrapChildren(child, inheritedClassName)}</React.Fragment>
+    ));
+  }
+
+  if (React.isValidElement(node)) {
+    const element = node as React.ReactElement<{ children?: React.ReactNode; className?: string }>;
+    const elementClassName = element.props.className;
+
+    // If the element has bg-clip-text (gradient text), propagate its classes to word spans
+    // instead of keeping them on a wrapper (bg-clip-text doesn't work with nested text elements)
+    if (elementClassName && elementClassName.includes("bg-clip-text")) {
+      return wrapChildren(element.props.children, elementClassName);
+    }
+
+    return React.cloneElement(element, {}, wrapChildren(element.props.children, inheritedClassName));
+  }
+
+  return node;
 }

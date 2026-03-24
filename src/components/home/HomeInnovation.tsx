@@ -1,6 +1,7 @@
 "use client";
 
 import { Section } from "@/components/ui/Section";
+import { TextReveal } from "@/components/animations/TextReveal";
 
 const CARDS = [
   {
@@ -31,10 +32,13 @@ export function HomeInnovation() {
     <Section theme="dark-alt" className="py-24 md:py-32">
       {/* Header */}
       <div className="mb-16 max-w-4xl">
-        <h2 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.05] text-foreground mb-5">
+        <TextReveal
+          elementType="h2"
+          className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.05] text-foreground mb-5"
+        >
           Ce qui nous{" "}
           <span className="text-accent-primary">différencie.</span>
-        </h2>
+        </TextReveal>
         <p className="text-xl lg:text-2xl text-foreground-muted font-medium max-w-2xl">
           L&apos;IA comme instrument de précision. 20 ans d&apos;expertise comme garantie.
         </p>

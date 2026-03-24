@@ -10,6 +10,14 @@
 - Les changements de couleur, opacité, taille, position doivent TOUJOURS avoir une `transition` ou une animation. Jamais de changement brut sans transition.
 - Pour les dégradés qui changent au hover : ne pas animer les gradient stops (non animable en CSS). Utiliser deux couches superposées et animer l'`opacity` de la couche hover.
 
+## Light / Dark Theme
+
+- **JAMAIS de couleurs hardcodées** (`text-white`, `bg-white/...`, `bg-[#1a1a18]`, `border-white/...`) dans les composants. Utiliser les tokens sémantiques : `text-foreground/...`, `bg-foreground/...`, `border-foreground/...`, `bg-background`, `bg-background-surface`.
+- **Boutons solides** : utiliser `bg-foreground text-background` pour qu'ils s'inversent automatiquement (noir en light, blanc en dark).
+- **Boutons ghost** : utiliser `border-foreground/... text-foreground/...`.
+- **Seule exception** : les éléments décoratifs purement visuels (shimmer `via-white/15` sur fond orange, etc.) peuvent rester en `white`.
+- **Chaque composant doit être visuellement parfait dans les DEUX thèmes.** Toujours vérifier.
+
 ## Scroll & Animations
 
 - **Toutes les animations scroll doivent être lentes, douces et modernes.** Les sections pinnées/sticky doivent avoir assez de hauteur pour que le scroll soit confortable et progressif, jamais brusque.

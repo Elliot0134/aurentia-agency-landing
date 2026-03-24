@@ -3,16 +3,19 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroEasterEgg } from "@/components/home/HeroEasterEgg";
 import { HomeHero } from "@/components/home/HomeHero";
-import { HomeMarquee } from "@/components/home/HomeMarquee";
+
 import { HomeServices } from "@/components/home/HomeServices";
 import { HomeProcess } from "@/components/home/HomeProcess";
 import { HomeTeam } from "@/components/home/HomeTeam";
 import { HomePortfolio } from "@/components/home/HomePortfolio";
 import { HomeCTA } from "@/components/home/HomeCTA";
+import { HomeTestimonials } from "@/components/home/HomeTestimonials";
+import { HomeAdvantages } from "@/components/home/HomeAdvantages";
+import { HomeFAQ } from "@/components/home/HomeFAQ";
+import { HomeContact } from "@/components/home/HomeContact";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
 if (typeof window !== "undefined") {
@@ -53,17 +56,21 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
       <ScrollToTop />
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
         <main className="flex min-h-screen flex-col w-full">
           <HeroEasterEgg />
           <HomeHero />
-          <HomeMarquee />
-          <HomeTeam />
+          <div className="relative z-10" style={{ marginTop: '-100px' }}>
+            <HomeTeam />
+          </div>
           <HomeServices />
-          <HomeProcess />
           <HomePortfolio />
+          <HomeProcess />
+          <HomeTestimonials />
+          <HomeAdvantages />
+          <HomeFAQ />
+          <HomeContact />
           <HomeCTA />
         </main>
         <Footer />

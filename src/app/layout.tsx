@@ -7,6 +7,7 @@ import { CustomCursor } from "@/components/animations/CustomCursor";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { SplashWrapper } from "@/components/animations/SplashWrapper";
+import { Navbar } from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -41,34 +42,43 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aurentia Agency — Sites web pour conciergeries | Livré en 48h",
+  title: "Aurentia — Agence web premium à Lyon | Sites vitrines & SaaS en 48h",
   description:
-    "Votre site professionnel unique, livré en 48h par l'IA + 20 ans d'expertise web. SEO intégré, moins de 1 000€. Aperçu gratuit avant paiement.",
+    "Agence web premium. Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, développement Next.js, SEO intégré. Livré en 48h à 2 semaines.",
   keywords: [
-    "conciergerie",
-    "site web conciergerie",
+    "agence web lyon",
+    "site vitrine sur-mesure",
+    "landing page conversion",
+    "développement SaaS",
+    "Next.js",
+    "agence digitale premium",
     "création site web",
-    "agence web IA",
-    "site vitrine",
-    "Aurentia",
-    "48h",
-    "SEO conciergerie",
+    "design web",
   ],
-  authors: [{ name: "Aurentia Agency" }],
+  authors: [{ name: "Aurentia" }],
+  creator: "Aurentia",
+  metadataBase: new URL("https://aurentia.fr"),
   openGraph: {
-    title: "Aurentia Agency — Votre site pro en 48h",
-    description:
-      "Sites web uniques pour conciergeries. Design sur-mesure par l'IA, SEO intégré, livré en 48h. Moins de 1 000€.",
-    url: "https://aurentia.agency/conciergeries",
-    siteName: "Aurentia Agency",
-    locale: "fr_FR",
     type: "website",
+    locale: "fr_FR",
+    url: "https://aurentia.fr",
+    siteName: "Aurentia",
+    title: "Aurentia — Agence web premium à Lyon",
+    description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 48h.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Aurentia — Agence web premium",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aurentia Agency — Sites web pour conciergeries",
-    description:
-      "Votre site professionnel unique, livré en 48h. Moins de 1 000€.",
+    title: "Aurentia — Agence web premium à Lyon",
+    description: "Sites vitrines, landing pages et applications SaaS sur-mesure.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -93,12 +103,37 @@ export default function RootLayout({
             __html: `[data-splash-content]:not([data-splash-ready]){opacity:0!important}[data-splash-navbar]:not([data-splash-ready]){opacity:0!important}`,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "Aurentia",
+              description: "Agence web premium — Sites vitrines, landing pages et applications SaaS sur-mesure",
+              url: "https://aurentia.fr",
+              logo: "https://aurentia.fr/logo.png",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Lyon",
+                addressCountry: "FR",
+              },
+              priceRange: "€€",
+              serviceType: ["Web Development", "Landing Page Design", "SaaS Development"],
+              areaServed: {
+                "@type": "Country",
+                name: "France",
+              },
+            }),
+          }}
+        />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider>
           <LenisProvider>
             <CustomCursor />
             <ScrollProgress />
+            <Navbar />
             <SplashWrapper />
             {children}
           </LenisProvider>

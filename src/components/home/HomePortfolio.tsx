@@ -22,6 +22,7 @@ const projects = [
   {
     name: "Comparateur-IA-Facile",
     tag: "SaaS",
+    duration: "2 semaines",
     services: ["Charte graphique", "Design UI", "Développement", "SEO"],
     images: [
       "/images/portfolio/comparateur-ia-1.webp",
@@ -33,6 +34,7 @@ const projects = [
   {
     name: "Maison Enileh",
     tag: "Site Vitrine",
+    duration: "48h",
     services: ["Charte graphique", "Design UI", "Développement", "SEO"],
     images: ["/images/portfolio/maison-enileh-1.webp"],
     layout: "md:col-span-1",
@@ -40,6 +42,7 @@ const projects = [
   {
     name: "Savistas",
     tag: "SaaS + Landing",
+    duration: "72h",
     services: ["Charte graphique", "Design UI", "Développement", "Landing page"],
     images: ["/images/portfolio/savistas-1.webp"],
     layout: "md:col-span-1",
@@ -47,6 +50,7 @@ const projects = [
   {
     name: "Friend'iz",
     tag: "E-commerce",
+    duration: "2 semaines",
     services: ["Charte graphique", "Design UI", "Développement"],
     images: ["/images/portfolio/friendiz-1.webp"],
     layout: "md:col-span-1",
@@ -54,6 +58,7 @@ const projects = [
   {
     name: "Allo Restau",
     tag: "Landing + SaaS",
+    duration: "72h",
     services: ["Charte graphique", "Design UI", "Développement", "SEO"],
     images: [
       "/images/portfolio/allo-restau-1.webp",
@@ -65,11 +70,35 @@ const projects = [
   {
     name: "Golf Mentor",
     tag: "Site Vitrine + SaaS",
+    duration: "48h",
     services: ["Charte graphique", "Design UI", "Développement", "SEO"],
     images: ["/images/portfolio/golf-mentor-1.webp"],
     layout: "md:col-span-1",
   },
 ];
+
+function PhoneMockup({ image, name, large = false }: { image: string; name: string; large?: boolean }) {
+  return (
+    <div className="absolute right-6 top-1/2 -translate-y-1/2 z-30 pointer-events-none translate-x-[30%] scale-95 opacity-0 group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] hidden md:block">
+      <div className={`relative rounded-[24px] border-[3px] border-white/20 bg-black/80 backdrop-blur-sm shadow-2xl shadow-black/50 overflow-hidden ${large ? "w-[150px] h-[310px]" : "w-[90px] h-[185px]"}`}>
+        {/* Notch / Dynamic Island */}
+        <div className={`absolute left-1/2 -translate-x-1/2 bg-black rounded-full z-10 ${large ? "top-[10px] w-[45px] h-[14px]" : "top-[6px] w-[30px] h-[10px]"}`} />
+        {/* Screen content */}
+        <div className={`absolute overflow-hidden ${large ? "inset-[4px] rounded-[20px]" : "inset-[3px] rounded-[16px]"}`}>
+          <Image
+            src={image}
+            alt={`${name} — mobile`}
+            fill
+            className="object-cover object-top"
+            sizes={large ? "150px" : "90px"}
+          />
+        </div>
+        {/* Home indicator */}
+        <div className={`absolute left-1/2 -translate-x-1/2 bg-white/30 rounded-full z-10 ${large ? "bottom-[7px] w-[40px] h-[4px]" : "bottom-[5px] w-[28px] h-[3px]"}`} />
+      </div>
+    </div>
+  );
+}
 
 function ImageSlider({ images, name }: { images: string[]; name: string }) {
   const [current, setCurrent] = useState(0);
@@ -111,7 +140,7 @@ function ImageSlider({ images, name }: { images: string[]; name: string }) {
           {/* Nav arrows — visible on hover */}
           <button
             onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-background/60 backdrop-blur-sm border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto cursor-pointer hover:bg-background/80"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-40 w-8 h-8 rounded-full bg-background/60 backdrop-blur-sm border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto cursor-pointer hover:bg-background/80"
             aria-label="Image précédente"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -120,7 +149,7 @@ function ImageSlider({ images, name }: { images: string[]; name: string }) {
           </button>
           <button
             onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-background/60 backdrop-blur-sm border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto cursor-pointer hover:bg-background/80"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-40 w-8 h-8 rounded-full bg-background/60 backdrop-blur-sm border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto cursor-pointer hover:bg-background/80"
             aria-label="Image suivante"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -129,7 +158,7 @@ function ImageSlider({ images, name }: { images: string[]; name: string }) {
           </button>
 
           {/* Dots */}
-          <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 pointer-events-auto">
+          <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-40 flex gap-1.5 pointer-events-auto">
             {images.map((_, i) => (
               <button
                 key={i}
@@ -152,6 +181,8 @@ function ImageSlider({ images, name }: { images: string[]; name: string }) {
 export function HomePortfolio() {
   return (
     <Section id="portfolio" theme="dark-alt-2" className="pt-32 pb-16 relative overflow-hidden section-divider-orange">
+      {/* Dot pattern background — rendered at section level via portal-like absolute positioning */}
+      <div className="absolute inset-0 -mx-6 md:-mx-12 pointer-events-none" style={{ opacity: "var(--dot-pattern-opacity, 0.12)", backgroundImage: "radial-gradient(circle, var(--text-primary) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       {/* Subtle orange ambient glow */}
       <div className="absolute -top-20 right-1/4 w-[500px] h-[300px] bg-accent-primary/[0.03] rounded-full blur-[100px] pointer-events-none" />
       {/* Header row */}
@@ -187,11 +218,14 @@ export function HomePortfolio() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 md:auto-rows-[240px]">
         {projects.map((proj, idx) => (
           <BlurReveal key={idx} delay={idx * 0.1} className={proj.layout}>
-            <SpotlightCard className="w-full h-full p-6 flex flex-col justify-between group overflow-hidden relative cursor-pointer">
-              {/* Tag badge */}
+            <SpotlightCard className="w-full h-full p-6 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
+              {/* Tag badge + duration */}
               <div className="flex justify-between items-start z-10 w-full transition-transform duration-500 group-hover:-translate-y-1">
                 <span className="text-sm font-mono uppercase tracking-widest py-1.5 px-3.5 rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-md">
                   {proj.tag}
+                </span>
+                <span className="text-sm font-mono py-1.5 px-3.5 rounded-full border border-white/10 bg-white/10 text-white/90 backdrop-blur-md">
+                  {proj.duration}
                 </span>
               </div>
 
@@ -201,7 +235,13 @@ export function HomePortfolio() {
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-foreground/[0.03] rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </div>
 
-              {/* Bottom: project name + services */}
+              {/* Phone mockup — slides in from left on hover */}
+              <PhoneMockup image={proj.images[0]} name={proj.name} large={proj.layout.includes("row-span-2")} />
+
+              {/* Bottom gradient fade */}
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-[1] pointer-events-none rounded-b-[inherit]" />
+
+              {/* Bottom: project name + duration + services */}
               <div className="z-10 transition-transform duration-500 group-hover:translate-x-1 [text-shadow:_0_1px_8px_rgba(0,0,0,0.5)]">
                 <div className="flex items-end justify-between mb-2">
                   <h3 className="text-lg md:text-xl font-bold leading-snug text-white">{proj.name}</h3>
@@ -209,16 +249,18 @@ export function HomePortfolio() {
                     Découvrir&nbsp;→
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {proj.services.map((service) => (
-                    <span
-                      key={service}
-                      className="text-sm font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/15 bg-black/40 text-white/80 backdrop-blur-sm"
-                    >
-                      {service}
-                    </span>
-                  ))}
-                </div>
+                {proj.name === "Comparateur-IA-Facile" && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {proj.services.map((service) => (
+                      <span
+                        key={service}
+                        className="text-sm font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/15 bg-black/40 text-white/80 backdrop-blur-sm"
+                      >
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </SpotlightCard>
           </BlurReveal>

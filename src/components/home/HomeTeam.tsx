@@ -36,9 +36,12 @@ const team = [
 ];
 
 export function HomeTeam() {
-
   return (
-    <Section id="equipe" theme="dark" className="py-32 relative overflow-hidden" data-theme="dark">
+    <Section id="equipe" theme="dark" className="relative overflow-hidden -mt-8" data-theme="dark" style={{ clipPath: "ellipse(150% 100% at 50% 100%)" }}>
+
+      {/* Orange glow at top — inverted arc (same as hero bottom) */}
+      <div className="absolute top-[-40%] left-1/2 -translate-x-1/2 z-[2] pointer-events-none w-[90%] aspect-[3/1] rounded-full" style={{ background: "var(--accent)", filter: "blur(100px)", opacity: "var(--hero-glow-opacity)" }} />
+
       {/* Colored orbs behind cards for glassmorphism effect */}
       <div className="absolute top-[40%] left-[15%] w-[400px] h-[400px] bg-accent-primary/[0.08] rounded-full blur-[150px] pointer-events-none z-[2]" />
       <div className="absolute top-[35%] left-[50%] w-[350px] h-[350px] bg-[#7c3aed]/[0.06] rounded-full blur-[130px] pointer-events-none z-[2]" />
@@ -47,23 +50,20 @@ export function HomeTeam() {
       <div className="absolute inset-0 z-0 pointer-events-none hero-grid" />
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: "linear-gradient(to top, transparent 40%, var(--bg-base) 85%, var(--bg-base) 100%)" }}
+        style={{ background: "none" }}
       />
 
-      <div className="relative z-10 text-center mb-6">
-        <TextReveal
-          text="Trois regards. Une seule exigence."
-          elementType="h2"
-          className="text-4xl md:text-5xl font-bold tracking-tight justify-center"
-        />
-      </div>
-      <BlurReveal delay={0.1}>
-        <p className="relative z-10 text-center text-foreground-muted text-lg md:text-xl max-w-2xl mx-auto mb-16">
-          20 ans de craft web, l&apos;IA comme superpouvoir, et une ingénierie sans compromis.
-        </p>
-      </BlurReveal>
+      {/* Vertically centered block — title + cards + CTA */}
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-8 pb-20">
+        <div className="text-center mb-12">
+          <TextReveal
+            text="Le trio fondateur."
+            elementType="h2"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter justify-center"
+          />
+        </div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
         {team.map((member, idx) => (
           <BlurReveal key={idx} delay={idx * 0.2}>
             <SpotlightCard className="relative p-5 h-full flex flex-col justify-between aspect-square !bg-white/[0.03] backdrop-blur-xl border-white/[0.08] group overflow-hidden hover:shadow-[0_0_40px_rgba(201,100,66,0.1)] transition-shadow duration-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
@@ -115,18 +115,19 @@ export function HomeTeam() {
       </div>
 
       <BlurReveal delay={0.4}>
-        <div className="relative z-10 flex justify-center mb-32">
+        <div className="flex justify-center">
           <a
             href="/equipe"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md text-foreground hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 font-medium"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md text-white hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 font-medium"
           >
             Découvrir l&apos;équipe
             <span className="transition-transform duration-500 group-hover:translate-x-1">&rarr;</span>
           </a>
         </div>
       </BlurReveal>
+      </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto text-center">
+      <div className="relative z-10 max-w-5xl mx-auto text-center py-32">
         <TextGradientReveal 
           text="Tant que ce n'est pas parfait, on ne lance pas." 
           elementType="p"

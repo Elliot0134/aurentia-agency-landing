@@ -5,113 +5,142 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Section } from "@/components/ui/Section";
-import { TextReveal } from "@/components/animations/TextReveal";
-import { innovationContent } from "@/data/content";
+import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
+import { BlurReveal } from "@/components/animations/BlurReveal";
+import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { SectionBackground } from "@/components/ui/SectionBackground";
+import { conciergeriesInnovationContent } from "@/data/conciergeries-content";
+import type { LucideProps } from "lucide-react";
+import { Monitor, BarChart3, Target } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const iconMap: Record<string, React.ComponentType<LucideProps>> = {
+  Monitor,
+  BarChart3,
+  Target,
+};
+
+const STEP_NUMBERS = ["01", "02", "03"];
+
 export function ConciergerieInnovation() {
-  const containerRef = useRef<HTMLElement>(null);
-  const scrollTrackRef = useRef<HTMLDivElement>(null);
-  
+  const cardsRef = useRef<HTMLDivElement>(null);
+
   useGSAP(() => {
-    if (!containerRef.current || !scrollTrackRef.current) return;
-    
-    // Check if mobile. If mobile, we don't pin/horizontal scroll, we just stack them to avoid breaking UX.
-    const isMobile = window.innerWidth < 768;
-    
-    if (!isMobile) {
-      const getScrollAmount = () => -(scrollTrackRef.current!.scrollWidth - window.innerWidth);
+    if (!cardsRef.current) return;
 
-      const tween = gsap.to(scrollTrackRef.current, {
-        x: getScrollAmount,
-        ease: "none",
-      });
-
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: () => `+=${getScrollAmount() * -1}`,
-        pin: true,
-        animation: tween,
-        scrub: 1,
-        invalidateOnRefresh: true,
-      });
-
-      const cards = scrollTrackRef.current.querySelectorAll('.innovation-card');
-      cards.forEach((card) => {
-        gsap.fromTo(card, 
-          { filter: "blur(15px)", opacity: 0.3, scale: 0.9 },
-          { 
-            filter: "blur(0px)", 
-            opacity: 1, 
-            scale: 1,
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: tween,
-              start: "left center",
-              toggleActions: "play none none reverse",
-            }
-          }
-        );
-      });
-    } else {
-      // Mobile staggered reveal
-      const cards = scrollTrackRef.current.querySelectorAll('.innovation-card');
-      gsap.fromTo(cards, 
-        { filter: "blur(10px)", opacity: 0, y: 30 },
-        { 
-          filter: "blur(0px)", opacity: 1, y: 0,
-          stagger: 0.2,
+    // Animate step number glow pulse on each card
+    const glows = cardsRef.current.querySelectorAll(".step-glow");
+    glows.forEach((glow) => {
+      gsap.fromTo(
+        glow,
+        { opacity: 0.3 },
+        {
+          opacity: 0.7,
+          duration: 2,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
           scrollTrigger: {
-            trigger: scrollTrackRef.current,
-            start: "top 80%",
-          }
+            trigger: glow,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
         }
       );
-    }
+    });
+  });
 
-  }, { scope: containerRef });
+  const { badge, title, subtitle, items, conclusion } =
+    conciergeriesInnovationContent;
 
   return (
-    <section ref={containerRef} className="min-h-screen md:h-screen bg-background-alt flex flex-col justify-center overflow-hidden relative py-24 md:py-0">
-      <div className="md:absolute md:top-24 md:left-12 z-10 pointer-events-none px-6 md:px-0 mb-12 md:mb-0">
-        <TextReveal 
-          text={`${innovationContent.title} ${innovationContent.titleAccent}`} 
-          elementType="h2"
-          className="text-4xl md:text-6xl font-black tracking-tighter max-w-3xl leading-tight text-foreground mb-4"
-        />
-        <p className="text-xl md:text-2xl text-accent-primary font-medium">{innovationContent.subtitle}</p>
-      </div>
+    <Section theme="dark-alt" className="py-32 min-h-[80vh] relative">
+      {/* More orbs — narrative builds color */}
+      <SectionBackground
+        variant="alt"
+        orbs={[
+          { color: "orange", position: "top-[15%] left-[5%]", size: "w-[450px] h-[450px]", opacity: "[0.08]" },
+          { color: "violet", position: "bottom-[20%] right-[10%]", size: "w-[350px] h-[350px]", opacity: "[0.06]" },
+          { color: "ambre", position: "top-[60%] left-[50%]", size: "w-[300px] h-[300px]", opacity: "[0.05]" },
+        ]}
+      />
 
-      <div ref={scrollTrackRef} className="flex flex-col md:flex-row gap-8 md:gap-16 px-6 md:px-[20vw] md:mt-40 md:whitespace-nowrap md:h-96 items-center">
-        
-        {innovationContent.items.map((item, idx) => (
-          <div key={idx} className="innovation-card w-full md:w-[450px] shrink-0 h-[280px] md:h-[350px] rounded-3xl p-8 glass flex flex-col justify-between border-foreground/10 relative overflow-hidden group">
-            <div className={`absolute inset-0 bg-gradient-to-br from-${idx === 0 ? 'foreground/5' : idx === 1 ? 'accent-secondary/10' : 'accent-primary/20'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-            <div className="text-5xl mb-4">{item.icon}</div>
-            <div>
-              <h3 className="text-3xl font-bold mb-3 text-foreground">{item.title}</h3>
-              <p className="text-foreground-muted text-lg whitespace-normal">
-                {item.description}
-              </p>
-            </div>
-          </div>
-        ))}
-        
-        <div className="shrink-0 w-full md:w-[50vw] px-0 md:px-12 whitespace-normal flex items-center mt-12 md:mt-0 pb-12 md:pb-0">
-          <p className="text-2xl md:text-4xl font-medium text-foreground-dim leading-relaxed">
-            {innovationContent.conclusion.split(".").map((sentence, i, arr) => (
-              <span key={i} className={i === arr.length - 2 ? "text-foreground mt-4 block" : ""}>
-                {sentence}.
-              </span>
-            ))}
-          </p>
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Badge */}
+        <BlurReveal className="text-center mb-6">
+          <span className="inline-block text-sm font-mono tracking-widest uppercase text-accent-primary">
+            {badge}
+          </span>
+        </BlurReveal>
+
+        {/* Title — "AVANT" highlighted via gradient */}
+        <div className="text-center mb-4">
+          <TextGradientReveal
+            text={title}
+            elementType="h2"
+            className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight justify-center"
+          />
         </div>
 
+        {/* Subtitle */}
+        <BlurReveal className="text-center mb-16">
+          <p className="text-lg md:text-xl text-foreground/60">{subtitle}</p>
+        </BlurReveal>
+
+        {/* 3 Innovation Cards with large step numbers */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
+          {items.map((item, idx) => {
+            const IconComponent = iconMap[item.icon];
+            return (
+              <BlurReveal key={idx} delay={idx * 0.2}>
+                <SpotlightCard className="p-8 h-full min-h-[320px] flex flex-col border-foreground/5 relative group">
+                  {/* Hover gradient overlay */}
+                  <div className="absolute inset-0 rounded-[inherit] bg-gradient-to-br from-accent-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out" />
+
+                  {/* Large step number with glow behind */}
+                  <div className="absolute top-6 right-6 pointer-events-none">
+                    <div className="step-glow absolute inset-0 rounded-full bg-accent-primary/20 blur-2xl scale-150" />
+                    <span className="relative text-3xl font-black text-accent-primary/30 font-mono tracking-tighter">
+                      {STEP_NUMBERS[idx]}
+                    </span>
+                  </div>
+
+                  <div className="relative z-10 flex flex-col h-full">
+                    {/* Icon */}
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-primary/10 transition-colors duration-700 group-hover:bg-accent-primary/20">
+                      {IconComponent && (
+                        <IconComponent className="h-7 w-7 text-accent-primary" />
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
+                      {item.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-base text-foreground/60 leading-relaxed flex-1">
+                      {item.description}
+                    </p>
+                  </div>
+                </SpotlightCard>
+              </BlurReveal>
+            );
+          })}
+        </div>
+
+        {/* Conclusion */}
+        <BlurReveal delay={0.5} className="max-w-3xl mx-auto">
+          <div className="text-center">
+            <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
+              {conclusion}
+            </p>
+          </div>
+        </BlurReveal>
       </div>
-    </section>
+    </Section>
   );
 }

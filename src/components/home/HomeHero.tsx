@@ -6,6 +6,7 @@ import { useRef, useEffect, useCallback } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { InfiniteMarquee } from "@/components/animations/InfiniteMarquee";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -42,8 +43,8 @@ const SYLLABLES = [
   },
   {
     letters: "ent",
-    title: "-ens — Celui qui agit",
-    desc: "Le participe présent latin : l'action en cours. Comme dans nascent, potent, agent. Vous n'attendez pas. Vous agissez.",
+    title: "ent — Entreprendre",
+    desc: "Au cœur du nom, les trois lettres de ceux qui bâtissent. Entreprise. Entrepreneur. Entreprendre. On construit avec ceux qui osent.",
   },
   {
     letters: "ia",
@@ -54,8 +55,8 @@ const SYLLABLES = [
 
 type LayerKey = keyof typeof DEPTH;
 
-// Total scroll distance for pinned hero (in vh)
-const PIN_DISTANCE = 3000;
+// Base scroll distance for animations (pixels)
+const BASE_PIN = 2500;
 
 export function HomeHero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -76,7 +77,6 @@ export function HomeHero() {
   const desc0 = useRef<HTMLDivElement>(null);
   const desc1 = useRef<HTMLDivElement>(null);
   const desc2 = useRef<HTMLDivElement>(null);
-
   // Inner refs — raw DOM style controls these (x, rotateY, rotateX)
   // These are the .mouse-layer divs inside each layer
   const mouseLayersRef = useRef<Map<LayerKey, HTMLDivElement>>(new Map());
@@ -169,18 +169,26 @@ export function HomeHero() {
     const syls = [syl0.current, syl1.current, syl2.current];
     const descs = [desc0.current, desc1.current, desc2.current];
 
-    // Master timeline pinned via GSAP (uses transforms, no CSS sticky)
+    // Extra pin distance to allow buffer after "ia" + overlap for parallax
+    // Preserves original animation speed (2.14px per timeline unit)
+    const EXTRA = 100;
+    const pinDistance = BASE_PIN + EXTRA;
+    const holdUnits = (EXTRA / BASE_PIN) * 1400; // proportional hold to keep speed
+
     const master = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: `+=${PIN_DISTANCE}vh`,
+        end: () => `+=${pinDistance}`,
         pin: true,
         pinType: "transform",
         scrub: true,
         pinSpacing: true,
       },
     });
+
+    // Hold — keeps Aurentia visible during the extra scroll after animations
+    master.to({}, { duration: holdUnits }, 1400);
 
     // === PHASE 1 (0 → 400): Hero content s'en va — très lent et progressif ===
     // Each layer gets its own opacity + blur for a cascading reverse effect
@@ -259,7 +267,7 @@ export function HomeHero() {
   // ---------------------------------------------------------------------------
   return (
     <section ref={sectionRef} id="hero" className="relative">
-      <div ref={pinRef} className="h-screen flex flex-col justify-center items-center overflow-hidden" style={{ perspective: "900px" }}>
+      <div ref={pinRef} className="relative h-screen flex flex-col items-center overflow-hidden" style={{ perspective: "900px", minHeight: "100vh" }}>
 
         {/* Grid */}
         <div ref={gridRef} className="absolute inset-0 z-0 pointer-events-none hero-grid will-change-transform" />
@@ -268,8 +276,8 @@ export function HomeHero() {
           style={{ background: "linear-gradient(to bottom, transparent 25%, var(--bg-base) 75%, var(--bg-base) 100%)" }}
         />
 
-        {/* Hero content */}
-        <div ref={contentRef} className="container mx-auto px-6 md:px-12 relative z-20 will-change-transform" style={{ transformStyle: "preserve-3d" }}>
+        {/* Hero content — flex-1 to fill available space, centered */}
+        <div ref={contentRef} className="flex-1 flex items-center container mx-auto px-6 md:px-12 relative z-20 will-change-transform" style={{ transformStyle: "preserve-3d" }}>
           <div className="max-w-5xl mx-auto text-center flex flex-col items-center" style={{ transformStyle: "preserve-3d" }}>
 
             {/* Each layer: outer div = GSAP scroll, inner .mouse-layer = raw DOM mouse parallax */}
@@ -331,7 +339,7 @@ export function HomeHero() {
                     onClick={() => window.open("https://cal.com/aurentia", "_blank")}
                     className={cn(
                       "relative rounded-full inline-flex items-center justify-center isolate overflow-hidden group/magnetic",
-                      "bg-foreground text-background hover:opacity-90 transition-colors",
+                      "bg-foreground text-background hover:opacity-90 transition-all",
                       "px-6 py-3 font-medium cursor-pointer transition-[shadow,opacity,background-color] duration-500",
                       "hover:shadow-[0_0_40px_rgba(43,43,43,0.3)]"
                     )}
@@ -343,10 +351,10 @@ export function HomeHero() {
                   </button>
                   <a
                     href="#portfolio"
-                    className="text-sm font-medium text-foreground-muted hover:text-foreground transition-colors group flex items-center gap-2"
+                    className="text-sm font-medium text-foreground-muted hover:text-foreground transition-colors duration-500 group flex items-center gap-2"
                   >
                     Voir nos r&eacute;alisations
-                    <span className="inline-block transition-transform duration-300 group-hover:translate-y-1 mt-0.5">
+                    <span className="inline-block transition-transform duration-500 group-hover:translate-y-1 mt-0.5">
                       &darr;
                     </span>
                   </a>
@@ -403,16 +411,27 @@ export function HomeHero() {
           </svg>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — pushed to bottom via mt-auto */}
         <a
-          href="#marquee"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-foreground-muted hover:text-foreground transition-colors"
+          href="#equipe"
+          className="relative z-20 mt-auto mb-4 flex flex-col items-center gap-2 text-foreground-muted hover:text-foreground transition-colors"
           aria-label="Scroll vers le bas"
         >
           <div className="w-6 h-10 rounded-full border-2 border-accent-primary/30 flex items-start justify-center p-1.5">
             <div className="w-1 h-2.5 rounded-full bg-accent-primary/60 animate-scroll-dot shadow-[0_0_6px_rgba(201,100,66,0.4)]" />
           </div>
         </a>
+
+        {/* Orange glow at bottom — wide flat arc (stronger in light mode) */}
+        <div className="absolute bottom-[-40%] left-1/2 -translate-x-1/2 z-[2] pointer-events-none w-[90%] aspect-[3/1] rounded-full" style={{ background: "var(--accent)", filter: "blur(100px)", opacity: "var(--hero-glow-opacity)" }} />
+
+        {/* Marquee — flex child at the very bottom of the hero */}
+        <div className="relative z-20 shrink-0 w-full py-4 overflow-hidden flex items-center section-divider-orange">
+          <InfiniteMarquee
+            items={["Sur-mesure", "Propulsé par l'IA", "Perfection", "Zéro template", "Artisanat digital", "Design unique"]}
+            className="text-xl md:text-2xl font-bold font-sans tracking-widest text-foreground/60 uppercase"
+          />
+        </div>
 
       </div>
     </section>
