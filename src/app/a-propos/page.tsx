@@ -101,8 +101,8 @@ export default function AProposPage() {
       <main className="flex min-h-screen flex-col w-full">
         <AboutHero />
         <AboutStory />
-        <AboutValues />
         <AboutTeam />
+        <AboutValues />
         <AboutDNA />
         <AboutHackathons />
         <AboutProof />

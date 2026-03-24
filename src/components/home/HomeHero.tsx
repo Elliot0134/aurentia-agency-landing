@@ -270,7 +270,7 @@ export function HomeHero() {
       <div ref={pinRef} className="relative h-screen flex flex-col items-center overflow-hidden" style={{ perspective: "900px", minHeight: "100vh" }}>
 
         {/* Grid */}
-        <div ref={gridRef} className="absolute inset-0 z-0 pointer-events-none hero-grid will-change-transform" />
+        <div ref={gridRef} className="absolute inset-0 z-0 pointer-events-none hero-grid will-change-transform" style={{ opacity: 0.1 }} />
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{ background: "linear-gradient(to bottom, transparent 25%, var(--bg-base) 75%, var(--bg-base) 100%)" }}
