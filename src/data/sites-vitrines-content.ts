@@ -16,6 +16,7 @@ export interface FeatureCard {
 
 export interface ProcessStep {
   number: string;
+  icon: string;
   title: string;
   duration: string;
   text: string;
@@ -33,6 +34,21 @@ export interface NicheCard {
 
 export interface PricingIncluded {
   text: string;
+}
+
+export interface PricingPlan {
+  name: string;
+  price: string;
+  priceNote?: string;
+  description: string;
+  features: string[];
+  bonus: string[];
+  subscription: string;
+  subscriptionDetails: string;
+  highlighted?: boolean;
+  highlightLabel?: string;
+  cta: string;
+  ctaLink: string;
 }
 
 export interface DifferentiateurCard {
@@ -126,24 +142,28 @@ export const processContent = {
 export const processSteps: ProcessStep[] = [
   {
     number: "01",
+    icon: "PhoneCall",
     title: "L\u2019échange",
     duration: "20 min",
     text: "Un call de 20 minutes. On comprend votre activité, vos objectifs, votre audience. Vous nous envoyez votre contenu (textes, photos, logo). C\u2019est tout ce dont on a besoin.",
   },
   {
     number: "02",
+    icon: "Layers",
     title: "La création",
     duration: "24-48h",
     text: "L\u2019IA accélère le design et le code. L\u2019expertise humaine valide chaque choix. On forge votre site sur-mesure — design, contenu, SEO, responsive. Tout.",
   },
   {
     number: "03",
+    icon: "Code",
     title: "Votre validation",
     duration: "À votre rythme",
     text: "On vous montre le site terminé. Vous testez, vous regardez chaque page, chaque détail. Retours illimités jusqu\u2019à ce que ce soit parfait. Vous ne payez qu\u2019après validation.",
   },
   {
     number: "04",
+    icon: "Rocket",
     title: "Lancement + suivi",
     duration: "Jour J",
     text: "Mise en ligne sur votre domaine. Configuration email, analytics, Google Business. Et on reste là après — pour les ajustements, les questions, les évolutions.",
@@ -206,14 +226,85 @@ export const nicheCards: NicheCard[] = [
 export const pricingContent = {
   badge: "TARIFS TRANSPARENTS",
   title: "Un site pro. Pas un devis à 5\u202F000\u202F\u20AC.",
-  priceLabel: "À partir de",
-  priceValue: 900,
-  priceSuffix: "\u202F\u20AC",
-  subtitle:
-    "Le prix varie selon le nombre de pages, les fonctionnalités et le niveau de personnalisation. On en parle pendant le call.",
-  note: "Vous gérez une conciergerie ? On a des packs dédiés avec des fonctionnalités spécifiques.",
+  subtitle: "3 packs clairs. Pas de surprise. Paiement en 3x possible.",
+  conditions: [
+    "Paiement 50% à la V1, solde à la livraison",
+    "Paiement en 3x possible",
+    "3 tours de révision inclus",
+    "1er mois d\u2019abonnement offert",
+  ],
+  note: "Vous gérez une conciergerie\u202F? On a des packs dédiés avec des fonctionnalités spécifiques.",
   noteLink: "/conciergeries",
 };
+
+export const pricingPlans: PricingPlan[] = [
+  {
+    name: "Essentiel",
+    price: "1\u202F200\u202F\u20AC",
+    description: "Un site vitrine complet et pro, prêt à convertir.",
+    features: [
+      "Site vitrine 3 pages",
+      "Design sur-mesure — zéro template",
+      "Responsive + animations",
+      "Formulaire de contact",
+      "Réservation simple",
+      "SEO de base",
+      "Connexion domaine",
+    ],
+    bonus: [
+      "Charte graphique",
+    ],
+    subscription: "19\u202F\u20AC/mois",
+    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 48h",
+    cta: "Choisir l\u2019Essentiel",
+    ctaLink: "https://cal.com/aurentia/site-vitrine",
+  },
+  {
+    name: "Croissance",
+    price: "1\u202F600\u202F\u20AC",
+    description: "Pour ceux qui veulent grandir. Le plus choisi.",
+    highlighted: true,
+    highlightLabel: "POPULAIRE",
+    features: [
+      "Tout le pack Essentiel",
+      "Blog + 4 articles SEO/mois",
+      "SEO avancé (schema, maillage)",
+      "Pages multilingues FR/EN",
+      "Intégration channel manager (optionnel)",
+    ],
+    bonus: [
+      "Lead magnet intégré",
+      "Analyse de marché IA",
+      "Étude concurrentielle IA",
+    ],
+    subscription: "35\u202F\u20AC/mois",
+    subscriptionDetails: "Plan 19\u202F\u20AC + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
+    cta: "Choisir Croissance",
+    ctaLink: "https://cal.com/aurentia/site-vitrine",
+  },
+  {
+    name: "Premium",
+    price: "2\u202F200\u202F\u20AC",
+    priceNote: "À partir de — sur devis",
+    description: "L\u2019offre complète, stratégie incluse.",
+    features: [
+      "Tout le pack Croissance",
+      "Chatbot IA personnalisé",
+      "Création de logo",
+      "Module d\u2019avis clients",
+      "Formation visio 1h",
+    ],
+    bonus: [
+      "Stratégie de croissance IA",
+      "Clientèles cibles IA",
+      "Crédits réseaux sociaux IA",
+    ],
+    subscription: "75\u202F\u20AC/mois",
+    subscriptionDetails: "Plan 35\u202F\u20AC + modifs illimitées, rapport SEO mensuel, support 12h",
+    cta: "Choisir Premium",
+    ctaLink: "https://cal.com/aurentia/site-vitrine",
+  },
+];
 
 export const pricingIncluded: PricingIncluded[] = [
   { text: "Design sur-mesure — zéro template" },

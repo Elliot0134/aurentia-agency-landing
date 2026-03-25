@@ -5,9 +5,10 @@ import { AboutHero } from "@/components/about/AboutHero";
 import { AboutStory } from "@/components/about/AboutStory";
 import { AboutValues } from "@/components/about/AboutValues";
 import { AboutTeam } from "@/components/about/AboutTeam";
-import { AboutDNA } from "@/components/about/AboutFatherSon";
+
 import { AboutHackathons } from "@/components/about/AboutHackathons";
 import { AboutProof } from "@/components/about/AboutProof";
+import { AboutStack } from "@/components/about/AboutStack";
 import { AboutApproach } from "@/components/about/AboutApproach";
 import { AboutAudience } from "@/components/about/AboutAudience";
 import { AboutCTA } from "@/components/about/AboutCTA";
@@ -56,7 +57,7 @@ const jsonLd = [
     employee: [
       {
         "@type": "Person",
-        name: "Mathieu Bousquet",
+        name: "Matthieu Bousquet",
         jobTitle: "CTO, Lead Technique",
       },
     ],
@@ -103,9 +104,10 @@ export default function AProposPage() {
         <AboutStory />
         <AboutTeam />
         <AboutValues />
-        <AboutDNA />
+
         <AboutHackathons />
         <AboutProof />
+        <AboutStack />
         <AboutApproach />
         <AboutAudience />
         <AboutCTA />

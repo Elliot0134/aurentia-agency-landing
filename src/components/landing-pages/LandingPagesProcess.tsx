@@ -30,29 +30,27 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export function LandingPagesProcess() {
-  const lineRef = useRef<SVGPathElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!lineRef.current) return;
+    if (!lineRef.current || !timelineRef.current) return;
 
-    const length = lineRef.current.getTotalLength();
-    gsap.set(lineRef.current, {
-      strokeDasharray: length,
-      strokeDashoffset: length,
-    });
-
-    // Line draw animation
-    gsap.to(lineRef.current, {
-      strokeDashoffset: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: timelineRef.current,
-        start: "top 75%",
-        end: "bottom 60%",
-        scrub: true,
-      },
-    });
+    // Animated progress line
+    gsap.fromTo(
+      lineRef.current,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: "top 70%",
+          end: "top 30%",
+          scrub: true,
+        },
+      }
+    );
   });
 
   return (
@@ -82,100 +80,121 @@ export function LandingPagesProcess() {
         </div>
 
         {/* Timeline */}
-        <div ref={timelineRef} className="max-w-5xl mx-auto">
-          {/* Desktop: horizontal 4-col grid with line draw */}
-          <div className="hidden lg:grid lg:grid-cols-4 gap-8 relative">
-            {/* Connecting line — draw animation */}
-            <svg
-              className="absolute top-[64px] left-[12.5%] right-[12.5%] w-[75%] h-[2px] overflow-visible"
-              preserveAspectRatio="none"
-            >
-              <path
+        <div ref={timelineRef} className="max-w-6xl mx-auto">
+          {/* Desktop: horizontal layout */}
+          <div className="hidden lg:block">
+            {/* Connecting line */}
+            <div className="relative mx-auto mb-12" style={{ width: "75%", marginLeft: "12.5%" }}>
+              {/* Background track */}
+              <div className="h-px w-full bg-foreground/10" />
+              {/* Animated gradient progress */}
+              <div
                 ref={lineRef}
-                d="M 0 1 L 1000 1"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-foreground/10"
+                className="absolute inset-0 h-px origin-left bg-gradient-to-r from-accent-primary/60 via-accent-secondary/40 to-accent-primary/60"
               />
-            </svg>
 
-            {processContent.steps.map((step, idx) => {
-              const Icon = iconMap[step.icon];
-              return (
-                <BlurReveal key={step.number} delay={idx * 0.2}>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    {/* Number + icon node — with scale bounce */}
-                    <div className="w-[128px] h-[128px] rounded-3xl border border-foreground/5 bg-foreground/[0.02] flex flex-col items-center justify-center mb-8 transition-all duration-700 ease-in-out hover:border-accent-primary/20 hover:bg-accent-primary/[0.03] hover:scale-105 hover:shadow-[0_0_30px_rgba(201,100,66,0.1)]">
-                      <span className="text-2xl font-bold font-mono text-accent-primary/80 mb-1">
-                        {step.number}
-                      </span>
-                      {Icon && (
-                        <Icon
-                          className="w-5 h-5 text-foreground/40"
-                          strokeWidth={1.5}
-                        />
-                      )}
+              {/* Step dots on the line */}
+              <div className="absolute inset-0 flex justify-between" style={{ top: "-6px" }}>
+                {processContent.steps.map((step, idx) => (
+                  <BlurReveal key={step.number} delay={idx * 0.15}>
+                    <div className="relative flex flex-col items-center">
+                      {/* Glow ring */}
+                      <div className="w-3.5 h-3.5 rounded-full bg-background border-2 border-accent-primary/40 transition-all duration-700 ease-in-out hover:border-accent-primary hover:shadow-[0_0_16px_rgba(201,100,66,0.4)]" />
                     </div>
+                  </BlurReveal>
+                ))}
+              </div>
+            </div>
 
-                    {/* Title */}
-                    <h3 className="text-lg md:text-xl font-bold text-foreground mb-3">
-                      {step.title}
-                    </h3>
-
-                    {/* Text */}
-                    <p className="text-sm md:text-base leading-relaxed text-foreground/60 mb-4">
-                      {step.text}
-                    </p>
-
-                    {/* Duration */}
-                    <span className="text-sm font-mono text-accent-primary/70 px-4 py-1.5 rounded-full border border-accent-primary/15 bg-accent-primary/[0.04]">
-                      {step.duration}
-                    </span>
-                  </div>
-                </BlurReveal>
-              );
-            })}
-          </div>
-
-          {/* Mobile / Tablet: vertical timeline */}
-          <div className="lg:hidden space-y-10 relative">
-            {/* Vertical line */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-foreground/10" />
-
-            {processContent.steps.map((step, idx) => {
-              const Icon = iconMap[step.icon];
-              return (
-                <BlurReveal key={step.number} delay={idx * 0.2}>
-                  <div className="relative flex gap-6 pl-14">
-                    {/* Dot on the timeline */}
-                    <div className="absolute left-4 top-2 w-4 h-4 rounded-full border-2 border-accent-primary/40 bg-background" />
-
-                    <SpotlightCard className="flex-1 p-7">
-                      <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-4">
-                          <span className="text-xl font-bold font-mono text-accent-primary/80">
+            {/* Step cards */}
+            <div className="grid grid-cols-4 gap-6">
+              {processContent.steps.map((step, idx) => {
+                const Icon = iconMap[step.icon];
+                return (
+                  <BlurReveal key={step.number} delay={idx * 0.2}>
+                    <SpotlightCard className="h-full p-6 group">
+                      <div className="relative z-10 flex flex-col h-full">
+                        {/* Number + Icon row */}
+                        <div className="flex items-center justify-between mb-5">
+                          <span className="text-3xl font-bold font-mono bg-gradient-to-br from-accent-primary to-accent-secondary bg-clip-text text-transparent">
                             {step.number}
                           </span>
                           {Icon && (
-                            <Icon
-                              className="w-5 h-5 text-foreground/40"
-                              strokeWidth={1.5}
-                            />
+                            <div className="w-10 h-10 rounded-xl bg-accent-primary/[0.06] border border-accent-primary/10 flex items-center justify-center transition-all duration-700 ease-in-out group-hover:bg-accent-primary/[0.12] group-hover:border-accent-primary/20">
+                              <Icon
+                                className="w-5 h-5 text-accent-primary/70 transition-colors duration-700 ease-in-out group-hover:text-accent-primary"
+                                strokeWidth={1.5}
+                              />
+                            </div>
                           )}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-lg font-bold text-foreground mb-3">
+                          {step.title}
+                        </h3>
+
+                        {/* Text */}
+                        <p className="text-sm leading-relaxed text-foreground/50 mb-5 flex-1">
+                          {step.text}
+                        </p>
+
+                        {/* Duration */}
+                        <div className="flex items-center gap-2">
+                          <div className="h-px flex-1 bg-foreground/5" />
+                          <span className="text-sm font-mono text-accent-primary/60 px-3 py-1 rounded-full border border-accent-primary/10 bg-accent-primary/[0.03]">
+                            {step.duration}
+                          </span>
+                        </div>
+                      </div>
+                    </SpotlightCard>
+                  </BlurReveal>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mobile / Tablet: vertical timeline */}
+          <div className="lg:hidden space-y-6 relative pl-8">
+            {/* Vertical line */}
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-accent-primary/40 via-accent-secondary/20 to-accent-primary/40" />
+
+            {processContent.steps.map((step, idx) => {
+              const Icon = iconMap[step.icon];
+              return (
+                <BlurReveal key={step.number} delay={idx * 0.15}>
+                  <div className="relative">
+                    {/* Dot on the timeline */}
+                    <div className="absolute -left-8 top-7 w-[15px] h-[15px] rounded-full border-2 border-accent-primary/40 bg-background" />
+
+                    <SpotlightCard className="p-6 group">
+                      <div className="relative z-10">
+                        {/* Number + Icon row */}
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="text-2xl font-bold font-mono bg-gradient-to-br from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+                            {step.number}
+                          </span>
+                          {Icon && (
+                            <div className="w-9 h-9 rounded-xl bg-accent-primary/[0.06] border border-accent-primary/10 flex items-center justify-center">
+                              <Icon
+                                className="w-4 h-4 text-accent-primary/70"
+                                strokeWidth={1.5}
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1" />
+                          <span className="text-sm font-mono text-accent-primary/60 px-3 py-1 rounded-full border border-accent-primary/10 bg-accent-primary/[0.03]">
+                            {step.duration}
+                          </span>
                         </div>
 
                         <h3 className="text-lg font-bold text-foreground mb-3">
                           {step.title}
                         </h3>
 
-                        <p className="text-sm md:text-base leading-relaxed text-foreground/60 mb-4">
+                        <p className="text-sm leading-relaxed text-foreground/50">
                           {step.text}
                         </p>
-
-                        <span className="text-sm font-mono text-accent-primary/70 px-4 py-1.5 rounded-full border border-accent-primary/15 bg-accent-primary/[0.04]">
-                          {step.duration}
-                        </span>
                       </div>
                     </SpotlightCard>
                   </div>

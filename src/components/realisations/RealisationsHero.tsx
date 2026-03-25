@@ -2,106 +2,128 @@
 
 import { useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Section } from "@/components/ui/Section";
-import { SectionBackground } from "@/components/ui/SectionBackground";
-import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { MagneticButton } from "@/components/ui/MagneticButton";
+import { SectionBackground } from "@/components/ui/SectionBackground";
+import { ChevronDown } from "lucide-react";
 
 export function RealisationsHero() {
-  const badgeRef = useRef<HTMLSpanElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const chevronRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    if (badgeRef.current) {
-      gsap.fromTo(
-        badgeRef.current,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          delay: 0.5,
-          ease: "power3.out",
-        }
-      );
-    }
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-    if (chevronRef.current) {
-      gsap.to(chevronRef.current, {
-        y: 8,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
-    }
-  });
+      // Badge: fade-in + scale
+      if (badgeRef.current) {
+        gsap.fromTo(
+          badgeRef.current,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1, duration: 0.8, delay: 0.2, ease: "power3.out" }
+        );
+      }
+
+      // CTA animation
+      if (ctaRef.current) {
+        gsap.fromTo(
+          ctaRef.current,
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: "power3.out" }
+        );
+      }
+
+      // Chevron: infinite bounce
+      if (chevronRef.current) {
+        gsap.fromTo(
+          chevronRef.current,
+          { opacity: 0 },
+          { opacity: 1, delay: 1, duration: 0.6 }
+        );
+        gsap.to(chevronRef.current, {
+          y: 8,
+          duration: 1.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 1.2,
+        });
+      }
+    },
+    { scope: sectionRef }
+  );
 
   return (
-    <Section
-      className="min-h-[85vh] flex items-center justify-center relative"
-      theme="transparent"
+    <section
+      ref={sectionRef}
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
-      {/* Background: grid + orbs */}
       <SectionBackground
         showGrid gridOpacity={0.1} gridFadeDirection="bottom"
         orbs={[
-          { color: "ambre", position: "top-[20%] left-[10%]", size: "w-[500px] h-[400px]", opacity: "[0.08]" },
-          { color: "orange", position: "bottom-[10%] right-[15%]", size: "w-[450px] h-[350px]", opacity: "[0.05]" },
-          { color: "rose", position: "top-[50%] right-[30%]", size: "w-[400px] h-[300px]", opacity: "[0.04]" },
+          { color: "orange", position: "bottom-0 right-0", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
+          { color: "ambre", position: "top-[20%] left-[15%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },
+          { color: "orange", position: "top-[50%] right-[25%]", size: "w-[250px] h-[250px]", opacity: "[0.04]" },
         ]}
       />
 
-      <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+      <div className="container mx-auto px-6 md:px-12 relative z-10 text-center max-w-7xl">
         {/* Badge */}
-        <span
-          ref={badgeRef}
-          className="inline-block text-sm font-mono uppercase tracking-[0.2em] py-2 px-5 rounded-full border border-foreground/10 bg-foreground/5 text-foreground/70 mb-8 opacity-0"
-        >
-          NOS REALISATIONS
-        </span>
+        <div ref={badgeRef} className="opacity-0 mb-6 md:mb-8">
+          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold tracking-widest bg-foreground/5 text-foreground/70 border border-foreground/10">
+            NOS RÉALISATIONS
+          </span>
+        </div>
 
         {/* H1 */}
-        <TextReveal
-          text="Chaque projet raconte une transformation."
-          elementType="h1"
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter leading-[0.9] mb-6"
-        />
+        <BlurReveal delay={0.15}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight leading-tight text-foreground text-center">
+            Chaque projet raconte
+            <br />
+            <span>une </span>
+            <span className="bg-gradient-to-r from-accent-secondary to-accent-primary bg-clip-text text-transparent underline decoration-accent-primary/50 underline-offset-4 decoration-2 md:decoration-4">
+              transformation
+            </span>
+          </h1>
+        </BlurReveal>
 
         {/* Subtitle */}
-        <BlurReveal delay={0.3}>
-          <p className="text-base md:text-lg text-foreground-muted max-w-2xl px-6 md:px-0">
-            Sites vitrines, applications SaaS, landing pages. Zero template.
-            Chaque pixel a une intention. Voici ce qu&apos;on a forge pour nos
-            clients.
+        <BlurReveal className="mt-6 md:mt-8" delay={0.3}>
+          <p className="text-base md:text-lg text-foreground/60 max-w-3xl mx-auto leading-relaxed">
+            Sites vitrines, applications SaaS, landing pages. Zéro template.
+            Chaque pixel a une intention. Voici ce qu&apos;on a forgé pour nos clients.
           </p>
         </BlurReveal>
 
-        {/* Scroll indicator */}
-        <div
-          ref={chevronRef}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-foreground/30"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* CTA */}
+        <div ref={ctaRef} className="opacity-0 mt-8 md:mt-10 flex flex-col items-center gap-4">
+          <a
+            href="https://cal.com/aurentia/decouverte"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto"
           >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+            <MagneticButton
+              glow
+              className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
+            >
+              Discuter de votre projet
+            </MagneticButton>
+          </a>
+          <p className="text-sm text-foreground/40">Gratuit · 20 min · Sans engagement</p>
         </div>
       </div>
-    </Section>
+
+      {/* Scroll indicator */}
+      <div
+        ref={chevronRef}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+      >
+        <ChevronDown className="w-6 h-6 text-foreground/30" />
+      </div>
+    </section>
   );
 }

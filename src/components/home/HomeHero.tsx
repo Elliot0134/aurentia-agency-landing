@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useEffect, useCallback } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "@/lib/utils";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { InfiniteMarquee } from "@/components/animations/InfiniteMarquee";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -278,15 +278,15 @@ export function HomeHero() {
 
         {/* Hero content — flex-1 to fill available space, centered */}
         <div ref={contentRef} className="flex-1 flex items-center container mx-auto px-6 md:px-12 relative z-20 will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-          <div className="max-w-5xl mx-auto text-center flex flex-col items-center" style={{ transformStyle: "preserve-3d" }}>
+          <div className="max-w-7xl mx-auto text-center flex flex-col items-center" style={{ transformStyle: "preserve-3d" }}>
 
             {/* Each layer: outer div = GSAP scroll, inner .mouse-layer = raw DOM mouse parallax */}
             <div ref={badgeRef} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("badge")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <BlurReveal delay={0.2}>
-                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-accent-primary/15 bg-foreground/5 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(201,100,66,0.08)]">
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-foreground/10 bg-foreground/5 backdrop-blur-md mb-6 md:mb-8">
                     <span className="w-2 h-2 rounded-full bg-accent-primary animate-pulse shadow-[0_0_12px_rgba(201,100,66,0.6)]" />
-                    <span className="text-sm font-mono tracking-wider text-foreground-muted uppercase">
+                    <span className="text-sm font-semibold tracking-widest text-foreground/70 uppercase">
                       Agence tech IA
                     </span>
                   </div>
@@ -296,15 +296,15 @@ export function HomeHero() {
 
             <div ref={titleL1Ref} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL1")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter leading-[0.9] text-center text-foreground font-bold">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
                   Une nouvelle aube
                 </h1>
               </div>
             </div>
 
-            <div ref={titleL2Ref} className="will-change-transform mb-8" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
+            <div ref={titleL2Ref} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL2")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <p className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter leading-[0.9] text-center text-foreground font-bold">
+                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
                   pour le web.
                 </p>
               </div>
@@ -313,7 +313,7 @@ export function HomeHero() {
             <div ref={subtitleRef} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("subtitle")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <BlurReveal delay={0.6}>
-                  <p className="text-lg sm:text-xl md:text-2xl text-foreground-dim mb-6 max-w-4xl mx-auto leading-relaxed">
+                  <p className="text-base md:text-lg text-foreground/60 max-w-3xl mx-auto leading-relaxed mt-4 md:mt-6">
                     La puissance de l&apos;<strong className="text-foreground font-bold">IA</strong>. La rigueur de <strong className="text-foreground font-bold">20 ans</strong> de m&eacute;tier. La <strong className="text-foreground font-bold">vitesse</strong> en plus.
                   </p>
                 </BlurReveal>
@@ -322,7 +322,7 @@ export function HomeHero() {
 
             <div ref={tagsRef} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("tags")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <p className="text-sm md:text-base text-foreground-muted mb-12">
+                <p className="text-sm text-foreground/40 mt-2">
                   Sites vitrines · Applications SaaS · Landing pages
                 </p>
               </div>
@@ -333,30 +333,20 @@ export function HomeHero() {
                 <BlurReveal
                   delay={0.8}
                   stagger={0.2}
-                  className="flex flex-col sm:flex-row items-center justify-center gap-6 z-30 mb-20"
+                  className="flex flex-col items-center justify-center gap-4 z-30 mt-8 md:mt-10 mb-20"
                 >
-                  <button
-                    onClick={() => window.open("https://cal.com/aurentia", "_blank")}
-                    className={cn(
-                      "relative rounded-full inline-flex items-center justify-center isolate overflow-hidden group/magnetic",
-                      "bg-foreground text-background hover:opacity-90 transition-all",
-                      "px-6 py-3 font-medium cursor-pointer transition-[shadow,opacity,background-color] duration-500",
-                      "hover:shadow-[0_0_40px_rgba(43,43,43,0.3)]"
-                    )}
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-tr from-transparent via-foreground/20 to-transparent opacity-0 group-hover/magnetic:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    <span className="relative z-10 pointer-events-none text-shadow-sm font-semibold tracking-wide flex items-center justify-center">
-                      D&eacute;couvrir &rarr;
-                    </span>
-                  </button>
                   <a
-                    href="#portfolio"
-                    className="text-sm font-medium text-foreground-muted hover:text-foreground transition-colors duration-500 group flex items-center gap-2"
+                    href="https://cal.com/aurentia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto"
                   >
-                    Voir nos r&eacute;alisations
-                    <span className="inline-block transition-transform duration-500 group-hover:translate-y-1 mt-0.5">
-                      &darr;
-                    </span>
+                    <MagneticButton
+                      glow
+                      className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
+                    >
+                      D&eacute;couvrir nos services &rarr;
+                    </MagneticButton>
                   </a>
                 </BlurReveal>
               </div>
@@ -406,7 +396,7 @@ export function HomeHero() {
 
         {/* Secret hint */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 opacity-0 animate-secret-hint pointer-events-none">
-          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" className="text-foreground-dim/30">
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" className="text-foreground/30">
             <path d="M6 0L11 7H1L6 0Z" fill="currentColor" />
           </svg>
         </div>
@@ -414,7 +404,7 @@ export function HomeHero() {
         {/* Scroll indicator — pushed to bottom via mt-auto */}
         <a
           href="#equipe"
-          className="relative z-20 mt-auto mb-4 flex flex-col items-center gap-2 text-foreground-muted hover:text-foreground transition-colors"
+          className="relative z-20 mt-auto mb-4 flex flex-col items-center gap-2 text-foreground/50 hover:text-foreground transition-colors duration-500"
           aria-label="Scroll vers le bas"
         >
           <div className="w-6 h-10 rounded-full border-2 border-accent-primary/30 flex items-start justify-center p-1.5">

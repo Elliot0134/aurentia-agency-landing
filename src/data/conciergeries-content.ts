@@ -217,7 +217,7 @@ export const conciergeriesSolutionContent = {
 
 export const conciergeriesInnovationContent = {
   badge: "CE QUI CHANGE TOUT",
-  title: "On vous montre votre site AVANT que vous payiez.",
+  title: "Recevez votre site AVANT de payer.",
   subtitle: "Aucune agence ne fait ça. Nous, c'est la base.",
   items: [
     {

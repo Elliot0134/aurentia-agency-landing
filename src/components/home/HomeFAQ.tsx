@@ -124,7 +124,7 @@ function AccordionItem({
         <div className="overflow-hidden">
           <p
             className={cn(
-              "text-foreground-muted text-sm leading-relaxed pb-5 pr-10",
+              "text-foreground/50 text-sm leading-relaxed pb-5 pr-10",
               "transition-opacity duration-700 ease-in-out",
               isOpen ? "opacity-100" : "opacity-0"
             )}
@@ -161,10 +161,10 @@ export function HomeFAQ() {
           <TextReveal
             text="Questions fréquentes."
             elementType="h2"
-            className="text-4xl md:text-5xl font-bold tracking-tight mb-5 justify-center"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-5 justify-center"
           />
           <BlurReveal>
-            <p className="text-foreground-muted text-lg leading-relaxed">
+            <p className="text-foreground/50 text-lg leading-relaxed">
               Tout ce que vous devez savoir avant de nous contacter.
             </p>
           </BlurReveal>

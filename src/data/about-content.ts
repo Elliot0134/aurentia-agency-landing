@@ -35,13 +35,21 @@ export interface ApproachPillar {
   accentColor: string; // 'orange' | 'amber' | 'cyan'
 }
 
+export interface HackathonTeammate {
+  name: string;
+  linkedinUrl?: string;
+}
+
 export interface HackathonCard {
   photo: string;
   title: string;
   date: string;
   description: string;
   result: string;
-  linkedinEmbed: string; // URL du post LinkedIn
+  linkedinEmbedUrl: string; // URL src de l'iframe LinkedIn
+  author: string; // Qui a posté le LinkedIn
+  phase: "solo" | "duo"; // Solo = avant rencontre, Duo = ensemble
+  teammates?: HackathonTeammate[];
 }
 
 export interface FatherSonBlock {
@@ -110,22 +118,6 @@ export const valueCards: ValueCard[] = [
 
 export const teamMembers: TeamMember[] = [
   {
-    name: "Fabien Estrade",
-    role: "Production Lead",
-    badge: "20 ans de création web",
-    bio: "Fondateur de l'agence Le Prisme à Avignon. 20 ans à forger des sites, des identités visuelles, des marques pour des PME, artisans et commerçants. Direction créative, stratégie de marque, accompagnement client — il a traversé chaque vague du web. WordPress, Flash, le responsive, les frameworks modernes. Il sait ce qui convertit. Ce qui dure. Ce qui illumine un business. Chez Aurentia, il est le pilier qualité. Rien ne sort sans son feu vert.",
-
-    tags: [
-      "Direction créative",
-      "Identité visuelle",
-      "Stratégie de marque",
-      "Accompagnement client",
-      "20 ans de craft web",
-    ],
-    image: "/images/team/fabien.webp",
-    linkedin: "https://www.linkedin.com/in/fabienestrade/",
-  },
-  {
     name: "Elliot Estrade",
     role: "CEO, IA & Design",
     badge: "Architecte IA & Design",
@@ -142,7 +134,7 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/elliot-estrade/",
   },
   {
-    name: "Mathieu Bousquet",
+    name: "Matthieu Bousquet",
     role: "CTO, Lead Technique",
     badge: "Dev Senior & Formateur Epitech",
     bio: "Développeur full-stack et formateur à Epitech Marseille. Pionnier Claude Code au sein de l'équipe — il a été le premier à intégrer l'IA dans son workflow de développement quotidien. Architecte technique, il conçoit les fondations de chaque projet. Chaque site est sécurisé, rapide, et techniquement irréprochable. Code review, performance, scalabilité — rien ne lui échappe. Avec Elliot, il a remporté 2 hackathons. Le craft technique, c'est son terrain.",
@@ -156,6 +148,21 @@ export const teamMembers: TeamMember[] = [
     ],
     image: "/images/team/mathieu.webp",
     linkedin: "https://www.linkedin.com/in/mathieu-bousquet-178454315/",
+  },
+  {
+    name: "Fabien Estrade",
+    role: "Production Lead",
+    badge: "20 ans de création web",
+    bio: "Fondateur de l'agence Le Prisme à Avignon. 20 ans à forger des sites, des identités visuelles, des marques pour des PME, artisans et commerçants. Direction créative, stratégie de marque, accompagnement client — il a traversé chaque vague du web. WordPress, Flash, le responsive, les frameworks modernes. Il sait ce qui convertit. Ce qui dure. Ce qui illumine un business. Chez Aurentia, il est le pilier qualité. Rien ne sort sans son feu vert.",
+    tags: [
+      "Direction créative",
+      "Identité visuelle",
+      "Stratégie de marque",
+      "Accompagnement client",
+      "20 ans de craft web",
+    ],
+    image: "/images/team/fabien.webp",
+    linkedin: "https://www.linkedin.com/in/fabienestrade/",
   },
 ];
 
@@ -187,32 +194,59 @@ export const fatherSonBlocks: FatherSonBlock[] = [
 
 export const hackathonCards: HackathonCard[] = [
   {
-    photo: "/images/about/hackathon-1.webp",
-    title: "[PLACEHOLDER] Nom du Hackathon 1",
+    photo: "/images/about/hackathon-mathieu.webp",
+    title: "Hacktogone #1 — Mathieu",
     date: "[PLACEHOLDER]",
     description:
-      "[PLACEHOLDER] Description du projet, du défi relevé et de la solution construite en 48h. Mettre en avant la complémentarité Elliot (IA/design) + Mathieu (architecture technique).",
+      "Matthieu et son équipe (Nicolas Dunand, Tikinas Oughlis) remportent la première place du premier Hacktogone, le plus grand hackathon Agents IA de France. Architecture technique, workflows intelligents, exécution chirurgicale — le craft à l'état pur.",
     result: "1ère place",
-    linkedinEmbed: "[PLACEHOLDER] URL_POST_LINKEDIN_HACKATHON_1",
+    linkedinEmbedUrl:
+      "https://www.linkedin.com/embed/feed/update/urn:li:share:7327776555282157568?collapsed=1",
+    author: "Matthieu",
+    phase: "solo",
   },
   {
-    photo: "/images/about/hackathon-2.webp",
-    title: "[PLACEHOLDER] Nom du Hackathon 2",
+    photo: "/images/about/hackathon-elliot.webp",
+    title: "Hacktogone #1 — Elliot",
     date: "[PLACEHOLDER]",
     description:
-      "[PLACEHOLDER] Description du projet, du défi relevé et de la solution construite. Même angle : vitesse + craft + IA.",
+      "Elliot et son équipe ({teammates}) décrochent la 3ème place du même hackathon. Un SaaS d'agent RAG ultra performant pour Raedificare : analyse documentaire, extraction de sources, rapports en quelques minutes. IA, design, pitch — une approche radicalement différente, mais le même podium.",
+    teammates: [
+      { name: "Anne-Lorie Baert", linkedinUrl: "https://www.linkedin.com/in/anne-lorie-baert-443667197/" },
+      { name: "Lucas Peyrin", linkedinUrl: "https://www.linkedin.com/in/lucas-peyrin-5548171a6/" },
+    ],
+    result: "3ème place",
+    linkedinEmbedUrl:
+      "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7331637013185466368?collapsed=1",
+    author: "Elliot",
+    phase: "solo",
+  },
+  {
+    photo: "/images/about/hackathon-duo.webp",
+    title: "Hacktogone #2 Toulouse — Elliot & Matthieu",
+    date: "[PLACEHOLDER]",
+    description:
+      "99 développeurs. 4 jours. 2 nuits blanches. 1 objectif. Architecture technique de Matthieu + vision IA/design d'Elliot — cette fois ensemble. Un SaaS de navigation propulsé par l'IA, type Waze/Google Maps intelligent, pour l'entreprise Symone. Résultat : Grand Prix du Hacktogone. La preuve que la collaboration bat toujours le talent solo.",
     result: "1ère place",
-    linkedinEmbed: "[PLACEHOLDER] URL_POST_LINKEDIN_HACKATHON_2",
+    linkedinEmbedUrl:
+      "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7394753300794884096?collapsed=1",
+    author: "Elliot & Matthieu",
+    phase: "duo",
   },
 ];
 
 export const hackathonSectionContent = {
-  badge: "ON CODE AUSSI POUR LE SPORT",
-  title: "2 hackathons. 2 victoires.",
+  badge: "ORIGIN STORY",
+  title: "Séparés, on gagne. Ensemble, on domine.",
   subtitle:
-    "Elliot et Mathieu ne se contentent pas de livrer des projets clients. Ils forgent leurs armes en compétition. 48h pour coder, pitcher, convaincre — et gagner.",
+    "Elliot et Mathieu se sont rencontrés en compétition. Chacun sur le podium, chacun de son côté. Puis ils ont uni leurs forces — et n'ont plus jamais perdu.",
+  phaseLabels: {
+    solo: "Chacun de son côté",
+    bridge: "La rencontre. Le déclic.",
+    duo: "Forces unies",
+  },
   closing:
-    "Ce qu'on fait en hackathon, on le fait pour vous. La même intensité, la même rigueur, le même craft — mais avec votre business au centre.",
+    "Ce qu'on fait en hackathon, on le fait pour vous. La même intensité, la même complémentarité, le même résultat — mais avec votre business au centre.",
 };
 
 export const proofStats: ProofStat[] = [
@@ -225,16 +259,17 @@ export const proofStats: ProofStat[] = [
 export const proofSectionContent = {
   title: "Les chiffres parlent.",
   stackTechnologies: [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "Tailwind CSS",
-    "Framer Motion",
-    "GSAP",
-    "Supabase",
-    "Vercel",
-    "Claude AI",
-    "Figma",
+    { name: "Claude AI", icon: "/images/icons/claude-icon.webp", description: "Notre copilote IA. Design, code, contenu — il accélère chaque étape sans remplacer l'expertise." },
+    { name: "N8N", icon: "/images/icons/n8n-icon.webp", description: "Automatisation sur-mesure. On connecte vos outils entre eux pour éliminer les tâches répétitives." },
+    { name: "Supabase", icon: "/images/icons/supaabse-icon.webp", description: "Base de données, auth, stockage. Le backend complet, open-source et ultra performant." },
+    { name: "Vercel", icon: "/images/icons/vercel-icon.webp", description: "Déploiement instantané. Votre site en ligne en quelques secondes, partout dans le monde." },
+    { name: "Stripe", icon: "/images/icons/stripe-icon.webp", description: "Paiements en ligne fiables. Abonnements, factures, checkout — tout est géré." },
+    { name: "GitHub", icon: "/images/icons/github-icon.webp", description: "Versioning et collaboration. Chaque ligne de code est tracée, revue et sécurisée." },
+    { name: "Google Drive", icon: "/images/icons/google-drive-icon.webp", description: "Espace partagé client. Briefs, assets, livrables — tout au même endroit." },
+    { name: "Canva", icon: "/images/icons/canva-icon.webp", description: "Création visuelle rapide. Mockups, visuels réseaux, assets marketing." },
+    { name: "Illustrator", icon: "/images/icons/illustrator-icon.webp", description: "Design vectoriel précis. Logos, icônes, illustrations sur-mesure." },
+    { name: "WhatsApp", icon: "/images/icons/whatsapp-icon.webp", description: "Communication directe. On répond vite, sans formalités inutiles." },
+    { name: "Figma", icon: "/images/icons/figma-icon.webp", description: "Prototypage et design collaboratif. Chaque maquette est validée avant de coder." },
   ],
   stackClosing: "Des outils de pointe. Pas pour la hype — pour le résultat.",
 };
@@ -267,19 +302,22 @@ export const approachSectionContent = {
 
 export const audienceItems: AudienceItem[] = [
   {
-    text: "Vous gérez une conciergerie, un hôtel, un commerce — et vous n'avez pas de site. Ou il date de 2018.",
+    text: "Vous êtes entrepreneur, artisan, commerçant ou dirigeant de PME — et votre présence digitale ne reflète pas la qualité de ce que vous faites.",
+  },
+  {
+    text: "Vous avez une idée de SaaS ou d'application mais pas d'équipe technique pour la concrétiser.",
   },
   {
     text: "Vous perdez des clients parce que vos concurrents apparaissent sur Google et pas vous.",
   },
   {
-    text: "Vous avez contacté des agences. Devis : 5 000€. Délai : 2 mois. Vous avez laissé tomber.",
+    text: "Vous avez contacté des agences. Devis : 5 000€+. Délai : 2 mois. Vous avez laissé tomber.",
   },
   {
-    text: "Vous avez essayé Wix, WordPress, Squarespace. Le résultat ne ressemble pas à ce que vous aviez en tête.",
+    text: "Vous avez besoin d'une landing page qui convertit, d'une identité visuelle forte, ou d'un site vitrine qui ramène des clients.",
   },
   {
-    text: "Vous voulez un site pro, unique, qui ramène des clients — sans y passer vos soirées.",
+    text: "Vous voulez un partenaire digital complet — site, app, branding, stratégie — sans multiplier les prestataires.",
   },
 ];
 
@@ -288,7 +326,7 @@ export const audienceSectionContent = {
   paragraph:
     "Si vous vous reconnaissez dans une de ces situations, on est faits pour bosser ensemble.",
   conclusion:
-    "On a construit Aurentia pour vous. Pas pour les startups de la Silicon Valley. Pour les entreprises qui méritent d'être vues.",
+    "On a construit Aurentia pour vous. Site vitrine, SaaS, landing page, identité visuelle — peu importe le besoin, on a la solution. Pour les entreprises qui méritent d'être vues.",
 };
 
 export const aboutCtaContent = {

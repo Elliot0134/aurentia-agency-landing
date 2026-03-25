@@ -22,7 +22,7 @@ export interface ProcessStep {
 }
 
 export interface SaasProject {
-  screenshot: string; // image path
+  screenshots: string[];
   title: string;
   description: string;
   tags: string[];
@@ -184,7 +184,7 @@ export const processSteps: ProcessStep[] = [
 
 export const saasPortfolioContent = {
   badge: "RÉALISATIONS",
-  title: "Ce qu'on a forgé.",
+  title: "Nos coups de cœur qu'on a forgés.",
   subtitle: "Des applications en production. Pas des maquettes.",
 };
 
@@ -299,27 +299,55 @@ export const saasCTAContent = {
 
 export const saasProjects: SaasProject[] = [
   {
-    screenshot: "/images/saas/projet-1.webp",
+    screenshots: [
+      "/images/portfolio/comparateur-ia-1.webp",
+      "/images/portfolio/comparateur-ia-2.webp",
+      "/images/portfolio/comparateur-ia-3.webp",
+    ],
     title: "Aurentia SaaS",
     description:
       "Plateforme de création d'entreprise par IA. Multi-agents, génération de documents, billing intégré.",
-    tags: ["SaaS", "Dashboard", "Billing"],
+    tags: ["SaaS", "Design", "Développement", "Intégrations API"],
     link: "#",
   },
   {
-    screenshot: "/images/saas/projet-2.webp",
-    title: "Logiciel métier sur-mesure",
+    screenshots: ["/images/portfolio/golf-mentor-1.webp"],
+    title: "Communauté Golf Mentor",
     description:
-      "Outil de gestion interne pour une entreprise de services. Suivi de production, facturation, reporting.",
-    tags: ["Logiciel métier", "Back-office", "Intégrations"],
+      "Plateforme communautaire pour passionnés de golf. Coaching en ligne, forums, suivi de progression.",
+    tags: ["SaaS", "Design", "Landing page", "Développement"],
     link: "#",
   },
   {
-    screenshot: "/images/saas/projet-3.webp",
-    title: "Portail client & Dashboard",
+    screenshots: ["/images/portfolio/savistas-1.webp"],
+    title: "Savistas",
     description:
-      "Espace client avec suivi en temps réel, analytics avancés et notifications automatisées.",
-    tags: ["Portail client", "Analytics", "Realtime"],
+      "Application de gestion pour entreprises de services. Planification, facturation automatisée, reporting.",
+    tags: ["Logiciel métier", "Design", "Développement"],
+    link: "#",
+  },
+  {
+    screenshots: [
+      "/images/portfolio/allo-restau-1.webp",
+      "/images/portfolio/allo-restau-2.webp",
+      "/images/portfolio/allo-restau-3.webp",
+    ],
+    title: "Aloresto",
+    description:
+      "Plateforme de commande en ligne pour restaurants. Dashboard propriétaire, gestion des commandes en temps réel.",
+    tags: ["SaaS", "Design", "Développement", "Landing page"],
+    link: "#",
+  },
+  {
+    screenshots: [
+      "/images/portfolio/comparateur-ia-1.webp",
+      "/images/portfolio/comparateur-ia-2.webp",
+      "/images/portfolio/comparateur-ia-3.webp",
+    ],
+    title: "Comparateur IA Facile",
+    description:
+      "Comparateur d'outils d'intelligence artificielle. Affiliation, SEO optimisé, analytics avancés.",
+    tags: ["Site vitrine", "Design", "SEO", "Développement"],
     link: "#",
   },
 ];

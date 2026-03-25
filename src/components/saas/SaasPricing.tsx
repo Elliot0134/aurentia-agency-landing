@@ -9,8 +9,6 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
-import { NumberMorph } from "@/components/animations/NumberMorph";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import { saasPricingContent } from "@/data/saas-content";
 import { Check, Clock, Sparkles } from "lucide-react";
 
@@ -46,11 +44,21 @@ export function SaasPricing() {
 
   return (
     <Section id="pricing" className="py-28 md:py-36 min-h-[50vh] relative">
-      <SectionBackground variant="alt" />
+      <SectionBackground
+        variant="alt"
+        showGrid
+        gridOpacity={0.08}
+        gridFadeDirection="both"
+        orbs={[
+          { color: "orange", position: "bottom-0 right-0", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
+          { color: "ambre", position: "top-[15%] left-[20%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },
+          { color: "orange", position: "top-[40%] right-[25%]", size: "w-[250px] h-[250px]", opacity: "[0.04]" },
+        ]}
+      />
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-8 md:mb-10">
           <BlurReveal className="mb-5">
             <span className="inline-block px-5 py-2.5 rounded-full border border-foreground/10 bg-foreground/5 text-sm font-medium tracking-widest text-foreground/70">
               {saasPricingContent.badge}
@@ -58,97 +66,97 @@ export function SaasPricing() {
           </BlurReveal>
 
           <TextGradientReveal
-            text={saasPricingContent.title}
+            text={saasPricingContent.subtitle}
             elementType="h2"
             className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground justify-center"
           />
 
-          <BlurReveal className="mt-6" delay={0.2}>
-            <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto">
-              {saasPricingContent.subtitle}
-            </p>
-          </BlurReveal>
         </div>
 
-        {/* Pricing Card — glassmorphism premium */}
+        {/* Horizontal Pricing Card */}
         <div className="flex justify-center">
-          <div ref={cardRef} className="opacity-0 w-full max-w-lg">
-            <SpotlightCard className="p-10 md:p-12 backdrop-blur-xl bg-foreground/[0.02] border border-foreground/10 shadow-2xl shadow-foreground/[0.05]">
-              <div className="relative z-10 flex flex-col items-center text-center gap-8">
-                {/* Label */}
-                <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-foreground/10 bg-foreground/5 text-sm font-medium tracking-wider text-foreground/70">
-                  <Sparkles className="w-4 h-4" />
-                  {card.label}
-                </span>
-
-                {/* Price — massive gradient text */}
-                <div className="flex flex-col items-center gap-2">
-                  <span className="text-sm md:text-base text-foreground/50">
-                    À partir de
+          <div ref={cardRef} className="opacity-0 w-full max-w-5xl">
+            <SpotlightCard
+              className="!border-[var(--glass-border-hover)] shadow-2xl shadow-foreground/[0.08]"
+              style={{
+                background: "var(--glass-nav-bg)",
+                backdropFilter: "blur(24px) saturate(1.4)",
+                WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+              }}
+            >
+              <div className="relative z-10 flex flex-col lg:flex-row">
+                {/* Left — Pricing info */}
+                <div className="flex-1 p-8 md:p-10 lg:p-12 flex flex-col gap-6">
+                  {/* Label */}
+                  <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-foreground/10 bg-foreground/5 text-sm font-medium tracking-wider text-foreground/70 w-fit">
+                    <Sparkles className="w-4 h-4" />
+                    {card.label}
                   </span>
-                  <span className="text-5xl md:text-6xl font-black bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
-                    <NumberMorph
-                      value={card.price}
-                      className="text-5xl md:text-6xl font-black bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"
+
+                  {/* Price */}
+                  <div className="flex flex-col gap-2">
+                    <span className="text-sm md:text-base text-foreground/50">
+                      À partir de
+                    </span>
+                    <span className="text-4xl md:text-5xl font-black font-mono bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+                      {card.price.toLocaleString("fr-FR")} €
+                    </span>
+                    <p className="text-sm text-foreground/40">{card.mention}</p>
+                  </div>
+
+                  {/* Divider */}
+                  <div
+                    className="w-full h-px"
+                    style={{
+                      background: "linear-gradient(90deg, transparent 0%, var(--color-foreground) 50%, transparent 100%)",
+                      opacity: 0.1,
+                    }}
+                  />
+
+                  {/* Inclus list */}
+                  <ul className="space-y-3">
+                    {card.inclus.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-3 text-base text-foreground/70"
+                      >
+                        <Check className="w-5 h-5 text-foreground/40 mt-0.5 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Delivery */}
+                  <div className="flex items-center gap-2 text-sm text-foreground/50">
+                    <Clock className="w-4 h-4" />
+                    <span>{card.delay}</span>
+                  </div>
+                </div>
+
+                {/* Separator */}
+                <div className="hidden lg:block w-px bg-foreground/10 my-8" />
+                <div className="lg:hidden h-px bg-foreground/10 mx-8" />
+
+                {/* Right — Cal.com embed */}
+                <div className="flex-1 p-8 md:p-10 lg:p-12 flex flex-col gap-4">
+                  <h3 className="text-xl font-bold text-foreground">
+                    Réserver un call stratégique
+                  </h3>
+                  <p className="text-sm text-foreground/50 leading-relaxed">
+                    20 minutes pour comprendre votre vision, estimer le scope et le budget. Gratuit et sans engagement.
+                  </p>
+
+                  {/* Cal.com iframe */}
+                  <div className="flex-1 min-h-[400px] rounded-xl overflow-hidden border border-foreground/10 bg-foreground/[0.02]">
+                    <iframe
+                      src="https://cal.com/aurentia/saas?embed=true&theme=light"
+                      className="w-full h-full min-h-[400px]"
+                      frameBorder="0"
+                      title="Réserver un call stratégique"
+                      loading="lazy"
                     />
-                    <span className="ml-1">€</span>
-                  </span>
+                  </div>
                 </div>
-
-                {/* Mention */}
-                <p className="text-sm text-foreground/40">{card.mention}</p>
-
-                {/* Divider */}
-                <div
-                  className="w-full h-px"
-                  style={{
-                    background: "linear-gradient(90deg, transparent 0%, var(--color-foreground) 50%, transparent 100%)",
-                    opacity: 0.1,
-                  }}
-                />
-
-                {/* Inclus list */}
-                <ul className="w-full space-y-4 text-left">
-                  {card.inclus.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-3 text-base text-foreground/70"
-                    >
-                      <Check className="w-5 h-5 text-foreground/40 mt-0.5 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Delivery */}
-                <div className="flex items-center gap-2 text-sm text-foreground/50">
-                  <Clock className="w-4 h-4" />
-                  <span>{card.delay}</span>
-                </div>
-
-                {/* Divider */}
-                <div
-                  className="w-full h-px"
-                  style={{
-                    background: "linear-gradient(90deg, transparent 0%, var(--color-foreground) 50%, transparent 100%)",
-                    opacity: 0.1,
-                  }}
-                />
-
-                {/* CTA */}
-                <a
-                  href={card.ctaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto"
-                >
-                  <MagneticButton
-                    glow
-                    className="px-10 py-4 text-base w-full sm:w-auto"
-                  >
-                    {card.cta}
-                  </MagneticButton>
-                </a>
               </div>
             </SpotlightCard>
           </div>

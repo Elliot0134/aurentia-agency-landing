@@ -43,7 +43,7 @@ const jsonLd = [
       },
       {
         "@type": "Person",
-        name: "Mathieu Bousquet",
+        name: "Matthieu Bousquet",
         jobTitle: "CTO, Formateur Epitech Marseille",
       },
     ],

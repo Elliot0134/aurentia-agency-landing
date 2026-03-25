@@ -7,7 +7,9 @@ import { CustomCursor } from "@/components/animations/CustomCursor";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { SplashWrapper } from "@/components/animations/SplashWrapper";
+import { ScrollToTop } from "@/components/animations/ScrollToTop";
 import { Navbar } from "@/components/layout/Navbar";
+import { FloatingCTA } from "@/components/shared/FloatingCTA";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -131,10 +133,12 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider>
           <LenisProvider>
+            <ScrollToTop />
             <CustomCursor />
             <ScrollProgress />
             <Navbar />
             <SplashWrapper />
+            <FloatingCTA />
             {children}
           </LenisProvider>
         </ThemeProvider>

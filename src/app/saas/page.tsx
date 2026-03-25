@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SaasHero } from "@/components/saas/SaasHero";
 import { SaasServices } from "@/components/saas/SaasServices";
+import { SaasIntegrations } from "@/components/saas/SaasIntegrations";
 import { SaasStack } from "@/components/saas/SaasStack";
 import { SaasProcess } from "@/components/saas/SaasProcess";
 import { SaasPortfolio } from "@/components/saas/SaasPortfolio";
@@ -91,6 +92,7 @@ export default function SaasPage() {
       <main className="flex min-h-screen flex-col w-full">
         <SaasHero />
         <SaasServices />
+        <SaasIntegrations />
         <SaasStack />
         <SaasProcess />
         <SaasPortfolio />

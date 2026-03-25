@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Section } from "@/components/ui/Section";
@@ -73,8 +73,8 @@ function PainCard({ pain, index }: { pain: ConciergeriePain; index: number }) {
   }, []);
 
   return (
-    <BlurReveal delay={index * 0.2}>
-      <div ref={cardRef}>
+    <BlurReveal delay={index * 0.2} className="h-full">
+      <div ref={cardRef} className="h-full">
         <SpotlightCard
           className="p-8 h-full flex flex-col justify-between relative z-10 transition-all duration-700"
           style={{
@@ -123,31 +123,7 @@ function PainCard({ pain, index }: { pain: ConciergeriePain; index: number }) {
 }
 
 export function ConciergerieProblem() {
-  const conclusionRef = useRef<HTMLDivElement>(null);
-
-  // Conclusion: fade-in + scale from 0.95, delay 0.4s
-  useEffect(() => {
-    if (!conclusionRef.current) return;
-
-    gsap.fromTo(
-      conclusionRef.current,
-      { opacity: 0, scale: 0.95 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        delay: 0.4,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: conclusionRef.current,
-          start: "top 88%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-  }, []);
-
-  const { title, pains, conclusion } = conciergeriesProblemContent;
+  const { title, pains } = conciergeriesProblemContent;
 
   return (
     <Section id="probleme" theme="dark-alt" className="py-32 relative">
@@ -171,23 +147,10 @@ export function ConciergerieProblem() {
         </div>
 
         {/* 3 Pain cards — grid with SpotlightCard + count-up metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 lg:gap-8 max-w-6xl mx-auto mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 lg:gap-8 max-w-6xl mx-auto">
           {pains.map((pain, idx) => (
             <PainCard key={idx} pain={pain} index={idx} />
           ))}
-        </div>
-
-        {/* Conclusion — fade-in + scale from 0.95 with amber glow border */}
-        <div
-          ref={conclusionRef}
-          className="text-center max-w-2xl mx-auto mt-16 p-8 rounded-3xl border border-accent-secondary/30 bg-accent-secondary/5 opacity-0"
-          style={{
-            boxShadow: "0 0 40px -10px rgba(201,100,66,0.15)",
-          }}
-        >
-          <p className="text-xl lg:text-2xl font-medium text-accent-secondary leading-relaxed">
-            {conclusion}
-          </p>
         </div>
       </div>
     </Section>

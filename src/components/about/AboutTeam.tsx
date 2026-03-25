@@ -124,9 +124,7 @@ function MemberCard({
       >
         <SpotlightCard
           className={`
-            group flex flex-col
-            md:flex-row md:items-stretch
-            ${!isEven ? "md:flex-row-reverse" : ""}
+            group relative min-h-[550px] md:min-h-[520px]
             !bg-background/60 backdrop-blur-xl !border-foreground/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)]
             hover:shadow-[0_0_40px_rgba(201,100,66,0.12)]
             hover:!translate-y-0 !transition-shadow !will-change-auto
@@ -134,26 +132,41 @@ function MemberCard({
             overflow-hidden
           `}
         >
-          {/* Image side */}
-          <div className="relative w-full md:w-[40%] aspect-[4/3] md:aspect-auto md:min-h-[420px] shrink-0 overflow-hidden">
+          {/* Dark gradient behind image — full card width */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: isEven
+                ? "linear-gradient(to right, transparent 40%, color-mix(in srgb, var(--foreground) 15%, transparent) 60%, color-mix(in srgb, var(--foreground) 25%, transparent) 100%)"
+                : "linear-gradient(to left, transparent 40%, color-mix(in srgb, var(--foreground) 15%, transparent) 60%, color-mix(in srgb, var(--foreground) 25%, transparent) 100%)",
+            }}
+          />
+
+          {/* Image — absolute, bleeds into the card */}
+          <div className={`absolute bottom-0 ${isEven ? "right-0" : "left-0"} w-[70%] md:w-[55%] h-[110%] pointer-events-none`}>
             <Image
               src={member.image}
               alt={`Portrait de ${member.name}`}
               fill
-              className="object-cover object-top transition-transform duration-700 ease-in-out group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-contain object-bottom transition-transform duration-700 ease-in-out group-hover:scale-105"
+              sizes="(max-width: 768px) 70vw, 55vw"
             />
-            {/* Gradient overlay for readability — exception for team photos */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-black/20" />
-            {isEven ? (
-              <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
-            ) : (
-              <div className="hidden md:block absolute inset-0 bg-gradient-to-l from-transparent to-black/20" />
-            )}
           </div>
 
+          {/* Gradient fade — blends image into card from text side */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: isEven
+                ? "linear-gradient(to right, var(--background) 0%, var(--background) 25%, color-mix(in srgb, var(--background) 80%, transparent) 40%, color-mix(in srgb, var(--background) 30%, transparent) 55%, transparent 70%)"
+                : "linear-gradient(to left, var(--background) 0%, var(--background) 25%, color-mix(in srgb, var(--background) 80%, transparent) 40%, color-mix(in srgb, var(--background) 30%, transparent) 55%, transparent 70%)",
+            }}
+          />
+
           {/* Content side */}
-          <div className="flex-1 flex flex-col justify-center p-6 md:p-10 lg:p-12 gap-4">
+          <div className={`relative z-10 flex flex-col justify-center p-6 md:p-10 lg:p-12 gap-4 ${
+            isEven ? "md:w-[55%]" : "md:w-[55%] md:ml-auto"
+          }`}>
             {/* Role badge */}
             <span className="inline-flex items-center self-start px-3 py-1.5 rounded-full bg-accent-primary/10 text-accent-primary font-mono text-sm tracking-wider uppercase">
               {member.badge}

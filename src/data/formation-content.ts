@@ -143,7 +143,7 @@ export const formationTrainers: FormationTrainer[] = [
     linkedin: "https://www.linkedin.com/in/elliot-estrade/",
   },
   {
-    name: "Mathieu Bousquet",
+    name: "Matthieu Bousquet",
     photo: "/images/team/mathieu.webp",
     role: "CTO Aurentia \u00B7 Formateur Epitech Marseille",
     badges: [

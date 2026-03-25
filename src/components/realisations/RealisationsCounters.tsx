@@ -12,7 +12,7 @@ if (typeof window !== "undefined") {
 }
 
 const stats = [
-  { value: 15, suffix: "+", label: "projets livres" },
+  { value: 6, suffix: "+", label: "projets livres" },
   { value: 48, suffix: "h", label: "delai moyen de livraison" },
   { value: 100, suffix: "%", label: "clients satisfaits" },
   { value: 0, suffix: "", label: "template utilise" },

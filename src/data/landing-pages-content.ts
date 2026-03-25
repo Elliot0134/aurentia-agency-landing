@@ -33,7 +33,7 @@ export interface LandingProcessStep {
 // ── Hero ────────────────────────────────────────────
 
 export const heroContent = {
-  badge: "LANDING PAGES HAUTE CONVERSION",
+  badge: "LANDING PAGES",
   h1: "Des landing pages qui convertissent. Pas qui décorent.",
   subtitle:
     "Design spectaculaire. Animations premium. Optimisées pour transformer vos visiteurs en clients. Chaque pixel a une intention.",
@@ -92,16 +92,16 @@ export const featuresContent = {
 
 export const vitrineContent = {
   badge: "NOTRE VITRINE",
-  title: "Vous êtes en train de naviguer sur notre meilleur argument.",
+  title: "Ce qu'on livre, concrètement.",
   subtitle:
-    "Ce site a été conçu avec les mêmes standards que ceux qu'on applique à vos projets. Chaque animation, chaque transition, chaque pixel — c'est exactement ce qu'on livre.",
+    "Savistas — une landing page conçue et livrée par Aurentia. Design sur-mesure, animations fluides, optimisée conversion. Naviguez, cliquez, jugez par vous-même.",
   callouts: [
-    { label: "Magnetic buttons", position: { x: "5%", y: "20%" } },
-    { label: "Scroll animations GSAP", position: { x: "75%", y: "15%" } },
-    { label: "Spotlight cards", position: { x: "80%", y: "55%" } },
-    { label: "Text reveal au scroll", position: { x: "10%", y: "60%" } },
-    { label: "Curseur personnalisé", position: { x: "70%", y: "80%" } },
-    { label: "Gradient mesh animé", position: { x: "15%", y: "85%" } },
+    { label: "Avatar IA", position: { x: "5%", y: "20%" } },
+    { label: "Landing Page", position: { x: "75%", y: "15%" } },
+    { label: "Création du SaaS", position: { x: "80%", y: "55%" } },
+    { label: "Animations", position: { x: "10%", y: "60%" } },
+    { label: "Workflows n8n", position: { x: "70%", y: "80%" } },
+    { label: "Identité visuelle", position: { x: "15%", y: "85%" } },
   ] satisfies ShowcaseCallout[],
   closing: "Imaginez ça. Mais pour votre produit.",
 };
@@ -114,28 +114,20 @@ export const exemplesContent = {
   subtitle: "Chaque projet est unique. Voici ce qu'on a forgé.",
   examples: [
     {
-      screenshot: "/images/landing-pages/exemple-aurentia.webp",
-      title: "Aurentia Agency",
+      screenshot: "/images/portfolio/allo-restau-1.webp",
+      title: "Allo Restau",
       description:
-        "Notre propre site. Next.js, GSAP, Framer Motion, scroll narratif, gradient mesh, magnetic buttons, dark/light mode. La vitrine de ce qu'on sait faire.",
-      tags: ["Next.js", "GSAP", "Framer Motion", "Scroll narratif"],
-      link: "https://aurentia.agency",
+        "Landing page + SaaS pour une plateforme de commande en ligne. Design sur-mesure, animations fluides, parcours de conversion optimisé.",
+      tags: ["Landing Page", "SaaS", "Conversion", "SEO"],
+      link: "https://allo-restau.fr",
     },
     {
-      screenshot: "/images/landing-pages/exemple-2.webp",
-      title: "Projet client",
+      screenshot: "/images/portfolio/golf-mentor-1.webp",
+      title: "Golf Mentor",
       description:
-        "Landing page haute conversion pour un SaaS B2B. Design sur-mesure, animations scroll-triggered, performance 95+ mobile.",
-      tags: ["Next.js", "Conversion", "SaaS"],
-      isPlaceholder: true,
-    },
-    {
-      screenshot: "/images/landing-pages/exemple-3.webp",
-      title: "Projet client",
-      description:
-        "Page de lancement produit avec storytelling visuel. Parallax multi-couches, dark mode natif, SEO technique intégré.",
-      tags: ["Storytelling", "Parallax", "SEO"],
-      isPlaceholder: true,
+        "Site vitrine + application SaaS pour un coach de golf. Interface élégante, réservation en ligne, design responsive pixel-perfect.",
+      tags: ["Site Vitrine", "SaaS", "Design", "SEO"],
+      link: "https://golf-mentor.fr",
     },
   ] satisfies LandingExample[],
 };
@@ -145,7 +137,7 @@ export const exemplesContent = {
 export const processContent = {
   badge: "NOTRE PROCESS",
   title: "De la vision au pixel. En 4 étapes.",
-  subtitle: "Un process direct. Pas de réunions inutiles.",
+  subtitle: "",
   steps: [
     {
       number: "01",

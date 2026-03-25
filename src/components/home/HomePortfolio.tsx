@@ -80,9 +80,9 @@ const projects = [
 function PhoneMockup({ image, name, large = false }: { image: string; name: string; large?: boolean }) {
   return (
     <div className="absolute right-6 top-1/2 -translate-y-1/2 z-30 pointer-events-none translate-x-[30%] scale-95 opacity-0 group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] hidden md:block">
-      <div className={`relative rounded-[24px] border-[3px] border-white/20 bg-black/80 backdrop-blur-sm shadow-2xl shadow-black/50 overflow-hidden ${large ? "w-[150px] h-[310px]" : "w-[90px] h-[185px]"}`}>
+      <div className={`relative rounded-[24px] border-[3px] border-foreground/20 bg-background/80 backdrop-blur-sm shadow-2xl shadow-foreground/[0.08] overflow-hidden ${large ? "w-[150px] h-[310px]" : "w-[90px] h-[185px]"}`}>
         {/* Notch / Dynamic Island */}
-        <div className={`absolute left-1/2 -translate-x-1/2 bg-black rounded-full z-10 ${large ? "top-[10px] w-[45px] h-[14px]" : "top-[6px] w-[30px] h-[10px]"}`} />
+        <div className={`absolute left-1/2 -translate-x-1/2 bg-foreground rounded-full z-10 ${large ? "top-[10px] w-[45px] h-[14px]" : "top-[6px] w-[30px] h-[10px]"}`} />
         {/* Screen content */}
         <div className={`absolute overflow-hidden ${large ? "inset-[4px] rounded-[20px]" : "inset-[3px] rounded-[16px]"}`}>
           <Image
@@ -94,7 +94,7 @@ function PhoneMockup({ image, name, large = false }: { image: string; name: stri
           />
         </div>
         {/* Home indicator */}
-        <div className={`absolute left-1/2 -translate-x-1/2 bg-white/30 rounded-full z-10 ${large ? "bottom-[7px] w-[40px] h-[4px]" : "bottom-[5px] w-[28px] h-[3px]"}`} />
+        <div className={`absolute left-1/2 -translate-x-1/2 bg-foreground/30 rounded-full z-10 ${large ? "bottom-[7px] w-[40px] h-[4px]" : "bottom-[5px] w-[28px] h-[3px]"}`} />
       </div>
     </div>
   );
@@ -191,7 +191,7 @@ export function HomePortfolio() {
           <TextReveal
             text="Nos dernières réalisations."
             elementType="h2"
-            className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
+            className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-4"
           />
         </div>
 
@@ -199,14 +199,14 @@ export function HomePortfolio() {
           <div className="flex items-center gap-12 font-mono">
             <div className="flex flex-col items-start">
               <NumberMorph value={100} suffix="%" className="text-3xl font-bold text-foreground" />
-              <span className="text-sm uppercase tracking-wider text-foreground-muted mt-1">
+              <span className="text-sm uppercase tracking-wider text-foreground/50 mt-1">
                 Sur-mesure
               </span>
             </div>
             <div className="w-px h-10 bg-foreground/10" />
             <div className="flex flex-col items-start">
               <NumberMorph value={0} suffix=" template" className="text-3xl font-bold text-foreground" />
-              <span className="text-sm uppercase tracking-wider text-foreground-muted mt-1">
+              <span className="text-sm uppercase tracking-wider text-foreground/50 mt-1">
                 Utilisé
               </span>
             </div>
@@ -221,10 +221,10 @@ export function HomePortfolio() {
             <SpotlightCard className="w-full h-full p-6 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
               {/* Tag badge + duration */}
               <div className="flex justify-between items-start z-10 w-full transition-transform duration-500 group-hover:-translate-y-1">
-                <span className="text-sm font-mono uppercase tracking-widest py-1.5 px-3.5 rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-md">
+                <span className="text-sm font-mono uppercase tracking-widest py-1.5 px-3.5 rounded-full border border-foreground/10 bg-background/50 text-foreground/90 backdrop-blur-md">
                   {proj.tag}
                 </span>
-                <span className="text-sm font-mono py-1.5 px-3.5 rounded-full border border-white/10 bg-white/10 text-white/90 backdrop-blur-md">
+                <span className="text-sm font-mono py-1.5 px-3.5 rounded-full border border-foreground/10 bg-foreground/10 text-foreground/90 backdrop-blur-md">
                   {proj.duration}
                 </span>
               </div>
@@ -239,12 +239,12 @@ export function HomePortfolio() {
               <PhoneMockup image={proj.images[0]} name={proj.name} large={proj.layout.includes("row-span-2")} />
 
               {/* Bottom gradient fade */}
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-[1] pointer-events-none rounded-b-[inherit]" />
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background/80 via-background/40 to-transparent z-[1] pointer-events-none rounded-b-[inherit]" />
 
               {/* Bottom: project name + duration + services */}
               <div className="z-10 transition-transform duration-500 group-hover:translate-x-1 [text-shadow:_0_1px_8px_rgba(0,0,0,0.5)]">
                 <div className="flex items-end justify-between mb-2">
-                  <h3 className="text-lg md:text-xl font-bold leading-snug text-white">{proj.name}</h3>
+                  <h3 className="text-lg md:text-xl font-bold leading-snug text-foreground">{proj.name}</h3>
                   <span className="text-accent-primary text-sm font-medium opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                     Découvrir&nbsp;→
                   </span>
@@ -254,7 +254,7 @@ export function HomePortfolio() {
                     {proj.services.map((service) => (
                       <span
                         key={service}
-                        className="text-sm font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/15 bg-black/40 text-white/80 backdrop-blur-sm"
+                        className="text-sm font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-foreground/15 bg-background/40 text-foreground/80 backdrop-blur-sm"
                       >
                         {service}
                       </span>

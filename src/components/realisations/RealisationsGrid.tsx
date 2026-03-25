@@ -3,9 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { projects, type Project, type ProjectType } from "@/data/projects";
@@ -19,26 +18,7 @@ const FILTERS: readonly (typeof FILTER_ALL | ProjectType)[] = [
   "Site vitrine",
   "SaaS",
   "Landing page",
-  "Identite visuelle",
 ];
-
-// --- Animation variants ---
-
-const cardEase = [0.25, 0.46, 0.45, 0.94] as const;
-
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: cardEase as unknown as [number, number, number, number] },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.95,
-    transition: { duration: 0.5, ease: cardEase as unknown as [number, number, number, number] },
-  },
-};
 
 // --- Sub-components ---
 
@@ -57,11 +37,11 @@ function FilterPill({
     <button
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-1.5 rounded-full px-5 py-2.5 text-base font-medium whitespace-nowrap",
-        "transition-all duration-500 ease-in-out",
+        "relative flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium whitespace-nowrap",
+        "transition-all duration-500 ease-in-out cursor-pointer",
         isActive
-          ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/20"
-          : "border border-foreground/10 text-foreground/70 hover:bg-foreground/5"
+          ? "bg-foreground text-background shadow-lg shadow-foreground/10"
+          : "border border-foreground/10 text-foreground/60 hover:bg-foreground/5 hover:text-foreground/80"
       )}
     >
       {label}
@@ -69,10 +49,10 @@ function FilterPill({
         <span
           className={cn(
             "text-sm tabular-nums transition-colors duration-500",
-            isActive ? "text-white/80" : "text-foreground/40"
+            isActive ? "text-background/60" : "text-foreground/30"
           )}
         >
-          ({count})
+          {count}
         </span>
       )}
     </button>
@@ -82,63 +62,52 @@ function FilterPill({
 function ProjectCard({ project }: { project: Project }) {
   return (
     <Link href={`/realisations/${project.slug}`} className="group block">
-      <SpotlightCard className="h-full transition-transform duration-700 ease-in-out hover:-translate-y-2">
+      <div className="h-full rounded-2xl border border-foreground/[0.06] bg-foreground/[0.02] overflow-hidden transition-all duration-700 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-foreground/[0.04] hover:border-foreground/10">
         {/* Image container */}
-        <div className="relative aspect-[16/9] overflow-hidden rounded-t-3xl">
+        <div className="relative aspect-[16/10] overflow-hidden">
           <SafeImage
-              src={project.coverImage}
-              alt={project.name}
-              fill
-              className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+            src={project.coverImage}
+            alt={project.name}
+            fill
+            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
 
-          {/* Gradient overlay for badge readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/30 via-transparent to-transparent" />
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100" />
 
-          {/* Gradient overlay at bottom on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100" />
-
-          {/* Type badge — glassmorphism */}
-          <span className="absolute top-4 left-4 rounded-full bg-background/20 px-3 py-1.5 text-sm font-medium text-foreground backdrop-blur-md border border-foreground/15">
+          {/* Type badge */}
+          <span className="absolute top-3 left-3 rounded-full bg-background/70 px-3 py-1 text-sm font-medium text-foreground backdrop-blur-md border border-foreground/10">
             {project.type}
           </span>
 
-          {/* Status badge — optional */}
-          {project.status === "En cours" && (
-            <span className="absolute top-4 right-4 rounded-full bg-orange-500/90 px-3 py-1.5 text-sm font-medium text-foreground backdrop-blur-md">
-              En cours
-            </span>
-          )}
+          {/* Arrow on hover */}
+          <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-foreground/80 backdrop-blur-md flex items-center justify-center opacity-0 translate-y-2 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+            <ArrowUpRight className="h-4 w-4 text-background" />
+          </div>
         </div>
 
         {/* Card body */}
-        <div className="relative z-10 flex flex-col gap-3 p-5">
-          {/* Name + discover link */}
+        <div className="flex flex-col gap-3 p-5">
+          {/* Name + duration */}
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-foreground">{project.name}</h3>
-            <span className="flex items-center gap-1 text-sm font-medium text-orange-500 opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100">
-              Decouvrir
-              <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
-            </span>
+            <h3 className="text-lg font-bold text-foreground">{project.name}</h3>
+            <span className="text-sm text-foreground/40 font-mono">{project.duration}</span>
           </div>
 
-          {/* City */}
-          <p className="text-sm font-mono text-foreground/50">{project.city}</p>
-
           {/* Tags */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-sm text-foreground/60"
+                className="rounded-full bg-foreground/[0.04] px-2.5 py-0.5 text-sm text-foreground/50"
               >
                 {tag}
               </span>
             ))}
           </div>
         </div>
-      </SpotlightCard>
+      </div>
     </Link>
   );
 }
@@ -183,25 +152,20 @@ export function RealisationsGrid() {
         </BlurReveal>
 
         {/* Project grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {filteredProjects.map((project) => (
-              <motion.div
-                key={project.slug}
-                layout
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                <ProjectCard project={project} />
-              </motion.div>
+              <ProjectCard key={project.slug} project={project} />
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

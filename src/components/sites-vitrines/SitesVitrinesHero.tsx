@@ -65,7 +65,7 @@ export function SitesVitrinesHero() {
     >
       {/* SectionBackground with hero-grid + orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="all"
         orbs={[
           { color: "orange", position: "bottom-0 right-0", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
           { color: "ambre", position: "top-[20%] left-[15%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },

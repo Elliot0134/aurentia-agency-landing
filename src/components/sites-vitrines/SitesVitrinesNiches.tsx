@@ -91,7 +91,7 @@ export function SitesVitrinesNiches() {
 
               const cardContent = (
                 <SpotlightCard
-                  className={`p-6 md:p-8 transition-all duration-700 ease-in-out ${
+                  className={`h-full p-6 md:p-8 transition-all duration-700 ease-in-out ${
                     isHighlighted
                       ? "niche-highlighted border-orange-500/30 bg-gradient-to-br from-orange-500/5 to-amber-500/5"
                       : "hover:shadow-[0_0_30px_rgba(201,100,66,0.06)]"
@@ -104,22 +104,23 @@ export function SitesVitrinesNiches() {
                     </div>
                   )}
 
-                  <div className="relative z-10">
-                    {/* Badge */}
-                    {card.badge && (
-                      <span className="inline-block px-3 py-0.5 rounded-full text-sm font-semibold tracking-wider bg-orange-500/10 text-orange-500 border border-orange-500/20 mb-4">
-                        {card.badge}
-                      </span>
-                    )}
-
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-4 bg-foreground/5 text-foreground/70">
-                      {Icon && <Icon className="w-6 h-6" />}
+                  <div className="relative z-10 flex flex-col h-full">
+                    {/* Icon + Badge row */}
+                    <div className="flex items-center gap-3 mb-4 min-h-[28px]">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-foreground/5 text-foreground/70">
+                        {Icon && <Icon className="w-6 h-6" />}
+                      </div>
+                      {card.badge ? (
+                        <span className="inline-block px-3 py-0.5 rounded-full text-sm font-semibold tracking-wider bg-orange-500/10 text-orange-500 border border-orange-500/20 ml-auto">
+                          {card.badge}
+                        </span>
+                      ) : null}
                     </div>
 
                     <h3 className="text-lg font-bold text-foreground mb-2">
                       {card.title}
                     </h3>
-                    <p className="text-sm text-foreground/50 leading-relaxed">
+                    <p className="text-sm text-foreground/50 leading-relaxed flex-1">
                       {card.text}
                     </p>
 
@@ -134,13 +135,13 @@ export function SitesVitrinesNiches() {
 
               if (card.link) {
                 return (
-                  <Link key={card.title} href={card.link} className="block">
+                  <Link key={card.title} href={card.link} className="block h-full">
                     {cardContent}
                   </Link>
                 );
               }
 
-              return <div key={card.title}>{cardContent}</div>;
+              return <div key={card.title} className="h-full">{cardContent}</div>;
             })}
           </div>
         </BlurReveal>

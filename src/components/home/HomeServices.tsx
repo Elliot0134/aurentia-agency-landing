@@ -223,37 +223,37 @@ export function HomeServices() {
 
   const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (window.innerWidth < 1024) return;
-    const outer = e.currentTarget;
-    const inner = outer.querySelector(".mockup-inner") as HTMLElement | null;
-    if (!inner) return;
-    const scrollDistance = inner.scrollHeight - outer.clientHeight;
+    const card = e.currentTarget;
+    const scrollArea = card.querySelector(".mockup-scroll-area") as HTMLElement | null;
+    const inner = card.querySelector(".mockup-inner") as HTMLElement | null;
+    if (!scrollArea || !inner) return;
+    const scrollDistance = inner.scrollHeight - scrollArea.clientHeight;
     if (scrollDistance <= 0) return;
 
-    // Kill any existing tween
-    hoverTweens.current.get(outer)?.kill();
+    hoverTweens.current.get(card)?.kill();
 
     const tween = gsap.to(inner, {
       y: -scrollDistance,
-      duration: scrollDistance / 40, // ~40px/sec — slow & smooth
-      ease: "power1.inOut",
+      duration: scrollDistance / 80,
+      ease: "none",
     });
-    hoverTweens.current.set(outer, tween);
+    hoverTweens.current.set(card, tween);
   }, []);
 
   const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (window.innerWidth < 1024) return;
-    const outer = e.currentTarget;
-    const inner = outer.querySelector(".mockup-inner") as HTMLElement | null;
+    const card = e.currentTarget;
+    const inner = card.querySelector(".mockup-inner") as HTMLElement | null;
     if (!inner) return;
 
-    hoverTweens.current.get(outer)?.kill();
+    hoverTweens.current.get(card)?.kill();
 
     const tween = gsap.to(inner, {
       y: 0,
-      duration: 0.8,
-      ease: "power2.out",
+      duration: 1.2,
+      ease: "power3.out",
     });
-    hoverTweens.current.set(outer, tween);
+    hoverTweens.current.set(card, tween);
   }, []);
 
   // Cleanup tweens on unmount
@@ -287,48 +287,50 @@ export function HomeServices() {
       <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
 
         {/* ━━━ CARD 1 — Sites Vitrines ━━━ */}
-        <SpotlightCard className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
+        <SpotlightCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
           <div className="flex flex-col h-full p-5 md:p-6">
             <div
               ref={vitrineRef}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className="h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
+              className="mockup-viewport h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
             >
               {/* Floating ambient orbs */}
               <div className="absolute top-8 right-6 w-24 h-24 bg-accent-primary/[0.06] rounded-full blur-2xl animate-[float-y_8s_ease-in-out_infinite]" />
               <div className="absolute bottom-12 left-4 w-16 h-16 bg-violet-500/[0.04] rounded-full blur-xl animate-[float-y_10s_ease-in-out_infinite_1s]" />
 
-              <div className="mockup-inner flex flex-col relative z-10">
-                {/* Browser chrome */}
-                <div className="flex items-center gap-2 px-3.5 py-2 border-b border-foreground/[0.06] bg-foreground/[0.02]">
+              <div className="flex flex-col h-full relative z-10">
+                {/* Browser chrome — FIXED */}
+                <div className="shrink-0 flex items-center gap-2 px-3.5 py-2 border-b border-foreground/[0.06] bg-background-surface">
                   <div className="flex gap-1.5 shrink-0">
                     <div className="v-dot w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
                     <div className="v-dot w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
                     <div className="v-dot w-2.5 h-2.5 rounded-full bg-[#28c840]" />
                   </div>
                   <div className="v-url flex-1 h-5 rounded-lg bg-foreground/[0.04] flex items-center px-2.5">
-                    <span className="text-[10px] text-foreground/20 font-mono truncate">votre-entreprise.fr</span>
+                    <span className="text-sm text-foreground/20 font-mono truncate">votre-entreprise.fr</span>
                   </div>
                 </div>
 
-                {/* Nav */}
-                <div className="flex items-center justify-between px-4 py-2 border-b border-foreground/[0.04]">
+                {/* Nav — FIXED */}
+                <div className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-foreground/[0.04] bg-background-surface">
                   <div className="v-nav flex items-center gap-1.5">
                     <div className="w-5 h-5 rounded-md bg-accent-primary/20 border border-accent-primary/30 flex items-center justify-center">
                       <div className="w-2.5 h-2.5 rounded-sm bg-accent-primary/50" />
                     </div>
-                    <span className="text-[11px] font-bold text-foreground/80">MonEntreprise</span>
+                    <span className="text-sm font-bold text-foreground/80">MonEntreprise</span>
                   </div>
                   <div className="flex gap-2.5 items-center">
-                    <span className="v-nav text-[10px] text-foreground/30">Accueil</span>
-                    <span className="v-nav text-[10px] text-foreground/30">À propos</span>
-                    <span className="v-nav text-[10px] text-foreground/30">Services</span>
-                    <span className="v-nav text-[10px] bg-foreground text-background px-2 py-0.5 rounded-md font-medium">
+                    <span className="v-nav text-sm text-foreground/30">Accueil</span>
+                    <span className="v-nav text-sm text-foreground/30">À propos</span>
+                    <span className="v-nav text-sm text-foreground/30">Services</span>
+                    <span className="v-nav text-sm bg-foreground text-background px-2 py-0.5 rounded-md font-medium">
                       Contact
                     </span>
                   </div>
                 </div>
+
+                {/* Scrollable content area */}
+                <div className="mockup-scroll-area flex-1 overflow-hidden">
+                <div className="mockup-inner flex flex-col">
 
                 {/* Hero — Clean warm section */}
                 <div className="v-hero relative mx-3 mt-2.5 rounded-xl overflow-hidden h-[120px] bg-accent-primary/[0.06] border border-accent-primary/10">
@@ -339,7 +341,7 @@ export function HomeServices() {
                   <div className="absolute inset-0 flex flex-col justify-center p-4">
                     <p className="v-text text-base font-bold text-foreground/90 leading-tight">Votre vitrine digitale,</p>
                     <p className="v-text text-base font-bold text-foreground/90 leading-tight">votre <span className="text-accent-primary">image de marque.</span></p>
-                    <p className="v-text text-[10px] text-foreground/40 mt-2">Entreprise · Restaurant · Cabinet · Artisan</p>
+                    <p className="v-text text-sm text-foreground/40 mt-2">Entreprise · Restaurant · Cabinet · Artisan</p>
                   </div>
                 </div>
 
@@ -352,7 +354,7 @@ export function HomeServices() {
                   ].map(({ icon, label }, i) => (
                     <div key={i} className="v-feat rounded-lg bg-accent-primary/[0.04] border border-accent-primary/15 p-2.5 text-center transition-colors duration-500">
                       <span className="flex justify-center text-accent-primary/60 mb-1">{icon}</span>
-                      <p className="text-[10px] text-foreground/50 font-medium">{label}</p>
+                      <p className="text-sm text-foreground/50 font-medium">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -373,52 +375,111 @@ export function HomeServices() {
                       ))}
                     </div>
                   </div>
-                  <span className="text-[9px] text-foreground/25 font-mono">12 sites livrés</span>
+                  <span className="text-sm text-foreground/25 font-mono">12 sites livrés</span>
                 </div>
 
                 {/* ── Extended content (visible on hover scroll) ── */}
                 <div className="px-3 pb-3 flex flex-col gap-2.5">
-                  {/* About section */}
-                  <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
-                    <p className="text-[10px] text-foreground/50 font-medium mb-1.5">À propos</p>
-                    <div className="w-full h-2 rounded-full bg-foreground/[0.06] mb-1.5" />
-                    <div className="w-4/5 h-2 rounded-full bg-foreground/[0.04] mb-1.5" />
-                    <div className="w-3/5 h-2 rounded-full bg-foreground/[0.04]" />
+                  {/* About — photo + text */}
+                  <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3 flex gap-3">
+                    <div className="w-16 h-16 shrink-0 rounded-lg bg-gradient-to-br from-accent-primary/15 to-amber-600/10 border border-accent-primary/10" />
+                    <div className="flex-1">
+                      <p className="text-sm text-foreground/60 font-bold mb-1">Notre histoire</p>
+                      <p className="text-sm text-foreground/35 leading-relaxed">Depuis 2019, nous accompagnons les entreprises locales dans leur transformation digitale.</p>
+                    </div>
+                  </div>
+
+                  {/* Testimonial */}
+                  <div className="rounded-xl bg-accent-primary/[0.04] border border-accent-primary/10 p-3">
+                    <div className="flex gap-0.5 mb-1.5">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-2.5 h-2.5 text-amber-400/70" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-sm text-foreground/40 italic leading-relaxed">&ldquo;Notre trafic a triplé en 3 mois. Le site reflète enfin notre image.&rdquo;</p>
+                    <p className="text-sm text-foreground/25 font-mono mt-1">— Pierre D., Restaurateur</p>
                   </div>
 
                   {/* Services grid */}
                   <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
-                    <p className="text-[10px] text-foreground/50 font-medium mb-2">Nos services</p>
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Nos prestations</p>
                     <div className="grid grid-cols-2 gap-1.5">
-                      {["Conseil", "Design", "Dev", "Support"].map((s) => (
-                        <div key={s} className="rounded-lg bg-accent-primary/[0.04] border border-accent-primary/10 p-2 text-center">
-                          <p className="text-[9px] text-foreground/40 font-medium">{s}</p>
+                      {[
+                        { name: "Conseil", icon: "💡" },
+                        { name: "Design UI", icon: "🎨" },
+                        { name: "Développement", icon: "⚡" },
+                        { name: "Maintenance", icon: "🔧" },
+                      ].map((s) => (
+                        <div key={s.name} className="rounded-lg bg-accent-primary/[0.04] border border-accent-primary/10 p-2.5 flex items-center gap-2">
+                          <span className="text-sm">{s.icon}</span>
+                          <p className="text-sm text-foreground/45 font-medium">{s.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
 
+                  {/* Map / location */}
+                  <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] overflow-hidden">
+                    <div className="h-16 bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.02] flex items-center justify-center">
+                      <div className="w-3 h-3 rounded-full bg-accent-primary/40 border-2 border-accent-primary/20 animate-pulse" />
+                    </div>
+                    <div className="p-2.5 flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-foreground/40 font-medium">12 Rue de la Paix</p>
+                        <p className="text-sm text-foreground/25">75002 Paris</p>
+                      </div>
+                      <div className="text-sm text-accent-primary/50 bg-accent-primary/[0.06] px-2 py-1 rounded-md border border-accent-primary/10 font-medium">Itinéraire</div>
+                    </div>
+                  </div>
+
                   {/* Contact form */}
                   <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
-                    <p className="text-[10px] text-foreground/50 font-medium mb-2">Contact</p>
-                    <div className="w-full h-6 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] mb-1.5" />
-                    <div className="w-full h-6 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] mb-1.5" />
-                    <div className="w-full h-14 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] mb-2" />
-                    <div className="w-24 h-7 rounded-lg bg-foreground text-background flex items-center justify-center">
-                      <span className="text-[10px] font-medium">Envoyer</span>
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Contactez-nous</p>
+                    <div className="flex gap-1.5 mb-1.5">
+                      <div className="flex-1 h-6 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] flex items-center px-2">
+                        <span className="text-sm text-foreground/20">Prénom</span>
+                      </div>
+                      <div className="flex-1 h-6 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] flex items-center px-2">
+                        <span className="text-sm text-foreground/20">Nom</span>
+                      </div>
+                    </div>
+                    <div className="w-full h-6 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] flex items-center px-2 mb-1.5">
+                      <span className="text-sm text-foreground/20">email@exemple.fr</span>
+                    </div>
+                    <div className="w-full h-14 rounded-md bg-foreground/[0.04] border border-foreground/[0.06] p-2 mb-2">
+                      <span className="text-sm text-foreground/20">Votre message...</span>
+                    </div>
+                    <div className="w-full h-7 rounded-lg bg-foreground text-background flex items-center justify-center">
+                      <span className="text-sm font-medium">Envoyer le message</span>
                     </div>
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between py-2 border-t border-foreground/[0.06]">
-                    <span className="text-[8px] text-foreground/20 font-mono">© 2024 MonEntreprise</span>
-                    <div className="flex gap-2">
-                      <div className="w-3.5 h-3.5 rounded-full bg-foreground/[0.06]" />
-                      <div className="w-3.5 h-3.5 rounded-full bg-foreground/[0.06]" />
-                      <div className="w-3.5 h-3.5 rounded-full bg-foreground/[0.06]" />
+                  <div className="border-t border-foreground/[0.06] pt-2.5 pb-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-4 h-4 rounded-md bg-accent-primary/20 border border-accent-primary/30" />
+                        <span className="text-sm font-bold text-foreground/40">MonEntreprise</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="w-4 h-4 rounded-full bg-foreground/[0.06] border border-foreground/[0.04]" />
+                        <div className="w-4 h-4 rounded-full bg-foreground/[0.06] border border-foreground/[0.04]" />
+                        <div className="w-4 h-4 rounded-full bg-foreground/[0.06] border border-foreground/[0.04]" />
+                      </div>
                     </div>
+                    <div className="flex gap-3 mb-1.5">
+                      <span className="text-sm text-foreground/25">Accueil</span>
+                      <span className="text-sm text-foreground/25">Services</span>
+                      <span className="text-sm text-foreground/25">À propos</span>
+                      <span className="text-sm text-foreground/25">Contact</span>
+                    </div>
+                    <span className="text-sm text-foreground/15 font-mono">© 2024 MonEntreprise — Tous droits réservés</span>
                   </div>
                 </div>
+                </div>{/* /mockup-inner */}
+                </div>{/* /mockup-scroll-area */}
               </div>
             </div>
 
@@ -434,51 +495,53 @@ export function HomeServices() {
         </SpotlightCard>
 
         {/* ━━━ CARD 2 — Landing Pages ━━━ */}
-        <SpotlightCard className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
+        <SpotlightCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
           <div className="flex flex-col h-full p-5 md:p-6">
             <div
               ref={landingRef}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className="h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
+              className="mockup-viewport h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
             >
               {/* Floating orbs */}
               <div className="absolute top-16 left-6 w-20 h-20 bg-accent-primary/[0.05] rounded-full blur-2xl animate-[float-y_9s_ease-in-out_infinite]" />
               <div className="absolute bottom-8 right-8 w-28 h-28 bg-emerald-500/[0.03] rounded-full blur-2xl animate-[float-y_11s_ease-in-out_infinite_2s]" />
 
-              <div className="mockup-inner flex flex-col relative z-10">
-                {/* Browser chrome */}
-                <div className="flex items-center gap-2 px-3.5 py-2 border-b border-foreground/[0.06] bg-foreground/[0.02]">
+              <div className="flex flex-col h-full relative z-10">
+                {/* Browser chrome — FIXED */}
+                <div className="shrink-0 flex items-center gap-2 px-3.5 py-2 border-b border-foreground/[0.06] bg-background-surface">
                   <div className="flex gap-1.5 shrink-0">
                     <div className="l-dot w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
                     <div className="l-dot w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
                     <div className="l-dot w-2.5 h-2.5 rounded-full bg-[#28c840]" />
                   </div>
                   <div className="l-url flex-1 h-5 rounded-lg bg-foreground/[0.04] flex items-center px-2.5">
-                    <span className="text-[10px] text-foreground/20 font-mono truncate">votre-saas.io</span>
+                    <span className="text-sm text-foreground/20 font-mono truncate">votre-saas.io</span>
                   </div>
                 </div>
+
+                {/* Scrollable content area */}
+                <div className="mockup-scroll-area flex-1 overflow-hidden">
+                <div className="mockup-inner flex flex-col">
 
                 {/* Hero section */}
                 <div className="flex flex-col items-center text-center px-4 pt-3 pb-2">
                   {/* Animated badge */}
                   <div className="l-badge flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-0.5 mb-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[9px] text-emerald-400/80 font-mono">+127 inscrits cette semaine</span>
+                    <span className="text-sm text-emerald-400/80 font-mono">+127 inscrits cette semaine</span>
                   </div>
                   <p className="l-text text-base font-bold text-foreground/95 leading-tight">Transformez vos visiteurs</p>
                   <p className="l-text text-base font-bold leading-tight mb-1">
                     <span className="text-accent-primary">en clients.</span>
                   </p>
-                  <p className="l-text text-[10px] text-foreground/35 leading-relaxed max-w-[220px]">
+                  <p className="l-text text-sm text-foreground/35 leading-relaxed max-w-[220px]">
                     Des pages qui convertissent. Pas juste jolies. <span className="text-foreground/55">Efficaces.</span>
                   </p>
                   {/* CTAs */}
                   <div className="flex gap-2 mt-2.5">
-                    <div className="l-cta bg-foreground text-background text-[10px] font-semibold px-3.5 py-1.5 rounded-lg">
+                    <div className="l-cta bg-foreground text-background text-sm font-semibold px-3.5 py-1.5 rounded-lg">
                       Lancer mon projet
                     </div>
-                    <span className="l-cta text-[10px] text-foreground/40 border border-foreground/[0.1] px-3 py-1.5 rounded-lg bg-foreground/[0.02]">Voir les résultats</span>
+                    <span className="l-cta text-sm text-foreground/40 border border-foreground/[0.1] px-3 py-1.5 rounded-lg bg-foreground/[0.02]">Voir les résultats</span>
                   </div>
                 </div>
 
@@ -490,7 +553,7 @@ export function HomeServices() {
                       <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400/60 to-blue-600/40 border-2 border-background-surface" />
                       <div className="w-5 h-5 rounded-full bg-gradient-to-br from-emerald-400/60 to-emerald-600/40 border-2 border-background-surface" />
                     </div>
-                    <span className="text-[9px] text-foreground/30 font-mono">+2k clients</span>
+                    <span className="text-sm text-foreground/30 font-mono">+2k clients</span>
                   </div>
                   <div className="flex gap-0.5">
                     {[...Array(5)].map((_, i) => (
@@ -510,7 +573,7 @@ export function HomeServices() {
                   ].map(({ label, value, color }, i) => (
                     <div key={i} className="l-metric rounded-lg bg-foreground/[0.02] border border-foreground/[0.06] p-2 text-center">
                       <p className={`text-sm font-bold font-mono ${color}`}>{value}</p>
-                      <p className="text-[8px] text-foreground/25 mt-0.5">{label}</p>
+                      <p className="text-sm text-foreground/25 mt-0.5">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -518,60 +581,108 @@ export function HomeServices() {
                 {/* Pricing plans */}
                 <div className="grid grid-cols-2 gap-1.5 px-3 pb-3">
                   <div className="l-plan rounded-lg border border-foreground/[0.06] bg-foreground/[0.02] p-2 flex flex-col justify-center">
-                    <span className="text-[9px] text-foreground/30 font-mono">Starter</span>
-                    <span className="text-sm font-bold text-foreground/50 font-mono">29€<span className="text-[8px] text-foreground/20">/mo</span></span>
+                    <span className="text-sm text-foreground/30 font-mono">Starter</span>
+                    <span className="text-sm font-bold text-foreground/50 font-mono">29€<span className="text-sm text-foreground/20">/mo</span></span>
                   </div>
                   <div className="l-plan rounded-lg border border-accent-primary/20 bg-accent-primary/[0.04] p-2 flex flex-col justify-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent animate-[shimmer_4s_ease-in-out_infinite]" />
-                    <span className="text-[9px] text-accent-primary/50 font-mono relative z-10">Pro</span>
-                    <span className="text-sm font-bold text-accent-primary/80 font-mono relative z-10">99€<span className="text-[8px] text-accent-primary/40">/mo</span></span>
+                    <span className="text-sm text-accent-primary/50 font-mono relative z-10">Pro</span>
+                    <span className="text-sm font-bold text-accent-primary/80 font-mono relative z-10">99€<span className="text-sm text-accent-primary/40">/mo</span></span>
                   </div>
                 </div>
 
                 {/* ── Extended content (visible on hover scroll) ── */}
                 <div className="px-3 pb-3 flex flex-col gap-2.5">
-                  {/* Testimonials */}
+                  {/* Features section with icons */}
                   <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
-                    <p className="text-[10px] text-foreground/50 font-medium mb-2">Ce qu&apos;ils en disent</p>
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Pourquoi nous ?</p>
                     <div className="flex flex-col gap-2">
                       {[
-                        { name: "Marie L.", text: "Taux de conversion × 3 en un mois.", stars: 5 },
-                        { name: "Thomas R.", text: "ROI visible dès la première semaine.", stars: 5 },
-                      ].map((t, i) => (
-                        <div key={i} className="rounded-lg bg-foreground/[0.02] border border-foreground/[0.04] p-2">
-                          <div className="flex gap-0.5 mb-1">
-                            {[...Array(t.stars)].map((_, j) => (
-                              <svg key={j} className="w-2 h-2 text-amber-400/70" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
+                        { icon: "⚡", title: "Livré en 48h", desc: "Pas de semaines d'attente" },
+                        { icon: "📊", title: "A/B testé", desc: "Chaque élément est optimisé" },
+                        { icon: "🔄", title: "Itérations illimitées", desc: "On ajuste jusqu'à ce que ça marche" },
+                      ].map((f, i) => (
+                        <div key={i} className="flex items-start gap-2.5">
+                          <span className="text-[12px] mt-0.5">{f.icon}</span>
+                          <div>
+                            <p className="text-sm text-foreground/55 font-medium">{f.title}</p>
+                            <p className="text-sm text-foreground/30">{f.desc}</p>
                           </div>
-                          <p className="text-[9px] text-foreground/35 italic">&ldquo;{t.text}&rdquo;</p>
-                          <p className="text-[8px] text-foreground/25 mt-0.5 font-mono">— {t.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
 
+                  {/* Testimonials with real feel */}
+                  <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Résultats clients</p>
+                    {[
+                      { name: "Marie L.", role: "E-commerce", metric: "+340% conv.", text: "On a triplé nos ventes en un mois." },
+                      { name: "Thomas R.", role: "SaaS B2B", metric: "+127% leads", text: "ROI visible dès la première semaine." },
+                    ].map((t, i) => (
+                      <div key={i} className="rounded-lg bg-foreground/[0.02] border border-foreground/[0.04] p-2.5 mb-1.5 last:mb-0">
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-accent-primary/30 to-violet-500/20" />
+                            <div>
+                              <span className="text-sm text-foreground/50 font-medium">{t.name}</span>
+                              <span className="text-sm text-foreground/20 ml-1">{t.role}</span>
+                            </div>
+                          </div>
+                          <span className="text-sm font-mono text-emerald-400/70 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">{t.metric}</span>
+                        </div>
+                        <p className="text-sm text-foreground/35 italic">&ldquo;{t.text}&rdquo;</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Before/After comparison */}
+                  <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Avant / Après</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="rounded-lg bg-foreground/[0.03] border border-foreground/[0.06] p-2 text-center">
+                        <p className="text-sm font-bold font-mono text-foreground/30">1.2%</p>
+                        <p className="text-sm text-foreground/20 mt-0.5">Taux de conv. avant</p>
+                      </div>
+                      <div className="rounded-lg bg-accent-primary/[0.06] border border-accent-primary/15 p-2 text-center">
+                        <p className="text-sm font-bold font-mono text-accent-primary/80">12.4%</p>
+                        <p className="text-sm text-accent-primary/40 mt-0.5">Taux de conv. après</p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* FAQ */}
                   <div className="rounded-xl bg-foreground/[0.02] border border-foreground/[0.06] p-3">
-                    <p className="text-[10px] text-foreground/50 font-medium mb-2">FAQ</p>
-                    {["Combien de temps ?", "Quelles garanties ?", "Et après ?"].map((q, i) => (
+                    <p className="text-sm text-foreground/50 font-medium mb-2">Questions fréquentes</p>
+                    {[
+                      "Combien de temps pour la livraison ?",
+                      "Quelles garanties de résultat ?",
+                      "Et le suivi post-lancement ?",
+                      "Compatible tous devices ?",
+                    ].map((q, i) => (
                       <div key={i} className="flex items-center justify-between py-1.5 border-b border-foreground/[0.04] last:border-0">
-                        <span className="text-[9px] text-foreground/35">{q}</span>
-                        <span className="text-[9px] text-foreground/20">+</span>
+                        <span className="text-sm text-foreground/35">{q}</span>
+                        <span className="text-sm text-foreground/15 font-mono">+</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Final CTA */}
-                  <div className="rounded-xl bg-accent-primary/[0.06] border border-accent-primary/15 p-3 text-center">
-                    <p className="text-[10px] text-foreground/60 font-medium mb-1.5">Prêt à convertir ?</p>
-                    <div className="inline-block bg-foreground text-background text-[10px] font-semibold px-4 py-1.5 rounded-lg">
-                      Commencer maintenant
+                  <div className="rounded-xl bg-gradient-to-br from-accent-primary/[0.08] to-accent-primary/[0.03] border border-accent-primary/15 p-4 text-center">
+                    <p className="text-sm text-foreground/70 font-bold mb-1">Prêt à multiplier vos conversions ?</p>
+                    <p className="text-sm text-foreground/30 mb-2.5">Audit gratuit de votre page actuelle</p>
+                    <div className="inline-flex gap-2">
+                      <div className="bg-foreground text-background text-sm font-semibold px-4 py-1.5 rounded-lg">
+                        Commencer
+                      </div>
+                      <div className="text-sm text-foreground/40 border border-foreground/[0.1] px-3 py-1.5 rounded-lg">
+                        Voir un exemple
+                      </div>
                     </div>
                   </div>
                 </div>
+                </div>{/* /mockup-inner */}
+                </div>{/* /mockup-scroll-area */}
               </div>
             </div>
 
@@ -587,20 +698,18 @@ export function HomeServices() {
         </SpotlightCard>
 
         {/* ━━━ CARD 3 — Applications SaaS ━━━ */}
-        <SpotlightCard className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
+        <SpotlightCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="service-card group border border-foreground/[0.08] rounded-2xl flex flex-col">
           <div className="flex flex-col h-full p-5 md:p-6">
             <div
               ref={dashRef}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className="h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
+              className="mockup-viewport h-[280px] bg-background-surface border border-foreground/[0.08] rounded-2xl overflow-hidden transition-all duration-700 group-hover:border-accent-primary/20 group-hover:shadow-[0_0_50px_rgba(201,100,66,0.08)] group-hover:scale-[1.02] select-none relative"
             >
               {/* Floating orb */}
               <div className="absolute top-20 right-4 w-20 h-20 bg-accent-primary/[0.04] rounded-full blur-2xl animate-[float-y_7s_ease-in-out_infinite_1s]" />
 
-              <div className="mockup-inner flex h-auto relative z-10">
-                {/* Sidebar */}
-                <div className="w-11 shrink-0 border-r border-foreground/[0.06] bg-foreground/[0.01] flex flex-col items-center py-3 gap-2">
+              <div className="flex h-full relative z-10">
+                {/* Sidebar — FIXED */}
+                <div className="w-11 shrink-0 border-r border-foreground/[0.06] bg-background-surface flex flex-col items-center py-3 gap-2">
                   <div className="d-sidebar w-6 h-6 rounded-md bg-accent-primary/20 border border-accent-primary/30 flex items-center justify-center mb-1">
                     <div className="w-2.5 h-2.5 rounded-sm bg-accent-primary/60" />
                   </div>
@@ -612,19 +721,19 @@ export function HomeServices() {
                 </div>
 
                 {/* Main */}
-                <div className="flex-1 flex flex-col min-w-0 min-h-0">
-                  {/* Top bar */}
-                  <div className="d-topbar flex items-center justify-between px-3 py-2 border-b border-foreground/[0.06]">
+                <div className="flex-1 flex flex-col min-w-0">
+                  {/* Top bar — FIXED */}
+                  <div className="shrink-0 d-topbar flex items-center justify-between px-3 py-2 border-b border-foreground/[0.06] bg-background-surface">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold text-foreground/60">Votre produit</span>
                       <div className="flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-1.5 py-0.5">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-[8px] text-emerald-400/80 font-mono">Live</span>
+                        <span className="text-sm text-emerald-400/80 font-mono">Live</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="h-5 rounded-md border border-foreground/[0.08] bg-foreground/[0.02] px-2 flex items-center">
-                        <span className="text-[9px] text-foreground/20">⌘K</span>
+                        <span className="text-sm text-foreground/20">⌘K</span>
                       </div>
                       <div className="relative w-5 h-5 rounded-full bg-foreground/[0.04] border border-foreground/[0.08]">
                         <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-accent-primary animate-pulse" />
@@ -632,43 +741,45 @@ export function HomeServices() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col p-3 gap-2">
+                  {/* Scrollable content area */}
+                  <div className="mockup-scroll-area flex-1 overflow-hidden">
+                  <div className="mockup-inner flex flex-col p-3 gap-2">
                     {/* Welcome banner with animated icon */}
                     <div className="d-banner rounded-lg bg-accent-primary/[0.04] border border-accent-primary/10 p-2.5 flex items-start gap-2.5">
                       <div className="text-accent-primary/70 shrink-0 mt-0.5 animate-[float-y_4s_ease-in-out_infinite]">
                         <RocketIcon />
                       </div>
                       <div>
-                        <p className="text-[10px] text-foreground/60 leading-snug">
+                        <p className="text-sm text-foreground/60 leading-snug">
                           <span className="text-accent-primary/80 font-medium">Votre SaaS est live.</span> Les premiers utilisateurs arrivent.
                         </p>
-                        <p className="text-[9px] text-foreground/30 mt-0.5">Architecture scalable, prête pour la croissance.</p>
+                        <p className="text-sm text-foreground/30 mt-0.5">Architecture scalable, prête pour la croissance.</p>
                       </div>
                     </div>
 
                     {/* KPIs */}
                     <div className="grid grid-cols-3 gap-1.5">
                       <div className="d-kpi rounded-md border border-accent-primary/20 bg-accent-primary/[0.05] p-2 flex flex-col gap-0.5 relative overflow-hidden">
-                        <span className="text-[8px] text-accent-primary/50 font-mono">MRR</span>
+                        <span className="text-sm text-accent-primary/50 font-mono">MRR</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-sm font-bold text-accent-primary/90 font-mono"><CountUp value={12} prefix="€" suffix="K" /></span>
-                          <span className="text-[8px] text-emerald-400/60">↑ 24%</span>
+                          <span className="text-sm text-emerald-400/60">↑ 24%</span>
                         </div>
                         {/* Animated underline */}
                         <div className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-primary/0 via-accent-primary/50 to-accent-primary/0 animate-[shimmer_3s_ease-in-out_infinite]" style={{ width: "200%" }} />
                       </div>
                       <div className="d-kpi rounded-md border border-foreground/[0.06] bg-foreground/[0.02] p-2 flex flex-col gap-0.5">
-                        <span className="text-[8px] text-foreground/30 font-mono">Users</span>
+                        <span className="text-sm text-foreground/30 font-mono">Users</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-sm font-bold text-foreground/60 font-mono"><CountUp value={847} /></span>
-                          <span className="text-[8px] text-emerald-400/50">↑ 18%</span>
+                          <span className="text-sm text-emerald-400/50">↑ 18%</span>
                         </div>
                       </div>
                       <div className="d-kpi rounded-md border border-foreground/[0.06] bg-foreground/[0.02] p-2 flex flex-col gap-0.5">
-                        <span className="text-[8px] text-foreground/30 font-mono">NPS</span>
+                        <span className="text-sm text-foreground/30 font-mono">NPS</span>
                         <div className="flex items-baseline gap-1">
                           <span className="text-sm font-bold text-foreground/60 font-mono"><CountUp value={72} /></span>
-                          <span className="text-[8px] text-emerald-400/50">↑ 5</span>
+                          <span className="text-sm text-emerald-400/50">↑ 5</span>
                         </div>
                       </div>
                     </div>
@@ -676,7 +787,7 @@ export function HomeServices() {
                     {/* Chart */}
                     <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.015] p-2.5 flex flex-col">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[9px] text-foreground/30 font-mono">Votre croissance</span>
+                        <span className="text-sm text-foreground/30 font-mono">Votre croissance</span>
                         <span className="mrr-label font-mono text-sm font-bold text-accent-primary opacity-0">+342%</span>
                       </div>
                       <div className="h-[60px] flex items-end gap-[3px]">
@@ -697,16 +808,16 @@ export function HomeServices() {
                     <div className="flex flex-col gap-1">
                       <div className="d-feed flex items-center gap-2 px-2 py-1 rounded-md bg-foreground/[0.02] border border-foreground/[0.04]">
                         <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-400/40 to-violet-500/30 shrink-0" />
-                        <span className="text-[9px] text-foreground/40 flex-1 truncate">Nouveau client inscrit</span>
+                        <span className="text-sm text-foreground/40 flex-1 truncate">Nouveau client inscrit</span>
                         <div className="flex items-center gap-1">
                           <div className="w-1 h-1 rounded-full bg-emerald-400/50 animate-pulse" />
-                          <span className="text-[7px] font-mono text-emerald-400/60">à l&apos;instant</span>
+                          <span className="text-sm font-mono text-emerald-400/60">à l&apos;instant</span>
                         </div>
                       </div>
                       <div className="d-feed flex items-center gap-2 px-2 py-1 rounded-md bg-foreground/[0.015]">
                         <div className="w-4 h-4 rounded-full bg-gradient-to-br from-amber-400/40 to-orange-500/30 shrink-0" />
-                        <span className="text-[9px] text-foreground/35 flex-1 truncate">Paiement reçu — Pro Plan</span>
-                        <span className="text-[7px] font-mono text-accent-primary/50 bg-accent-primary/10 px-1.5 py-0.5 rounded-full">€29/mo</span>
+                        <span className="text-sm text-foreground/35 flex-1 truncate">Paiement reçu — Pro Plan</span>
+                        <span className="text-sm font-mono text-accent-primary/50 bg-accent-primary/10 px-1.5 py-0.5 rounded-full">€29/mo</span>
                       </div>
                     </div>
 
@@ -714,57 +825,90 @@ export function HomeServices() {
                     {/* Users table */}
                     <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.015] p-2.5">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[9px] text-foreground/30 font-mono">Derniers utilisateurs</span>
-                        <span className="text-[8px] text-accent-primary/50 font-mono">Voir tout →</span>
+                        <span className="text-sm text-foreground/30 font-mono">Utilisateurs récents</span>
+                        <span className="text-sm text-accent-primary/50 font-mono">Voir tout →</span>
                       </div>
                       {[
-                        { name: "Sophie M.", plan: "Pro", date: "il y a 2h" },
-                        { name: "Lucas D.", plan: "Starter", date: "il y a 5h" },
-                        { name: "Emma V.", plan: "Pro", date: "hier" },
-                        { name: "Hugo L.", plan: "Enterprise", date: "hier" },
+                        { name: "Sophie M.", plan: "Pro", status: "active", date: "il y a 2h" },
+                        { name: "Lucas D.", plan: "Starter", status: "active", date: "il y a 5h" },
+                        { name: "Emma V.", plan: "Pro", status: "trial", date: "hier" },
+                        { name: "Hugo L.", plan: "Enterprise", status: "active", date: "hier" },
+                        { name: "Léa B.", plan: "Pro", status: "active", date: "il y a 2j" },
                       ].map((u, i) => (
                         <div key={i} className="flex items-center gap-2 py-1.5 border-b border-foreground/[0.04] last:border-0">
                           <div className="w-4 h-4 rounded-full bg-gradient-to-br from-accent-primary/30 to-violet-500/20 shrink-0" />
-                          <span className="text-[9px] text-foreground/40 flex-1">{u.name}</span>
-                          <span className={`text-[7px] font-mono px-1.5 py-0.5 rounded-full ${u.plan === "Pro" ? "text-accent-primary/60 bg-accent-primary/10" : u.plan === "Enterprise" ? "text-violet-400/60 bg-violet-500/10" : "text-foreground/30 bg-foreground/[0.04]"}`}>{u.plan}</span>
-                          <span className="text-[7px] text-foreground/20 font-mono">{u.date}</span>
+                          <span className="text-sm text-foreground/40 flex-1">{u.name}</span>
+                          <div className="flex items-center gap-1">
+                            <div className={`w-1.5 h-1.5 rounded-full ${u.status === "active" ? "bg-emerald-400/60" : "bg-amber-400/60"}`} />
+                          </div>
+                          <span className={`text-sm font-mono px-1.5 py-0.5 rounded-full ${u.plan === "Pro" ? "text-accent-primary/60 bg-accent-primary/10" : u.plan === "Enterprise" ? "text-violet-400/60 bg-violet-500/10" : "text-foreground/30 bg-foreground/[0.04]"}`}>{u.plan}</span>
+                          <span className="text-sm text-foreground/20 font-mono">{u.date}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Revenue breakdown */}
                     <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.015] p-2.5">
-                      <span className="text-[9px] text-foreground/30 font-mono">Revenue par plan</span>
-                      <div className="flex flex-col gap-1.5 mt-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-foreground/30 font-mono">Revenue par plan</span>
+                        <span className="text-sm text-foreground/20 font-mono">Ce mois</span>
+                      </div>
+                      <div className="flex flex-col gap-1.5">
                         {[
-                          { plan: "Pro", pct: 62, color: "bg-accent-primary/60" },
-                          { plan: "Enterprise", pct: 28, color: "bg-violet-500/50" },
-                          { plan: "Starter", pct: 10, color: "bg-foreground/20" },
+                          { plan: "Pro", amount: "€7.4K", pct: 62, color: "bg-accent-primary/60" },
+                          { plan: "Enterprise", amount: "€3.3K", pct: 28, color: "bg-violet-500/50" },
+                          { plan: "Starter", amount: "€1.2K", pct: 10, color: "bg-foreground/20" },
                         ].map((r) => (
-                          <div key={r.plan} className="flex items-center gap-2">
-                            <span className="text-[8px] text-foreground/30 font-mono w-14">{r.plan}</span>
-                            <div className="flex-1 h-1.5 rounded-full bg-foreground/[0.06]">
-                              <div className={`h-full rounded-full ${r.color}`} style={{ width: `${r.pct}%` }} />
+                          <div key={r.plan}>
+                            <div className="flex items-center justify-between mb-0.5">
+                              <span className="text-sm text-foreground/35 font-mono">{r.plan}</span>
+                              <span className="text-sm text-foreground/30 font-mono font-bold">{r.amount}</span>
                             </div>
-                            <span className="text-[8px] text-foreground/25 font-mono">{r.pct}%</span>
+                            <div className="h-1.5 rounded-full bg-foreground/[0.06]">
+                              <div className={`h-full rounded-full ${r.color} transition-all duration-700`} style={{ width: `${r.pct}%` }} />
+                            </div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* Settings preview */}
+                    {/* Notifications / Alerts */}
                     <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.015] p-2.5">
-                      <span className="text-[9px] text-foreground/30 font-mono">Paramètres</span>
-                      <div className="flex flex-col gap-1.5 mt-2">
-                        {["Webhooks", "API Keys", "Billing", "Team"].map((s) => (
-                          <div key={s} className="flex items-center justify-between py-1 border-b border-foreground/[0.03] last:border-0">
-                            <span className="text-[9px] text-foreground/35">{s}</span>
-                            <span className="text-[8px] text-foreground/15">→</span>
+                      <span className="text-sm text-foreground/30 font-mono mb-2 block">Notifications</span>
+                      {[
+                        { type: "success", text: "Déploiement v2.4.1 réussi", time: "10:34" },
+                        { type: "info", text: "Nouveau webhook configuré", time: "09:12" },
+                        { type: "warning", text: "Limite API à 80%", time: "hier" },
+                      ].map((n, i) => (
+                        <div key={i} className="flex items-center gap-2 py-1.5 border-b border-foreground/[0.03] last:border-0">
+                          <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${n.type === "success" ? "bg-emerald-400/60" : n.type === "warning" ? "bg-amber-400/60" : "bg-blue-400/60"}`} />
+                          <span className="text-sm text-foreground/35 flex-1">{n.text}</span>
+                          <span className="text-sm text-foreground/20 font-mono">{n.time}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Settings grid */}
+                    <div className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.015] p-2.5">
+                      <span className="text-sm text-foreground/30 font-mono mb-2 block">Configuration</span>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {[
+                          { name: "Webhooks", count: "3 actifs" },
+                          { name: "API Keys", count: "2 clés" },
+                          { name: "Billing", count: "Stripe" },
+                          { name: "Team", count: "5 membres" },
+                          { name: "Intégrations", count: "Slack, N8N" },
+                          { name: "Sécurité", count: "2FA actif" },
+                        ].map((s) => (
+                          <div key={s.name} className="rounded-md bg-foreground/[0.02] border border-foreground/[0.04] p-2">
+                            <span className="text-sm text-foreground/40 font-medium block">{s.name}</span>
+                            <span className="text-sm text-foreground/20 font-mono">{s.count}</span>
                           </div>
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </div>{/* /mockup-inner */}
+                  </div>{/* /mockup-scroll-area */}
                 </div>
               </div>
             </div>

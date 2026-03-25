@@ -29,7 +29,7 @@ interface SectionBackgroundProps {
   /** Grid base opacity (0-1), default 1 */
   gridOpacity?: number;
   /** Direction the grid fades out towards */
-  gridFadeDirection?: "top" | "bottom" | "both";
+  gridFadeDirection?: "top" | "bottom" | "both" | "all";
   /** Background color variant: base or alt */
   variant?: "base" | "alt";
   className?: string;
@@ -39,6 +39,9 @@ const GRADIENT_MASKS: Record<string, string> = {
   top: "linear-gradient(to bottom, transparent 0%, black 30%)",
   bottom: "linear-gradient(to bottom, black 70%, transparent 100%)",
   both: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+  // "all" uses two layers combined via mask-composite (see render logic)
+  all_vertical: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+  all_horizontal: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
 };
 
 export function SectionBackground({
@@ -66,7 +69,7 @@ export function SectionBackground({
         const colorBase = ORB_COLORS[orb.color] ?? ORB_COLORS.orange;
         const opacityVal = orb.opacity ?? "[0.08]";
         // Extract numeric opacity from bracket notation for inline style
-        const numericOpacity = opacityVal.replace(/[[\]]/g, "");
+        const numericOpacity = String(opacityVal).replace(/[[\]]/g, "");
 
         return (
           <div
@@ -89,10 +92,18 @@ export function SectionBackground({
           className="absolute inset-0 hero-grid"
           style={{
             opacity: gridOpacity,
-            ...(gridFadeDirection
+            ...(gridFadeDirection && gridFadeDirection !== "all"
               ? {
                   WebkitMaskImage: GRADIENT_MASKS[gridFadeDirection],
                   maskImage: GRADIENT_MASKS[gridFadeDirection],
+                }
+              : {}),
+            ...(gridFadeDirection === "all"
+              ? {
+                  WebkitMaskImage: `${GRADIENT_MASKS.all_vertical}, ${GRADIENT_MASKS.all_horizontal}`,
+                  maskImage: `${GRADIENT_MASKS.all_vertical}, ${GRADIENT_MASKS.all_horizontal}`,
+                  WebkitMaskComposite: "source-in",
+                  maskComposite: "intersect" as string,
                 }
               : {}),
           }}

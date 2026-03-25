@@ -75,7 +75,7 @@ export const solutionContent = {
       image: "/images/team/elliot.jpg", // TODO: Add actual photo
     },
     {
-      name: "Mathieu",
+      name: "Matthieu",
       role: "Développeur Senior",
       description: "Il s'assure que chaque site est sécurisé, rapide, et techniquement irréprochable.",
       image: "/images/team/mathieu.jpg", // TODO: Add actual photo

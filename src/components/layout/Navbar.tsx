@@ -8,13 +8,8 @@ import { ThemeSwitch } from "@/components/unlumen-ui/theme-switch";
 import { siteConfig } from "@/data/content";
 import { CalModal } from "@/components/shared/CalModal";
 
-const sitesVitrinesCibles = [
-  { label: "Conciergeries", href: "/sites-vitrines/conciergeries" },
-  { label: "Hôtels", href: "/sites-vitrines/hotels" },
-];
-
 const services = [
-  { label: "Sites vitrines", href: "/sites-vitrines", hasSubmenu: true },
+  { label: "Sites vitrines", href: "/sites-vitrines" },
   { label: "SaaS & Logiciels", href: "/saas" },
   { label: "Landing Pages", href: "/landing-pages" },
   { label: "Identité Visuelle", href: "/identite-visuelle" },
@@ -34,21 +29,16 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [agenceDropdownOpen, setAgenceDropdownOpen] = useState(false);
-  const [submenuOpen, setSubmenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
   const dropdownTriggerRef = useRef<HTMLDivElement>(null);
   const agenceTriggerRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
   const agenceMenuRef = useRef<HTMLDivElement>(null);
-  const submenuRef = useRef<HTMLDivElement>(null);
-  const submenuTriggerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const agenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [servicesPos, setServicesPos] = useState({ top: 0, left: 0 });
   const [agencePos, setAgencePos] = useState({ top: 0, left: 0 });
-  const [submenuPos, setSubmenuPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     setMounted(true);
@@ -67,10 +57,9 @@ export function Navbar() {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      const inServices = dropdownTriggerRef.current?.contains(target) || dropdownMenuRef.current?.contains(target) || submenuRef.current?.contains(target);
+      const inServices = dropdownTriggerRef.current?.contains(target) || dropdownMenuRef.current?.contains(target);
       if (dropdownOpen && !inServices) {
         setDropdownOpen(false);
-        setSubmenuOpen(false);
       }
       const inAgence = agenceTriggerRef.current?.contains(target) || agenceMenuRef.current?.contains(target);
       if (agenceDropdownOpen && !inAgence) {
@@ -125,23 +114,6 @@ export function Navbar() {
     agenceTimeoutRef.current = setTimeout(() => setAgenceDropdownOpen(false), 150);
   };
 
-  const handleSubmenuEnter = () => {
-    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
-    // Also keep parent open
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setSubmenuOpen(true);
-  };
-
-  const handleSubmenuLeave = () => {
-    submenuTimeoutRef.current = setTimeout(() => setSubmenuOpen(false), 150);
-  };
-
-  const updateSubmenuPos = useCallback(() => {
-    if (submenuTriggerRef.current) {
-      const rect = submenuTriggerRef.current.getBoundingClientRect();
-      setSubmenuPos({ top: rect.top, left: rect.right + 4 });
-    }
-  }, []);
 
   return (
     <>
@@ -306,18 +278,6 @@ export function Navbar() {
                 {service.label}
               </Link>
             ))}
-            {/* Sites vitrines cibles */}
-            {sitesVitrinesCibles.map((cible) => (
-              <Link
-                key={cible.label}
-                href={cible.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 pl-6 py-2 text-sm text-foreground/50 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
-              >
-                {cible.label}
-              </Link>
-            ))}
-
             <p className="text-sm font-semibold text-foreground/40 uppercase tracking-wider px-3 pt-3">
               L&apos;agence
             </p>
@@ -392,22 +352,7 @@ export function Navbar() {
             boxShadow: "0 16px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.06) inset",
           }}
         >
-          {services.map((service) =>
-            service.hasSubmenu ? (
-              <div
-                key={service.label}
-                ref={submenuTriggerRef}
-                onMouseEnter={() => {
-                  handleSubmenuEnter();
-                  updateSubmenuPos();
-                }}
-                onMouseLeave={handleSubmenuLeave}
-                className="flex items-center justify-between px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors cursor-pointer"
-              >
-                {service.label}
-                <ChevronDown size={12} className="-rotate-90" />
-              </div>
-            ) : (
+          {services.map((service) => (
               <Link
                 key={service.label}
                 href={service.href}
@@ -416,48 +361,6 @@ export function Navbar() {
               >
                 {service.label}
               </Link>
-            )
-          )}
-        </div>
-
-        {/* Sites vitrines Sub-menu */}
-        <div
-          ref={submenuRef}
-          onMouseEnter={() => {
-            handleSubmenuEnter();
-            handleDropdownEnter();
-          }}
-          onMouseLeave={() => {
-            handleSubmenuLeave();
-            handleDropdownLeave();
-          }}
-          className={`fixed z-[61] w-48 rounded-2xl border overflow-hidden transition-[opacity,transform] duration-200 origin-left ${
-            submenuOpen && dropdownOpen
-              ? "opacity-100 scale-100 translate-x-0"
-              : "opacity-0 scale-95 -translate-x-1 pointer-events-none"
-          }`}
-          style={{
-            top: submenuPos.top,
-            left: submenuPos.left,
-            background: "var(--glass-dropdown-bg)",
-            backdropFilter: "blur(32px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(32px) saturate(1.4)",
-            borderColor: "var(--glass-border-hover)",
-            boxShadow: "0 16px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.06) inset",
-          }}
-        >
-          {sitesVitrinesCibles.map((cible) => (
-            <Link
-              key={cible.label}
-              href={cible.href}
-              onClick={() => {
-                setDropdownOpen(false);
-                setSubmenuOpen(false);
-              }}
-              className="block px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors"
-            >
-              {cible.label}
-            </Link>
           ))}
         </div>
 

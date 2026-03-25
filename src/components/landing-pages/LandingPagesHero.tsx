@@ -4,41 +4,14 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { ChevronDown } from "lucide-react";
 import { heroContent } from "@/data/landing-pages-content";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-}
-
-/* ── Floating decorative mini BrowserMockup ──────────────────── */
-function FloatingBrowserMockup({ className }: { className?: string }) {
-  return (
-    <div
-      className={`absolute pointer-events-none select-none ${className}`}
-      aria-hidden="true"
-    >
-      <div className="w-[200px] md:w-[260px] rounded-xl border border-foreground/8 bg-foreground/[0.02] overflow-hidden shadow-xl shadow-foreground/[0.03] backdrop-blur-sm">
-        {/* Title bar */}
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-foreground/5 bg-foreground/[0.03]">
-          <div className="flex gap-1">
-            <span className="w-2 h-2 rounded-full bg-foreground/10" />
-            <span className="w-2 h-2 rounded-full bg-foreground/10" />
-            <span className="w-2 h-2 rounded-full bg-foreground/10" />
-          </div>
-        </div>
-        {/* Content area */}
-        <div className="p-3 space-y-2">
-          <div className="h-2 w-3/4 rounded bg-foreground/[0.06]" />
-          <div className="h-2 w-1/2 rounded bg-foreground/[0.04]" />
-          <div className="h-8 w-full rounded bg-foreground/[0.03] mt-3" />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export function LandingPagesHero() {
@@ -46,8 +19,7 @@ export function LandingPagesHero() {
   const badgeRef = useRef<HTMLSpanElement>(null);
   const mentionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const mockup1Ref = useRef<HTMLDivElement>(null);
-  const mockup2Ref = useRef<HTMLDivElement>(null);
+  const chevronRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -96,24 +68,23 @@ export function LandingPagesHero() {
         );
       }
 
-      // Floating mockups: fade + float
-      const mockups = [mockup1Ref.current, mockup2Ref.current].filter(Boolean);
-      mockups.forEach((el, i) => {
-        if (!el) return;
+      // Chevron bounce
+      if (chevronRef.current) {
         gsap.fromTo(
-          el,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 1.2, delay: 0.8 + i * 0.3, ease: "power2.out" }
+          chevronRef.current,
+          { opacity: 0 },
+          { opacity: 1, delay: 1, duration: 0.6 }
         );
-        gsap.to(el, {
-          y: -12,
-          duration: 4 + i,
+        gsap.to(chevronRef.current, {
+          y: 8,
+          duration: 1.2,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
-          delay: 1.5 + i * 0.3,
+          delay: 1.2,
         });
-      });
+      }
+
     },
     { scope: sectionRef }
   );
@@ -121,11 +92,11 @@ export function LandingPagesHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       {/* SectionBackground with orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="all"
         orbs={[
           { color: "orange", position: "top-[25%] left-[20%]", size: "w-[500px] h-[500px]", opacity: "[0.07]" },
           { color: "violet", position: "bottom-[20%] right-[15%]", size: "w-[450px] h-[450px]", opacity: "[0.06]" },
@@ -133,34 +104,28 @@ export function LandingPagesHero() {
         ]}
       />
 
-      {/* Floating decorative BrowserMockups */}
-      <div ref={mockup1Ref} className="opacity-0 hidden lg:block">
-        <FloatingBrowserMockup className="top-[18%] -left-[2%] rotate-[-8deg] opacity-40" />
-      </div>
-      <div ref={mockup2Ref} className="opacity-0 hidden lg:block">
-        <FloatingBrowserMockup className="bottom-[22%] -right-[1%] rotate-[6deg] opacity-30" />
-      </div>
-
-      <div className="container mx-auto px-6 md:px-12 text-center max-w-5xl relative z-10">
+      <div className="container mx-auto px-6 md:px-12 text-center max-w-7xl relative z-10">
         {/* Badge */}
         <span
           ref={badgeRef}
-          className="inline-block text-sm font-mono uppercase tracking-widest px-5 py-2.5 rounded-full border border-foreground/10 bg-foreground/5 text-foreground/70 mb-10 opacity-0"
+          className="inline-block text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full border border-foreground/10 bg-foreground/5 text-foreground/70 mb-6 md:mb-8 opacity-0"
         >
           {heroContent.badge}
         </span>
 
-        {/* H1 — bumped to text-7xl */}
-        <TextReveal
-          text={heroContent.h1}
-          elementType="h1"
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter leading-[0.9] mb-8 justify-center"
-          delay={0.1}
-        />
+        {/* H1 */}
+        <BlurReveal delay={0.15}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight leading-tight text-foreground text-center">
+            Des landing pages qui{" "}
+            <span className="bg-gradient-to-r from-accent-secondary to-accent-primary bg-clip-text text-transparent">convertissent</span>.
+            <br />
+            Pas qui décorent.
+          </h1>
+        </BlurReveal>
 
         {/* Subtitle */}
-        <BlurReveal delay={0.3}>
-          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto mb-5">
+        <BlurReveal className="mt-6 md:mt-8" delay={0.3}>
+          <p className="text-base md:text-lg text-foreground/60 max-w-3xl mx-auto leading-relaxed">
             {heroContent.subtitle}
           </p>
         </BlurReveal>
@@ -168,7 +133,7 @@ export function LandingPagesHero() {
         {/* Mention vitrine */}
         <p
           ref={mentionRef}
-          className="text-sm font-medium text-accent-primary/80 mb-12 opacity-0"
+          className="text-sm font-medium text-accent-primary/80 mt-4 opacity-0"
         >
           {heroContent.vitrineMention}
         </p>
@@ -176,7 +141,7 @@ export function LandingPagesHero() {
         {/* CTAs */}
         <div
           ref={ctaRef}
-          className="flex flex-col sm:flex-row items-center justify-center gap-5 opacity-0"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 md:mt-10 opacity-0"
         >
           <a
             href={heroContent.ctaPrimary.href}
@@ -193,6 +158,14 @@ export function LandingPagesHero() {
             </MagneticButton>
           </a>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        ref={chevronRef}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+      >
+        <ChevronDown className="w-6 h-6 text-foreground/30" />
       </div>
     </section>
   );

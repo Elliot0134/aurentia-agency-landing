@@ -1,19 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { InfiniteMarquee } from "@/components/animations/InfiniteMarquee";
 import { vitrineContent } from "@/data/landing-pages-content";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 /* ── Larger browser mockup frame ──────────────────── */
 function BrowserMockup({ children }: { children: React.ReactNode }) {
@@ -28,7 +21,7 @@ function BrowserMockup({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex-1 flex justify-center">
           <span className="text-sm text-foreground/30 font-mono px-5 py-1.5 rounded-lg bg-foreground/[0.03] border border-foreground/5">
-            aurentia.agency
+            savistas.fr
           </span>
         </div>
         <div className="w-[62px]" /> {/* Spacer to balance dots */}
@@ -41,32 +34,6 @@ function BrowserMockup({ children }: { children: React.ReactNode }) {
 
 export function LandingPagesVitrine() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const calloutsRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      if (!calloutsRef.current) return;
-
-      const items = calloutsRef.current.querySelectorAll(".callout-item");
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: calloutsRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    },
-    { scope: sectionRef }
-  );
 
   return (
     <Section className="py-28 md:py-36 min-h-[60vh] relative">
@@ -95,43 +62,44 @@ export function LandingPagesVitrine() {
         </div>
 
         {/* Browser frame — larger and more prominent */}
-        <BlurReveal delay={0.3} className="max-w-5xl mx-auto mb-14">
+        <BlurReveal delay={0.3} className="max-w-5xl mx-auto mb-3">
           <BrowserMockup>
-            <div className="relative aspect-[16/9] bg-foreground/[0.02]">
-              <Image
-                src="/images/landing-pages/vitrine-aurentia.webp"
-                alt="aurentia.agency — notre site vitrine"
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 1024px"
+            <div
+              className="relative bg-foreground/[0.02] overflow-hidden"
+              style={{ paddingBottom: `${(900 / 1440) * 100}%` }}
+            >
+              <iframe
+                src="https://www.savistas.fr/"
+                title="Savistas — Notre vitrine"
+                className="absolute top-0 left-0 border-0 origin-top-left [&]:cursor-none"
+                width={1440}
+                height={900}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin"
+                ref={(el) => {
+                  if (!el) return;
+                  const parent = el.parentElement;
+                  if (!parent) return;
+                  const update = () => {
+                    const scale = parent.offsetWidth / 1440;
+                    el.style.transform = `scale(${scale})`;
+                  };
+                  update();
+                  const observer = new ResizeObserver(update);
+                  observer.observe(parent);
+                }}
               />
-              {/* Fallback overlay when image is missing */}
-              <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02]">
-                <span className="text-sm text-foreground/20 font-mono">
-                  aurentia.agency
-                </span>
-              </div>
             </div>
           </BrowserMockup>
         </BlurReveal>
 
-        {/* Callouts with subtle connecting lines (border-l) */}
-        <div
-          ref={calloutsRef}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 max-w-3xl mx-auto mb-14"
-        >
-          {vitrineContent.callouts.map((callout) => (
-            <div
-              key={callout.label}
-              className="callout-item flex items-center gap-3 px-5 py-4 rounded-xl border-l-2 border-l-accent-primary/30 border border-foreground/5 bg-foreground/[0.02] transition-all duration-700 ease-in-out hover:border-l-accent-primary/60 hover:bg-accent-primary/[0.03]"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-primary/60 shrink-0" />
-              <span className="text-sm font-medium text-foreground/70">
-                {callout.label}
-              </span>
-            </div>
-          ))}
-        </div>
+        {/* Marquee callouts */}
+        <BlurReveal delay={0.4} className="max-w-5xl mx-auto mb-14">
+          <InfiniteMarquee
+            items={vitrineContent.callouts.map((c) => c.label)}
+            className="text-sm font-medium text-foreground/60"
+          />
+        </BlurReveal>
 
         {/* Closing */}
         <BlurReveal delay={0.4}>

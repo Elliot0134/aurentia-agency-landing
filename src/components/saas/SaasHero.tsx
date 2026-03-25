@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
@@ -29,12 +28,12 @@ export function SaasHero() {
         );
       }
 
-      // CTAs: fade-in + translateY
+      // CTA animation
       if (ctaRef.current) {
         gsap.fromTo(
           ctaRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, delay: 0.5, ease: "power3.out" }
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: "power3.out" }
         );
       }
 
@@ -61,66 +60,71 @@ export function SaasHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
-      {/* SectionBackground with hero-grid + orbs */}
       <SectionBackground
-        showGrid gridOpacity={0.1} gridFadeDirection="bottom"
+        showGrid gridOpacity={0.1} gridFadeDirection="all"
         orbs={[
-          { color: "violet", position: "top-[20%] left-[15%]", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
-          { color: "orange", position: "top-[40%] right-[10%]", size: "w-[450px] h-[450px]", opacity: "[0.06]" },
-          { color: "cyan", position: "bottom-[15%] left-[40%]", size: "w-[400px] h-[400px]", opacity: "[0.04]" },
+          { color: "orange", position: "bottom-0 right-0", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
+          { color: "ambre", position: "top-[20%] left-[15%]", size: "w-[350px] h-[350px]", opacity: "[0.05]" },
+          { color: "orange", position: "top-[50%] right-[25%]", size: "w-[250px] h-[250px]", opacity: "[0.04]" },
         ]}
       />
 
-      <div className="container mx-auto px-6 md:px-12 text-center relative z-10 max-w-5xl">
+      <div className="container mx-auto px-6 md:px-12 relative z-10 text-center max-w-7xl">
         {/* Badge */}
-        <div ref={badgeRef} className="mb-10 opacity-0">
-          <span className="inline-block px-5 py-2.5 rounded-full border border-foreground/10 bg-foreground/5 text-sm font-medium tracking-widest text-foreground/70">
+        <div ref={badgeRef} className="opacity-0 mb-6 md:mb-8">
+          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold tracking-widest bg-foreground/5 text-foreground/70 border border-foreground/10">
             {saasHeroContent.badge}
           </span>
         </div>
 
-        {/* H1 — bumped to text-7xl */}
-        <TextReveal
-          text={saasHeroContent.headline}
-          elementType="h1"
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter leading-[0.9] text-foreground justify-center"
-        />
+        {/* H1 */}
+        <BlurReveal delay={0.15}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight leading-tight text-foreground text-center">
+            Votre vision. Notre ingénierie.
+            <br />
+            <span>MVP livré en </span>
+            <span className="bg-gradient-to-r from-accent-secondary to-accent-primary bg-clip-text text-transparent underline decoration-accent-primary/50 underline-offset-4 decoration-2 md:decoration-4">
+              1 à 2 semaines
+            </span>
+            <span> dès </span>
+            <span className="bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent underline decoration-accent-primary/50 underline-offset-4 decoration-2 md:decoration-4">
+              5&#x202F;000&#x202F;€
+            </span>
+          </h1>
+        </BlurReveal>
 
         {/* Subtitle */}
-        <BlurReveal className="mt-8 md:mt-10" delay={0.3}>
-          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto leading-relaxed">
+        <BlurReveal className="mt-6 md:mt-8" delay={0.3}>
+          <p className="text-base md:text-lg text-foreground/60 max-w-3xl mx-auto leading-relaxed">
             {saasHeroContent.subtitle}
           </p>
         </BlurReveal>
 
-        {/* CTAs */}
-        <div
-          ref={ctaRef}
-          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-5 opacity-0"
-        >
+        {/* CTA */}
+        <div ref={ctaRef} className="opacity-0 mt-8 md:mt-10 flex flex-col items-center gap-4">
           <a
             href={saasHeroContent.ctaPrimaryHref}
             target="_blank"
             rel="noopener noreferrer"
+            className="w-full sm:w-auto"
           >
-            <MagneticButton glow className="px-10 py-4 text-base">
+            <MagneticButton
+              glow
+              className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
+            >
               {saasHeroContent.ctaPrimary}
             </MagneticButton>
           </a>
-          <a href={saasHeroContent.ctaSecondaryHref}>
-            <MagneticButton className="px-10 py-4 text-base">
-              {saasHeroContent.ctaSecondary}
-            </MagneticButton>
-          </a>
+          <p className="text-sm text-foreground/40">Gratuit · 20 min · On estime votre projet</p>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <div
         ref={chevronRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
       >
         <ChevronDown className="w-6 h-6 text-foreground/30" />
       </div>

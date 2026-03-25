@@ -60,7 +60,7 @@ export function HomeCTA() {
         <TextReveal
           text="Prêt à révéler votre projet ?"
           elementType="h2"
-          className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight whitespace-nowrap justify-center"
+          className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight justify-center"
         />
 
         {/* Subtitle */}

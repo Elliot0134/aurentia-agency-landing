@@ -15,9 +15,49 @@ export function CustomCursor() {
 
     document.documentElement.classList.add("has-custom-cursor");
 
+    let moveCount = 0;
+    let isVisible = true;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // Use CSS transition for opacity (avoids GSAP ticker conflicts)
+    cursor.style.transition = "opacity 0.5s ease-out";
+
+    const scheduleHide = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (isVisible) {
+          isVisible = false;
+          cursor.style.opacity = "0";
+        }
+      }, 200);
+    };
+
     const onMouseMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
+      moveCount++;
+
+      if (!isVisible) {
+        // Wait for a few consecutive moves before fading back in (avoids flicker)
+        if (moveCount < 3) return;
+        isVisible = true;
+        cursor.style.opacity = "1";
+      }
+
+      moveCount = Math.min(moveCount, 10);
+      scheduleHide();
     };
+
+    // When mouse leaves the window entirely, hide immediately
+    const onMouseLeave = () => {
+      moveCount = 0;
+      if (idleTimer) clearTimeout(idleTimer);
+      if (isVisible) {
+        isVisible = false;
+        cursor.style.opacity = "0";
+      }
+    };
+
+    document.addEventListener("mouseleave", onMouseLeave);
 
     const currentPos = { x: 0, y: 0 };
     const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
@@ -25,7 +65,7 @@ export function CustomCursor() {
     const ticker = () => {
       currentPos.x = lerp(currentPos.x, posRef.current.x, 0.35);
       currentPos.y = lerp(currentPos.y, posRef.current.y, 0.35);
-      gsap.set(cursor, { x: currentPos.x, y: currentPos.y });
+      cursor.style.transform = `translate3d(${currentPos.x}px, ${currentPos.y}px, 0)`;
     };
 
     currentPos.x = posRef.current.x;
@@ -37,6 +77,8 @@ export function CustomCursor() {
     return () => {
       gsap.ticker.remove(ticker);
       window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
+      if (idleTimer) clearTimeout(idleTimer);
       document.documentElement.classList.remove("has-custom-cursor");
     };
   }, []);

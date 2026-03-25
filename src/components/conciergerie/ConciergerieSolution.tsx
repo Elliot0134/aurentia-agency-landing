@@ -9,6 +9,7 @@ import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { conciergeriesSolutionContent } from "@/data/conciergeries-content";
+import { PhoneMockup } from "@/components/shared/PhoneMockup";
 import { Check } from "lucide-react";
 
 if (typeof window !== "undefined") {
@@ -112,7 +113,7 @@ export function ConciergerieSolution() {
     }
   });
 
-  const { badge, title, subtitle, paragraphs, features, mockupImage } =
+  const { badge, title, subtitle, features } =
     conciergeriesSolutionContent;
 
   return (
@@ -149,17 +150,6 @@ export function ConciergerieSolution() {
               </p>
             </BlurReveal>
 
-            <BlurReveal delay={0.3} stagger={0.15}>
-              {paragraphs.map((paragraph, idx) => (
-                <p
-                  key={idx}
-                  className="text-base md:text-lg text-foreground/70 leading-relaxed"
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </BlurReveal>
-
             {/* Features list */}
             <ul ref={featuresRef} className="space-y-4 pt-4">
               {features.map((feature, idx) => (
@@ -181,37 +171,18 @@ export function ConciergerieSolution() {
             </ul>
           </div>
 
-          {/* Right column — mockup (40%) with 3D tilt */}
+          {/* Right column — iPhone mockup with live site */}
           <div className="lg:col-span-2 flex items-center justify-center" style={{ perspective: "1000px" }}>
             <BlurReveal delay={0.4}>
               <div
                 ref={mockupRef}
-                className="relative w-full max-w-md lg:max-w-none"
+                className="relative"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Glow behind mockup */}
                 <div className="absolute inset-0 -m-8 rounded-3xl bg-accent-primary/10 blur-3xl transition-opacity duration-700" />
 
-                {/* Mockup placeholder */}
-                <div className="relative rounded-2xl border border-foreground/10 bg-foreground/[0.03] overflow-hidden aspect-[3/4] flex items-center justify-center transition-all duration-700 hover:border-foreground/20">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={mockupImage}
-                    alt="Mockup site vitrine conciergerie sur laptop et mobile"
-                    className="w-full h-full object-cover transition-opacity duration-700"
-                    onError={(e) => {
-                      // Fallback: hide img and show placeholder
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                  {/* Placeholder fallback */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-foreground/30 pointer-events-none">
-                    <div className="w-16 h-16 rounded-2xl border-2 border-dashed border-foreground/20 flex items-center justify-center">
-                      <span className="text-2xl">🖥</span>
-                    </div>
-                    <span className="text-sm font-mono">Mockup site</span>
-                  </div>
-                </div>
+                <PhoneMockup embedUrl="https://maison-enileh.vercel.app/" />
               </div>
             </BlurReveal>
           </div>

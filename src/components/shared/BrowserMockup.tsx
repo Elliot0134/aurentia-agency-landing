@@ -79,14 +79,34 @@ export function BrowserMockup({
       {/* Content: image or iframe */}
       {embedUrl ? (
         <div
-          className="relative aspect-[16/10] w-full"
+          className="relative aspect-[16/10] w-full overflow-hidden"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
+          {/* Render iframe at 1440px wide and scale down to fit container */}
           <iframe
             src={embedUrl}
             title={url || "Site preview"}
-            className="absolute inset-0 w-full h-full border-0"
+            className="absolute top-0 left-0 border-0 origin-top-left"
+            style={{
+              width: "1440px",
+              height: "900px",
+              transform: "scale(var(--iframe-scale))",
+            }}
+            ref={(el) => {
+              if (el) {
+                const container = el.parentElement;
+                if (container) {
+                  const updateScale = () => {
+                    const scale = container.offsetWidth / 1440;
+                    el.style.setProperty("--iframe-scale", String(scale));
+                  };
+                  updateScale();
+                  const observer = new ResizeObserver(updateScale);
+                  observer.observe(container);
+                }
+              }
+            }}
             loading="lazy"
             sandbox="allow-scripts allow-same-origin allow-popups"
           />

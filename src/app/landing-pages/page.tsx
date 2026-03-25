@@ -81,8 +81,8 @@ export default function LandingPagesPage() {
 
       <main className="flex min-h-screen flex-col items-center w-full overflow-hidden">
         <LandingPagesHero />
-        <LandingPagesFeatures />
         <LandingPagesVitrine />
+        <LandingPagesFeatures />
         <LandingPagesExemples />
         <LandingPagesProcess />
         <LandingPagesPricing />

@@ -280,7 +280,7 @@ export function HomeContact() {
           <TextReveal
             text="Parlons de votre projet."
             elementType="h2"
-            className="text-4xl md:text-5xl font-bold tracking-tight mb-5 justify-center"
+            className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight mb-5 justify-center"
           />
           <BlurReveal>
             <p className="text-foreground/40 text-lg leading-relaxed">
@@ -418,16 +418,16 @@ export function HomeContact() {
                         <option value="" disabled hidden>
                           Choisir un type
                         </option>
-                        <option value="site-vitrine" className="bg-[#1a1a18] text-foreground">
+                        <option value="site-vitrine" className="bg-background text-foreground">
                           Site Vitrine
                         </option>
-                        <option value="landing-page" className="bg-[#1a1a18] text-foreground">
+                        <option value="landing-page" className="bg-background text-foreground">
                           Landing Page
                         </option>
-                        <option value="application-saas" className="bg-[#1a1a18] text-foreground">
+                        <option value="application-saas" className="bg-background text-foreground">
                           Application SaaS
                         </option>
-                        <option value="autre" className="bg-[#1a1a18] text-foreground">
+                        <option value="autre" className="bg-background text-foreground">
                           Autre
                         </option>
                       </select>
@@ -462,13 +462,13 @@ export function HomeContact() {
                         <option value="" disabled hidden>
                           Sélectionner une fourchette
                         </option>
-                        <option value="1200-3000" className="bg-[#1a1a18] text-foreground">
+                        <option value="1200-3000" className="bg-background text-foreground">
                           1 200€ – 3 000€
                         </option>
-                        <option value="3000-10000" className="bg-[#1a1a18] text-foreground">
+                        <option value="3000-10000" className="bg-background text-foreground">
                           3 000€ – 10 000€
                         </option>
-                        <option value="plus-10000" className="bg-[#1a1a18] text-foreground">
+                        <option value="plus-10000" className="bg-background text-foreground">
                           &gt; 10 000€
                         </option>
                       </select>
@@ -505,7 +505,7 @@ export function HomeContact() {
                     disabled={loading}
                     className={cn(
                       "relative overflow-hidden w-full py-4 rounded-xl",
-                      "bg-accent-primary text-white text-base font-semibold tracking-wide",
+                      "bg-accent-primary text-background text-base font-semibold tracking-wide",
                       "transition-all duration-700 ease-in-out",
                       "hover:brightness-110 active:scale-[0.98]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50",
@@ -533,7 +533,7 @@ export function HomeContact() {
                         <>
                           {/* Spinner */}
                           <svg
-                            className="animate-spin h-5 w-5 text-white"
+                            className="animate-spin h-5 w-5 text-background"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

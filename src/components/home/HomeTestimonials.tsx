@@ -106,7 +106,7 @@ function Avatar({
       className={`relative w-12 h-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}
       aria-hidden="true"
     >
-      <span className="text-white font-bold text-base select-none">
+      <span className="text-background font-bold text-base select-none">
         {initials}
       </span>
     </div>
@@ -155,7 +155,7 @@ function TestimonialCard({
           <span className="font-semibold text-base text-foreground leading-tight truncate">
             {name}
           </span>
-          <span className="text-sm text-foreground-muted leading-tight truncate">
+          <span className="text-sm text-foreground/50 leading-tight truncate">
             {role} — {company}
           </span>
         </div>
@@ -179,10 +179,10 @@ export function HomeTestimonials() {
         <TextReveal
           text="Ce que nos clients disent."
           elementType="h2"
-          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight justify-center mb-6"
+          className="text-2xl md:text-3xl lg:text-5xl font-black tracking-tight justify-center mb-6"
         />
         <BlurReveal>
-          <p className="text-lg md:text-xl text-foreground-muted max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-foreground/50 max-w-2xl mx-auto leading-relaxed">
             Des résultats concrets. Des livraisons rapides. Des partenaires qui reviennent.
           </p>
         </BlurReveal>

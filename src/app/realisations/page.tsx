@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { RealisationsHero } from "@/components/realisations/RealisationsHero";
-import { RealisationsCounters } from "@/components/realisations/RealisationsCounters";
 import { RealisationsGrid } from "@/components/realisations/RealisationsGrid";
 import { RealisationsInterlude } from "@/components/realisations/RealisationsInterlude";
 import { RealisationsCTA } from "@/components/realisations/RealisationsCTA";
@@ -37,12 +36,12 @@ const jsonLd = [
     mainEntity: {
       "@type": "ItemList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Conciergerie Azur", url: "https://aurentia.agency/realisations/conciergerie-azur" },
-        { "@type": "ListItem", position: 2, name: "LuxStay Gestion", url: "https://aurentia.agency/realisations/luxstay-gestion" },
-        { "@type": "ListItem", position: 3, name: "C\u00F4te & Cl\u00E9s", url: "https://aurentia.agency/realisations/cote-et-cles" },
-        { "@type": "ListItem", position: 4, name: "Comparateur-IA-Facile", url: "https://aurentia.agency/realisations/comparateur-ia-facile" },
-        { "@type": "ListItem", position: 5, name: "Balto", url: "https://aurentia.agency/realisations/balto" },
-        { "@type": "ListItem", position: 6, name: "High Love", url: "https://aurentia.agency/realisations/high-love" },
+        { "@type": "ListItem", position: 1, name: "Comparateur-IA-Facile", url: "https://aurentia.agency/realisations/comparateur-ia-facile" },
+        { "@type": "ListItem", position: 2, name: "Maison Enileh", url: "https://aurentia.agency/realisations/maison-enileh" },
+        { "@type": "ListItem", position: 3, name: "Savistas", url: "https://aurentia.agency/realisations/savistas" },
+        { "@type": "ListItem", position: 4, name: "Friend'iz", url: "https://aurentia.agency/realisations/friendiz" },
+        { "@type": "ListItem", position: 5, name: "Allo Restau", url: "https://aurentia.agency/realisations/allo-restau" },
+        { "@type": "ListItem", position: 6, name: "Golf Mentor", url: "https://aurentia.agency/realisations/golf-mentor" },
       ],
     },
   },
@@ -62,7 +61,6 @@ export default function RealisationsPage() {
       <ScrollToTop />
       <main className="flex min-h-screen flex-col w-full">
         <RealisationsHero />
-        <RealisationsCounters />
         <RealisationsGrid />
         <RealisationsInterlude />
         <RealisationsCTA />

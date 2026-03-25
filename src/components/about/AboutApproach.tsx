@@ -114,8 +114,8 @@ export function AboutApproach() {
             const Icon = iconMap[pillar.icon];
 
             return (
-              <BlurReveal key={pillar.title} delay={index * 0.2}>
-                <div className="relative">
+              <BlurReveal key={pillar.title} delay={index * 0.2} className="h-full">
+                <div className="relative h-full">
                   {/* Subtle glow orb behind card */}
                   <div
                     className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full blur-3xl pointer-events-none ${orbGlowMap[pillar.accentColor]}`}

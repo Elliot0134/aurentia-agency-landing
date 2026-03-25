@@ -15,7 +15,7 @@ export function AboutHero() {
       <SectionBackground
         showGrid
         gridOpacity={0.1}
-        gridFadeDirection="bottom"
+        gridFadeDirection="all"
         orbs={[
           { color: "orange", position: "top-[20%] left-[10%]", size: "w-[500px] h-[500px]", opacity: "[0.08]" },
           { color: "violet", position: "top-[40%] right-[5%]", size: "w-[400px] h-[400px]", opacity: "[0.05]" },

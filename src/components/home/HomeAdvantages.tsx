@@ -196,7 +196,7 @@ function AdvantageCard({ icon: Icon, title, description, extra: Extra, iconStyle
           </h3>
 
           {/* Description */}
-          <p className="text-sm leading-relaxed text-foreground-muted">
+          <p className="text-sm leading-relaxed text-foreground/50">
             {description}
           </p>
         </div>
@@ -222,7 +222,7 @@ function AdvantageCard({ icon: Icon, title, description, extra: Extra, iconStyle
         </h3>
 
         {/* Description */}
-        <p className="text-sm leading-relaxed text-foreground-muted">
+        <p className="text-sm leading-relaxed text-foreground/50">
           {description}
         </p>
 
@@ -252,10 +252,10 @@ export function HomeAdvantages() {
           <TextReveal
             text="Pourquoi Aurentia."
             elementType="h2"
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight justify-center mb-6"
+            className="text-2xl md:text-3xl lg:text-5xl font-black tracking-tight justify-center mb-6"
           />
           <BlurReveal>
-            <p className="text-lg md:text-xl text-foreground-muted max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-foreground/50 max-w-2xl mx-auto leading-relaxed">
               Ce qui nous différencie des autres agences. Pas des promesses — des engagements concrets.
             </p>
           </BlurReveal>

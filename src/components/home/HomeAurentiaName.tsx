@@ -300,7 +300,7 @@ export function HomeAurentiaName() {
                 </span>
 
                 {/* Latin description */}
-                <span className="syllable-desc mt-1 text-[10px] md:text-sm font-light italic tracking-wide text-foreground/30">
+                <span className="syllable-desc mt-1 text-sm font-light italic tracking-wide text-foreground/30">
                   {syl.description}
                 </span>
               </div>
