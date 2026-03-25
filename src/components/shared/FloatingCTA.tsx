@@ -20,11 +20,14 @@ export function FloatingCTA() {
   // Start ping when visible, hide it after 3 pulses (3 × 2s = 6s)
   useEffect(() => {
     if (visible && !showPing) {
-      setShowPing(true);
+      const raf = requestAnimationFrame(() => setShowPing(true));
       const timer = setTimeout(() => setShowPing(false), 6000);
-      return () => clearTimeout(timer);
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+      };
     }
-  }, [visible]);
+  }, [visible, showPing]);
 
   return (
     <>

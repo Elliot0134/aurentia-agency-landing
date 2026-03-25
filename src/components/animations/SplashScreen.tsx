@@ -18,7 +18,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const pillRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const hasRun = useRef(false);
-  const stableOnComplete = useCallback(onComplete, [onComplete]);
+  const stableOnComplete = useCallback(() => onComplete(), [onComplete]);
 
   useEffect(() => {
     if (hasRun.current) return;

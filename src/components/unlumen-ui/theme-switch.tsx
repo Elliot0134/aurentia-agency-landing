@@ -81,7 +81,7 @@ function ThemeSwitch({ iconSize = 16, className, ...rest }: ThemeSwitchProps) {
   const [mounted, setMounted] = useState(false);
   const originRef = useRef({ x: 0, y: 0 });
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => { requestAnimationFrame(() => setMounted(true)); }, []);
 
   const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     originRef.current = { x: e.clientX, y: e.clientY };

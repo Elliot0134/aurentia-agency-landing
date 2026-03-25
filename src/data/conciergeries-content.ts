@@ -31,6 +31,7 @@ export interface ProcessStep {
   description: string;
   icon: string;
   label: string; // "Jour 0", "Jour 1-2", "Jour 7"
+  duration: string;
 }
 
 export interface SolutionFeature {
@@ -255,25 +256,28 @@ export const conciergeriesProcessContent = {
       number: "01",
       title: "On échange 20 minutes",
       description:
-        "Un call rapide pour comprendre votre activité, vos biens, votre zone. On vous montre l'aperçu personnalisé de votre futur site — créé avant même le call. Gratuit et sans engagement.",
+        "Votre activité, vos biens, votre zone. On vous montre un aperçu de votre futur site. Gratuit.",
       icon: "PhoneCall",
       label: "Jour 0",
+      duration: "20 min",
     },
     {
       number: "02",
       title: "On forge votre site",
       description:
-        "En 24-48h, votre site est prêt. Design unique, responsive, SEO intégré, contenu optimisé. Vous validez, on ajuste. 3 tours de révision inclus. Tant que c'est pas parfait, on ne lance pas.",
+        "Design unique, responsive, SEO intégré. Vous validez, on ajuste. 3 tours de révision inclus.",
       icon: "Hammer",
       label: "Jour 1-2",
+      duration: "24-48h",
     },
     {
       number: "03",
       title: "Vous êtes visible",
       description:
-        "En 7 jours max, votre site est en ligne avec votre nom de domaine. Google commence à vous référencer. Les réservations directes peuvent commencer. Vos commissions baissent.",
+        "Votre site est en ligne. Google vous référence. Les réservations directes commencent.",
       icon: "Rocket",
       label: "Jour 7",
+      duration: "7 jours",
     },
   ] satisfies ProcessStep[],
 };

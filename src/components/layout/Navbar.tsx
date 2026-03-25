@@ -41,7 +41,7 @@ export function Navbar() {
   const [agencePos, setAgencePos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    setMounted(true);
+    requestAnimationFrame(() => setMounted(true));
   }, []);
 
   useEffect(() => {

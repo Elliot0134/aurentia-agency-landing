@@ -25,7 +25,7 @@ export function ScrollToTop() {
       const targetY = easterEgg ? easterEgg.scrollHeight : 0;
 
       // Stop Lenis, jump with native scroll, then restart Lenis
-      const lenis = (window as any).__lenis;
+      const lenis = (window as unknown as Record<string, { stop: () => void; start: () => void }>).__lenis;
       if (lenis) lenis.stop();
       window.scrollTo({ top: targetY, behavior: "instant" as ScrollBehavior });
       if (lenis) {

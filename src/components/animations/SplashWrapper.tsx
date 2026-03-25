@@ -26,7 +26,8 @@ export function SplashWrapper() {
         navbar.removeAttribute("data-splash-ready");
         navbar.style.opacity = "";
       }
-      setShowSplash(true);
+      // Use requestAnimationFrame to avoid synchronous setState in effect
+      requestAnimationFrame(() => setShowSplash(true));
     }
   }, [isHome, pathname]);
 

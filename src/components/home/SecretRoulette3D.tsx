@@ -299,7 +299,7 @@ export function SecretRoulette3D({ onClose }: SecretRoulette3DProps) {
               {wonPrize.isLoss ? (
                 <div className="space-y-3">
                   <p className="text-lg text-foreground-muted max-w-sm">
-                    Pas de chance cette fois... Mais on t'a quand même envoyé un petit cadeau surprise par email.
+                    Pas de chance cette fois... Mais on t&apos;a quand même envoyé un petit cadeau surprise par email.
                   </p>
                 </div>
               ) : (

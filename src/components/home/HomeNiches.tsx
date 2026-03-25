@@ -41,7 +41,7 @@ export function HomeNiches() {
                   </div>
                   <h3 className="text-2xl font-bold text-foreground mb-4">{niche.name}</h3>
                   <span className="text-accent-secondary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
-                    Voir l'offre →
+                    Voir l&apos;offre →
                   </span>
                 </SpotlightCard>
               </Link>
