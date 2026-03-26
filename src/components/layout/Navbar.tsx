@@ -18,9 +18,9 @@ const services = [
 const agenceItems = [
   { label: "À propos", href: "/a-propos" },
   { label: "Réalisations", href: "/realisations" },
-  { label: "Formation", href: "/formation", badge: "NEW" },
-  { label: "Apport d'affaires", href: "/apport-affaires" },
-  { label: "Blog", href: "/blog" },
+  { label: "Formation", href: "/formation", badge: "À VENIR" },
+  { label: "Apport d'affaires", href: "/apport-affaires", badge: "À VENIR" },
+  { label: "Blog", href: "/blog", badge: "À VENIR" },
 ];
 
 export function Navbar() {
@@ -281,21 +281,28 @@ export function Navbar() {
             <p className="text-sm font-semibold text-foreground/40 uppercase tracking-wider px-3 pt-3">
               L&apos;agence
             </p>
-            {agenceItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
-              >
-                {item.label}
-                {item.badge && (
-                  <span className="px-1.5 py-0.5 text-[10px] font-bold leading-none rounded-full bg-orange-500 text-white uppercase tracking-wide">
+            {agenceItems.map((item) =>
+              item.badge === "À VENIR" ? (
+                <span
+                  key={item.label}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-foreground/30 cursor-not-allowed rounded-lg"
+                >
+                  {item.label}
+                  <span className="px-1.5 py-0.5 text-[11px] font-bold leading-none rounded-full bg-foreground/10 text-foreground/40 uppercase tracking-wide">
                     {item.badge}
                   </span>
-                )}
-              </Link>
-            ))}
+                </span>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
 
             <div className="flex gap-2 pt-2">
               <a
@@ -384,21 +391,28 @@ export function Navbar() {
             boxShadow: "0 16px 48px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.06) inset",
           }}
         >
-          {agenceItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={() => setAgenceDropdownOpen(false)}
-              className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors"
-            >
-              {item.label}
-              {item.badge && (
-                <span className="px-1.5 py-0.5 text-[10px] font-bold leading-none rounded-full bg-orange-500 text-white uppercase tracking-wide">
+          {agenceItems.map((item) =>
+            item.badge === "À VENIR" ? (
+              <span
+                key={item.label}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/30 cursor-not-allowed"
+              >
+                {item.label}
+                <span className="px-1.5 py-0.5 text-[11px] font-bold leading-none rounded-full bg-foreground/10 text-foreground/40 uppercase tracking-wide">
                   {item.badge}
                 </span>
-              )}
-            </Link>
-          ))}
+              </span>
+            ) : (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setAgenceDropdownOpen(false)}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/70 hover:text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
       </>,
       document.body

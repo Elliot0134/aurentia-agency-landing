@@ -7,9 +7,9 @@ export const siteConfig = {
   name: "Aurentia Agency",
   url: "https://aurentia.agency",
   currentNiche: "conciergeries",
-  bookingUrl: "https://cal.com/aurentia", // TODO: Replace with actual Cal.ai link
-  email: "contact@aurentia.agency",
-  phone: "+33 X XX XX XX XX", // TODO: Replace
+  bookingUrl: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
+  email: "elliot.estrade@gmail.com",
+  phone: "07 81 95 80 90",
   instagram: "https://instagram.com/aurentia.agency",
   linkedin: "https://linkedin.com/company/aurentia-agency",
 };
