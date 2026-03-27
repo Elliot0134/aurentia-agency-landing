@@ -44,11 +44,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aurentia — Agence web premium à Lyon | Sites vitrines & SaaS en 48h",
+  title: "Aurentia — Agence web premium à Avignon | Sites vitrines & SaaS en 48h",
   description:
     "Agence web premium. Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, développement Next.js, SEO intégré. Livré en 48h à 2 semaines.",
   keywords: [
-    "agence web lyon",
+    "agence web avignon",
     "site vitrine sur-mesure",
     "landing page conversion",
     "développement SaaS",
@@ -65,11 +65,11 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "https://aurentia.fr",
     siteName: "Aurentia",
-    title: "Aurentia — Agence web premium à Lyon",
+    title: "Aurentia — Agence web premium à Avignon",
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 48h.",
     images: [
       {
-        url: "/images/opengraph/opengraph.png",
+        url: "https://aurentia.fr/images/opengraph/opengraph.png",
         width: 1200,
         height: 630,
         alt: "Aurentia — Agence web premium",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aurentia — Agence web premium à Lyon",
+    title: "Aurentia — Agence web premium à Avignon",
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure.",
-    images: ["/images/opengraph/opengraph.png"],
+    images: ["https://aurentia.fr/images/opengraph/opengraph.png"],
   },
   robots: {
     index: true,
@@ -117,7 +117,7 @@ export default function RootLayout({
               logo: "https://aurentia.fr/logo.png",
               address: {
                 "@type": "PostalAddress",
-                addressLocality: "Lyon",
+                addressLocality: "Avignon",
                 addressCountry: "FR",
               },
               priceRange: "€€",

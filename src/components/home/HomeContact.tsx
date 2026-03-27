@@ -312,7 +312,7 @@ export function HomeContact() {
               <ContactInfoItem
                 icon={<MapPinIcon className="w-5 h-5" />}
                 label="Localisation"
-                value="Lyon, France"
+                value="Avignon, France"
               />
             </div>
 
