@@ -42,13 +42,16 @@ export interface SolutionFeature {
 export interface PricingPlan {
   name: string;
   price: string;
+  priceNote?: string;
   description: string;
-  badge?: string;
   features: string[];
+  bonus: string[];
   subscription: string;
-  subscriptionLabel: string;
+  subscriptionDetails: string;
+  highlighted?: boolean;
+  highlightLabel?: string;
   cta: string;
-  highlighted: boolean;
+  ctaLink: string;
 }
 
 export interface ComparisonRow {
@@ -316,69 +319,88 @@ export const conciergeriesSocialProofContent = {
 // ---------------------
 
 export const conciergeriesPricingContent = {
+  badge: "TARIFS TRANSPARENTS",
   title: "Investissez dans votre visibilité. Pas dans vos commissions.",
   subtitle:
-    "Trois formules. Un seul objectif : que votre conciergerie soit vue.",
-  plans: [
-    {
-      name: "Essentiel",
-      price: "1 200€",
-      description: "Votre vitrine professionnelle, prête en 48h.",
-      features: [
-        "Site 5 pages, design unique",
-        "Responsive mobile + tablette",
-        "Animations premium",
-        "SEO technique de base",
-        "Lead magnet intégré (capture de contacts)",
-        "Charte graphique offerte",
-        "Analyse de marché offerte",
-        "V1 livrée en 24-48h",
-      ],
-      subscription: "19€/mois",
-      subscriptionLabel: "Hébergement + support technique",
-      cta: "Réserver mon call",
-      highlighted: false,
-    },
-    {
-      name: "Croissance",
-      price: "1 490€",
-      description: "Votre site + la machine à réservations directes.",
-      badge: "Recommandé",
-      features: [
-        "Tout le pack Essentiel +",
-        "Blog + 4 articles SEO par mois",
-        "Chatbot IA service client",
-        "Pages bilingues FR + Anglais",
-        "Intégrations Airbnb/Booking",
-        "CRM + outils Aurentia offerts",
-        "Stratégie SEO locale personnalisée",
-      ],
-      subscription: "35€/mois",
-      subscriptionLabel: "Maintenance complète + blog SEO",
-      cta: "Choisir Croissance",
-      highlighted: true,
-    },
-    {
-      name: "Premium",
-      price: "Sur devis",
-      description: "Votre écosystème digital complet.",
-      features: [
-        "Tout le pack Croissance +",
-        "Système de réservation en ligne + back-office",
-        "Création de logo sur-mesure",
-        "Module d'avis clients",
-        "Formation visio 1h",
-        "Accompagnement personnalisé 3 mois",
-      ],
-      subscription: "75€/mois",
-      subscriptionLabel: "Support prioritaire + évolutions",
-      cta: "Discuter de mon projet",
-      highlighted: false,
-    },
-  ] satisfies PricingPlan[],
-  footer:
-    "Paiement en 3 fois sans frais · Premier mois d'abonnement offert · Payez le solde quand vous êtes satisfait",
+    "3 packs clairs. Pas de surprise. Paiement en 3x possible.",
+  conditions: [
+    "Paiement 50% à la V1, solde à la livraison",
+    "Paiement en 3x possible",
+    "3 tours de révision inclus",
+    "1er mois d\u2019abonnement offert",
+  ],
+  noteLink: "/sites-vitrines",
 };
+
+export const conciergeriesPricingPlans: PricingPlan[] = [
+  {
+    name: "Essentiel",
+    price: "1\u202F200\u202F\u20AC",
+    description: "Votre vitrine professionnelle, prête en 48h.",
+    features: [
+      "Site vitrine 3 pages",
+      "Design sur-mesure — zéro template",
+      "Responsive + animations",
+      "Formulaire de contact",
+      "Réservation simple",
+      "SEO de base",
+      "Connexion domaine",
+    ],
+    bonus: [
+      "Charte graphique",
+    ],
+    subscription: "19\u202F\u20AC/mois",
+    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 48h",
+    cta: "Choisir l\u2019Essentiel",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
+  },
+  {
+    name: "Croissance",
+    price: "1\u202F600\u202F\u20AC",
+    description: "Pour ceux qui veulent grandir. Le plus choisi.",
+    highlighted: true,
+    highlightLabel: "POPULAIRE",
+    features: [
+      "Tout le pack Essentiel",
+      "Blog + 4 articles SEO/mois",
+      "SEO avancé (schema, maillage)",
+      "Pages multilingues FR/EN",
+      "Intégrations Airbnb/Booking",
+      "Intégration Channel Manager",
+    ],
+    bonus: [
+      "Lead magnet intégré",
+      "Analyse de marché IA",
+      "Étude concurrentielle IA",
+    ],
+    subscription: "35\u202F\u20AC/mois",
+    subscriptionDetails: "Plan 19\u202F\u20AC + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
+    cta: "Choisir Croissance",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
+  },
+  {
+    name: "Premium",
+    price: "2\u202F200\u202F\u20AC",
+    priceNote: "À partir de — sur devis",
+    description: "L\u2019offre complète, stratégie incluse.",
+    features: [
+      "Tout le pack Croissance",
+      "Chatbot IA personnalisé",
+      "Création de logo",
+      "Module d\u2019avis clients",
+      "Formation visio 1h",
+    ],
+    bonus: [
+      "Stratégie de croissance IA",
+      "Clientèles cibles IA",
+      "Crédits réseaux sociaux IA",
+    ],
+    subscription: "75\u202F\u20AC/mois",
+    subscriptionDetails: "Plan 35\u202F\u20AC + modifs illimitées, rapport SEO mensuel, support 12h",
+    cta: "Choisir Premium",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
+  },
+];
 
 // ---------------------
 // Section 8 — Comparaison (Aurentia vs alternatives)

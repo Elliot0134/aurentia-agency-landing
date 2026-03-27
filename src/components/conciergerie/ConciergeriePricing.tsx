@@ -1,181 +1,165 @@
 "use client";
 
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { Section } from "@/components/ui/Section";
-import { TextReveal } from "@/components/animations/TextReveal";
+import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { SectionBackground } from "@/components/ui/SectionBackground";
 import {
   conciergeriesPricingContent,
-  conciergeriesSiteConfig,
+  conciergeriesPricingPlans,
 } from "@/data/conciergeries-content";
-import { Check } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { Check, Gift, ArrowRight, CreditCard } from "lucide-react";
 
 export function ConciergeriePricing() {
-  const { title, subtitle, plans, footer } = conciergeriesPricingContent;
-  const bookingUrl = conciergeriesSiteConfig.bookingUrl;
-  const highlightedRef = useRef<HTMLDivElement>(null);
-
-  // Pulsing border glow on the highlighted (Croissance) card wrapper
-  useGSAP(() => {
-    if (!highlightedRef.current) return;
-
-    gsap.fromTo(
-      highlightedRef.current,
-      { boxShadow: "0 0 40px -10px rgba(201,100,66,0.15)" },
-      {
-        boxShadow: "0 0 80px -10px rgba(201,100,66,0.3)",
-        duration: 2,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        scrollTrigger: {
-          trigger: highlightedRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-  });
-
   return (
-    <Section id="tarifs" theme="dark" className="py-32 relative">
-      {/* High luminosity orbs — narrative climax */}
-      <SectionBackground
-        orbs={[
-          { color: "orange", position: "top-[15%] left-[10%]", size: "w-[500px] h-[500px]", opacity: "[0.12]" },
-          { color: "ambre", position: "bottom-[20%] right-[5%]", size: "w-[450px] h-[450px]", opacity: "[0.09]" },
-          { color: "rose", position: "top-[50%] left-[50%]", size: "w-[400px] h-[400px]", opacity: "[0.06]" },
-          { color: "violet", position: "bottom-[40%] left-[20%]", size: "w-[300px] h-[300px]", opacity: "[0.05]" },
-        ]}
-      />
+    <Section id="tarifs">
+      {/* Header */}
+      <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
+        <BlurReveal className="mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold tracking-widest bg-foreground/5 text-foreground/70 border border-foreground/10">
+            {conciergeriesPricingContent.badge}
+          </span>
+        </BlurReveal>
 
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <TextReveal
-            text={title}
-            elementType="h2"
-            className="text-4xl md:text-5xl font-bold tracking-tight mb-6 justify-center"
-          />
-          <BlurReveal delay={0.15}>
-            <p className="text-foreground/60 max-w-2xl mx-auto text-lg">
-              {subtitle}
-            </p>
-          </BlurReveal>
-        </div>
-
-        {/* Pricing cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
-          {plans.map((plan, idx) => (
-            <BlurReveal
-              key={idx}
-              delay={idx * 0.1}
-              className={
-                plan.highlighted
-                  ? "relative lg:-mt-8 lg:-mb-8 z-10"
-                  : ""
-              }
-            >
-              <div ref={plan.highlighted ? highlightedRef : undefined} className={plan.highlighted ? "rounded-3xl h-full" : "h-full"}>
-              <SpotlightCard
-                className={`p-8 md:p-10 h-full flex flex-col justify-between ${
-                  plan.highlighted
-                    ? "glass-strong border-accent-primary/50"
-                    : ""
-                }`}
-              >
-                {/* Badge "Recommandé" */}
-                {plan.badge && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <span className="bg-accent-gradient text-foreground text-sm font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-lg">
-                      {plan.badge}
-                    </span>
-                  </div>
-                )}
-
-                <div>
-                  {/* Plan name + description */}
-                  <h3 className="text-2xl font-bold text-foreground mb-2">
-                    {plan.name}
-                  </h3>
-                  <p className="text-foreground/50 mb-8 min-h-[3rem]">
-                    {plan.description}
-                  </p>
-
-                  {/* Price — bigger for highlighted */}
-                  <div className="mb-8">
-                    <span className={`font-black font-mono text-foreground ${
-                      plan.highlighted ? "text-4xl md:text-5xl" : "text-4xl"
-                    }`}>
-                      {plan.price}
-                    </span>
-                    {plan.price !== "Sur devis" && (
-                      <span className="text-foreground/50 text-sm ml-2">HT</span>
-                    )}
-                  </div>
-
-                  {/* Features */}
-                  <ul className="flex flex-col gap-4 mb-10">
-                    {plan.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-accent-primary shrink-0 mt-0.5" />
-                        <span className="text-foreground/80">{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Subscription + CTA */}
-                <div className="mt-auto pt-8 border-t border-foreground/10">
-                  <div className="mb-6">
-                    <span className="text-lg font-bold font-mono text-foreground block mb-1">
-                      {plan.subscription}
-                    </span>
-                    <span className="text-sm uppercase tracking-wider text-foreground/50">
-                      {plan.subscriptionLabel}
-                    </span>
-                  </div>
-
-                  {plan.highlighted ? (
-                    <MagneticButton
-                      glow
-                      className="w-full text-center py-4 flex justify-center"
-                      onClick={() => window.open(bookingUrl, "_blank")}
-                    >
-                      {plan.cta}
-                    </MagneticButton>
-                  ) : (
-                    <button
-                      className="w-full text-center py-4 rounded-full border border-foreground/20 bg-foreground/5 hover:bg-foreground/10 text-foreground font-medium transition-all duration-500 cursor-pointer"
-                      onClick={() => window.open(bookingUrl, "_blank")}
-                    >
-                      {plan.cta}
-                    </button>
-                  )}
-                </div>
-              </SpotlightCard>
-            </div>
-            </BlurReveal>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <BlurReveal delay={0.3}>
-          <p className="text-center text-foreground/40 mt-12 max-w-2xl mx-auto text-sm">
-            {footer}
+        <TextGradientReveal
+          text={conciergeriesPricingContent.title}
+          elementType="h2"
+          className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-foreground justify-center"
+        />
+        <BlurReveal className="mt-3" delay={0.15}>
+          <p className="text-base text-foreground/50">
+            {conciergeriesPricingContent.subtitle}
           </p>
         </BlurReveal>
       </div>
+
+      {/* Plans grid */}
+      <BlurReveal stagger={0.12}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 max-w-6xl mx-auto items-stretch">
+          {conciergeriesPricingPlans.map((plan) => (
+            <div key={plan.name} className="relative flex">
+              {/* Popular label */}
+              {plan.highlighted && plan.highlightLabel && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                  <span className="px-3 py-0.5 rounded-full text-sm font-bold tracking-wider bg-accent-primary text-background shadow-lg shadow-accent-primary/20">
+                    {plan.highlightLabel}
+                  </span>
+                </div>
+              )}
+
+              <SpotlightCard
+                className={`flex-1 flex flex-col transition-all duration-700 ${
+                  plan.highlighted
+                    ? "border-accent-primary/30 bg-gradient-to-b from-accent-primary/[0.04] to-transparent ring-1 ring-accent-primary/10"
+                    : ""
+                }`}
+              >
+                <div className="relative z-10 flex flex-col h-full p-5 md:p-6">
+                  {/* Plan name + price */}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      {plan.name}
+                    </h3>
+                    <span className="text-3xl md:text-4xl font-black font-mono bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+                      {plan.price}
+                    </span>
+                    {plan.priceNote && (
+                      <p className="text-sm text-foreground/40 mt-0.5">
+                        {plan.priceNote}
+                      </p>
+                    )}
+                    <p className="text-sm text-foreground/50 mt-1.5">
+                      {plan.description}
+                    </p>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="w-full h-px bg-foreground/[0.06] mb-4" />
+
+                  {/* Features */}
+                  <div className="space-y-2 mb-4 flex-1">
+                    {plan.features.map((feature) => (
+                      <div key={feature} className="flex items-start gap-2.5">
+                        <div className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full bg-accent-primary/10 flex items-center justify-center">
+                          <Check className="w-2.5 h-2.5 text-accent-primary" />
+                        </div>
+                        <span className="text-sm text-foreground/60">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Bonus */}
+                  <div className="p-3 rounded-xl bg-accent-primary/[0.04] border border-accent-primary/10 mb-4">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <Gift className="w-3.5 h-3.5 text-accent-primary" />
+                      <span className="text-sm font-semibold text-accent-primary">
+                        Bonus inclus
+                      </span>
+                    </div>
+                    {plan.bonus.map((b) => (
+                      <p key={b} className="text-sm text-foreground/50 leading-snug">
+                        {b}
+                      </p>
+                    ))}
+                  </div>
+
+                  {/* Subscription */}
+                  <div className="flex items-start gap-2 mb-4 p-2.5 rounded-lg bg-foreground/[0.02] border border-foreground/5">
+                    <CreditCard className="w-3.5 h-3.5 text-foreground/40 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground/70 leading-snug">
+                        Abo : {plan.subscription}
+                        <span className="font-normal text-accent-primary ml-1.5">
+                          — 1er mois offert
+                        </span>
+                      </p>
+                      <p className="text-sm text-foreground/40 leading-snug mt-0.5">
+                        {plan.subscriptionDetails}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <Link
+                    href={plan.ctaLink}
+                    className={`mt-auto flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-sm transition-all duration-500 ${
+                      plan.highlighted
+                        ? "bg-foreground text-background hover:opacity-90"
+                        : "bg-foreground/5 text-foreground border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20"
+                    }`}
+                  >
+                    {plan.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </SpotlightCard>
+            </div>
+          ))}
+        </div>
+      </BlurReveal>
+
+      {/* Conditions + Note sites-vitrines */}
+      <BlurReveal className="mt-8 md:mt-10 max-w-6xl mx-auto" delay={0.3}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 md:p-5 rounded-2xl bg-foreground/[0.02] border border-foreground/5">
+          <div className="flex flex-wrap gap-x-6 gap-y-1">
+            {conciergeriesPricingContent.conditions.map((c) => (
+              <p key={c} className="text-sm text-foreground/40">
+                {c}
+              </p>
+            ))}
+          </div>
+          <Link
+            href={conciergeriesPricingContent.noteLink}
+            className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-primary/10 text-accent-primary font-semibold text-sm border border-accent-primary/15 hover:bg-accent-primary/20 hover:border-accent-primary/30 transition-all duration-500"
+          >
+            Tous nos sites vitrines
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </BlurReveal>
     </Section>
   );
 }
