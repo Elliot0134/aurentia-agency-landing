@@ -155,7 +155,7 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<Step>("idle");
   const [email, setEmail] = useState("");
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
-  const [stops, setStops] = useState(0);
+  const [, setStops] = useState(0);
   const machineRef = useRef<HTMLDivElement>(null);
   const winLineRef = useRef<HTMLDivElement>(null);
 

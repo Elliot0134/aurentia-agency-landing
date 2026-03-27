@@ -11,7 +11,7 @@ import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { tarifsContent } from "@/data/identite-visuelle-content";
-import { Check, ShieldCheck, Palette, Layers, FileText, Pen } from "lucide-react";
+import { ShieldCheck, Palette, Layers, FileText, Pen } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

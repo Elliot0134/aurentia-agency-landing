@@ -7,7 +7,7 @@ import confetti from "canvas-confetti";
 /* ─────────────────────────────────────────────
    Configuration
    ───────────────────────────────────────────── */
-import { PRIZES, SHOWCASE, pickPrize, type Prize } from "./easterEggData";
+import { PRIZES, SHOWCASE, pickPrize } from "./easterEggData";
 
 const SEGMENT_ANGLE = 360 / PRIZES.length;
 

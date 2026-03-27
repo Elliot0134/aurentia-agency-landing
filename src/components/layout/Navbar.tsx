@@ -31,7 +31,6 @@ export function Navbar() {
   const [agenceDropdownOpen, setAgenceDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileRounded, setMobileRounded] = useState(false);
-  const mobileRadiusTimeout = useRef<NodeJS.Timeout | null>(null);
   const [calOpen, setCalOpen] = useState(false);
   const dropdownTriggerRef = useRef<HTMLDivElement>(null);
   const agenceTriggerRef = useRef<HTMLDivElement>(null);
@@ -49,15 +48,12 @@ export function Navbar() {
   // Sync border-radius state: instant on open, delayed on close
   useEffect(() => {
     if (mobileOpen) {
-      if (mobileRadiusTimeout.current) clearTimeout(mobileRadiusTimeout.current);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: sync UI state for animation
       setMobileRounded(true);
     } else {
-      // Wait for the max-h collapse animation to finish before restoring pill shape
-      mobileRadiusTimeout.current = setTimeout(() => setMobileRounded(false), 350);
+      const t = setTimeout(() => setMobileRounded(false), 350);
+      return () => clearTimeout(t);
     }
-    return () => {
-      if (mobileRadiusTimeout.current) clearTimeout(mobileRadiusTimeout.current);
-    };
   }, [mobileOpen]);
 
   useEffect(() => {

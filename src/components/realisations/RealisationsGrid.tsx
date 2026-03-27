@@ -124,8 +124,6 @@ export function RealisationsGrid() {
     return projects.filter((p) => p.type === activeFilter);
   }, [activeFilter]);
 
-  const totalCount = projects.length;
-
   return (
     <section className="relative w-full py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -133,11 +131,6 @@ export function RealisationsGrid() {
         <BlurReveal delay={0.1}>
           <div className="flex flex-wrap items-center gap-3 pb-12">
             {FILTERS.map((filter) => {
-              const count =
-                filter === FILTER_ALL
-                  ? totalCount
-                  : projects.filter((p) => p.type === filter).length;
-
               return (
                 <FilterPill
                   key={filter}
