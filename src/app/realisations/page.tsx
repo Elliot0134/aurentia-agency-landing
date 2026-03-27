@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       "Sites vitrines, SaaS, landing pages. Chaque projet est sur-mesure, propuls\u00E9 par l\u2019IA et forg\u00E9 par 20 ans d\u2019expertise. Z\u00E9ro template.",
     url: "https://aurentia.agency/realisations",
     type: "website",
-    images: ["/images/og/realisations.jpg"],
+    images: ["/images/opengraph/opengraph.png"],
   },
 };
 

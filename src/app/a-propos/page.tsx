@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "L'équipe Aurentia — 20 ans de craft web + IA",
     description:
       "3 profils. 20 ans d'expertise. L'IA comme superpouvoir. On révèle le potentiel digital de chaque business.",
-    images: [{ url: "/images/og/a-propos.jpg" }],
+    images: [{ url: "/images/opengraph/opengraph.png" }],
     type: "website",
   },
 };

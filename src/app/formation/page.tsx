@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Aurentia Formation — Maîtrisez Claude AI",
     description:
       "Vidéos, cours et skills pour maîtriser Claude Code, le prompting avancé et l'automatisation IA. Waitlist ouverte.",
-    images: [{ url: "/images/og/formation.jpg" }],
+    images: [{ url: "/images/opengraph/opengraph.png" }],
     type: "website",
   },
 };

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Programme Apport d\u2019Affaires Aurentia \u2014 10% de commission",
     description:
       "Recommandez Aurentia et touchez 10% sur chaque projet sign\u00e9. Freelances, agences, particuliers \u2014 ouvert \u00e0 tous.",
-    images: [{ url: "/images/og/apport-affaires.jpg" }],
+    images: [{ url: "/images/opengraph/opengraph.png" }],
     type: "website",
     url: "https://aurentia.agency/apport-affaires",
   },

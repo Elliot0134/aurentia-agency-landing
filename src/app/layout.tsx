@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 48h.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/images/opengraph/opengraph.png",
         width: 1200,
         height: 630,
         alt: "Aurentia — Agence web premium",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aurentia — Agence web premium à Lyon",
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure.",
-    images: ["/og-image.jpg"],
+    images: ["/images/opengraph/opengraph.png"],
   },
   robots: {
     index: true,

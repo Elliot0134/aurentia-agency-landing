@@ -4,7 +4,7 @@ import { siteConfig } from "@/data/content";
 
 const footerServices = [
   { label: "Sites Vitrines", href: "/sites-vitrines" },
-  { label: "Conciergeries", href: "/conciergeries" },
+  { label: "Conciergeries", href: "/sites-vitrines/conciergeries" },
   { label: "SaaS & Logiciels", href: "/saas" },
   { label: "Landing Pages", href: "/landing-pages" },
   { label: "Identité Visuelle", href: "/identite-visuelle" },

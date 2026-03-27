@@ -20,7 +20,7 @@ export const metadata: Metadata = {
       "Design spectaculaire, animations premium, optimisees conversion. Des 1 500\u20AC. Ce site est notre carte de visite.",
     url: "https://aurentia.agency/landing-pages",
     type: "website",
-    images: ["/images/og/landing-pages.jpg"],
+    images: ["/images/opengraph/opengraph.png"],
   },
 };
 

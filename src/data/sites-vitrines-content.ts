@@ -188,7 +188,7 @@ export const nicheCards: NicheCard[] = [
     title: "Conciergeries",
     text: "Locations saisonnières, gestion de biens, accueil voyageurs. Un site qui inspire confiance aux propriétaires et aux locataires.",
     badge: "OFFRE DÉDIÉE",
-    link: "/conciergeries",
+    link: "/sites-vitrines/conciergeries",
     linkText: "Découvrir l\u2019offre conciergeries \u2192",
     highlighted: true,
   },
@@ -234,7 +234,7 @@ export const pricingContent = {
     "1er mois d\u2019abonnement offert",
   ],
   note: "Vous gérez une conciergerie\u202F? On a des packs dédiés avec des fonctionnalités spécifiques.",
-  noteLink: "/conciergeries",
+  noteLink: "/sites-vitrines/conciergeries",
 };
 
 export const pricingPlans: PricingPlan[] = [

@@ -107,7 +107,7 @@ export const conciergeriesSeo = {
     title: "Site vitrine pour conciergerie — Livré en 48h | Aurentia",
     description:
       "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 200€.",
-    image: "/images/og/conciergeries.jpg",
+    image: "/images/opengraph/opengraph.png",
   },
 };
 

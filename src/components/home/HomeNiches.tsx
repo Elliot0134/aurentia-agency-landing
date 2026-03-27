@@ -9,7 +9,7 @@ import { Building2, UtensilsCrossed, Dumbbell, Code2 } from "lucide-react";
 
 export function HomeNiches() {
   const niches = [
-    { name: "Conciergeries", href: "/conciergeries", active: true, icon: <Building2 className="w-8 h-8" /> },
+    { name: "Conciergeries", href: "/sites-vitrines/conciergeries", active: true, icon: <Building2 className="w-8 h-8" /> },
     { name: "Restaurants", href: "#", active: false, icon: <UtensilsCrossed className="w-8 h-8" /> },
     { name: "Salles de sport", href: "#", active: false, icon: <Dumbbell className="w-8 h-8" /> },
     { name: "SaaS", href: "#", active: false, icon: <Code2 className="w-8 h-8" /> }

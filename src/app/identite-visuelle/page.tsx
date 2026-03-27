@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/og/identite-visuelle.jpg",
+        url: "/images/opengraph/opengraph.png",
         width: 1200,
         height: 630,
         alt: "Aurentia \u2014 Identit\u00e9 Visuelle",
