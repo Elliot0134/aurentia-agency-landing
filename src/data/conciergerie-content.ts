@@ -13,6 +13,6 @@ export const heroContent = {
   subtitle:
     "Réservations directes, SEO local, design premium. Propulsé par l\u2019IA, forgé par 20 ans d\u2019expertise web. On vous montre le résultat avant de facturer.",
   cta: "Réserver mon call découverte",
-  ctaLink: "https://cal.com/aurentia/conciergerie",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   proof: "Gratuit · 20 min · On vous montre VOTRE site",
 };

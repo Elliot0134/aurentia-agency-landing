@@ -58,7 +58,7 @@ export default function MentionsLegalesPage() {
           }),
         }}
       />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background pt-24">
         <LegalPageLayout
           title="Mentions Légales"
           lastUpdated="Mars 2026"
@@ -264,12 +264,12 @@ export default function MentionsLegalesPage() {
               <li>
                 <strong className="text-foreground">Rendez-vous :</strong>{" "}
                 <a
-                  href="https://cal.com/aurentia"
+                  href="https://cal.com/elliot-estrade-ixfuya/appel-decouverte"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline underline-offset-4 text-foreground/90 hover:text-accent-primary transition-colors duration-500 ease-in-out"
                 >
-                  https://cal.com/aurentia
+                  cal.com/elliot-estrade-ixfuya/appel-decouverte
                 </a>
               </li>
             </ul>

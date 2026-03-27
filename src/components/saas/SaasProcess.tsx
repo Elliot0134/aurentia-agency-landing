@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { CalModal } from "@/components/shared/CalModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -451,6 +452,7 @@ export function SaasProcess() {
   const trackRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
+  const [calOpen, setCalOpen] = useState(false);
   const isMobileRef = useRef(false);
 
   useEffect(() => {
@@ -563,10 +565,11 @@ export function SaasProcess() {
   }, { scope: sectionRef, dependencies: [isReady] });
 
   return (
-    <section
+    <>
+      <section
       ref={sectionRef}
       id="process"
-      className="relative section-dark-alt section-divider-orange overflow-visible"
+      className="relative section-dark-alt section-divider-orange overflow-hidden md:overflow-visible"
     >
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -617,7 +620,7 @@ export function SaasProcess() {
         </div>
 
         {/* ── Horizontal track (desktop) / Vertical stack (mobile) ── */}
-        <div className="overflow-visible flex items-center">
+        <div className="overflow-hidden md:overflow-visible flex items-center">
           <div
             ref={trackRef}
             className="flex flex-col md:flex-row gap-6 px-6 md:px-0 md:gap-8 md:w-max w-full"
@@ -710,15 +713,18 @@ export function SaasProcess() {
 
         {/* CTA */}
         <div className="px-6 md:px-12 mt-8 md:mt-10 flex justify-center">
-          <a
-            href="https://cal.com/aurentia/saas"
-            className="inline-flex items-center gap-2.5 px-6 py-2.5 text-sm font-semibold rounded-xl bg-foreground text-background hover:opacity-90 transition-all duration-500 shadow-sm group/cta"
+          <button
+            onClick={() => setCalOpen(true)}
+            className="inline-flex items-center gap-2.5 px-6 py-2.5 text-sm font-semibold rounded-xl bg-foreground text-background hover:opacity-90 transition-all duration-500 shadow-sm group/cta cursor-pointer"
           >
             Réserver un call stratégique
             <svg className="w-4 h-4 transition-transform duration-500 group-hover/cta:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
+          </button>
         </div>
       </div>
-    </section>
+      </section>
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} />
+    </>
   );
 }

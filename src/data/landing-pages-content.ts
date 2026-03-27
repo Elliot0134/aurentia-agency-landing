@@ -41,7 +41,7 @@ export const heroContent = {
     "Ce site est notre carte de visite. Vous êtes en train de naviguer sur notre travail.",
   ctaPrimary: {
     label: "Discuter de votre landing page",
-    href: "https://cal.com/aurentia/landing-page",
+    href: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   },
   ctaSecondary: {
     label: "Voir des exemples",
@@ -198,7 +198,7 @@ export const pricingContent = {
     delay: "Livraison en 1 à 2 semaines",
     cta: {
       label: "Discuter de votre projet",
-      href: "https://cal.com/aurentia/landing-page",
+      href: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
     },
   },
   footer:
@@ -257,7 +257,7 @@ export const ctaContent = {
     "30 minutes pour comprendre votre produit, votre audience, et vos objectifs de conversion. On vous montre ce qu'on peut faire pour vous.",
   cta: {
     label: "Réserver un brief créatif",
-    href: "https://cal.com/aurentia/landing-page",
+    href: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   },
   proofs: [
     "Gratuit et sans engagement",

@@ -663,7 +663,7 @@ export function HomeProcessV2() {
     <section
       ref={sectionRef}
       id="process-v2"
-      className="relative section-dark-alt section-divider-orange overflow-visible"
+      className="relative section-dark-alt section-divider-orange overflow-hidden md:overflow-visible"
     >
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -697,7 +697,7 @@ export function HomeProcessV2() {
         </div>
 
         {/* ── Horizontal track (desktop) / Vertical stack (mobile) ── */}
-        <div className="overflow-visible flex items-center">
+        <div className="overflow-hidden md:overflow-visible flex items-center">
           <div
             ref={trackRef}
             className="flex flex-col md:flex-row gap-6 px-6 md:pl-12 md:pr-12 md:gap-8 md:w-max w-full"

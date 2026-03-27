@@ -194,7 +194,7 @@ export const apportCTA = {
   ctaPrimary: "S\u2019inscrire au programme",
   ctaSecondary: "Poser une question sur WhatsApp",
   whatsappUrl:
-    "https://wa.me/33612345678?text=Bonjour%2C%20je%20souhaite%20rejoindre%20le%20programme%20apporteur%20d%27affaires%20Aurentia.",
+    "https://wa.me/33781958090?text=Bonjour%2C%20je%20souhaite%20rejoindre%20le%20programme%20apporteur%20d%27affaires%20Aurentia.",
   proofs: [
     "Gratuit et sans engagement",
     "10\u00a0% de commission \u2014 pas de plafond",

@@ -164,6 +164,21 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/fabien.webp",
     linkedin: "https://www.linkedin.com/in/fabienestrade/",
   },
+  {
+    name: "Olivier Le Floch",
+    role: "Stratégie & Business",
+    badge: "Serial entrepreneur",
+    bio: "Cofondateur d'achat-vip.com (millions de membres, dizaines de M€ de CA). Créateur de LePass / vente-privee LEPASS, rachetée par le groupe. Cofondateur d'Holirenting, puis Directeur Général de Smily France (centaines de M€ de volume). Du e-commerce à la location saisonnière, il a scalé des boîtes à chaque étape. Chez Aurentia, il apporte la vision stratégique et le sens business.",
+    tags: [
+      "Stratégie d'entreprise",
+      "E-commerce",
+      "Scaling startups",
+      "SaaS",
+      "Business development",
+    ],
+    image: "/images/team/olivier-droite.webp",
+    linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",
+  },
 ];
 
 export const fatherSonContent = {

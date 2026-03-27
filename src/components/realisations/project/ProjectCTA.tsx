@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { CalModal } from "@/components/shared/CalModal";
 import type { ProjectType } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -29,11 +30,11 @@ const subtitleByType: Record<ProjectType, string> = {
     "Vous voulez une identite visuelle qui marque les esprits ? On en parle. 20 minutes. Gratuit. On vous montre ce qu'on peut creer pour vous.",
 };
 
-const calUrlByType: Record<ProjectType, string> = {
-  "Site vitrine": "https://cal.com/aurentia/site-vitrine",
-  SaaS: "https://cal.com/aurentia/saas",
-  "Landing page": "https://cal.com/aurentia/landing-page",
-  "Identite visuelle": "https://cal.com/aurentia",
+const calLinkByType: Record<ProjectType, string> = {
+  "Site vitrine": "elliot-estrade-ixfuya/site-vitrine",
+  SaaS: "elliot-estrade-ixfuya/appel-decouverte",
+  "Landing page": "elliot-estrade-ixfuya/appel-decouverte",
+  "Identite visuelle": "elliot-estrade-ixfuya/appel-decouverte",
 };
 
 const proofs = [
@@ -44,6 +45,7 @@ const proofs = [
 
 export function ProjectCTA({ projectType }: ProjectCTAProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const [calOpen, setCalOpen] = useState(false);
 
   useGSAP(() => {
     if (!contentRef.current) return;
@@ -68,8 +70,9 @@ export function ProjectCTA({ projectType }: ProjectCTAProps) {
   }, { scope: contentRef });
 
   return (
-    <Section
-      theme="dark"
+    <>
+      <Section
+        theme="dark"
       className="relative py-28 md:py-40 text-center overflow-hidden border-t-0"
     >
       {/* Gradient mesh background */}
@@ -112,9 +115,7 @@ export function ProjectCTA({ projectType }: ProjectCTAProps) {
           <MagneticButton
             glow
             className="px-8 py-3.5 w-full sm:w-auto"
-            onClick={() =>
-              window.open(calUrlByType[projectType], "_blank")
-            }
+            onClick={() => setCalOpen(true)}
           >
             Reserver mon call gratuit&nbsp;&nbsp;&rarr;
           </MagneticButton>
@@ -136,6 +137,9 @@ export function ProjectCTA({ projectType }: ProjectCTAProps) {
           ))}
         </div>
       </div>
-    </Section>
+      </Section>
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} calLink={calLinkByType[projectType]} />
+    </>
   );
 }

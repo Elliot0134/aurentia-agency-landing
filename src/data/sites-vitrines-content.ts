@@ -75,7 +75,7 @@ export const heroContent = {
   subtitle:
     "Design unique, SEO intégré, performance native. Propulsé par l\u2019IA, forgé par 20 ans d\u2019expertise web. On vous montre le résultat avant de facturer.",
   cta: "Réserver mon call découverte",
-  ctaLink: "https://cal.com/aurentia/site-vitrine",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   proof: "Gratuit \u00B7 20 min \u00B7 On vous montre VOTRE site",
 };
 
@@ -257,7 +257,7 @@ export const pricingPlans: PricingPlan[] = [
     subscription: "19\u202F\u20AC/mois",
     subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 48h",
     cta: "Choisir l\u2019Essentiel",
-    ctaLink: "https://cal.com/aurentia/site-vitrine",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   },
   {
     name: "Croissance",
@@ -280,7 +280,7 @@ export const pricingPlans: PricingPlan[] = [
     subscription: "35\u202F\u20AC/mois",
     subscriptionDetails: "Plan 19\u202F\u20AC + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
     cta: "Choisir Croissance",
-    ctaLink: "https://cal.com/aurentia/site-vitrine",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   },
   {
     name: "Premium",
@@ -302,7 +302,7 @@ export const pricingPlans: PricingPlan[] = [
     subscription: "75\u202F\u20AC/mois",
     subscriptionDetails: "Plan 35\u202F\u20AC + modifs illimitées, rapport SEO mensuel, support 12h",
     cta: "Choisir Premium",
-    ctaLink: "https://cal.com/aurentia/site-vitrine",
+    ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   },
 ];
 
@@ -498,7 +498,7 @@ export const ctaContent = {
   subtitle:
     "On pr\u00E9pare un aper\u00E7u de votre futur site AVANT le call. Vous voyez le r\u00E9sultat, vous jugez. Gratuit. 20 minutes. Sans engagement.",
   cta: "R\u00E9server mon call d\u00E9couverte",
-  ctaLink: "https://cal.com/aurentia/site-vitrine",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   proofs: [
     "Gratuit et sans engagement",
     "On vous montre VOTRE site",

@@ -80,7 +80,7 @@ function LinkedInEmbed({ url, expanded = false }: { url: string; expanded?: bool
 
 export function AboutHackathons() {
   return (
-    <section className="relative py-28 md:py-36 px-6 overflow-hidden">
+    <section className="relative py-28 md:py-36 px-4 sm:px-6 md:px-12 overflow-hidden">
       <SectionBackground
         variant="alt"
         orbs={[

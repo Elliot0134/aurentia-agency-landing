@@ -63,7 +63,7 @@ export function ConciergerieComparison() {
         </div>
 
         {/* Desktop table (hidden on mobile) */}
-        <BlurReveal delay={0.2} className="hidden md:block overflow-x-auto pb-8">
+        <BlurReveal delay={0.2} className="hidden lg:block overflow-x-auto pb-8">
           <div className="min-w-[800px] w-full max-w-5xl mx-auto bg-background rounded-3xl border border-foreground/10 overflow-hidden">
             {/* Column headers */}
             <div className="grid grid-cols-5 p-6 border-b border-foreground/10 bg-foreground/5">
@@ -112,7 +112,7 @@ export function ConciergerieComparison() {
         </BlurReveal>
 
         {/* Mobile cards (visible only on mobile) */}
-        <div className="md:hidden flex flex-col gap-6">
+        <div className="lg:hidden flex flex-col gap-6">
           {columns.map((col, colIdx) => {
             const isAurentia = colIdx === aurentiaIdx;
             return (

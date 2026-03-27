@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
@@ -20,6 +21,7 @@ import { BlurReveal } from "@/components/animations/BlurReveal";
 // └──────────┴──────────┴──────────┘
 const projects = [
   {
+    slug: "comparateur-ia-facile",
     name: "Comparateur-IA-Facile",
     tag: "SaaS",
     duration: "2 semaines",
@@ -32,6 +34,7 @@ const projects = [
     layout: "md:col-span-2 md:row-span-2",
   },
   {
+    slug: "maison-enileh",
     name: "Maison Enileh",
     tag: "Site Vitrine",
     duration: "48h",
@@ -40,6 +43,7 @@ const projects = [
     layout: "md:col-span-1",
   },
   {
+    slug: "savistas",
     name: "Savistas",
     tag: "SaaS + Landing",
     duration: "72h",
@@ -48,6 +52,7 @@ const projects = [
     layout: "md:col-span-1",
   },
   {
+    slug: "friendiz",
     name: "Friend'iz",
     tag: "E-commerce",
     duration: "2 semaines",
@@ -56,6 +61,7 @@ const projects = [
     layout: "md:col-span-1",
   },
   {
+    slug: "allo-restau",
     name: "Allo Restau",
     tag: "Landing + SaaS",
     duration: "72h",
@@ -68,6 +74,7 @@ const projects = [
     layout: "md:col-span-1",
   },
   {
+    slug: "golf-mentor",
     name: "Golf Mentor",
     tag: "Site Vitrine + SaaS",
     duration: "48h",
@@ -196,7 +203,7 @@ export function HomePortfolio() {
         </div>
 
         <BlurReveal delay={0.25}>
-          <div className="flex items-center gap-12 font-mono">
+          <div className="flex items-center gap-6 md:gap-12 font-mono">
             <div className="flex flex-col items-start">
               <NumberMorph value={100} suffix="%" className="text-3xl font-bold text-foreground" />
               <span className="text-sm uppercase tracking-wider text-foreground/50 mt-1">
@@ -215,10 +222,11 @@ export function HomePortfolio() {
       </div>
 
       {/* Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 md:auto-rows-[240px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 auto-rows-[260px] md:auto-rows-[240px]">
         {projects.map((proj, idx) => (
           <BlurReveal key={idx} delay={idx * 0.1} className={proj.layout}>
-            <SpotlightCard className="w-full h-full p-6 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
+            <Link href={`/realisations/${proj.slug}`} className="block w-full h-full">
+            <SpotlightCard className="w-full h-full p-5 md:p-6 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
               {/* Tag badge + duration */}
               <div className="flex justify-between items-start z-10 w-full transition-transform duration-500 group-hover:-translate-y-1">
                 <span className="text-sm font-mono uppercase tracking-widest py-1.5 px-3.5 rounded-full border border-foreground/10 bg-background/50 text-foreground/90 backdrop-blur-md">
@@ -235,14 +243,17 @@ export function HomePortfolio() {
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-foreground/[0.03] rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </div>
 
+              {/* Top gradient fade — legibility for badges on mobile */}
+              <div className="absolute inset-x-0 top-0 h-24 md:h-16 bg-gradient-to-b from-background/70 to-transparent z-[1] pointer-events-none rounded-t-[inherit]" />
+
               {/* Phone mockup — slides in from left on hover */}
               <PhoneMockup image={proj.images[0]} name={proj.name} large={proj.layout.includes("row-span-2")} />
 
-              {/* Bottom gradient fade */}
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background/80 via-background/40 to-transparent z-[1] pointer-events-none rounded-b-[inherit]" />
+              {/* Bottom gradient fade — stronger on mobile for text legibility */}
+              <div className="absolute inset-x-0 bottom-0 h-36 md:h-28 bg-gradient-to-t from-background via-background/60 to-transparent z-[1] pointer-events-none rounded-b-[inherit]" />
 
-              {/* Bottom: project name + duration + services */}
-              <div className="z-10 transition-transform duration-500 group-hover:translate-x-1 [text-shadow:_0_1px_8px_rgba(0,0,0,0.5)]">
+              {/* Bottom: project name + services */}
+              <div className="z-10 transition-transform duration-500 group-hover:translate-x-1 [text-shadow:_0_2px_12px_rgba(0,0,0,0.6)]">
                 <div className="flex items-end justify-between mb-2">
                   <h3 className="text-lg md:text-xl font-bold leading-snug text-foreground">{proj.name}</h3>
                   <span className="text-accent-primary text-sm font-medium opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
@@ -250,7 +261,7 @@ export function HomePortfolio() {
                   </span>
                 </div>
                 {proj.name === "Comparateur-IA-Facile" && (
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="hidden md:flex flex-wrap gap-1.5">
                     {proj.services.map((service) => (
                       <span
                         key={service}
@@ -263,6 +274,7 @@ export function HomePortfolio() {
                 )}
               </div>
             </SpotlightCard>
+            </Link>
           </BlurReveal>
         ))}
       </div>

@@ -79,7 +79,7 @@ function ValueCardItem({ card, index }: { card: ValueCard; index: number }) {
 
 export function AboutValues() {
   return (
-    <section className="relative py-28 md:py-36 px-6">
+    <section className="relative py-28 md:py-36 px-4 sm:px-6 md:px-12">
       <SectionBackground
         variant="alt"
         orbs={[

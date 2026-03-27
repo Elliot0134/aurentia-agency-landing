@@ -123,29 +123,15 @@ export function ConciergerieSocialProof() {
                 </div>
               </div>
 
-              {/* Screenshot area */}
+              {/* Live site iframe */}
               <div className="aspect-video relative bg-foreground/[0.02]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={client.screenshot}
-                  alt={`Site web de ${client.name}`}
-                  className="w-full h-full object-cover transition-opacity duration-700"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
+                <iframe
+                  src="https://maison-enileh.vercel.app/"
+                  title={`Site web de ${client.name}`}
+                  className="w-full h-full border-0 transition-opacity duration-700"
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin"
                 />
-                {/* Placeholder if no screenshot */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-foreground/20 pointer-events-none">
-                  <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-foreground/15 flex items-center justify-center">
-                    <span className="text-3xl">🌐</span>
-                  </div>
-                  <span className="text-sm font-mono">
-                    {client.name}
-                  </span>
-                  <span className="text-sm text-foreground/15">
-                    {client.city}
-                  </span>
-                </div>
               </div>
             </div>
 

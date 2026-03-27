@@ -44,7 +44,7 @@ export const heroContent = {
   subtitle:
     "Logo, charte graphique, univers de marque. On ne d\u00E9core pas \u2014 on r\u00E9v\u00E8le l\u2019essence de votre business. Chaque trait a une intention.",
   cta: "Discuter de mon projet",
-  ctaLink: "https://cal.com/aurentia",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   proof: "Sur devis \u00B7 Gratuit \u00B7 20 min",
 };
 
@@ -213,7 +213,7 @@ export const tarifsContent = {
   guarantee:
     "Retours illimit\u00E9s jusqu\u2019\u00E0 validation. On ne livre que du parfait.",
   cta: "Demander un devis",
-  ctaLink: "https://cal.com/aurentia",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   crossSell:
     "Identit\u00E9 visuelle + site vitrine\u202F? On propose des offres combin\u00E9es. Parlez-en lors du call.",
   crossSellLink: { text: "D\u00E9couvrir nos sites vitrines \u2192", href: "/sites-vitrines" },
@@ -273,7 +273,7 @@ export const ctaContent = {
   subtitle:
     "20 minutes pour comprendre votre projet, votre vision, vos ambitions. On vous pr\u00E9sente notre approche et un premier cadrage. Gratuit, sans engagement.",
   cta: "Discuter de mon projet",
-  ctaLink: "https://cal.com/aurentia",
+  ctaLink: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   proofs: [
     "Gratuit et sans engagement",
     "20 ans de direction cr\u00E9ative",

@@ -11,7 +11,15 @@ export function FloatingCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setVisible(window.scrollY > 10);
+      const services = document.getElementById("services");
+      if (services) {
+        // Homepage: show when the services section enters the viewport
+        const rect = services.getBoundingClientRect();
+        setVisible(rect.top <= window.innerHeight);
+      } else {
+        // Other pages: show after a tiny scroll
+        setVisible(window.scrollY > 10);
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -34,7 +42,7 @@ export function FloatingCTA() {
       <button
         onClick={() => setCalOpen(true)}
         aria-label="Réserver un appel"
-        className={`fixed bottom-6 left-1/2 z-40 flex items-center gap-2.5 rounded-full bg-foreground text-background font-semibold text-sm cursor-pointer transition-all duration-700 ease-in-out hover:scale-105 ${
+        className={`fixed bottom-6 left-1/2 z-40 flex items-center gap-2.5 rounded-full bg-foreground text-background font-semibold text-sm cursor-pointer transition-all duration-700 ease-in-out hover:scale-105 max-w-[calc(100vw-2rem)] ${
           visible
             ? "opacity-100 scale-100 pointer-events-auto"
             : "opacity-0 scale-0 pointer-events-none"

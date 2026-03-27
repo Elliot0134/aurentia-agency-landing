@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { motion } from "framer-motion";
+import { CalModal } from "@/components/shared/CalModal";
 
 const integrations = [
   { name: "Google Sheets", icon: "/images/integrations/google-sheets.png" },
@@ -74,6 +76,9 @@ const iconMap = new Map(
 );
 
 export function SaasIntegrations() {
+  const [calOpen, setCalOpen] = useState(false);
+
+  // ── Desktop grid (md+) ──
   const cells: React.ReactNode[] = [];
 
   for (let row = 0; row < ROWS; row++) {
@@ -109,14 +114,12 @@ export function SaasIntegrations() {
               </p>
             </BlurReveal>
             <BlurReveal delay={0.5}>
-              <a
-                href="https://cal.com/aurentia/saas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm font-medium text-foreground/80 transition-all duration-700 ease-in-out hover:bg-foreground/10 hover:border-foreground/30 hover:text-foreground"
+              <button
+                onClick={() => setCalOpen(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm font-medium text-foreground/80 transition-all duration-700 ease-in-out hover:bg-foreground/10 hover:border-foreground/30 hover:text-foreground cursor-pointer"
               >
                 Réserver un appel
-              </a>
+              </button>
             </BlurReveal>
           </div>
         );
@@ -146,7 +149,7 @@ export function SaasIntegrations() {
               alt={tool.name}
               width={128}
               height={128}
-              className="w-7 h-7 md:w-8 md:h-8 object-contain opacity-70 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-110"
+              className="w-8 h-8 object-contain opacity-70 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-110"
             />
           </motion.div>
         );
@@ -161,28 +164,90 @@ export function SaasIntegrations() {
   }
 
   return (
-    <section className="relative w-full overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12 relative">
-        <div
-          style={{
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
-            maskComposite: "intersect",
-            WebkitMaskComposite: "destination-in",
-          }}
-        >
+    <>
+      <section className="relative w-full overflow-hidden">
+        {/* ── Mobile layout ── */}
+        <div className="md:hidden container mx-auto px-6">
+          <div className="flex flex-col items-center text-center mb-10">
+            <TextReveal
+              text="Connecté à tous vos outils."
+              elementType="h2"
+              className="text-2xl font-bold tracking-tight text-foreground mb-4 justify-center"
+            />
+            <BlurReveal delay={0.3}>
+              <p className="text-sm text-foreground/60 leading-relaxed mb-6 max-w-md">
+                Notion, Stripe, Slack… Votre application se branche à vos outils
+                en quelques clics et commence à exécuter à votre place.
+              </p>
+            </BlurReveal>
+            <BlurReveal delay={0.5}>
+              <button
+                onClick={() => setCalOpen(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm font-medium text-foreground/80 transition-all duration-700 ease-in-out hover:bg-foreground/10 hover:border-foreground/30 hover:text-foreground cursor-pointer"
+              >
+                Réserver un appel
+              </button>
+            </BlurReveal>
+          </div>
           <div
-            className="grid"
+            className="grid grid-cols-4 gap-0"
             style={{
-              gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+              maskImage:
+                "radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%)",
             }}
           >
-            {cells}
+            {integrations.slice(0, 20).map((tool, i) => (
+              <motion.div
+                key={tool.name}
+                className="group aspect-square flex items-center justify-center border-r border-b border-foreground/[0.07] cursor-default relative bg-foreground/[0.03] transition-colors duration-700 ease-in-out"
+                initial={{ opacity: 0, scale: 0.6 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{
+                  duration: 0.7,
+                  delay: i * 0.04,
+                  ease: "easeOut",
+                }}
+              >
+                <Image
+                  src={tool.icon}
+                  alt={tool.name}
+                  width={128}
+                  height={128}
+                  className="w-8 h-8 object-contain opacity-70"
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
-    </section>
+
+        {/* ── Desktop layout (md+) ── */}
+        <div className="hidden md:block container mx-auto px-12 relative">
+          <div
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "destination-in",
+            }}
+          >
+            <div
+              className="grid"
+              style={{
+                gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+              }}
+            >
+              {cells}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} />
+    </>
   );
 }

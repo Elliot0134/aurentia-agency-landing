@@ -13,11 +13,32 @@ export function CustomCursor() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    document.documentElement.classList.add("has-custom-cursor");
+    const MD_BREAKPOINT = 768;
 
     let moveCount = 0;
     let isVisible = true;
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    let isWideEnough = window.innerWidth >= MD_BREAKPOINT;
+
+    const updateCursorClass = () => {
+      if (isWideEnough) {
+        document.documentElement.classList.add("has-custom-cursor");
+      } else {
+        document.documentElement.classList.remove("has-custom-cursor");
+      }
+    };
+
+    updateCursorClass();
+
+    const onResize = () => {
+      const wide = window.innerWidth >= MD_BREAKPOINT;
+      if (wide !== isWideEnough) {
+        isWideEnough = wide;
+        updateCursorClass();
+      }
+    };
+
+    window.addEventListener("resize", onResize);
 
     // Use CSS transition for opacity (avoids GSAP ticker conflicts)
     cursor.style.transition = "opacity 0.5s ease-out";
@@ -77,6 +98,7 @@ export function CustomCursor() {
     return () => {
       gsap.ticker.remove(ticker);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("resize", onResize);
       document.removeEventListener("mouseleave", onMouseLeave);
       if (idleTimer) clearTimeout(idleTimer);
       document.documentElement.classList.remove("has-custom-cursor");

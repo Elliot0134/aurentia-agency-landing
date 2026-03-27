@@ -2,11 +2,12 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { InfiniteMarquee } from "@/components/animations/InfiniteMarquee";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { CalModal } from "@/components/shared/CalModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -59,6 +60,8 @@ type LayerKey = keyof typeof DEPTH;
 const BASE_PIN = 2500;
 
 export function HomeHero() {
+  const [calOpen, setCalOpen] = useState(false);
+  const [fading, setFading] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -149,6 +152,8 @@ export function HomeHero() {
   useEffect(() => {
     const el = pinRef.current;
     if (!el) return;
+    // Skip mouse parallax on touch devices (mobile/tablet) — no mouse, saves GPU
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     el.addEventListener("mousemove", handleMouseMove);
     el.addEventListener("mouseenter", handleMouseEnter);
     el.addEventListener("mouseleave", handleMouseLeave);
@@ -165,6 +170,16 @@ export function HomeHero() {
   // ---------------------------------------------------------------------------
   useGSAP(() => {
     if (!sectionRef.current || !contentRef.current || !aurentiaRef.current) return;
+
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    // Mobile: skip pin/scrub entirely — causes stuttering on mobile browsers
+    // (momentum scroll, address bar resize, GPU layer limits)
+    // BlurReveal entry animations still run independently for a clean hero
+    if (isMobile) {
+      gsap.set(aurentiaRef.current, { autoAlpha: 0, display: "none" });
+      return;
+    }
 
     const syls = [syl0.current, syl1.current, syl2.current];
     const descs = [desc0.current, desc1.current, desc2.current];
@@ -203,7 +218,7 @@ export function HomeHero() {
       if (!ref.current) return;
       master.to(ref.current, { yPercent, ease: "none", duration: 400 }, 0);
       master.to(ref.current, {
-        opacity: 0, filter: "blur(6px)", ease: "none", duration: 200,
+        opacity: 0, ease: "none", duration: 200,
       }, fadeStart);
     });
 
@@ -266,14 +281,15 @@ export function HomeHero() {
   // Render
   // ---------------------------------------------------------------------------
   return (
-    <section ref={sectionRef} id="hero" className="relative">
+    <>
+      <section ref={sectionRef} id="hero" className="relative">
       <div ref={pinRef} className="relative h-screen flex flex-col items-center overflow-hidden" style={{ perspective: "900px", minHeight: "100vh" }}>
 
         {/* Grid */}
         <div ref={gridRef} className="absolute inset-0 z-0 pointer-events-none hero-grid will-change-transform" style={{ opacity: 0.1 }} />
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent 25%, var(--bg-base) 75%, var(--bg-base) 100%)" }}
+          style={{ background: "linear-gradient(to bottom, transparent 40%, var(--bg-base) 85%, var(--bg-base) 100%)" }}
         />
 
         {/* Hero content — flex-1 to fill available space, centered */}
@@ -314,7 +330,7 @@ export function HomeHero() {
               <div ref={setMouseLayer("subtitle")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <BlurReveal delay={0.6}>
                   <p className="text-base md:text-lg text-foreground/60 max-w-3xl mx-auto leading-relaxed mt-4 md:mt-6">
-                    La puissance de l&apos;<strong className="text-foreground font-bold">IA</strong>. La rigueur de <strong className="text-foreground font-bold">20 ans</strong> de m&eacute;tier. La <strong className="text-foreground font-bold">vitesse</strong> en plus.
+                    Sites vitrines · Applications SaaS · Landing pages
                   </p>
                 </BlurReveal>
               </div>
@@ -322,9 +338,6 @@ export function HomeHero() {
 
             <div ref={tagsRef} className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("tags")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <p className="text-sm text-foreground/40 mt-2">
-                  Sites vitrines · Applications SaaS · Landing pages
-                </p>
               </div>
             </div>
 
@@ -335,19 +348,29 @@ export function HomeHero() {
                   stagger={0.2}
                   className="flex flex-col items-center justify-center gap-4 z-30 mt-8 md:mt-10 mb-20"
                 >
-                  <a
-                    href="https://cal.com/aurentia"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto"
+                  <MagneticButton
+                    glow
+                    className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
+                    onClick={() => {
+                      if (fading) return;
+                      setFading(true);
+                      setTimeout(() => {
+                        const el = document.getElementById("services");
+                        if (el) {
+                          const lenis = (window as unknown as Record<string, { stop: () => void; start: () => void }>).__lenis;
+                          if (lenis) lenis.stop();
+                          const y = el.getBoundingClientRect().top + window.scrollY;
+                          window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
+                          if (lenis) requestAnimationFrame(() => lenis.start());
+                        }
+                        requestAnimationFrame(() => {
+                          requestAnimationFrame(() => setFading(false));
+                        });
+                      }, 700);
+                    }}
                   >
-                    <MagneticButton
-                      glow
-                      className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
-                    >
-                      D&eacute;couvrir nos services &rarr;
-                    </MagneticButton>
-                  </a>
+                    D&eacute;couvrir nos services &rarr;
+                  </MagneticButton>
                 </BlurReveal>
               </div>
             </div>
@@ -412,18 +435,26 @@ export function HomeHero() {
           </div>
         </a>
 
-        {/* Orange glow at bottom — wide flat arc (stronger in light mode) */}
-        <div className="absolute bottom-[-40%] left-1/2 -translate-x-1/2 z-[2] pointer-events-none w-[90%] aspect-[3/1] rounded-full" style={{ background: "var(--accent)", filter: "blur(100px)", opacity: "var(--hero-glow-opacity)" }} />
-
         {/* Marquee — flex child at the very bottom of the hero */}
         <div className="relative z-20 shrink-0 w-full py-4 overflow-hidden flex items-center section-divider-orange">
           <InfiniteMarquee
-            items={["Sur-mesure", "Propulsé par l'IA", "Perfection", "Zéro template", "Artisanat digital", "Design unique"]}
+            items={["Sites vitrines", "Applications SaaS", "Landing pages", "Logiciel métier", { name: "Formation IA", icon: "/images/icons/claude-icon.webp" }]}
             className="text-xl md:text-2xl font-bold font-sans tracking-widest text-foreground/60 uppercase"
           />
         </div>
 
       </div>
-    </section>
+      {/* Orange glow — outside pinRef (no clip) but inside sectionRef (pinned with hero) */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-[2] pointer-events-none w-[90%] aspect-[3/1] rounded-full" style={{ background: "var(--accent)", filter: "blur(100px)", opacity: "var(--hero-glow-opacity)" }} />
+      </section>
+
+      {/* Fade overlay for smooth scroll-to-services transition */}
+      <div
+        className="pointer-events-none fixed inset-0 z-[9998] bg-background transition-opacity duration-700 ease-in-out"
+        style={{ opacity: fading ? 1 : 0 }}
+      />
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} />
+    </>
   );
 }

@@ -198,7 +198,7 @@ export function HomeTestimonials() {
         <div className="flex w-max animate-marquee gap-6 py-2">
           {/* Double the items for seamless loop */}
           {[...TESTIMONIALS, ...TESTIMONIALS].map((testimonial, i) => (
-            <div key={`${testimonial.name}-${i}`} className="w-[380px] md:w-[420px] flex-shrink-0">
+            <div key={`${testimonial.name}-${i}`} className="w-[340px] md:w-[420px] flex-shrink-0">
               <TestimonialCard {...testimonial} />
             </div>
           ))}

@@ -68,7 +68,7 @@ const jsonLd = [
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
-      url: "https://cal.com/aurentia",
+      url: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
     },
   },
   {

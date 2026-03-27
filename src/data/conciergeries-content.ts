@@ -87,7 +87,7 @@ export interface SocialProofClient {
 // ---------------------
 
 export const conciergeriesSiteConfig = {
-  bookingUrl: "https://cal.com/aurentia/site-vitrine",
+  bookingUrl: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   leadMagnetConfirmation:
     "Merci ! Vous recevrez le guide dès sa publication.",
 };

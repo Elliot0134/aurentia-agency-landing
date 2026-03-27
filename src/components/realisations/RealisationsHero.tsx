@@ -1,18 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { ChevronDown } from "lucide-react";
+import { CalModal } from "@/components/shared/CalModal";
 
 export function RealisationsHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const chevronRef = useRef<HTMLDivElement>(null);
+  const [calOpen, setCalOpen] = useState(false);
 
   useGSAP(
     () => {
@@ -57,8 +59,9 @@ export function RealisationsHero() {
   );
 
   return (
-    <section
-      ref={sectionRef}
+    <>
+      <section
+        ref={sectionRef}
       className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       <SectionBackground
@@ -100,19 +103,13 @@ export function RealisationsHero() {
 
         {/* CTA */}
         <div ref={ctaRef} className="opacity-0 mt-8 md:mt-10 flex flex-col items-center gap-4">
-          <a
-            href="https://cal.com/aurentia/decouverte"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto"
+          <MagneticButton
+            glow
+            className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
+            onClick={() => setCalOpen(true)}
           >
-            <MagneticButton
-              glow
-              className="w-full sm:w-auto px-8 py-4 text-base md:text-lg"
-            >
-              Discuter de votre projet
-            </MagneticButton>
-          </a>
+            Discuter de votre projet
+          </MagneticButton>
           <p className="text-sm text-foreground/40">Gratuit · 20 min · Sans engagement</p>
         </div>
       </div>
@@ -124,6 +121,9 @@ export function RealisationsHero() {
       >
         <ChevronDown className="w-6 h-6 text-foreground/30" />
       </div>
-    </section>
+      </section>
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} />
+    </>
   );
 }

@@ -124,7 +124,7 @@ function MemberCard({
       >
         <SpotlightCard
           className={`
-            group relative min-h-[550px] md:min-h-[520px]
+            group relative md:min-h-[520px]
             !bg-background/60 backdrop-blur-xl !border-foreground/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)]
             hover:shadow-[0_0_40px_rgba(201,100,66,0.12)]
             hover:!translate-y-0 !transition-shadow !will-change-auto
@@ -132,9 +132,68 @@ function MemberCard({
             overflow-hidden
           `}
         >
+          {/* ===== MOBILE LAYOUT: stacked image on top + text below ===== */}
+          <div className="md:hidden flex flex-col">
+            {/* Image — prominent, centered */}
+            <div className="relative w-full h-[320px] overflow-hidden">
+              <Image
+                src={member.image}
+                alt={`Portrait de ${member.name}`}
+                fill
+                className="object-contain object-bottom transition-transform duration-700 ease-in-out group-hover:scale-105"
+                sizes="100vw"
+              />
+              {/* Bottom fade into card bg */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background/60 to-transparent" />
+            </div>
+
+            {/* Text content */}
+            <div className="relative z-10 flex flex-col p-5 gap-3">
+              <span className="inline-flex items-center self-start px-3 py-1.5 rounded-full bg-accent-primary/10 text-accent-primary font-mono text-sm tracking-wider uppercase">
+                {member.badge}
+              </span>
+
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight text-foreground">
+                  {member.name}
+                </h3>
+                <p className="text-base text-foreground/50 font-medium mt-1">
+                  {member.role}
+                </p>
+              </div>
+
+              <p className="text-base text-foreground/70 leading-relaxed">
+                {member.bio}
+              </p>
+
+              <div className="flex flex-wrap gap-2 mt-1">
+                {member.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 rounded-full border border-foreground/10 bg-foreground/[0.03] text-foreground/60 text-sm transition-colors duration-500 ease-in-out hover:border-accent-primary/30 hover:text-accent-primary/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 self-start mt-2 text-foreground/50 hover:text-accent-primary transition-colors duration-500 ease-in-out"
+                aria-label={`Profil LinkedIn de ${member.name}`}
+              >
+                <Linkedin className="w-5 h-5" />
+                <span className="text-sm font-medium">LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          {/* ===== DESKTOP LAYOUT: side-by-side (original) ===== */}
           {/* Dark gradient behind image — full card width */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none hidden md:block"
             style={{
               background: isEven
                 ? "linear-gradient(to right, transparent 40%, color-mix(in srgb, var(--foreground) 15%, transparent) 60%, color-mix(in srgb, var(--foreground) 25%, transparent) 100%)"
@@ -143,19 +202,19 @@ function MemberCard({
           />
 
           {/* Image — absolute, bleeds into the card */}
-          <div className={`absolute bottom-0 ${isEven ? "right-0" : "left-0"} w-[70%] md:w-[55%] h-[110%] pointer-events-none`}>
+          <div className={`absolute bottom-0 ${isEven ? "right-0" : "left-0 md:-left-[8%]"} w-[55%] h-[110%] pointer-events-none hidden md:block`}>
             <Image
               src={member.image}
               alt={`Portrait de ${member.name}`}
               fill
               className="object-contain object-bottom transition-transform duration-700 ease-in-out group-hover:scale-105"
-              sizes="(max-width: 768px) 70vw, 55vw"
+              sizes="55vw"
             />
           </div>
 
           {/* Gradient fade — blends image into card from text side */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none hidden md:block"
             style={{
               background: isEven
                 ? "linear-gradient(to right, var(--background) 0%, var(--background) 25%, color-mix(in srgb, var(--background) 80%, transparent) 40%, color-mix(in srgb, var(--background) 30%, transparent) 55%, transparent 70%)"
@@ -163,18 +222,16 @@ function MemberCard({
             }}
           />
 
-          {/* Content side */}
-          <div className={`relative z-10 flex flex-col justify-center p-6 md:p-10 lg:p-12 gap-4 ${
+          {/* Content side — desktop only */}
+          <div className={`relative z-10 hidden md:flex flex-col justify-center p-10 lg:p-12 gap-4 w-full ${
             isEven ? "md:w-[55%]" : "md:w-[55%] md:ml-auto"
           }`}>
-            {/* Role badge */}
             <span className="inline-flex items-center self-start px-3 py-1.5 rounded-full bg-accent-primary/10 text-accent-primary font-mono text-sm tracking-wider uppercase">
               {member.badge}
             </span>
 
-            {/* Name & role */}
             <div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
+              <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
                 {member.name}
               </h3>
               <p className="text-base text-foreground/50 font-medium mt-1">
@@ -182,12 +239,10 @@ function MemberCard({
               </p>
             </div>
 
-            {/* Bio */}
             <p className="text-base lg:text-lg text-foreground/70 leading-relaxed">
               {member.bio}
             </p>
 
-            {/* Tags */}
             <div ref={tagsRef} className="flex flex-wrap gap-2 mt-2">
               {member.tags.map((tag) => (
                 <span
@@ -199,7 +254,6 @@ function MemberCard({
               ))}
             </div>
 
-            {/* LinkedIn link */}
             <a
               href={member.linkedin}
               target="_blank"

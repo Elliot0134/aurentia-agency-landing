@@ -61,10 +61,8 @@ export default function Home() {
         <main className="flex min-h-screen flex-col w-full">
           <HeroEasterEgg />
           <HomeHero />
-          <div className="relative z-10" style={{ marginTop: '-100px' }}>
-            <HomeTeam />
-          </div>
           <HomeServices />
+          <HomeTeam />
           <HomePortfolio />
           <HomeProcess />
           <HomeTestimonials />

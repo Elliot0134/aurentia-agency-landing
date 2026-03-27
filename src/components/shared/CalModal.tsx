@@ -10,7 +10,7 @@ interface CalModalProps {
   calLink?: string;
 }
 
-export function CalModal({ open, onClose, calLink = "aurentia" }: CalModalProps) {
+export function CalModal({ open, onClose, calLink = "elliot-estrade-ixfuya/appel-decouverte" }: CalModalProps) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef(false);
@@ -19,9 +19,8 @@ export function CalModal({ open, onClose, calLink = "aurentia" }: CalModalProps)
   useEffect(() => {
     if (!open) return;
     const init = async () => {
-      const cal = await getCalApi();
+      const cal = await getCalApi({ namespace: "appel-decouverte" });
       cal("ui", {
-        theme: "auto",
         hideEventTypeDetails: false,
         layout: "month_view",
       });
@@ -109,11 +108,12 @@ export function CalModal({ open, onClose, calLink = "aurentia" }: CalModalProps)
         {/* Cal.com Embed */}
         <div className="overflow-y-auto" style={{ maxHeight: "calc(90vh - 65px)" }}>
           <Cal
+            namespace="appel-decouverte"
             calLink={calLink}
             style={{ width: "100%", height: "100%", overflow: "auto" }}
             config={{
               layout: "month_view",
-              theme: "auto",
+              useSlotsViewOnSmallScreen: "true",
             }}
           />
         </div>

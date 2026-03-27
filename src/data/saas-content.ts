@@ -38,12 +38,12 @@ export interface TechCard {
 // ── Hero ──
 
 export const saasHeroContent = {
-  badge: "DÉVELOPPEMENT SAAS & LOGICIELS MÉTIER",
+  badge: "SAAS & LOGICIELS MÉTIER",
   headline: "Votre vision. Notre ingénierie. Propulsé par l'IA.",
   subtitle:
     "On conçoit des applications SaaS et des logiciels métier sur-mesure. Du brief au déploiement en 1 à 2 semaines. Architecture, design et mise en production inclus.",
   ctaPrimary: "Réserver un call stratégique",
-  ctaPrimaryHref: "https://cal.com/aurentia/saas",
+  ctaPrimaryHref: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   ctaSecondary: "Voir nos réalisations",
   ctaSecondaryHref: "#portfolio",
 };
@@ -224,7 +224,7 @@ export const saasPricingContent: SaasPricingContent = {
     ],
     delay: "Livraison en 1 à 2 semaines",
     cta: "Discuter de votre projet",
-    ctaHref: "https://cal.com/aurentia/saas",
+    ctaHref: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   },
   bottomText:
     "Pas de surprise. On définit le scope ensemble, on s'engage sur un prix fixe avant de commencer. Vous savez exactement ce que vous payez.",
@@ -287,7 +287,7 @@ export const saasCTAContent = {
   subtitle:
     "20 minutes pour comprendre votre vision, estimer le scope et le budget. On vous dit franchement si on est les bons pour votre projet.",
   cta: "Réserver un call stratégique",
-  ctaHref: "https://cal.com/aurentia/saas",
+  ctaHref: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   proofs: [
     "Gratuit et sans engagement",
     "Scope et budget estimés en 20 min",

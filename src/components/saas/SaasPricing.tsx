@@ -149,7 +149,7 @@ export function SaasPricing() {
                   {/* Cal.com iframe */}
                   <div className="flex-1 min-h-[400px] rounded-xl overflow-hidden border border-foreground/10 bg-foreground/[0.02]">
                     <iframe
-                      src="https://cal.com/aurentia/saas?embed=true&theme=light"
+                      src="https://cal.com/elliot-estrade-ixfuya/appel-decouverte?embed=true&theme=light"
                       className="w-full h-full min-h-[400px]"
                       frameBorder="0"
                       title="Réserver un call stratégique"

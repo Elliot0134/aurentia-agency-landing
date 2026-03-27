@@ -543,14 +543,19 @@ export function HomeProcess() {
     const measure = () => {
       if (headerRef.current && trackRef.current && window.innerWidth >= 768) {
         const containerLeft = headerRef.current.getBoundingClientRect().left;
-        const containerPaddingLeft = parseFloat(getComputedStyle(headerRef.current).paddingLeft) || 0;
+        const styles = getComputedStyle(headerRef.current);
+        const containerPaddingLeft = parseFloat(styles.paddingLeft) || parseFloat(styles.paddingInlineStart) || 0;
         const contentLeft = containerLeft + containerPaddingLeft;
-        // Use setProperty to override Tailwind v4 logical properties
+        // Override both physical and logical properties for Tailwind v4 compat
         trackRef.current.style.setProperty("padding-left", `${contentLeft}px`, "important");
         trackRef.current.style.setProperty("padding-right", `${contentLeft}px`, "important");
+        trackRef.current.style.setProperty("padding-inline-start", `${contentLeft}px`, "important");
+        trackRef.current.style.setProperty("padding-inline-end", `${contentLeft}px`, "important");
       } else if (trackRef.current) {
         trackRef.current.style.removeProperty("padding-left");
         trackRef.current.style.removeProperty("padding-right");
+        trackRef.current.style.removeProperty("padding-inline-start");
+        trackRef.current.style.removeProperty("padding-inline-end");
       }
     };
     // Measure padding first, then signal ready so GSAP measures scrollWidth AFTER padding is applied
@@ -652,7 +657,7 @@ export function HomeProcess() {
     <section
       ref={sectionRef}
       id="process"
-      className="relative section-dark-alt section-divider-orange overflow-visible"
+      className="relative section-dark-alt section-divider-orange overflow-hidden md:overflow-visible"
     >
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -691,10 +696,10 @@ export function HomeProcess() {
         </div>
 
         {/* ── Horizontal track (desktop) / Vertical stack (mobile) ── */}
-        <div className="overflow-visible flex items-center">
+        <div className="overflow-hidden md:overflow-visible flex items-center">
           <div
             ref={trackRef}
-            className="flex flex-col md:flex-row gap-6 px-6 md:px-12 md:gap-8 md:w-max w-full"
+            className="flex flex-col md:flex-row gap-6 px-6 md:px-0 md:gap-8 md:w-max w-full"
           >
 
             {phases.map((phase, phaseIdx) => (

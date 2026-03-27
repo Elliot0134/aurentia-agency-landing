@@ -45,6 +45,8 @@ function getTechByName(name: string): TechInfo | undefined {
 
 export function SaasStack() {
   const [activeId, setActiveId] = useState<string | null>(null);
+  // Mobile: track selected tech per phase (default = first tech)
+  const [mobileSelected, setMobileSelected] = useState<Record<string, string>>({});
 
   const phaseTechs = phases.map((phase) => ({
     ...phase,
@@ -52,6 +54,10 @@ export function SaasStack() {
       .map(getTechByName)
       .filter((t): t is TechInfo => t !== undefined),
   }));
+
+  function getMobileSelected(phase: typeof phaseTechs[number]): string {
+    return mobileSelected[phase.label] || phase.techs[0]?.name || "";
+  }
 
   return (
     <Section className="py-28 md:py-36 relative">
@@ -92,29 +98,116 @@ export function SaasStack() {
         {/* Workflow pipeline */}
         <BlurReveal>
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row items-stretch gap-0">
+
+            {/* ── Mobile layout ── */}
+            <div className="flex flex-col gap-6 md:hidden">
+              {phaseTechs.map((phase, phaseIndex) => {
+                const selectedName = getMobileSelected(phase);
+                const selectedTech = phase.techs.find((t) => t.name === selectedName);
+
+                return (
+                  <div key={phase.label}>
+                    {/* Phase label */}
+                    <span className="block text-sm font-semibold uppercase tracking-[0.2em] text-foreground/40 mb-5 text-center">
+                      {phase.label}
+                    </span>
+
+                    {/* Icons row */}
+                    <div className="flex items-center justify-center gap-6 mb-4">
+                      {phase.techs.map((tech) => {
+                        const isSelected = tech.name === selectedName;
+                        return (
+                          <button
+                            key={tech.name}
+                            className="min-h-11 min-w-11 flex items-center justify-center cursor-pointer"
+                            onClick={() =>
+                              setMobileSelected((prev) => ({
+                                ...prev,
+                                [phase.label]: tech.name,
+                              }))
+                            }
+                            aria-label={tech.name}
+                            aria-pressed={isSelected}
+                          >
+                            <Image
+                              src={tech.icon}
+                              alt={tech.name}
+                              width={80}
+                              height={80}
+                              className={[
+                                "w-14 h-14 object-contain transition-all duration-500 ease-in-out",
+                                isSelected
+                                  ? "opacity-100 scale-110"
+                                  : "opacity-40",
+                              ].join(" ")}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Selected tech description */}
+                    {selectedTech && (
+                      <div className="text-center px-4 transition-all duration-500 ease-in-out">
+                        <p className="text-sm font-semibold text-foreground mb-1">
+                          {selectedTech.name}
+                        </p>
+                        <p className="text-sm text-foreground/50 leading-relaxed">
+                          {selectedTech.description}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Arrow between phases */}
+                    {phaseIndex < phases.length - 1 && (
+                      <div className="flex flex-col items-center pt-6">
+                        <svg
+                          width="24"
+                          height="40"
+                          viewBox="0 0 24 40"
+                          className="text-foreground/30"
+                          aria-hidden
+                        >
+                          <line x1="12" y1="0" x2="12" y2="28" stroke="currentColor" strokeWidth="2" />
+                          <polygon points="6,28 12,40 18,28" fill="currentColor" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ── Desktop layout (md+) ── */}
+            <div className="hidden md:flex flex-row items-stretch gap-0">
               {phaseTechs.map((phase, phaseIndex) => {
                 const tooltipSide = phaseIndex < 2 ? "right" : "left";
 
                 return (
                   <div
                     key={phase.label}
-                    className="flex flex-col md:flex-row items-stretch flex-1"
+                    className="flex flex-row items-stretch flex-1"
                   >
                     <div className="flex flex-col items-center flex-1 min-w-0">
                       <span className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground/40 mb-8 whitespace-nowrap">
                         {phase.label}
                       </span>
 
-                      <div className="flex flex-col items-center gap-8 md:gap-10 w-full">
+                      <div className="flex flex-col items-center gap-10 w-full">
                         {phase.techs.map((tech) => {
                           const isActive = activeId === tech.name;
                           const isDimmed = activeId !== null && !isActive;
 
                           return (
-                            <div key={tech.name} className="relative flex flex-col md:flex-row items-center">
+                            <div
+                              key={tech.name}
+                              className={[
+                                "relative flex flex-row items-center",
+                                isActive ? "z-50" : "z-10",
+                              ].join(" ")}
+                            >
                               <button
-                                className="cursor-default"
+                                className="cursor-default relative"
                                 onMouseEnter={() => setActiveId(tech.name)}
                                 onMouseLeave={() => setActiveId(null)}
                                 onFocus={() => setActiveId(tech.name)}
@@ -137,18 +230,18 @@ export function SaasStack() {
                                 />
                               </button>
 
-                              {/* Tooltip — glassmorphism container */}
+                              {/* Tooltip — glassmorphism, centered vertically on icon */}
                               <div
                                 className={[
-                                  "absolute z-30 pointer-events-none",
+                                  "absolute pointer-events-none",
                                   "transition-all duration-500 ease-in-out",
-                                  "top-full mt-3 left-1/2 -translate-x-1/2 w-52 text-center",
+                                  "top-1/2 -translate-y-1/2",
                                   tooltipSide === "right"
-                                    ? "md:top-1/2 md:-translate-y-1/2 md:translate-x-0 md:left-full md:ml-5 md:w-56 md:text-left"
-                                    : "md:top-1/2 md:-translate-y-1/2 md:translate-x-0 md:left-auto md:right-full md:mr-5 md:w-56 md:text-right",
+                                    ? "left-full ml-5 w-56 text-left"
+                                    : "right-full mr-5 w-56 text-right",
                                   isActive
-                                    ? "opacity-100 translate-y-0 scale-100"
-                                    : "opacity-0 translate-y-1 scale-95",
+                                    ? "opacity-100 scale-100"
+                                    : "opacity-0 scale-95",
                                 ].join(" ")}
                                 role="tooltip"
                                 aria-hidden={!isActive}
@@ -169,38 +262,24 @@ export function SaasStack() {
                     </div>
 
                     {phaseIndex < phases.length - 1 && (
-                      <>
-                        <div className="hidden md:flex items-center justify-center px-4 pt-8">
-                          <svg
-                            width="40"
-                            height="24"
-                            viewBox="0 0 40 24"
-                            className="text-foreground/30"
-                            aria-hidden
-                          >
-                            <line x1="0" y1="12" x2="28" y2="12" stroke="currentColor" strokeWidth="2" />
-                            <polygon points="28,6 40,12 28,18" fill="currentColor" />
-                          </svg>
-                        </div>
-
-                        <div className="flex md:hidden flex-col items-center py-5">
-                          <svg
-                            width="24"
-                            height="40"
-                            viewBox="0 0 24 40"
-                            className="text-foreground/30"
-                            aria-hidden
-                          >
-                            <line x1="12" y1="0" x2="12" y2="28" stroke="currentColor" strokeWidth="2" />
-                            <polygon points="6,28 12,40 18,28" fill="currentColor" />
-                          </svg>
-                        </div>
-                      </>
+                      <div className="flex items-center justify-center px-4 pt-8">
+                        <svg
+                          width="40"
+                          height="24"
+                          viewBox="0 0 40 24"
+                          className="text-foreground/30"
+                          aria-hidden
+                        >
+                          <line x1="0" y1="12" x2="28" y2="12" stroke="currentColor" strokeWidth="2" />
+                          <polygon points="28,6 40,12 28,18" fill="currentColor" />
+                        </svg>
+                      </div>
                     )}
                   </div>
                 );
               })}
             </div>
+
           </div>
         </BlurReveal>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { CalModal } from "@/components/shared/CalModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,6 +22,7 @@ const proofPoints = [
 
 export function RealisationsCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const [calOpen, setCalOpen] = useState(false);
 
   useGSAP(() => {
     if (!contentRef.current) return;
@@ -46,8 +48,9 @@ export function RealisationsCTA() {
   }, { scope: contentRef });
 
   return (
-    <Section
-      id="cta-realisations"
+    <>
+      <Section
+        id="cta-realisations"
       theme="dark"
       className="relative min-h-[50vh] flex items-center justify-center py-28 md:py-40 text-center overflow-hidden border-t-0"
     >
@@ -95,7 +98,7 @@ export function RealisationsCTA() {
           <MagneticButton
             glow
             className="px-8 py-3.5 w-full sm:w-auto"
-            onClick={() => window.open("https://cal.com/aurentia", "_blank")}
+            onClick={() => setCalOpen(true)}
           >
             R{"\u00E9"}server mon call gratuit&nbsp;&nbsp;{"\u2192"}
           </MagneticButton>
@@ -114,6 +117,9 @@ export function RealisationsCTA() {
           ))}
         </div>
       </div>
-    </Section>
+      </Section>
+
+      <CalModal open={calOpen} onClose={() => setCalOpen(false)} />
+    </>
   );
 }
