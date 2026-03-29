@@ -13,6 +13,7 @@ import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { NumberMorph } from "@/components/animations/NumberMorph";
 import { GradientPlaceholder } from "@/components/ui/GradientPlaceholder";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   portfolioContent,
   portfolioItems,
@@ -138,9 +139,11 @@ function ImageSlider({
 
 export function SitesVitrinesPortfolio() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!gridRef.current) return;
 
       const cards = gridRef.current.querySelectorAll(".portfolio-card");
@@ -161,7 +164,7 @@ export function SitesVitrinesPortfolio() {
         }
       );
     },
-    { scope: gridRef }
+    { scope: gridRef, dependencies: [animationsEnabled] }
   );
 
   return (

@@ -5,6 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,15 +17,17 @@ interface ProjectBreadcrumbProps {
 
 export function ProjectBreadcrumb({ projectName }: ProjectBreadcrumbProps) {
   const ref = useRef<HTMLElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!ref.current) return;
     gsap.fromTo(
       ref.current,
       { opacity: 0 },
       { opacity: 1, duration: 0.5, ease: "power2.out", delay: 0.2 }
     );
-  }, { scope: ref });
+  }, { scope: ref, dependencies: [animationsEnabled] });
 
   return (
     <nav

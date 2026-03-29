@@ -10,6 +10,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { apportCTA } from "@/data/apport-affaires-content";
 
 if (typeof window !== "undefined") {
@@ -18,9 +19,11 @@ if (typeof window !== "undefined") {
 
 export function ApportAffairesCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!contentRef.current) return;
 
       const buttons = contentRef.current.querySelectorAll("[data-cta-btn]");
@@ -42,7 +45,7 @@ export function ApportAffairesCTA() {
         }
       );
     },
-    { scope: contentRef }
+    { scope: contentRef, dependencies: [animationsEnabled] }
   );
 
   return (

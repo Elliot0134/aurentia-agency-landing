@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,8 +15,10 @@ interface BentoGridProps {
 
 export const BentoGrid = ({ className, children }: BentoGridProps) => {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useEffect(() => {
+    if (!animationsEnabled) return;
     const grid = gridRef.current;
     if (!grid) return;
 
@@ -54,7 +57,7 @@ export const BentoGrid = ({ className, children }: BentoGridProps) => {
       });
       gsap.killTweensOf(items);
     };
-  }, []);
+  }, [animationsEnabled]);
 
   return (
     <div

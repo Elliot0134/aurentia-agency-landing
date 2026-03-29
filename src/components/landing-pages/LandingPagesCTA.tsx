@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { ctaContent } from "@/data/landing-pages-content";
 
 if (typeof window !== "undefined") {
@@ -16,9 +17,11 @@ if (typeof window !== "undefined") {
 
 export function LandingPagesCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!contentRef.current) return;
 
       const elements =
@@ -41,7 +44,7 @@ export function LandingPagesCTA() {
         }
       );
     },
-    { scope: contentRef }
+    { scope: contentRef, dependencies: [animationsEnabled] }
   );
 
   return (

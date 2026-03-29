@@ -9,6 +9,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { BrowserMockup } from "@/components/shared/BrowserMockup";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { Project } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -24,8 +25,10 @@ export function ProjectHero({ project }: ProjectHeroProps) {
   const mockupRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const pillsRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!sectionRef.current) return;
 
     // Badge animation
@@ -69,7 +72,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
         }
       );
     }
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [animationsEnabled] });
 
   // Extract first sentence from context for description
   const description = project.context.split(".").slice(0, 2).join(".") + ".";

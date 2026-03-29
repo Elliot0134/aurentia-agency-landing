@@ -10,6 +10,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { GradientPlaceholder } from "@/components/ui/GradientPlaceholder";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   portfolioContent,
   portfolioItems,
@@ -40,9 +41,11 @@ function PortfolioImage({ src, alt }: { src: string; alt: string }) {
 
 export function IdentiteVisuellePortfolio() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!gridRef.current) return;
 
       // Parallax on images
@@ -64,7 +67,7 @@ export function IdentiteVisuellePortfolio() {
         );
       });
     },
-    { scope: gridRef }
+    { scope: gridRef, dependencies: [animationsEnabled] }
   );
 
   return (

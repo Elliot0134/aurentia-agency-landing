@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SecretSlotMachine3D } from "./SecretSlotMachine3D";
 import { TextReveal } from "@/components/animations/TextReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +25,7 @@ export function HeroEasterEgg() {
   const rouletteSectionRef = useRef<HTMLDivElement>(null);
   const rouletteContentRef = useRef<HTMLDivElement>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   const handleClose = useCallback(() => {
     const wrapperHeight = wrapperRef.current?.offsetHeight ?? 0;
@@ -33,6 +35,7 @@ export function HeroEasterEgg() {
 
   // ── Section 1: Title fade-in ──
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!titleSectionRef.current || !titleContentRef.current) return;
 
     gsap.fromTo(
@@ -51,10 +54,11 @@ export function HeroEasterEgg() {
         },
       }
     );
-  }, { scope: titleSectionRef });
+  }, { scope: titleSectionRef, dependencies: [animationsEnabled] });
 
   // ── Section 2: Roulette fade-in ──
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!rouletteSectionRef.current || !rouletteContentRef.current) return;
 
     gsap.fromTo(
@@ -73,7 +77,7 @@ export function HeroEasterEgg() {
         },
       }
     );
-  }, { scope: rouletteSectionRef });
+  }, { scope: rouletteSectionRef, dependencies: [animationsEnabled] });
 
   return (
     <section ref={wrapperRef} className="relative -mb-px" data-easter-egg>

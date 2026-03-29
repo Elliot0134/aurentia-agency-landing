@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 // SpotlightCard removed — open layout without cards
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,8 +17,10 @@ if (typeof window !== "undefined") {
 function CountUp({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!ref.current || hasAnimated.current) return;
     const obj = { val: 0 };
     gsap.to(obj, {
@@ -74,9 +77,11 @@ export function HomeServices() {
   const vitrineRef = useRef<HTMLDivElement>(null);
   const landingRef = useRef<HTMLDivElement>(null);
   const dashRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!containerRef.current || !cardsRef.current) return;
 
       // ── Helper: pop-in with stagger ──
@@ -215,7 +220,7 @@ export function HomeServices() {
         popIn(tl, d.querySelectorAll(".d-feed"), { stagger: 0.08, duration: 0.3, y: 6, scale: 0.93 });
       }
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [animationsEnabled] }
   );
 
   // ── Auto-scroll on hover (desktop only) ──

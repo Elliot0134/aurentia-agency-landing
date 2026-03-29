@@ -8,6 +8,7 @@ import * as LucideIcons from "lucide-react";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { ProjectFeature } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -30,8 +31,10 @@ function getIcon(iconName: string) {
 
 export function ProjectSolution({ solution, features }: ProjectSolutionProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!gridRef.current) return;
 
     const cards = gridRef.current.querySelectorAll("[data-feature-card]");
@@ -72,7 +75,7 @@ export function ProjectSolution({ solution, features }: ProjectSolutionProps) {
         },
       }
     );
-  }, { scope: gridRef });
+  }, { scope: gridRef, dependencies: [animationsEnabled] });
 
   return (
     <section className="py-20 md:py-28">

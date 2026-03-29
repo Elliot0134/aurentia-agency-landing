@@ -11,6 +11,7 @@ import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CalModal } from "@/components/shared/CalModal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { aboutCtaContent } from "@/data/about-content";
 
 if (typeof window !== "undefined") {
@@ -20,8 +21,10 @@ if (typeof window !== "undefined") {
 export function AboutCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [calOpen, setCalOpen] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!contentRef.current) return;
 
     const elements = contentRef.current.querySelectorAll("[data-reveal]");
@@ -42,7 +45,7 @@ export function AboutCTA() {
         },
       }
     );
-  }, { scope: contentRef });
+  }, { scope: contentRef, dependencies: [animationsEnabled] });
 
   return (
     <>

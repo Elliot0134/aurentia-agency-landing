@@ -10,6 +10,7 @@ import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { tarifsContent } from "@/data/identite-visuelle-content";
 import { ShieldCheck, Palette, Layers, FileText, Pen } from "lucide-react";
 
@@ -22,9 +23,11 @@ const factorIcons = [Palette, Layers, FileText, Pen, ShieldCheck];
 
 export function IdentiteVisuelleTarifs() {
   const listRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!listRef.current) return;
 
       const items = listRef.current.querySelectorAll("[data-factor]");
@@ -45,7 +48,7 @@ export function IdentiteVisuelleTarifs() {
         }
       );
     },
-    { scope: listRef }
+    { scope: listRef, dependencies: [animationsEnabled] }
   );
 
   return (

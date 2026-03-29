@@ -9,6 +9,7 @@ import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { conciergeriesInnovationContent } from "@/data/conciergeries-content";
 import type { LucideProps } from "lucide-react";
 import { Monitor, BarChart3, Target } from "lucide-react";
@@ -27,8 +28,10 @@ const STEP_NUMBERS = ["01", "02", "03"];
 
 export function ConciergerieInnovation() {
   const cardsRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!cardsRef.current) return;
 
     // Animate step number glow pulse on each card

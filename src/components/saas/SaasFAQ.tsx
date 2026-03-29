@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { saasFAQContent, saasFAQItems } from "@/data/saas-content";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { SaasFAQItem } from "@/data/saas-content";
 import { ChevronDown } from "lucide-react";
 
@@ -29,9 +30,11 @@ function FAQItem({
 }) {
   const answerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!answerRef.current || !innerRef.current) return;
 
       if (isOpen) {
@@ -51,7 +54,7 @@ function FAQItem({
         });
       }
     },
-    { dependencies: [isOpen] }
+    { dependencies: [isOpen, animationsEnabled] }
   );
 
   return (

@@ -13,7 +13,9 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
   const animationsEnabled = useAnimationsEnabled();
 
   useEffect(() => {
-    // Skip Lenis on mobile for better native scroll performance
+    // On mobile: skip Lenis entirely for native scroll performance.
+    // ScrollTrigger still works (so inline GSAP in components can reveal elements)
+    // but without the Lenis overhead.
     if (!animationsEnabled) return;
 
     // Respect reduced motion preference

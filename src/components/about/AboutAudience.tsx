@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   audienceItems,
   audienceSectionContent,
@@ -20,8 +21,10 @@ if (typeof window !== "undefined") {
 
 export function AboutAudience() {
   const listRef = useRef<HTMLUListElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!listRef.current) return;
 
     const items = listRef.current.querySelectorAll("[data-audience-item]");
@@ -62,7 +65,7 @@ export function AboutAudience() {
         },
       }
     );
-  }, { scope: listRef });
+  }, { scope: listRef, dependencies: [animationsEnabled] });
 
   return (
     <>

@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { saasCTAContent } from "@/data/saas-content";
 import { Check } from "lucide-react";
 
@@ -18,9 +19,11 @@ if (typeof window !== "undefined") {
 
 export function SaasCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!contentRef.current) return;
 
       const elements = contentRef.current.querySelectorAll("[data-reveal]");
@@ -42,7 +45,7 @@ export function SaasCTA() {
         }
       );
     },
-    { scope: contentRef }
+    { scope: contentRef, dependencies: [animationsEnabled] }
   );
 
   return (

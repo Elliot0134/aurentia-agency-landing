@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Section } from "@/components/ui/Section";
 import { AuroraBackground } from "@/components/animations/AuroraBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -37,10 +38,11 @@ const SYLLABLES = [
 
 export function HomeAurentiaName() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !animationsEnabled) return;
       const ctx = containerRef.current;
 
       const syllables = ctx.querySelectorAll<HTMLElement>(".syllable-card");
@@ -243,7 +245,7 @@ export function HomeAurentiaName() {
         });
       });
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [animationsEnabled] }
   );
 
   return (

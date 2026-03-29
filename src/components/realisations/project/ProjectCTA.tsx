@@ -10,6 +10,7 @@ import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CalModal } from "@/components/shared/CalModal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { ProjectType } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -46,8 +47,10 @@ const proofs = [
 export function ProjectCTA({ projectType }: ProjectCTAProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [calOpen, setCalOpen] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!contentRef.current) return;
 
     const elements = contentRef.current.querySelectorAll("[data-reveal]");
@@ -67,7 +70,7 @@ export function ProjectCTA({ projectType }: ProjectCTAProps) {
         },
       }
     );
-  }, { scope: contentRef });
+  }, { scope: contentRef, dependencies: [animationsEnabled] });
 
   return (
     <>

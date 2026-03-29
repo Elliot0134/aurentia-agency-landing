@@ -11,6 +11,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { teamMembers, aboutTeamSection } from "@/data/about-content";
 
 if (typeof window !== "undefined") {
@@ -28,8 +29,10 @@ function MemberCard({
   const tiltRef = useRef<HTMLDivElement>(null);
   const tagsRef = useRef<HTMLDivElement>(null);
   const isEven = index % 2 === 0;
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!cardRef.current) return;
 
     gsap.fromTo(
@@ -74,7 +77,7 @@ function MemberCard({
         }
       );
     }
-  }, { scope: cardRef });
+  }, { scope: cardRef, dependencies: [animationsEnabled] });
 
   // 3D tilt on mouse move
   const isFirstMove = useRef(true);

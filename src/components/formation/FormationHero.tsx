@@ -8,6 +8,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { formationHero } from "@/data/formation-content";
 
 if (typeof window !== "undefined") {
@@ -16,9 +17,11 @@ if (typeof window !== "undefined") {
 
 export function FormationHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!sectionRef.current) return;
       const els = sectionRef.current.querySelectorAll("[data-hero-reveal]");
       gsap.fromTo(
@@ -34,7 +37,7 @@ export function FormationHero() {
         }
       );
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   const scrollToWaitlist = () => {

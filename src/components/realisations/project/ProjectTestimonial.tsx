@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { TextReveal } from "@/components/animations/TextReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { ProjectTestimonial as ProjectTestimonialType } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -19,8 +20,10 @@ export function ProjectTestimonial({ testimonial }: ProjectTestimonialProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const quoteMarkRef = useRef<HTMLSpanElement>(null);
   const authorRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!sectionRef.current || !testimonial) return;
 
     // Quote mark scale animation
@@ -62,7 +65,7 @@ export function ProjectTestimonial({ testimonial }: ProjectTestimonialProps) {
         }
       );
     }
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [animationsEnabled] });
 
   // Render nothing if no testimonial
   if (!testimonial) return null;

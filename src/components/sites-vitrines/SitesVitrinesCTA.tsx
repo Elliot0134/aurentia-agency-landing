@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { ctaContent } from "@/data/sites-vitrines-content";
 import { Check } from "lucide-react";
 
@@ -19,9 +20,11 @@ if (typeof window !== "undefined") {
 export function SitesVitrinesCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
   const proofsRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!contentRef.current) return;
 
       // CTA button animation
@@ -65,7 +68,7 @@ export function SitesVitrinesCTA() {
         );
       }
     },
-    { scope: contentRef }
+    { scope: contentRef, dependencies: [animationsEnabled] }
   );
 
   return (

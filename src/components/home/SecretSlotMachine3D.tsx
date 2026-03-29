@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import gsap from "gsap";
 import confetti from "canvas-confetti";
 import { PRIZES, SHOWCASE, pickPrize } from "./easterEggData";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 /* ─────────────────────────────────────────────
    Constants
@@ -30,6 +31,7 @@ function SlotReel({
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [cellH, setCellH] = useState(58);
+  const animationsEnabled = useAnimationsEnabled();
 
   // Measure actual cell height from container
   useEffect(() => {
@@ -42,6 +44,7 @@ function SlotReel({
   }, []);
 
   useEffect(() => {
+    if (!animationsEnabled) return;
     if (!isSpinning || targetIndex === null || !stripRef.current) return;
 
     const landingCycle = 8;
@@ -77,7 +80,7 @@ function SlotReel({
         }
       },
     });
-  }, [isSpinning, targetIndex, delay, onStop, cellH]);
+  }, [animationsEnabled, isSpinning, targetIndex, delay, onStop, cellH]);
 
   return (
     <div ref={wrapperRef} className="relative flex-1 overflow-hidden h-full">

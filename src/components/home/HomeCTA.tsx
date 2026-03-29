@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CalModal } from "@/components/shared/CalModal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,8 +17,10 @@ if (typeof window !== "undefined") {
 export function HomeCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [calOpen, setCalOpen] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!contentRef.current) return;
 
     const elements = contentRef.current.querySelectorAll("[data-reveal]");
@@ -38,7 +41,7 @@ export function HomeCTA() {
         },
       }
     );
-  }, { scope: contentRef });
+  }, { scope: contentRef, dependencies: [animationsEnabled] });
 
   return (
     <>

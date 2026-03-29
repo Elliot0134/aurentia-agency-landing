@@ -8,6 +8,7 @@ import confetti from "canvas-confetti";
    Configuration
    ───────────────────────────────────────────── */
 import { PRIZES, SHOWCASE, pickPrize } from "./easterEggData";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 const SEGMENT_ANGLE = 360 / PRIZES.length;
 
@@ -251,6 +252,7 @@ export function SecretRoulette({ onClose }: SecretRouletteProps) {
   const [email, setEmail] = useState("");
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   const isValidEmail = email.includes("@") && email.includes(".");
   const wonPrize = prizeIndex !== null ? PRIZES[prizeIndex] : null;
@@ -266,7 +268,7 @@ export function SecretRoulette({ onClose }: SecretRouletteProps) {
     const fullSpins = 6 + Math.floor(Math.random() * 3);
     const finalAngle = fullSpins * 360 + (360 - targetCenter);
 
-    if (wheelRef.current) {
+    if (wheelRef.current && animationsEnabled) {
       gsap.fromTo(
         wheelRef.current,
         { rotation: 0 },
@@ -282,8 +284,13 @@ export function SecretRoulette({ onClose }: SecretRouletteProps) {
           },
         }
       );
+    } else {
+      if (!PRIZES[winIndex].isLoss) {
+        fireConfetti();
+      }
+      setStep("result");
     }
-  }, [isValidEmail, step]);
+  }, [isValidEmail, step, animationsEnabled]);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

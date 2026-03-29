@@ -10,6 +10,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { NumberMorph } from "@/components/animations/NumberMorph";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { apportHero } from "@/data/apport-affaires-content";
 
 if (typeof window !== "undefined") {
@@ -18,9 +19,11 @@ if (typeof window !== "undefined") {
 
 export function ApportAffairesHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!sectionRef.current) return;
 
       // Badge fade-in + scale
@@ -44,7 +47,7 @@ export function ApportAffairesHero() {
         { opacity: 1, y: 0, duration: 0.8, delay: 0.7, ease: "power3.out" }
       );
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   return (

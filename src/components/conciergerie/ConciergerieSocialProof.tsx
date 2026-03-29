@@ -9,6 +9,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { NumberMorph } from "@/components/animations/NumberMorph";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { conciergeriesSocialProofContent } from "@/data/conciergeries-content";
 import { ExternalLink, Quote } from "lucide-react";
 
@@ -18,8 +19,10 @@ if (typeof window !== "undefined") {
 
 export function ConciergerieSocialProof() {
   const mockupRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!mockupRef.current) return;
 
     // Subtle 3D tilt on hover via mousemove

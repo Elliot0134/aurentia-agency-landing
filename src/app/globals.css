@@ -6,12 +6,16 @@
    The [data-splash-ready] attribute is added after the
    splash animation completes to restore normal behavior.
    ============================================ */
-[data-splash-content]:not([data-splash-ready]) {
-  opacity: 0 !important;
+/* On desktop: hide content until splash completes */
+@media (min-width: 768px) {
+  [data-splash-content]:not([data-splash-ready]) {
+    opacity: 0 !important;
+  }
+  [data-splash-navbar]:not([data-splash-ready]) {
+    opacity: 0 !important;
+  }
 }
-[data-splash-navbar]:not([data-splash-ready]) {
-  opacity: 0 !important;
-}
+/* On mobile: show everything immediately — no splash screen */
 /* ============================================
    AURENTIA AGENCY — Global Styles
    Light & Dark mode support · Tailwind CSS v4
@@ -670,34 +674,28 @@ h1, h2 {
 }
 
 /* ============================================
-   MOBILE — Disable decorative animations for performance
+   MOBILE — Kill ALL decorative animations & reduce GPU load
    ============================================ */
 @media (max-width: 767px) {
+  /* Kill ALL CSS keyframe animations on mobile */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /* Remove will-change hints on mobile (reduces GPU layer creation) */
+  .will-change-transform {
+    will-change: auto !important;
+  }
+
+  /* Hide heavy decorative floating elements on mobile */
   .floating-3d,
   .floating-3d-sm,
   .floating-3d-lg,
   .floating-3d-reverse {
-    animation: none !important;
-  }
-
-  .marquee-track {
-    animation: none !important;
-  }
-
-  .marquee-track-slow {
-    animation: none !important;
-  }
-
-  .scroll-dot-indicator {
-    animation: none !important;
-  }
-
-  .secret-hint-mobile {
-    animation: none !important;
-  }
-
-  .animate-float-y {
-    animation: none !important;
+    display: none !important;
   }
 }
 

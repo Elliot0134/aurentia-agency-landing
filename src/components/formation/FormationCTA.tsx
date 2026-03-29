@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { formationCTA } from "@/data/formation-content";
 import { Check } from "lucide-react";
 
@@ -21,9 +22,11 @@ export function FormationCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!contentRef.current) return;
       const els = contentRef.current.querySelectorAll("[data-reveal]");
       gsap.fromTo(
@@ -43,7 +46,7 @@ export function FormationCTA() {
         }
       );
     },
-    { scope: contentRef }
+    { scope: contentRef, dependencies: [animationsEnabled] }
   );
 
   const handleSubmit = async (e: React.FormEvent) => {

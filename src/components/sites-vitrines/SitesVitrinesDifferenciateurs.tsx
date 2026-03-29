@@ -10,6 +10,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { diffContent, differentiateurs } from "@/data/sites-vitrines-content";
 import { Cpu, Hammer, Eye } from "lucide-react";
 
@@ -39,9 +40,11 @@ const iconStyles: Record<string, { bg: string; text: string; glow: string }> = {
 
 export function SitesVitrinesDifferenciateurs() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!gridRef.current) return;
 
       const icons = gridRef.current.querySelectorAll(".diff-icon");
@@ -62,7 +65,7 @@ export function SitesVitrinesDifferenciateurs() {
         }
       );
     },
-    { scope: gridRef }
+    { scope: gridRef, dependencies: [animationsEnabled] }
   );
 
   return (

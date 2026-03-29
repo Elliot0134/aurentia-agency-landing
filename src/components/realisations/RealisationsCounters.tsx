@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "@/components/ui/Section";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { NumberMorph } from "@/components/animations/NumberMorph";
 
 if (typeof window !== "undefined") {
@@ -20,8 +21,10 @@ const stats = [
 
 export function RealisationsCounters() {
   const labelsRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!labelsRef.current) return;
 
     const labels = labelsRef.current.querySelectorAll(".counter-label");
@@ -43,7 +46,7 @@ export function RealisationsCounters() {
         },
       }
     );
-  }, { scope: labelsRef });
+  }, { scope: labelsRef, dependencies: [animationsEnabled] });
 
   return (
     <Section className="py-16 md:py-20" theme="transparent">

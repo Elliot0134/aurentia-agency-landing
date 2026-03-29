@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { LegalToc, type TocItem } from "./LegalToc";
 
 interface LegalPageLayoutProps {
@@ -23,8 +24,10 @@ export function LegalPageLayout({
   className,
 }: LegalPageLayoutProps) {
   const headerRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!headerRef.current) return;
 
     gsap.fromTo(
@@ -41,7 +44,7 @@ export function LegalPageLayout({
         stagger: 0.15,
       }
     );
-  }, { scope: headerRef });
+  }, { scope: headerRef, dependencies: [animationsEnabled] });
 
   return (
     <div className={cn("py-20 md:py-32", className)}>

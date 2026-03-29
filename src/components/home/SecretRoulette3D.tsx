@@ -7,6 +7,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import confetti from "canvas-confetti";
 import { PRIZES, SHOWCASE, pickPrize } from "./easterEggData";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 /* ─────────────────────────────────────────────
    3D Wheel Component
@@ -15,6 +16,7 @@ const SEGMENT_ANGLE = (Math.PI * 2) / PRIZES.length;
 
 function Wheel({ prizeIndex, isSpinning, onSpinEnd }: { prizeIndex: number | null, isSpinning: boolean, onSpinEnd: () => void }) {
   const groupRef = useRef<THREE.Group>(null);
+  const animationsEnabled = useAnimationsEnabled();
   
   // Create materials
   const materials = useMemo(() => {
@@ -45,6 +47,7 @@ function Wheel({ prizeIndex, isSpinning, onSpinEnd }: { prizeIndex: number | nul
 
   // Handle spin animation
   useEffect(() => {
+    if (!animationsEnabled) return;
     if (isSpinning && prizeIndex !== null && groupRef.current) {
       // Calculate final rotation
       // The wheel rotates counter-clockwise around Z, so target angle is negative or positive depending on setup.
@@ -68,7 +71,7 @@ function Wheel({ prizeIndex, isSpinning, onSpinEnd }: { prizeIndex: number | nul
         }
       );
     }
-  }, [isSpinning, prizeIndex, onSpinEnd]);
+  }, [animationsEnabled, isSpinning, prizeIndex, onSpinEnd]);
 
   return (
     <group ref={groupRef} rotation={[0, 0, 0]}>

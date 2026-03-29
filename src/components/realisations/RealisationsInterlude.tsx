@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { TextReveal } from "@/components/animations/TextReveal";
 
 if (typeof window !== "undefined") {
@@ -16,8 +17,10 @@ export function RealisationsInterlude() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const subtextRef = useRef<HTMLParagraphElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!subtextRef.current) return;
 
     gsap.fromTo(
@@ -46,7 +49,7 @@ export function RealisationsInterlude() {
         ease: "sine.inOut",
       });
     }
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [animationsEnabled] });
 
   return (
     <Section

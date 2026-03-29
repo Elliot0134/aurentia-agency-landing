@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { processContent, processSteps } from "@/data/identite-visuelle-content";
 
 if (typeof window !== "undefined") {
@@ -17,9 +18,11 @@ if (typeof window !== "undefined") {
 export function IdentiteVisuelleProcess() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!timelineRef.current) return;
 
       // Animate the connecting line
@@ -62,7 +65,7 @@ export function IdentiteVisuelleProcess() {
         );
       });
     },
-    { scope: timelineRef }
+    { scope: timelineRef, dependencies: [animationsEnabled] }
   );
 
   return (

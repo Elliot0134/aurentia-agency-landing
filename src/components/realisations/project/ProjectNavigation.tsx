@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Project } from "@/data/projects";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { SafeImage } from "@/components/ui/SafeImage";
 
 if (typeof window !== "undefined") {
@@ -23,8 +24,10 @@ export function ProjectNavigation({
   nextProject,
 }: ProjectNavigationProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!sectionRef.current) return;
 
     const cards = sectionRef.current.querySelectorAll("[data-nav-card]");
@@ -45,7 +48,7 @@ export function ProjectNavigation({
         },
       }
     );
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [animationsEnabled] });
 
   return (
     <section ref={sectionRef} className="py-12 md:py-16">

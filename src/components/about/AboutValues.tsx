@@ -10,6 +10,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { TextReveal } from "@/components/animations/TextReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { valueCards, aboutValuesSection } from "@/data/about-content";
 import type { ValueCard } from "@/data/about-content";
 
@@ -27,8 +28,10 @@ const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>
 
 function ValueCardItem({ card, index }: { card: ValueCard; index: number }) {
   const iconRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!iconRef.current) return;
 
     gsap.fromTo(
@@ -47,7 +50,7 @@ function ValueCardItem({ card, index }: { card: ValueCard; index: number }) {
         },
       }
     );
-  }, { scope: iconRef });
+  }, { scope: iconRef, dependencies: [animationsEnabled] });
 
   const IconComponent = iconMap[card.icon];
   const isSpan2 = card.span === 2;

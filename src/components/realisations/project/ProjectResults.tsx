@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import type { ProjectResult } from "@/data/projects";
 
 if (typeof window !== "undefined") {
@@ -18,8 +19,10 @@ interface ProjectResultsProps {
 
 export function ProjectResults({ results }: ProjectResultsProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!gridRef.current) return;
 
     const cards = gridRef.current.querySelectorAll("[data-result-card]");
@@ -72,7 +75,7 @@ export function ProjectResults({ results }: ProjectResultsProps) {
         });
       }
     });
-  }, { scope: gridRef });
+  }, { scope: gridRef, dependencies: [animationsEnabled] });
 
   if (!results.length) return null;
 

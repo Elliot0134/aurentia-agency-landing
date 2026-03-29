@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   apportAudienceSection,
   apportAudience,
@@ -20,9 +21,11 @@ if (typeof window !== "undefined") {
 
 export function ApportAffairesAudience() {
   const listRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!listRef.current) return;
 
       const items = listRef.current.querySelectorAll("[data-audience-item]");
@@ -63,7 +66,7 @@ export function ApportAffairesAudience() {
         }
       );
     },
-    { scope: listRef }
+    { scope: listRef, dependencies: [animationsEnabled] }
   );
 
   return (

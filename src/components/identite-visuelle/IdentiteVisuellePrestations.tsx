@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   prestationsContent,
   prestationBlocks,
@@ -28,9 +29,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function IdentiteVisuellePrestations() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!gridRef.current) return;
 
       // Icon scale animation
@@ -73,7 +76,7 @@ export function IdentiteVisuellePrestations() {
         el.addEventListener("mouseleave", handleLeave);
       });
     },
-    { scope: gridRef }
+    { scope: gridRef, dependencies: [animationsEnabled] }
   );
 
   return (

@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans, JetBrains_Mono, Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { LenisProvider } from "@/components/animations/LenisProvider";
-import { AnimationProvider } from "@/components/animations/AnimationContext";
 import { CustomCursor } from "@/components/animations/CustomCursor";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -103,7 +102,7 @@ export default function RootLayout({
       <head>
         <style
           dangerouslySetInnerHTML={{
-            __html: `[data-splash-content]:not([data-splash-ready]){opacity:0!important}[data-splash-navbar]:not([data-splash-ready]){opacity:0!important}`,
+            __html: `@media(min-width:768px){[data-splash-content]:not([data-splash-ready]){opacity:0!important}[data-splash-navbar]:not([data-splash-ready]){opacity:0!important}}`,
           }}
         />
         <script
@@ -133,7 +132,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider>
-          <AnimationProvider>
           <LenisProvider>
             <ScrollToTop />
             <CustomCursor />
@@ -143,7 +141,6 @@ export default function RootLayout({
             <FloatingCTA />
             {children}
           </LenisProvider>
-          </AnimationProvider>
         </ThemeProvider>
       </body>
     </html>

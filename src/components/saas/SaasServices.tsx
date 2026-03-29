@@ -9,6 +9,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import Image from "next/image";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { saasServicesContent } from "@/data/saas-content";
 
 if (typeof window !== "undefined") {
@@ -23,9 +24,11 @@ export function SaasServices() {
   const saasRef = useRef<HTMLDivElement>(null);
   const metierRef = useRef<HTMLDivElement>(null);
   const autoRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!containerRef.current || !cardsRef.current) return;
 
       const popIn = (
@@ -111,7 +114,7 @@ export function SaasServices() {
         popIn(tl, a.querySelectorAll(".a-log"), { stagger: 0.06, duration: 0.3, y: 6, scale: 0.93 });
       }
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [animationsEnabled] }
   );
 
   // Auto-scroll on hover

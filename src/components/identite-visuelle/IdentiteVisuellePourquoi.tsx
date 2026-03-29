@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { pourquoiContent } from "@/data/identite-visuelle-content";
 import { Eye, Cpu } from "lucide-react";
 
@@ -18,9 +19,11 @@ if (typeof window !== "undefined") {
 
 export function IdentiteVisuellePourquoi() {
   const quoteRef = useRef<HTMLQuoteElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!quoteRef.current) return;
 
       gsap.fromTo(
@@ -39,7 +42,7 @@ export function IdentiteVisuellePourquoi() {
         }
       );
     },
-    { scope: quoteRef }
+    { scope: quoteRef, dependencies: [animationsEnabled] }
   );
 
   return (

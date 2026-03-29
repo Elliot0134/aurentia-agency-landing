@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { heroContent } from "@/data/conciergerie-content";
 import { ChevronDown } from "lucide-react";
 
@@ -14,9 +15,11 @@ export function ConciergerieHero() {
   const badgeRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const chevronRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!sectionRef.current) return;
 
       // Badge animation
@@ -54,7 +57,7 @@ export function ConciergerieHero() {
         });
       }
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   return (

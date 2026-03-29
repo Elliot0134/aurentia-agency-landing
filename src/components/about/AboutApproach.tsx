@@ -10,6 +10,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import {
   approachPillars,
   approachSectionContent,
@@ -53,8 +54,10 @@ const orbGlowMap: Record<string, string> = {
 
 export function AboutApproach() {
   const iconsRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!iconsRef.current) return;
 
     const icons = iconsRef.current.querySelectorAll("[data-icon]");
@@ -76,7 +79,7 @@ export function AboutApproach() {
         },
       }
     );
-  }, { scope: iconsRef });
+  }, { scope: iconsRef, dependencies: [animationsEnabled] });
 
   return (
     <Section

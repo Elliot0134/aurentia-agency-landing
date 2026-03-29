@@ -9,6 +9,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { pricingContent } from "@/data/landing-pages-content";
 import { Check, Clock, Sparkles } from "lucide-react";
 
@@ -18,8 +19,10 @@ if (typeof window !== "undefined") {
 
 export function LandingPagesPricing() {
   const cardRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!cardRef.current) return;
 
     gsap.fromTo(

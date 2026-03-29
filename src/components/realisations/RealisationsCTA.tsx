@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { CalModal } from "@/components/shared/CalModal";
 
 if (typeof window !== "undefined") {
@@ -23,8 +24,10 @@ const proofPoints = [
 export function RealisationsCTA() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [calOpen, setCalOpen] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!contentRef.current) return;
 
     const elements = contentRef.current.querySelectorAll("[data-reveal]");
@@ -45,7 +48,7 @@ export function RealisationsCTA() {
         },
       }
     );
-  }, { scope: contentRef });
+  }, { scope: contentRef, dependencies: [animationsEnabled] });
 
   return (
     <>

@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { CalModal } from "@/components/shared/CalModal";
 
 if (typeof window !== "undefined") {
@@ -448,6 +449,7 @@ const steps = phases.flatMap((p) => p.steps);
    ═══════════════════════════════════════════════════════ */
 
 export function SaasProcess() {
+  const animationsEnabled = useAnimationsEnabled();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -483,6 +485,7 @@ export function SaasProcess() {
   }, []);
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!isReady || !sectionRef.current || !trackRef.current) return;
 
     const section = sectionRef.current;
@@ -562,7 +565,7 @@ export function SaasProcess() {
         );
       });
     }
-  }, { scope: sectionRef, dependencies: [isReady] });
+  }, { scope: sectionRef, dependencies: [isReady, animationsEnabled] });
 
   return (
     <>

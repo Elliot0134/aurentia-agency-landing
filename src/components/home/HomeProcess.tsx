@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -537,6 +538,7 @@ export function HomeProcess() {
   const headerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const isMobileRef = useRef(false);
+  const animationsEnabled = useAnimationsEnabled();
   useEffect(() => {
     isMobileRef.current = window.innerWidth < 768;
 
@@ -571,6 +573,7 @@ export function HomeProcess() {
   }, []);
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!isReady || !sectionRef.current || !trackRef.current) return;
 
     const section = sectionRef.current;
@@ -651,7 +654,7 @@ export function HomeProcess() {
         );
       });
     }
-  }, { scope: sectionRef, dependencies: [isReady] });
+  }, { scope: sectionRef, dependencies: [isReady, animationsEnabled] });
 
   return (
     <section

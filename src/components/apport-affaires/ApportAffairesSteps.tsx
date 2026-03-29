@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { apportStepsSection, apportSteps } from "@/data/apport-affaires-content";
 
 if (typeof window !== "undefined") {
@@ -17,9 +18,11 @@ if (typeof window !== "undefined") {
 export function ApportAffairesSteps() {
   const lineRef = useRef<SVGLineElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!lineRef.current || !sectionRef.current) return;
 
       const line = lineRef.current;
@@ -41,7 +44,7 @@ export function ApportAffairesSteps() {
         },
       });
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   return (

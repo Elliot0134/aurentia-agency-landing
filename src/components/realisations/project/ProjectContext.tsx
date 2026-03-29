@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { AlertTriangle } from "lucide-react";
 
 if (typeof window !== "undefined") {
@@ -20,8 +21,10 @@ interface ProjectContextProps {
 export function ProjectContext({ context, problem }: ProjectContextProps) {
   const dividerRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     // Divider scale animation
     if (dividerRef.current) {
       gsap.fromTo(

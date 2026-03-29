@@ -7,6 +7,7 @@ import { BlurReveal } from "@/components/animations/BlurReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { SectionBackground } from "@/components/ui/SectionBackground";
 import { ChevronDown } from "lucide-react";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { CalModal } from "@/components/shared/CalModal";
 
 export function RealisationsHero() {
@@ -15,9 +16,11 @@ export function RealisationsHero() {
   const ctaRef = useRef<HTMLDivElement>(null);
   const chevronRef = useRef<HTMLDivElement>(null);
   const [calOpen, setCalOpen] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!sectionRef.current) return;
 
       // Badge: fade-in + scale
@@ -55,7 +58,7 @@ export function RealisationsHero() {
         });
       }
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   return (

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,8 +16,10 @@ interface ProjectTechnologiesProps {
 
 export function ProjectTechnologies({ technologies }: ProjectTechnologiesProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!sectionRef.current) return;
 
     const title = sectionRef.current.querySelector("[data-tech-title]");
@@ -57,7 +60,7 @@ export function ProjectTechnologies({ technologies }: ProjectTechnologiesProps) 
         },
       }
     );
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [animationsEnabled] });
 
   if (!technologies.length) return null;
 

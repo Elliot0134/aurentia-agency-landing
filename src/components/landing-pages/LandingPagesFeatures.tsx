@@ -17,6 +17,7 @@ import { SectionBackground } from "@/components/ui/SectionBackground";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { featuresContent } from "@/data/landing-pages-content";
 
 if (typeof window !== "undefined") {
@@ -34,9 +35,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function LandingPagesFeatures() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!gridRef.current) return;
 
       const icons = gridRef.current.querySelectorAll(".feature-icon");
@@ -57,7 +60,7 @@ export function LandingPagesFeatures() {
         }
       );
     },
-    { scope: gridRef }
+    { scope: gridRef, dependencies: [animationsEnabled] }
   );
 
   return (

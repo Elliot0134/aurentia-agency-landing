@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { SectionBackground } from "@/components/ui/SectionBackground";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { conciergeriesSolutionContent } from "@/data/conciergeries-content";
 import { PhoneMockup } from "@/components/shared/PhoneMockup";
 import { Check } from "lucide-react";
@@ -19,8 +20,10 @@ if (typeof window !== "undefined") {
 export function ConciergerieSolution() {
   const featuresRef = useRef<HTMLUListElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
+    if (!animationsEnabled) return;
     if (!featuresRef.current) return;
 
     const items = featuresRef.current.querySelectorAll(".feature-item");

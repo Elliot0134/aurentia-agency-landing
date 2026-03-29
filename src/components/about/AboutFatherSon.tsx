@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 import { fatherSonContent, fatherSonBlocks } from "@/data/about-content";
 
 if (typeof window !== "undefined") {
@@ -19,10 +20,12 @@ export function AboutDNA() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   // Animate the vertical timeline line on scroll (scaleY from 0 to 1)
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!timelineRef.current || !sectionRef.current) return;
 
       gsap.fromTo(
@@ -40,12 +43,13 @@ export function AboutDNA() {
         }
       );
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   // Parallax on the photo
   useGSAP(
     () => {
+      if (!animationsEnabled) return;
       if (!photoRef.current || !sectionRef.current) return;
 
       gsap.fromTo(
@@ -63,7 +67,7 @@ export function AboutDNA() {
         }
       );
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [animationsEnabled] }
   );
 
   return (
