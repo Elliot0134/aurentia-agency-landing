@@ -9,7 +9,7 @@ export const siteConfig = {
   currentNiche: "conciergeries",
   bookingUrl: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   email: "elliot.estrade@gmail.com",
-  phone: "07 81 95 80 90",
+  phone: "+33 7 81 95 80 90",
   instagram: "https://instagram.com/aurentia.agency",
   linkedin: "https://linkedin.com/company/aurentia-agency",
 };
