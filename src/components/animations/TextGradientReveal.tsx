@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,15 +23,14 @@ export const TextGradientReveal = ({
   elementType: Component = "h2",
 }: TextGradientRevealProps) => {
   const containerRef = useRef<HTMLElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !animationsEnabled) return;
 
     const words = containerRef.current.querySelectorAll('.headline-word');
 
-    // V2 Prompt implementation:
-    // Chaque mot commence gris (#555) et passe en blanc ou gradient orange au scroll (scrub: true)
-    gsap.fromTo(words, 
+    gsap.fromTo(words,
       { color: "currentColor", opacity: 0.2 },
       {
         opacity: 1,
@@ -44,7 +44,7 @@ export const TextGradientReveal = ({
         }
       }
     );
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [animationsEnabled] });
 
   const wordsArray = text.split(" ");
 
@@ -53,7 +53,10 @@ export const TextGradientReveal = ({
       {wordsArray.map((word, i) => (
         <span
           key={i}
-          className="headline-word inline-block font-black transition-colors duration-300"
+          className={cn(
+            "headline-word inline-block font-black transition-colors duration-300",
+            !animationsEnabled && "!opacity-100"
+          )}
         >
           {word}
         </span>

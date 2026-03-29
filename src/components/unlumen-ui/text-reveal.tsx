@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion, useInView } from "motion/react";
 
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 export interface TextRevealProps {
   /** The text to animate. */
@@ -47,6 +48,19 @@ export function TextReveal({
 }: TextRevealProps) {
   const ref = React.useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once, margin: "0px 0px -10% 0px" });
+  const animationsEnabled = useAnimationsEnabled();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const AnyTag = Tag as any;
+
+  // On mobile, render text directly without animation
+  if (!animationsEnabled) {
+    return (
+      <AnyTag className={cn("leading-relaxed", className)} aria-label={text}>
+        {text}
+      </AnyTag>
+    );
+  }
 
   const units =
     splitBy === "words"
@@ -54,9 +68,6 @@ export function TextReveal({
           .split(/\s+/)
           .map((w, i, arr) => (i < arr.length - 1 ? w + "\u00A0" : w))
       : text.split("");
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const AnyTag = Tag as any;
 
   return (
     <AnyTag

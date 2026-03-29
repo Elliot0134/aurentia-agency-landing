@@ -4,13 +4,18 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useEffect(() => {
+    // Skip Lenis on mobile for better native scroll performance
+    if (!animationsEnabled) return;
+
     // Respect reduced motion preference
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
@@ -39,7 +44,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       delete (window as unknown as Record<string, unknown>).__lenis;
       gsap.ticker.remove(lenis.raf as unknown as gsap.TickerCallback);
     };
-  }, []);
+  }, [animationsEnabled]);
 
   return <>{children}</>;
 }

@@ -670,6 +670,38 @@ h1, h2 {
 }
 
 /* ============================================
+   MOBILE — Disable decorative animations for performance
+   ============================================ */
+@media (max-width: 767px) {
+  .floating-3d,
+  .floating-3d-sm,
+  .floating-3d-lg,
+  .floating-3d-reverse {
+    animation: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .marquee-track-slow {
+    animation: none !important;
+  }
+
+  .scroll-dot-indicator {
+    animation: none !important;
+  }
+
+  .secret-hint-mobile {
+    animation: none !important;
+  }
+
+  .animate-float-y {
+    animation: none !important;
+  }
+}
+
+/* ============================================
    ACCESSIBILITY — Reduced motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {

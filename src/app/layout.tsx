@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, JetBrains_Mono, Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { LenisProvider } from "@/components/animations/LenisProvider";
+import { AnimationProvider } from "@/components/animations/AnimationContext";
 import { CustomCursor } from "@/components/animations/CustomCursor";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -59,17 +60,17 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Aurentia" }],
   creator: "Aurentia",
-  metadataBase: new URL("https://aurentia.fr"),
+  metadataBase: new URL("https://aurentia.agency"),
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://aurentia.fr",
+    url: "https://aurentia.agency",
     siteName: "Aurentia",
     title: "Aurentia — Agence web premium à Avignon",
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 48h.",
     images: [
       {
-        url: "https://aurentia.fr/images/opengraph/opengraph.png",
+        url: "https://aurentia.agency/images/opengraph/opengraph.png",
         width: 1200,
         height: 630,
         alt: "Aurentia — Agence web premium",
@@ -80,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aurentia — Agence web premium à Avignon",
     description: "Sites vitrines, landing pages et applications SaaS sur-mesure.",
-    images: ["https://aurentia.fr/images/opengraph/opengraph.png"],
+    images: ["https://aurentia.agency/images/opengraph/opengraph.png"],
   },
   robots: {
     index: true,
@@ -113,8 +114,8 @@ export default function RootLayout({
               "@type": "ProfessionalService",
               name: "Aurentia",
               description: "Agence web premium — Sites vitrines, landing pages et applications SaaS sur-mesure",
-              url: "https://aurentia.fr",
-              logo: "https://aurentia.fr/logo.png",
+              url: "https://aurentia.agency",
+              logo: "https://aurentia.agency/logo.png",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Avignon",
@@ -132,6 +133,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider>
+          <AnimationProvider>
           <LenisProvider>
             <ScrollToTop />
             <CustomCursor />
@@ -141,6 +143,7 @@ export default function RootLayout({
             <FloatingCTA />
             {children}
           </LenisProvider>
+          </AnimationProvider>
         </ThemeProvider>
       </body>
     </html>

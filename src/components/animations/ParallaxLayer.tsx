@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +14,7 @@ if (typeof window !== "undefined") {
 interface ParallaxLayerProps {
   children: React.ReactNode;
   className?: string;
-  speed?: number; // 1 represents normal scrolling. > 1 is faster, < 1 is slower (backgrounds).
+  speed?: number;
 }
 
 export function ParallaxLayer({
@@ -22,13 +23,12 @@ export function ParallaxLayer({
   speed = 0.5,
 }: ParallaxLayerProps) {
   const layerRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
-    if (!layerRef.current) return;
-    
-    // Parallax logic: translate Y based on scroll
-    // A speed of 0.5 means it scrolls at half the speed of the viewport
-    const yValue = (1 - speed) * 100; 
+    if (!layerRef.current || !animationsEnabled) return;
+
+    const yValue = (1 - speed) * 100;
 
     gsap.fromTo(
       layerRef.current,
@@ -44,7 +44,7 @@ export function ParallaxLayer({
         },
       }
     );
-  }, { scope: layerRef });
+  }, { scope: layerRef, dependencies: [animationsEnabled] });
 
   return (
     <div ref={layerRef} className={cn("relative z-0", className)}>

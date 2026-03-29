@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -26,9 +27,10 @@ export function BlurReveal({
   style,
 }: BlurRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !animationsEnabled) return;
 
     const elements = containerRef.current.children;
     if (!elements.length) return;
@@ -72,7 +74,7 @@ export function BlurReveal({
         },
       });
     }
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [animationsEnabled] });
 
   return (
     <div ref={containerRef} className={cn("", className)} style={style}>

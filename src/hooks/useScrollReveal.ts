@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +23,7 @@ export function useScrollReveal<T extends HTMLElement>(
   options: ScrollRevealOptions = {}
 ) {
   const ref = useRef<T>(null);
+  const animationsEnabled = useAnimationsEnabled();
   const {
     y = 40,
     x = 0,
@@ -36,7 +38,7 @@ export function useScrollReveal<T extends HTMLElement>(
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !animationsEnabled) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
@@ -66,7 +68,7 @@ export function useScrollReveal<T extends HTMLElement>(
         if (t.trigger === el) t.kill();
       });
     };
-  }, [y, x, scale, opacity, duration, delay, stagger, start, children]);
+  }, [y, x, scale, opacity, duration, delay, stagger, start, children, animationsEnabled]);
 
   return ref;
 }
@@ -76,11 +78,18 @@ export function useCountUp(
   options: { duration?: number; prefix?: string; suffix?: string; start?: string } = {}
 ) {
   const ref = useRef<HTMLSpanElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
   const { duration = 2, prefix = "", suffix = "", start = "top 80%" } = options;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // On mobile or reduced motion, show final value immediately
+    if (!animationsEnabled) {
+      el.textContent = `${prefix}${endValue.toLocaleString("fr-FR")}${suffix}`;
+      return;
+    }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
@@ -103,7 +112,7 @@ export function useCountUp(
         el.textContent = `${prefix}${Math.round(obj.value).toLocaleString("fr-FR")}${suffix}`;
       },
     });
-  }, [endValue, duration, prefix, suffix, start]);
+  }, [endValue, duration, prefix, suffix, start, animationsEnabled]);
 
   return ref;
 }

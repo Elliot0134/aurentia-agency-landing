@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -26,9 +27,10 @@ export function TextReveal({
 }: TextRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const animationsEnabled = useAnimationsEnabled();
 
   useEffect(() => {
-    if (!containerRef.current || hasAnimated) return;
+    if (!containerRef.current || hasAnimated || !animationsEnabled) return;
 
     const words = containerRef.current.querySelectorAll(".word");
     if (!words.length) return;
@@ -69,9 +71,25 @@ export function TextReveal({
         }
       );
     }
-  }, [delay, hasAnimated]);
+  }, [delay, hasAnimated, animationsEnabled]);
 
   const Tag = elementType;
+
+  // On mobile, render text directly without word-wrapping spans
+  if (!animationsEnabled) {
+    if (children) {
+      return (
+        <Tag className={className}>
+          {children}
+        </Tag>
+      );
+    }
+    return (
+      <Tag className={className}>
+        {text}
+      </Tag>
+    );
+  }
 
   if (children) {
     return (

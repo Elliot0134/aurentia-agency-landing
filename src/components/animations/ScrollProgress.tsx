@@ -3,15 +3,17 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
+  const animationsEnabled = useAnimationsEnabled();
 
   useEffect(() => {
     const bar = barRef.current;
-    if (!bar) return;
+    if (!bar || !animationsEnabled) return;
 
     gsap.to(bar, {
       scaleX: 1,
@@ -27,7 +29,9 @@ export function ScrollProgress() {
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, []);
+  }, [animationsEnabled]);
+
+  if (!animationsEnabled) return null;
 
   return (
     <div

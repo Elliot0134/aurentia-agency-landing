@@ -300,8 +300,8 @@ export function HomeContact() {
               <ContactInfoItem
                 icon={<MailIcon className="w-5 h-5" />}
                 label="Email"
-                value="contact@aurentia.fr"
-                href="mailto:contact@aurentia.fr"
+                value="contact@aurentia.agency"
+                href="mailto:contact@aurentia.agency"
               />
               <ContactInfoItem
                 icon={<PhoneIcon className="w-5 h-5" />}

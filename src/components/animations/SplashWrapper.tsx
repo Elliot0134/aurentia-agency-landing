@@ -3,11 +3,13 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { SplashScreen } from "./SplashScreen";
+import { useAnimationsEnabled } from "./AnimationContext";
 
 export function SplashWrapper() {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const [showSplash, setShowSplash] = useState(isHome);
+  const animationsEnabled = useAnimationsEnabled();
+  const [showSplash, setShowSplash] = useState(isHome && animationsEnabled);
   const prevPathnameRef = useRef(pathname);
 
   const handleComplete = useCallback(() => {
@@ -19,7 +21,7 @@ export function SplashWrapper() {
     const prevPathname = prevPathnameRef.current;
     prevPathnameRef.current = pathname;
 
-    if (isHome && prevPathname !== "/") {
+    if (isHome && prevPathname !== "/" && animationsEnabled) {
       // Clean up previous ready state so CSS hides content again
       const navbar = document.querySelector("[data-splash-navbar]") as HTMLElement | null;
       if (navbar) {
@@ -29,11 +31,11 @@ export function SplashWrapper() {
       // Use requestAnimationFrame to avoid synchronous setState in effect
       requestAnimationFrame(() => setShowSplash(true));
     }
-  }, [isHome, pathname]);
+  }, [isHome, pathname, animationsEnabled]);
 
-  // On non-homepage routes, immediately reveal navbar and content
+  // On non-homepage routes or mobile, immediately reveal navbar and content
   useEffect(() => {
-    if (!isHome) {
+    if (!isHome || !animationsEnabled) {
       const navbar = document.querySelector("[data-splash-navbar]") as HTMLElement | null;
       if (navbar) {
         navbar.setAttribute("data-splash-ready", "");
@@ -45,9 +47,9 @@ export function SplashWrapper() {
         content.style.opacity = "1";
       }
     }
-  }, [isHome, pathname]);
+  }, [isHome, pathname, animationsEnabled]);
 
-  if (!showSplash) return null;
+  if (!showSplash || !animationsEnabled) return null;
 
   return <SplashScreen onComplete={handleComplete} />;
 }
