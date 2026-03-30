@@ -11,7 +11,6 @@ import { HomeServices } from "@/components/home/HomeServices";
 import { HomeProcess } from "@/components/home/HomeProcess";
 import { HomeTeam } from "@/components/home/HomeTeam";
 import { HomePortfolio } from "@/components/home/HomePortfolio";
-import { HomeCTA } from "@/components/home/HomeCTA";
 import { HomeTestimonials } from "@/components/home/HomeTestimonials";
 import { HomeAdvantages } from "@/components/home/HomeAdvantages";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
@@ -62,14 +61,13 @@ export default function Home() {
           <HeroEasterEgg />
           <HomeHero />
           <HomeServices />
-          <HomeTeam />
           <HomePortfolio />
-          <HomeProcess />
-          <HomeTestimonials />
+          <HomeTeam />
           <HomeAdvantages />
+          <HomeTestimonials />
+          <HomeProcess />
           <HomeFAQ />
           <HomeContact />
-          <HomeCTA />
         </main>
         <Footer />
       </div>
