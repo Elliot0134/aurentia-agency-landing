@@ -147,7 +147,7 @@ export function HomeHero() {
             <div className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL1")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
-                  Votre site web. Votre app.
+                  Des sites et apps sur-mesure.
                 </h1>
               </div>
             </div>
@@ -156,7 +156,7 @@ export function HomeHero() {
             <div className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL2")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
-                  Boost&eacute;s &agrave; l&rsquo;IA.
+                  Livr&eacute;s en semaines.
                 </p>
               </div>
             </div>
