@@ -677,8 +677,8 @@ export function HomeServices() {
             <ServiceDetails
               desc="Votre propre application en ligne. Tableau de bord, espace client, outils sur-mesure — on construit votre produit de A à Z."
               tags={["Dashboard", "API", "Scalable", "Auth"]}
-              price="Sur devis"
-              priceLabel=""
+              price="5&thinsp;000€"
+              priceLabel="À partir de"
               href="/saas"
             />
         </div>

@@ -53,34 +53,6 @@ const HeadsetIcon = () => (
   </svg>
 );
 
-// ---------------------------------------------------------------------------
-// Brand logos (image-based, with colored glow)
-// ---------------------------------------------------------------------------
-
-const TECH_LOGOS = [
-  { src: "/images/icons/supaabse-icon.webp", alt: "Supabase", glow: "#3ECF8E" },
-  { src: "/images/icons/claude-icon.webp", alt: "Claude Code", glow: "#D4A574" },
-  { src: "/images/icons/github-icon.webp", alt: "GitHub", glow: "#8B949E" },
-  { src: "/images/icons/vercel-icon.webp", alt: "Vercel", glow: "#888888" },
-  { src: "/images/icons/canva-icon.webp", alt: "Canva", glow: "#00C4CC" },
-  { src: "/images/icons/illustrator-icon.webp", alt: "Illustrator", glow: "#FF9A00" },
-  { src: "/images/icons/n8n-icon.webp", alt: "N8N", glow: "#EA4B71" },
-  { src: "/images/icons/google-drive-icon.webp", alt: "Google Drive", glow: "#4285F4" },
-];
-
-function BrandLogoImg({ src, alt, glow }: { src: string; alt: string; glow: string }) {
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      width={48}
-      height={48}
-      className="w-12 h-12 object-contain transition-transform duration-500 ease-in-out hover:scale-110"
-      style={{ filter: `drop-shadow(0 4px 8px ${glow}40)` }}
-      title={alt}
-    />
-  );
-}
 
 // WhatsApp icon for card header
 const WhatsAppIcon = () => (
@@ -94,8 +66,13 @@ const WhatsAppIcon = () => (
   />
 );
 
-// Placeholder — marquee is rendered directly in the card
-const TechLogosIcon = () => null;
+const TechLogosIcon = () => (
+  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="m10 10-2 2 2 2" />
+    <path d="m14 10 2 2-2 2" />
+  </svg>
+);
 
 // ---------------------------------------------------------------------------
 // Data
@@ -139,7 +116,7 @@ const ADVANTAGES: Advantage[] = [
     icon: TechLogosIcon,
     title: "Technologies modernes",
     description:
-      "Next.js, React, TypeScript, Supabase. Des technos performantes, maintenables et scalables. Pas de WordPress, pas de no-code.",
+      "Des technologies performantes, rapides et fiables. Pas de WordPress, pas de no-code — du vrai code sur-mesure, fait pour durer.",
     iconStyle: "logos",
   },
   {
@@ -155,55 +132,10 @@ const ADVANTAGES: Advantage[] = [
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// Tech logos marquee — uses CSS mask to fade icons in/out from edges
-// ---------------------------------------------------------------------------
-
-function TechLogosMarquee() {
-  return (
-    <div
-      className="relative py-4"
-      style={{
-        maskImage: "linear-gradient(to right, transparent, black 35%, black 65%, transparent)",
-        WebkitMaskImage: "linear-gradient(to right, transparent, black 35%, black 65%, transparent)",
-        overflowX: "clip",
-        overflowY: "visible",
-      }}
-    >
-      <div className="flex w-max animate-marquee gap-8" style={{ animationDuration: "18s" }}>
-        {[...TECH_LOGOS, ...TECH_LOGOS].map((logo, i) => (
-          <BrandLogoImg key={`${logo.alt}-${i}`} {...logo} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Card
 // ---------------------------------------------------------------------------
 
 function AdvantageCard({ icon: Icon, title, description, extra: Extra, iconStyle }: Advantage) {
-  if (iconStyle === "logos") {
-    return (
-      <SpotlightCard className="h-full !overflow-visible">
-        <div className="relative z-10 flex flex-col gap-4 p-8">
-          {/* Logos marquee */}
-          <TechLogosMarquee />
-
-          {/* Title */}
-          <h3 className="text-lg font-semibold text-foreground leading-snug">
-            {title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm leading-relaxed text-foreground/50">
-            {description}
-          </p>
-        </div>
-      </SpotlightCard>
-    );
-  }
-
   return (
     <SpotlightCard className="h-full">
       <div className="relative z-10 flex flex-col gap-4 p-8">
