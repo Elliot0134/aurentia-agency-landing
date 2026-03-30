@@ -278,6 +278,19 @@ export function HomePortfolio() {
           </BlurReveal>
         ))}
       </div>
+
+      {/* CTA */}
+      <BlurReveal delay={0.3}>
+        <div className="flex justify-center mt-12">
+          <Link
+            href="/realisations"
+            className="inline-flex items-center gap-2 text-base font-medium text-background bg-foreground hover:bg-foreground/90 px-6 py-3 rounded-lg transition-all duration-500 group/cta"
+          >
+            Voir nos réalisations
+            <svg className="w-4 h-4 transition-transform duration-500 group-hover/cta:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </Link>
+        </div>
+      </BlurReveal>
     </Section>
   );
 }

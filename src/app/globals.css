@@ -410,11 +410,31 @@
     width: 32px;
     height: 32px;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 99999;
   }
 
-  .custom-cursor svg {
+  .custom-cursor-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+  }
+
+  .custom-cursor-icon:first-child {
     transform-origin: 7px 4px;
+  }
+
+  .custom-cursor-pointer {
+    transform-origin: center top;
+  }
+
+  /* Scale effect on transition */
+  .custom-cursor-icon[style*="opacity: 0"] {
+    transform: scale(0.7);
+  }
+
+  .custom-cursor-icon[style*="opacity: 1"] {
+    transform: scale(1);
   }
 }
 

@@ -3,8 +3,19 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import gsap from "gsap";
 import confetti from "canvas-confetti";
-import { PRIZES, SHOWCASE, pickPrize } from "./easterEggData";
+import { PRIZES, SHOWCASE } from "./easterEggData";
 import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
+
+/* ─────────────────────────────────────────────
+   PDF mapping per prize label
+   ───────────────────────────────────────────── */
+const PRIZE_PDF_MAP: Record<string, string | null> = {
+  "Skills Claude Code": "/downloads/skills-claude-code.pdf",
+  "Skills Claude": "/downloads/skills-claude-code.pdf",
+  "Formation Claude": "/downloads/formation-claude.pdf",
+  "50€ Crédits": null, // no PDF — contact by email
+  "Perdu": null,
+};
 
 /* ─────────────────────────────────────────────
    Constants
@@ -158,12 +169,14 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<Step>("idle");
   const [email, setEmail] = useState("");
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [, setStops] = useState(0);
   const machineRef = useRef<HTMLDivElement>(null);
   const winLineRef = useRef<HTMLDivElement>(null);
 
   const isValidEmail = email.includes("@") && email.includes(".");
   const wonPrize = prizeIndex !== null ? PRIZES[prizeIndex] : null;
+  const pdfUrl = wonPrize ? PRIZE_PDF_MAP[wonPrize.label] ?? null : null;
 
   const fireConfetti = useCallback(() => {
     const defaults = { startVelocity: 35, spread: 55, ticks: 100, zIndex: 9999, colors: ["#c96442", "#d97757", "#e8b931", "#9c87f5", "#fff"] };
@@ -175,13 +188,31 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
     }, 250);
   }, []);
 
-  const handleSpin = useCallback(() => {
+  const handleSpin = useCallback(async () => {
     if (!isValidEmail || step !== "idle") return;
-    const winIndex = pickPrize();
-    setPrizeIndex(winIndex);
-    setStops(0);
-    setStep("spinning");
-  }, [isValidEmail, step]);
+    setApiError(null);
+
+    try {
+      const res = await fetch("/api/lucky-spin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setApiError(data.error ?? "Erreur serveur");
+        return;
+      }
+
+      setPrizeIndex(data.prizeIndex as number);
+      setStops(0);
+      setStep("spinning");
+    } catch {
+      setApiError("Erreur réseau, réessaye.");
+    }
+  }, [isValidEmail, step, email]);
 
   const handleReelStop = useCallback(() => {
     setStops((prev) => {
@@ -223,8 +254,6 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
             <MachineSVG />
 
             {/* HTML reels — positioned to align with SVG reel window */}
-            {/* SVG viewBox: window at x=72 y=157 w=216 h=176 in 360x440 */}
-            {/* As percentages: left=20%, top=35.7%, width=60%, height=40% */}
             <div
               className="absolute overflow-hidden rounded-lg"
               style={{
@@ -301,6 +330,11 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
                 </div>
               )}
             </div>
+
+            {apiError && (
+              <p className="text-sm text-red-500 animate-fade-in">{apiError}</p>
+            )}
+
             <button onClick={handleSpin} disabled={!isValidEmail || step !== "idle"}
               className="w-full px-6 py-4 rounded-2xl bg-accent-gradient text-white font-bold text-sm border border-white/10 backdrop-blur-xl shadow-lg shadow-accent-primary/20 disabled:opacity-20 disabled:shadow-none disabled:cursor-not-allowed hover:enabled:shadow-[0_8px_30px_-4px_rgba(201,100,66,0.6)] hover:enabled:scale-[1.02] active:enabled:scale-[0.98] transition-all duration-300"
             >
@@ -313,7 +347,7 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
             <div className="space-y-4 w-full max-w-sm animate-fade-in">
               {wonPrize.isLoss ? (
                 <p className="text-base text-foreground-muted">
-                  Pas de chance cette fois... Mais on t&apos;a quand m&ecirc;me envoy&eacute; un petit cadeau surprise par email.
+                  Pas de chance cette fois... Merci d&apos;avoir tent&eacute; !
                 </p>
               ) : (
                 <div className="bg-foreground/[0.06] backdrop-blur-xl border border-foreground/[0.1] rounded-2xl p-6 border-l-4 relative overflow-hidden" style={{ borderLeftColor: wonPrize.color }}>
@@ -328,9 +362,32 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
               )}
-              <p className="text-sm text-foreground-muted">
-                Envoy&eacute; &agrave; <strong className="text-foreground">{email}</strong>
-              </p>
+
+              {/* Download PDF or contact message */}
+              {!wonPrize.isLoss && pdfUrl && (
+                <a
+                  href={pdfUrl}
+                  download
+                  className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-2xl bg-accent-gradient text-white font-bold text-sm border border-white/10 shadow-lg shadow-accent-primary/20 hover:shadow-[0_8px_30px_-4px_rgba(201,100,66,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  T&eacute;l&eacute;charger ton lot
+                </a>
+              )}
+
+              {!wonPrize.isLoss && !pdfUrl && (
+                <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-foreground/[0.06] border border-foreground/[0.1]">
+                  <span className="text-2xl">📧</span>
+                  <p className="text-sm text-foreground-muted">
+                    On te contacte &agrave; <strong className="text-foreground">{email}</strong> pour tes cr&eacute;dits !
+                  </p>
+                </div>
+              )}
+
               <button onClick={onClose}
                 className="px-6 py-3 rounded-xl bg-foreground/[0.06] backdrop-blur-xl border border-foreground/[0.1] text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-foreground/[0.1] transition-all"
               >

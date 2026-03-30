@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 // SpotlightCard removed — open layout without cards
+import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 if (typeof window !== "undefined") {
@@ -288,11 +289,12 @@ export function HomeServices() {
         />
       </div>
 
-      {/* Services grid — open layout, no cards */}
-      <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 relative z-10">
+      {/* Services grid */}
+      <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
 
         {/* ━━━ COLUMN 1 — Sites Vitrines ━━━ */}
-        <div className="service-card group flex flex-col">
+        <SpotlightCard className="service-card group flex flex-col !p-0 overflow-hidden">
+          <div className="flex flex-col flex-1 p-5">
             <ServiceTitle title="Sites Vitrines" />
             <div
               ref={vitrineRef}
@@ -418,10 +420,12 @@ export function HomeServices() {
               priceLabel="À partir de"
               href="/sites-vitrines"
             />
-        </div>
+          </div>
+        </SpotlightCard>
 
         {/* ━━━ COLUMN 2 — Landing Pages ━━━ */}
-        <div className="service-card group flex flex-col">
+        <SpotlightCard className="service-card group flex flex-col !p-0 overflow-hidden">
+          <div className="flex flex-col flex-1 p-5">
             <ServiceTitle title="Landing Pages" />
             <div
               ref={landingRef}
@@ -538,11 +542,13 @@ export function HomeServices() {
               priceLabel="À partir de"
               href="/landing-pages"
             />
-        </div>
+          </div>
+        </SpotlightCard>
 
         {/* ━━━ COLUMN 3 — Applications SaaS ━━━ */}
-        <div className="service-card group flex flex-col">
-            <ServiceTitle title="App / SaaS / Logiciel métier" />
+        <SpotlightCard className="service-card group flex flex-col !p-0 overflow-hidden">
+          <div className="flex flex-col flex-1 p-5">
+            <ServiceTitle title="App / SaaS / Logiciel" />
             <div
               ref={dashRef}
               onMouseEnter={handleMouseEnter}
@@ -681,7 +687,8 @@ export function HomeServices() {
               priceLabel="À partir de"
               href="/saas"
             />
-        </div>
+          </div>
+        </SpotlightCard>
       </div>
     </Section>
   );

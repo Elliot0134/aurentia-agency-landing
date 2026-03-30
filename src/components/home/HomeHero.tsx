@@ -146,7 +146,7 @@ export function HomeHero() {
             {/* Title L1 */}
             <div className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL1")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
                   Des sites et apps sur-mesure.
                 </h1>
               </div>
@@ -155,7 +155,7 @@ export function HomeHero() {
             {/* Title L2 */}
             <div className="will-change-transform" data-splash-hero style={{ transformStyle: "preserve-3d" }}>
               <div ref={setMouseLayer("titleL2")} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
+                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-[0.95] text-center text-foreground">
                   Livr&eacute;s en semaines.
                 </p>
               </div>
@@ -224,7 +224,7 @@ export function HomeHero() {
         {/* Marquee */}
         <div className="relative z-20 shrink-0 w-full py-4 overflow-hidden flex items-center section-divider-orange">
           <InfiniteMarquee
-            items={["Sites vitrines", "Applications SaaS", "Landing pages", "Logiciel métier", "Implémentation IA", { name: "Formation IA", icon: "/images/icons/claude-icon.webp" }]}
+            items={["Sites vitrines", "Applications SaaS", "Landing pages", "Logiciel", "Implémentation IA", { name: "Formation IA", icon: "/images/icons/claude-icon.webp" }]}
             className="text-xl md:text-2xl font-bold font-sans tracking-widest text-foreground/60 uppercase"
           />
         </div>
