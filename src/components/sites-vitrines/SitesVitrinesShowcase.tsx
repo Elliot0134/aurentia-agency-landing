@@ -8,7 +8,7 @@ import { PhoneMockup } from "@/components/shared/PhoneMockup";
 
 export function SitesVitrinesShowcase() {
   return (
-    <Section>
+    <Section id="showcase">
       <SectionBackground variant="alt" />
 
       <div className="relative z-10">

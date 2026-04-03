@@ -165,7 +165,7 @@ export function SaasIntegrations() {
 
   return (
     <>
-      <section className="relative w-full overflow-hidden">
+      <section id="integrations" className="relative w-full overflow-hidden">
         {/* ── Mobile layout ── */}
         <div className="md:hidden container mx-auto px-6">
           <div className="flex flex-col items-center text-center mb-10">

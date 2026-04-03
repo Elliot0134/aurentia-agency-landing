@@ -112,7 +112,7 @@ export function LandingPagesFAQ() {
   };
 
   return (
-    <Section className="py-28 md:py-36 relative">
+    <Section id="faq" className="py-28 md:py-36 relative">
       <SectionBackground variant="base" />
 
       <div className="relative z-10">

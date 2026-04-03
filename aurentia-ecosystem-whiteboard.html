@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurentia Group — Écosystème Investisseurs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #fafafa; color: #1a1a1a; padding: 60px 40px; line-height: 1.5; }
+
+  .header { text-align: center; margin-bottom: 56px; }
+  .header h1 { font-size: 36px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; }
+  .header .sub { font-size: 16px; color: #666; }
+
+  /* ENTITY */
+  .entity { max-width: 1100px; margin: 0 auto 48px; background: #fff; border: 1px solid #e5e5e5; border-radius: 14px; overflow: hidden; }
+  .entity-header { display: flex; align-items: center; gap: 16px; padding: 24px 32px 20px; border-bottom: 1px solid #f0f0f0; }
+  .entity-color { width: 6px; height: 48px; border-radius: 3px; flex-shrink: 0; }
+  .entity-header h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .type-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 5px; background: #f3f4f6; color: #666; margin-left: auto; white-space: nowrap; }
+
+  .entity-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .entity-left { padding: 24px 32px; border-right: 1px solid #f0f0f0; }
+  .entity-right { padding: 24px 32px; }
+
+  .desc { font-size: 14px; color: #555; margin-bottom: 16px; line-height: 1.6; }
+  .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #999; margin-bottom: 6px; margin-top: 18px; }
+  .label:first-child { margin-top: 0; }
+  .feat { list-style: none; }
+  .feat li { font-size: 13px; color: #444; padding: 3px 0 3px 16px; position: relative; }
+  .feat li::before { content: '•'; position: absolute; left: 0; color: #ccc; font-weight: 900; }
+
+  .pricing-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  .pricing-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; text-align: left; padding: 5px 0; border-bottom: 1px solid #eee; }
+  .pricing-table td { font-size: 13px; color: #333; padding: 6px 0; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+  .pricing-table td:first-child { font-weight: 700; white-space: nowrap; padding-right: 12px; width: 100px; }
+  .pricing-table .price-val { font-weight: 700; white-space: nowrap; width: 110px; padding-right: 10px; }
+  .pricing-table .plan-features { font-size: 12px; color: #777; }
+
+  /* TAM/SAM/SOM */
+  .tam-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px; }
+  .tam-box { background: #f8f9fa; border: 1px solid #eee; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .tam-box .tam-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 2px; }
+  .tam-box .tam-value { font-size: 16px; font-weight: 800; color: #1a1a1a; }
+  .tam-box .tam-detail { font-size: 11px; color: #888; margin-top: 2px; }
+
+  /* COMPETITORS TABLE */
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  .comp-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #999; text-align: left; padding: 5px 6px; border-bottom: 1px solid #eee; }
+  .comp-table td { font-size: 12px; color: #444; padding: 5px 6px; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+  .comp-table td:first-child { font-weight: 600; white-space: nowrap; }
+  .comp-table .comp-diff { font-size: 11px; color: #888; }
+
+  /* META */
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px 32px; border-top: 1px solid #f0f0f0; background: #fafafa; }
+  .meta-item .label { margin-top: 0; margin-bottom: 4px; }
+  .meta-item .val { font-size: 13px; color: #444; line-height: 1.5; }
+  .meta-item .val.inline-list span { display: inline-block; font-size: 12px; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; margin: 2px 4px 2px 0; color: #555; }
+
+  /* STATUS */
+  .status-bar { display: flex; align-items: center; gap: 20px; padding: 14px 32px; border-top: 1px solid #f0f0f0; background: #f8f9fa; flex-wrap: wrap; }
+  .status-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #777; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-live { background: #22c55e; }
+  .dot-dev { background: #f59e0b; }
+  .dot-concept { background: #d4d4d4; }
+
+  .color-green { background: #22c55e; }
+  .color-orange { background: #f97316; }
+  .color-blue { background: #3b82f6; }
+  .color-red { background: #ef4444; }
+  .color-purple { background: #a855f7; }
+  .color-gray { background: #64748b; }
+
+  /* SECTIONS */
+  .section-title { max-width: 1100px; margin: 56px auto 28px; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+
+  .synergies-wrapper { max-width: 1100px; margin: 0 auto 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .syn-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 18px 20px; }
+  .syn-card .syn-route { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #999; margin-bottom: 4px; }
+  .syn-card p { font-size: 13px; color: #555; line-height: 1.5; }
+
+  .flywheel-box { max-width: 1100px; margin: 0 auto 40px; background: #fff; border: 1px solid #e5e5e5; border-radius: 14px; padding: 32px; text-align: center; }
+  .flywheel-box h3 { font-size: 16px; font-weight: 800; margin-bottom: 20px; }
+  .flywheel-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; }
+  .fw-step { font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 8px; border: 1px solid #e5e5e5; background: #f9fafb; color: #444; }
+  .fw-arrow { color: #ccc; margin: 0 6px; font-size: 16px; }
+
+  .revenue-wrapper { max-width: 1100px; margin: 0 auto 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rev-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 24px; }
+  .rev-card .rev-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 6px; }
+  .rev-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .rev-card p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 10px; }
+  .rev-card .rev-products { display: flex; flex-wrap: wrap; gap: 4px; }
+  .rev-card .rev-products span { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: #f3f4f6; color: #666; }
+
+  /* 3-col body for some entities */
+  .entity-body-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .entity-body-3 > div { padding: 24px 28px; }
+  .entity-body-3 > div:not(:last-child) { border-right: 1px solid #f0f0f0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AURENTIA GROUP</h1>
+  <p class="sub">Écosystème complet — 4 SaaS + 1 Agence + 1 Formation — Vue investisseurs</p>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 1. AURENTIA FOR ENTREPRENEURS              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-green"></div>
+    <h2>Aurentia for Entrepreneurs</h2>
+    <span class="type-badge">SaaS B2C · Freemium · Lead Magnet</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Plateforme SaaS de structuration d'entreprise par IA. L'entrepreneur crée son projet et génère ses livrables business (étude de marché, business plan, stratégie) via des modules IA. Produit les données structurées qui alimentent tout l'écosystème.</p>
+      <div class="label">Features</div>
+      <ul class="feat">
+        <li>Modules IA : marché, SWOT, persona, business plan, pricing, stratégie</li>
+        <li>Score d'opportunité commerciale + analyse des risques</li>
+        <li>Analyse concurrentielle automatisée</li>
+        <li>CRM intégré + gestion de tâches</li>
+        <li>Gestion réseaux sociaux par IA</li>
+        <li>Système de crédits IA</li>
+      </ul>
+      <div class="label">Pricing</div>
+      <table class="pricing-table">
+        <tr><th>Plan</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>Free</td><td class="price-val">0€</td><td class="plan-features">Modules de base, crédits limités, 1 projet</td></tr>
+        <tr><td>Pro</td><td class="price-val">~29€/mois</td><td class="plan-features">Modules avancés, crédits étendus, multi-projets, CRM</td></tr>
+        <tr><td>Business</td><td class="price-val">~79€/mois</td><td class="plan-features">Tout illimité, réseaux sociaux IA, support prioritaire</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">$1.17B</div><div class="tam-detail">Business planning software mondial · CAGR 8.5%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">200-300K</div><div class="tam-detail">Entrepreneurs FR cherchant des outils de structuration/an</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€1-3M ARR</div><div class="tam-detail">20-40K utilisateurs actifs France + Benelux</div></div>
+      </div>
+      <p class="desc" style="margin-top:10px">1,17M créations d'entreprises en France en 2025 (record). 44% des entreprises FR n'ont aucun outil de structuration. Quasi aucun concurrent français natif.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>Upmetrics</td><td>$14-49/mo</td><td class="comp-diff">Anglophone, pas de localisation FR, générique</td></tr>
+        <tr><td>LivePlan</td><td>$40/mo</td><td class="comp-diff">Pas de free tier, orienté lenders US, pas de SWOT/persona</td></tr>
+        <tr><td>Bizplan</td><td>€20-29/mo</td><td class="comp-diff">Éducation > outil, pas d'IA avancée</td></tr>
+        <tr><td>ChatGPT/Claude</td><td>$20/mo</td><td class="comp-diff">Pas structuré, pas de suivi, pas de scoring</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Seul outil français natif. Modules structurés (pas du texte libre). Score + risques + concurrence = data réutilisable par Investors et Incubators. Crédits IA > abo classique.</p>
+    </div>
+    <div>
+      <div class="label">Cibles</div>
+      <div class="meta-item"><div class="val inline-list"><span>Entrepreneurs</span><span>Freelances</span><span>Porteurs de projet</span><span>Étudiants business</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>SEO / Content</span><span>Product-led growth</span><span>Incubateurs (B2B2C)</span><span>Réseaux sociaux</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">SaaS récurrent (MRR) + consommation de crédits IA</p>
+      <div class="label">Synergies</div>
+      <p class="desc">Génère la data pour Investors. Alimente Incubators en utilisateurs. Brief pré-rempli pour Agency. Upsell vers Formation IA.</p>
+      <div class="label">Rôle dans l'écosystème</div>
+      <p class="desc" style="margin-bottom:0">Point d'entrée freemium. Lead magnet pour toutes les autres entités. La donnée entrepreneur est le liant.</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-dev"></div>MVP avancé — en développement</div>
+    <div class="status-item">Temps restant : ~3-4 mois</div>
+    <div class="status-item">Stack : Next.js 16 · Supabase · Stripe · n8n</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 2. AURENTIA FOR INCUBATORS                 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-orange"></div>
+    <h2>Aurentia for Incubators</h2>
+    <span class="type-badge">SaaS B2B · Module intégré</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Module B2B intégré à Aurentia (même codebase). OS complet d'un incubateur : gestion membres, mentors, partenaires, événements, billing. Chaque incubé reçoit un accès complet à Aurentia for Entrepreneurs.</p>
+      <div class="label">Features</div>
+      <ul class="feat">
+        <li>Dashboard 360° : stade de chaque startup (Idéation → MVP → Scale)</li>
+        <li>Matching IA mentors ↔ startups (expertise, dispo)</li>
+        <li>Suivi progression et modules complétés par incubé</li>
+        <li>Gestion événements : Demo Days, Workshops</li>
+        <li>Billing membres intégré (Stripe)</li>
+        <li>Gestion partenaires (investisseurs, corporates)</li>
+        <li>Branding custom : logo, couleurs, domaine</li>
+      </ul>
+      <div class="label">Pricing</div>
+      <table class="pricing-table">
+        <tr><th>Plan</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>Starter</td><td class="price-val">299€/mois</td><td class="plan-features">20 membres, dashboard, events, billing</td></tr>
+        <tr><td>Growth</td><td class="price-val">899€/mois</td><td class="plan-features">100 membres, matching IA, analytics avancés</td></tr>
+        <tr><td>Scale</td><td class="price-val">Sur devis</td><td class="plan-features">200+ membres, branding custom, domaine dédié</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">$3.8-5B</div><div class="tam-detail">Marché mondial incubateurs · CAGR 14.2%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">3 062</div><div class="tam-detail">Incubateurs/accélérateurs en Europe (251 en France)</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€5-18M ARR</div><div class="tam-detail">50-100 incubateurs + 30-50 écoles en Europe</div></div>
+      </div>
+      <p class="desc" style="margin-top:10px">France : 251 incubateurs, 50+ écoles de commerce. Europe : 3 062 structures. Aucun acteur dominant en Europe. Segment écoles/universités sous-pénétré.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>AcceleratorApp</td><td>€419+/mo</td><td class="comp-diff">Pas d'outils IA pour les incubés, pas de matching IA</td></tr>
+        <tr><td>Babele</td><td>Sur devis</td><td class="comp-diff">Opérations seulement, pas d'outils business pour fondateurs</td></tr>
+        <tr><td>F6S</td><td>Free-€500/mo</td><td class="comp-diff">Deal flow uniquement, pas un OS de gestion</td></tr>
+        <tr><td>Visible.vc</td><td>Sur devis</td><td class="comp-diff">Pour VCs, pas pour incubateurs</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Seule plateforme qui sert à la fois l'incubateur (opérations) ET les incubés (outils business IA). Matching IA mentors. Les données des incubés alimentent le dashboard sans travail supplémentaire.</p>
+    </div>
+    <div>
+      <div class="label">Cibles</div>
+      <div class="meta-item"><div class="val inline-list"><span>Incubateurs</span><span>Accélérateurs</span><span>Écoles de commerce</span><span>Universités</span><span>CCI</span><span>Programmes gov</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>Vente directe B2B</span><span>Partenariats éducation</span><span>Conférences / salons</span><span>LinkedIn outbound</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">SaaS récurrent (MRR). Ticket moyen élevé (B2B). 1 contrat = 20-200 utilisateurs.</p>
+      <div class="label">Synergies</div>
+      <p class="desc">Acquisition en masse d'utilisateurs Entrepreneurs (CAC ~0). Cross-sell Formation IA. Startups incubées alimentent le deal flow Investors.</p>
+      <div class="label">Rôle dans l'écosystème</div>
+      <p class="desc" style="margin-bottom:0">Accélérateur d'acquisition. Un contrat incubateur = dizaines d'entrepreneurs actifs.</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-dev"></div>DB + RLS + Landing faits — UI à construire</div>
+    <div class="status-item">Temps estimé : ~2-3 mois</div>
+    <div class="status-item">Même repo que Entrepreneurs</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 3. AURENTIA FOR INVESTORS                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-blue"></div>
+    <h2>Aurentia for Investors</h2>
+    <span class="type-badge">SaaS B2B · Module intégré</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Module investisseur intégré à Aurentia. Exploite les données structurées déjà générées par les entrepreneurs (scores, risques, analyses de marché) pour faciliter la due diligence et le suivi de portefeuille. L'investisseur n'analyse pas depuis zéro — il consulte une data déjà qualifiée.</p>
+      <div class="label">Features (prévues)</div>
+      <ul class="feat">
+        <li>Due diligence IA : scoring auto, red flags, analyse marché</li>
+        <li>Accès direct aux dossiers entrepreneurs (avec permission)</li>
+        <li>Portfolio management : suivi participations, KPIs</li>
+        <li>Deal flow entrant : projets évalués sur la plateforme</li>
+        <li>Reporting automatisé</li>
+        <li>Alertes sur les projets suivis</li>
+      </ul>
+      <div class="label">Pricing (à définir)</div>
+      <table class="pricing-table">
+        <tr><th>Plan</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>Explorer</td><td class="price-val">TBD</td><td class="plan-features">Accès deal flow, scoring basique</td></tr>
+        <tr><td>Pro</td><td class="price-val">TBD</td><td class="plan-features">Due diligence complète, portfolio, reporting</td></tr>
+        <tr><td>Fund</td><td class="price-val">TBD</td><td class="plan-features">Multi-utilisateur, API, analytics avancés</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">$10B</div><div class="tam-detail">Marché due diligence mondial 2034 · CAGR 11.2%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">5 400+</div><div class="tam-detail">VCs, BAs, family offices en France (400 VCs + 5K BAs + FOs)</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€4-9M ARR</div><div class="tam-detail">45-60 clients en France/Europe</div></div>
+      </div>
+      <p class="desc" style="margin-top:10px">France : 400+ VCs actifs, 5 000-8 000 business angels, ~50 family offices. Le marché VC software est à $1.58B d'ici 2030. Aucun outil exploite la data entrepreneur en amont.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>Carta</td><td>€300-25K+/mo</td><td class="comp-diff">Cap table/fund admin, pas de due diligence IA</td></tr>
+        <tr><td>Rundit</td><td>€1.5-5K/mo</td><td class="comp-diff">Monitoring portfolio, pas de deal sourcing</td></tr>
+        <tr><td>Dealroom</td><td>Sur devis</td><td class="comp-diff">Base de données, pas de scoring IA sur data réelle</td></tr>
+        <tr><td>PitchBook</td><td>€100K+/an</td><td class="comp-diff">Institutionnel, inaccessible aux BAs/petits fonds</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Due diligence sur data réelle générée par l'entrepreneur (pas scraped). Score, risques, concurrence déjà calculés. Effet réseau : plus d'entrepreneurs = meilleur deal flow pour les investisseurs.</p>
+    </div>
+    <div>
+      <div class="label">Cibles</div>
+      <div class="meta-item"><div class="val inline-list"><span>Business angels</span><span>VCs</span><span>Family offices</span><span>Fonds early-stage</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>Réseau investisseurs</span><span>Events startup</span><span>Partenariats incubateurs</span><span>LinkedIn</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">SaaS récurrent (MRR). Potentiel : commission sur deals facilités (marketplace, long terme).</p>
+      <div class="label">Synergies</div>
+      <p class="desc">Consomme la data Entrepreneurs. Incubateurs connectent leurs startups au deal flow. Crée un effet réseau bilatéral.</p>
+      <div class="label">Rôle dans l'écosystème</div>
+      <p class="desc" style="margin-bottom:0">Monétise la donnée entrepreneur côté investisseur. Marketplace de deal flow à terme.</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-concept"></div>En conception — pas encore développé</div>
+    <div class="status-item">Temps estimé : ~4-6 mois</div>
+    <div class="status-item">La data est déjà disponible via Entrepreneurs</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 4. AURENTIA FOR AGENCIES                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-red"></div>
+    <h2>Aurentia for Agencies</h2>
+    <span class="type-badge">SaaS B2B · Produit séparé · Claude-native</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Système opérationnel d'agence avec Claude comme intelligence layer via MCP. Gère tout le cycle : prospection, vente, production, livraison, suivi. 5 rôles (Owner, Manager, Setter, Closer, Production), chacun avec ses outils et son assistant IA contextuel.</p>
+      <div class="label">Features</div>
+      <ul class="feat">
+        <li>CRM + Pipeline Kanban avec scoring et handoff auto</li>
+        <li>Missions & templates de production avec tâches</li>
+        <li>Module ColdPhoning : prospects, scripts, logs, stats</li>
+        <li>Formation intégrée par rôle (onboarding 5j vs 2 semaines)</li>
+        <li>MCP Agency Server : Claude connaît le contexte complet</li>
+        <li>Skills IA custom par rôle + Prompt Library</li>
+        <li>Commission calculator + Capacity intelligence</li>
+        <li>Facturation + e-signature + portail client</li>
+      </ul>
+      <div class="label">Pricing (à définir)</div>
+      <table class="pricing-table">
+        <tr><th>Plan</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>Starter</td><td class="price-val">TBD</td><td class="plan-features">CRM, pipeline, 3 membres</td></tr>
+        <tr><td>Growth</td><td class="price-val">TBD</td><td class="plan-features">+ Missions, formation, MCP, 10 membres</td></tr>
+        <tr><td>Scale</td><td class="price-val">TBD</td><td class="plan-features">Tout illimité, analytics, gamification</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">$12-14B</div><div class="tam-detail">PSA (Professional Services Automation) mondial · CAGR 12%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">5 125+</div><div class="tam-detail">Agences marketing en France (+3.7%/an) · 89K en Europe</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€4-9M ARR</div><div class="tam-detail">150-300 agences France + Benelux</div></div>
+      </div>
+      <p class="desc" style="margin-top:10px">5 125 agences marketing en France (95% solopreneurs/petites). 89 246 en Europe. Marché PSA en forte croissance. 55% des plateformes intègrent de l'IA mais aucune n'est Claude-native.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>Teamwork</td><td>$14-70/mo</td><td class="comp-diff">PM agence, pas d'IA intégrée, pas de formation</td></tr>
+        <tr><td>Productive.io</td><td>$9-39/mo</td><td class="comp-diff">Ressources/budget, pas de CRM ni de closing</td></tr>
+        <tr><td>GoHighLevel</td><td>$97-497/mo</td><td class="comp-diff">Automation marketing, pas de PSA ni de production</td></tr>
+        <tr><td>Monday.com</td><td>$9+/mo</td><td class="comp-diff">Généraliste, nécessite customisation massive</td></tr>
+        <tr><td>HubSpot</td><td>Free-$3200/mo</td><td class="comp-diff">CRM fort, faible sur livraison/production</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Seul OS d'agence Claude-native (MCP). Assistant IA contextuel par rôle. Formation intégrée (junior productif en 5 jours). CRM + Production + Formation dans un seul outil (vs 3-4 outils chez les concurrents).</p>
+    </div>
+    <div>
+      <div class="label">Cibles</div>
+      <div class="meta-item"><div class="val inline-list"><span>Agences web</span><span>Agences marketing</span><span>Agences commerciales</span><span>Consulting</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>Aurentia.agency (dogfooding)</span><span>Content marketing</span><span>Communauté agences</span><span>LinkedIn</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">SaaS récurrent (MRR) par siège ou par agence. Chaque agence = 3-15 sièges.</p>
+      <div class="label">Synergies</div>
+      <p class="desc">Aurentia.agency = 1er client (dogfooding). Process validés sur le terrain → templates par défaut du SaaS.</p>
+      <div class="label">Scope technique</div>
+      <p class="desc" style="margin-bottom:0">28 EPICs · 112 user stories · PRD complet · Repo séparé</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-dev"></div>En dev — CRM + ColdPhoning fonctionnels</div>
+    <div class="status-item">Temps estimé : ~6-9 mois pour launch complet</div>
+    <div class="status-item">Stack : Next.js · Supabase · Claude MCP · Vercel</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 5. AURENTIA FORMATION IA                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-purple"></div>
+    <h2>Aurentia Formation IA</h2>
+    <span class="type-badge">Plateforme + Prestation de service</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Hub de formation pour apprendre à utiliser Claude et l'IA en contexte professionnel. Deux volets : plateforme en ligne (parcours, certifications) et prestations B2B (formation en entreprise sur mesure). Peut être vendu aux entreprises qui veulent former leurs employés à Claude.</p>
+      <div class="label">Features (prévues)</div>
+      <ul class="feat">
+        <li>Parcours Claude : prompting, automatisation, intégration business</li>
+        <li>Parcours personnalisés par secteur et niveau</li>
+        <li>Certifications Aurentia IA</li>
+        <li>Offre B2B : former les équipes d'entreprise</li>
+        <li>Prestations sur-mesure (présentiel ou visio)</li>
+        <li>Lié au Formation Claude Hub d'Aurentia for Agencies</li>
+      </ul>
+      <div class="label">Pricing (à définir)</div>
+      <table class="pricing-table">
+        <tr><th>Modèle</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>B2C</td><td class="price-val">~€49-99/mo</td><td class="plan-features">Abonnement ou achat parcours (€99-299/cours)</td></tr>
+        <tr><td>B2B Licence</td><td class="price-val">~€20-40/user/mo</td><td class="plan-features">Dashboard RH, progression, multi-utilisateur</td></tr>
+        <tr><td>Prestation</td><td class="price-val">Sur devis</td><td class="plan-features">Formation sur-mesure, à la journée ou au projet</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">$15-20B</div><div class="tam-detail">Formation IA corporate mondiale · CAGR 25-30%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">€800M-1.2B</div><div class="tam-detail">Formation corporate en France · CAGR 5.7%</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€8-15M ARR</div><div class="tam-detail">400-600 entreprises + 8-12K individus</td></div>
+      </div>
+      <p class="desc" style="margin-top:10px">62% des organisations mondiales délivrent déjà de la formation IA (2026). 74% disent ne pas suivre le rythme. Marché LLM enterprise : $6.85B → $55.6B d'ici 2032. CPF éligible en France.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>Coursera Business</td><td>$14/user/mo</td><td class="comp-diff">Généraliste, pas spécialisé Claude</td></tr>
+        <tr><td>Le Wagon</td><td>€8-12K/étudiant</td><td class="comp-diff">Bootcamp full-time, pas flexible, pas Claude</td></tr>
+        <tr><td>OpenClassrooms</td><td>€50/mo</td><td class="comp-diff">Self-paced, taux d'abandon élevé, générique</td></tr>
+        <tr><td>Anthropic Academy</td><td>Gratuit</td><td class="comp-diff">Intro seulement, pas de profondeur business</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Seul hub spécialisé Claude en français. Application business (pas tech-only). Lié à l'écosystème Aurentia (former = mieux utiliser les produits). Prestation + plateforme = flexibilité unique.</p>
+    </div>
+    <div>
+      <div class="label">Cibles</div>
+      <div class="meta-item"><div class="val inline-list"><span>Entreprises (B2B)</span><span>Équipes tech/marketing</span><span>Indépendants</span><span>Incubés</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>Cross-sell incubateurs</span><span>LinkedIn / Content</span><span>Partenariats entreprises</span><span>SEO "formation IA"</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">Mixte : SaaS récurrent (plateforme) + transactionnel (prestations). Cash immédiat via les prestations.</p>
+      <div class="label">Synergies</div>
+      <p class="desc">Les formés deviennent power-users de tous les produits. Cross-sell avec Incubators. Contenu réutilisé dans for Agencies.</p>
+      <div class="label">Rôle dans l'écosystème</div>
+      <p class="desc" style="margin-bottom:0">Multiplicateur d'engagement. Les prestations peuvent démarrer avant la plateforme.</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-concept"></div>En conception</div>
+    <div class="status-item">Temps estimé : ~3-4 mois (plateforme) · Prestations : immédiat</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 6. AURENTIA.AGENCY                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="entity">
+  <div class="entity-header">
+    <div class="entity-color color-gray"></div>
+    <h2>Aurentia.agency</h2>
+    <span class="type-badge">Agence de services · SAS séparée</span>
+  </div>
+  <div class="entity-body-3">
+    <div>
+      <div class="label">Description</div>
+      <p class="desc">Agence de création de sites web par IA. Sites vitrines sur-mesure livrés en 48h, zéro template, SEO intégré. Attaque niche par niche. Innovation : le site du prospect est généré AVANT le call de closing. Pipeline automatisé via 17 commandes Claude Code.</p>
+      <div class="label">Features par pack</div>
+      <ul class="feat">
+        <li>Site 5 pages design sur-mesure IA, responsive, animations</li>
+        <li>SEO base (Essentiel) → avancé + schema markup (Croissance+)</li>
+        <li>Blog + 4 articles/mois (Croissance+)</li>
+        <li>Chatbot IA personnalisé (Croissance+)</li>
+        <li>Multilingue FR/EN (Croissance+)</li>
+        <li>Réservation en ligne + back-office (Premium)</li>
+        <li>17 commandes de production automatisées</li>
+      </ul>
+      <div class="label">Pricing</div>
+      <table class="pricing-table">
+        <tr><th>Pack</th><th>Prix</th><th>Inclus</th></tr>
+        <tr><td>Essentiel</td><td class="price-val">900€ + 19€/mo</td><td class="plan-features">5 pages, SEO base, lead magnet, support 48h</td></tr>
+        <tr><td>Croissance</td><td class="price-val">1 490€ + 35€/mo</td><td class="plan-features">+ Blog, chatbot, multilingue, SEO avancé, 24h</td></tr>
+        <tr><td>Premium</td><td class="price-val">2 200€+ + 75€/mo</td><td class="plan-features">+ Réservation, logo, formation, modifs illimitées</td></tr>
+      </table>
+      <div class="label">Modèle commissions</div>
+      <p class="desc" style="margin-bottom:0">Setter 8% · Closer 12% · Dev 30% · Marge agence 50%</p>
+    </div>
+    <div>
+      <div class="label">Marché (TAM / SAM / SOM)</div>
+      <div class="tam-row">
+        <div class="tam-box"><div class="tam-label">TAM</div><div class="tam-value">€6-10B</div><div class="tam-detail">Services web digital en France · CAGR ~10%</div></div>
+        <div class="tam-box"><div class="tam-label">SAM</div><div class="tam-value">~5 000</div><div class="tam-detail">Conciergeries en France · 70-80% sans site pro</div></div>
+        <div class="tam-box"><div class="tam-label">SOM (Y3)</div><div class="tam-value">€150K-1M</div><div class="tam-detail">80-120 sites livrés (conciergeries + niches 2-3)</div></div>
+      </div>
+      <p class="desc" style="margin-top:10px">44.4% des entreprises FR n'ont aucun site web (2.1M). Marché conciergeries : 5 000 en France, 70-80% avec un site absent ou obsolète. Budget moyen accepté : €800-1 500. Aucune agence ne se spécialise sur ce créneau.</p>
+
+      <div class="label">Concurrents</div>
+      <table class="comp-table">
+        <tr><th>Nom</th><th>Prix</th><th>Limites</th></tr>
+        <tr><td>Wix / Squarespace</td><td>€13-99/mo</td><td class="comp-diff">Templates, pas custom, SEO moyen, pas de niche</td></tr>
+        <tr><td>Durable.co</td><td>Free-€12/mo</td><td class="comp-diff">IA générique, design identique, pas de SEO</td></tr>
+        <tr><td>Agences classiques</td><td>€3-30K</td><td class="comp-diff">3-8 semaines, 3-10x plus cher</td></tr>
+        <tr><td>Freelancers</td><td>€1.5-4K</td><td class="comp-diff">2-4 semaines, qualité variable, pas de suivi</td></tr>
+      </table>
+      <div class="label" style="margin-top:14px">Avantage concurrentiel</div>
+      <p class="desc" style="margin-bottom:0">Custom-codé (pas template). 48h de livraison. Site généré AVANT le call de vente. Spécialiste par niche. 3x moins cher que les agences classiques avec la même qualité.</p>
+    </div>
+    <div>
+      <div class="label">Cibles (par niche)</div>
+      <div class="meta-item"><div class="val inline-list"><span>Niche 1 : Conciergeries</span><span>Niche 2 : Salles de sport</span><span>Niche 3 : Restaurants</span><span>Niche 4 : Hôtels</span></div></div>
+      <div class="label">Canaux d'acquisition</div>
+      <div class="meta-item"><div class="val inline-list"><span>Cold calling (setters)</span><span>SEO par niche</span><span>Parrainage clients</span><span>LinkedIn</span><span>Lead magnet</span></div></div>
+      <div class="label">Type de revenu</div>
+      <p class="desc">Transactionnel (packs one-shot) + récurrent (abonnements ~35€/client/mois moyen). MRR cumulatif.</p>
+      <div class="label">Synergies</div>
+      <p class="desc">1er client d'Aurentia for Agencies (dogfooding). Clients découvrent Aurentia SaaS via les bonus inclus. Process validés → templates du SaaS.</p>
+      <div class="label">Rôle dans l'écosystème</div>
+      <p class="desc" style="margin-bottom:0">Cash machine immédiate. Proof of concept pour for Agencies. Terrain de test.</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot dot-live"></div>Opérationnel — Niche conciergeries</div>
+    <div class="status-item">17 commandes de production prêtes</div>
+    <div class="status-item">Capacité : 20-25 sites/mois (2 devs)</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SYNERGIES                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="section-title">Synergies entre les entités</h2>
+
+<div class="flywheel-box">
+  <h3>Le Flywheel Aurentia</h3>
+  <div class="flywheel-row">
+    <div class="fw-step">Entrepreneur s'inscrit (free)</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Génère DATA structurée</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Incubateur achète des licences</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Investisseur analyse les dossiers</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Entrepreneur a besoin d'un site</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Se forme à l'IA</div>
+    <span class="fw-arrow">→</span>
+    <div class="fw-step">Recommande ↻</div>
+  </div>
+</div>
+
+<div class="synergies-wrapper">
+  <div class="syn-card">
+    <div class="syn-route">Entrepreneurs → Incubators</div>
+    <p>L'incubateur donne accès Aurentia à ses membres. 20-200 utilisateurs arrivent d'un coup. Coût d'acquisition quasi nul pour la plateforme.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Entrepreneurs → Investors</div>
+    <p>L'entrepreneur génère un dossier structuré (score, risques, marché). L'investisseur y accède directement. Deal flow automatique.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Entrepreneurs → Agency</div>
+    <p>L'entrepreneur a structuré son projet et a besoin d'un site. Le brief est déjà rempli via Aurentia, le site est produit plus rapidement.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Entrepreneurs → Formation IA</div>
+    <p>L'entrepreneur veut mieux utiliser Claude pour son business. Il s'inscrit à la formation et revient comme power-user de la plateforme.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Incubators → Formation IA</div>
+    <p>L'incubateur veut former ses incubés à l'IA. Double facturation : licence incubateur + prestation formation groupée.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Investors ↔ Entrepreneurs</div>
+    <p>L'investisseur trouve un projet sur la plateforme et contacte l'entrepreneur. Effet réseau bilatéral.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Agency ↔ for Agencies</div>
+    <p>L'agence est le 1er client du SaaS (dogfooding). Les process et templates validés sur le terrain alimentent le produit.</p>
+  </div>
+  <div class="syn-card">
+    <div class="syn-route">Formation IA → Tous les produits</div>
+    <p>Chaque personne formée utilise mieux Claude, donc mieux tous les produits Aurentia. Multiplicateur d'engagement global.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- REVENUE MODEL                              -->
+<!-- ═══════════════════════════════════════════ -->
+<h2 class="section-title">Modèle de revenus</h2>
+
+<div class="revenue-wrapper">
+  <div class="rev-card">
+    <div class="rev-label">Cercle 1 — SaaS récurrent</div>
+    <h3>MRR cumulatif</h3>
+    <p>Abonnements mensuels. Valorisation la plus élevée (multiples SaaS). Revenus prévisibles.</p>
+    <div class="rev-products"><span>Entrepreneurs</span><span>Incubators</span><span>Investors</span><span>for Agencies</span></div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-label">Cercle 2 — Services</div>
+    <h3>Cash immédiat</h3>
+    <p>CA transactionnel. Proof of concept pour le SaaS. Cash dès le jour 1.</p>
+    <div class="rev-products"><span>Aurentia.agency</span><span>Formation IA (prestations)</span></div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-label">Cercle 3 — Marketplace (long terme)</div>
+    <h3>Commission sur deals</h3>
+    <p>Commission sur les financements facilités entre entrepreneurs et investisseurs. Effet réseau.</p>
+    <div class="rev-products"><span>Entrepreneurs ↔ Investors</span></div>
+  </div>
+</div>
+
+</body>
+</html>

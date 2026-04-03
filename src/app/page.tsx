@@ -16,6 +16,18 @@ import { HomeAdvantages } from "@/components/home/HomeAdvantages";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
 import { HomeContact } from "@/components/home/HomeContact";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
+
+const subNavItems = [
+  { label: "Services", sectionId: "services" },
+  { label: "Réalisations", sectionId: "portfolio" },
+  { label: "Équipe", sectionId: "equipe" },
+  { label: "Avantages", sectionId: "advantages" },
+  { label: "Avis", sectionId: "testimonials" },
+  { label: "Processus", sectionId: "process" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "contact" },
+];
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -55,6 +67,7 @@ export default function Home() {
 
   return (
     <>
+      <SubNavSetter items={subNavItems} />
       <ScrollToTop />
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
         <main className="flex min-h-screen flex-col w-full">

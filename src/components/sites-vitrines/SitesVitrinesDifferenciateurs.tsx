@@ -69,7 +69,7 @@ export function SitesVitrinesDifferenciateurs() {
   );
 
   return (
-    <Section>
+    <Section id="differenciateurs">
       <SectionBackground variant="alt" />
 
       <div className="relative z-10">

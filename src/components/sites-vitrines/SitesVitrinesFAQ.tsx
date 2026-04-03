@@ -123,7 +123,7 @@ export function SitesVitrinesFAQ() {
   };
 
   return (
-    <Section theme="dark-alt-2" className="section-divider-orange py-32">
+    <Section id="faq" theme="dark-alt-2" className="section-divider-orange py-32">
       {/* Ambient glow */}
       <div
         aria-hidden="true"

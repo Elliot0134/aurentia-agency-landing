@@ -9,6 +9,16 @@ import { LandingPagesProcess } from "@/components/landing-pages/LandingPagesProc
 import { LandingPagesPricing } from "@/components/landing-pages/LandingPagesPricing";
 import { LandingPagesFAQ } from "@/components/landing-pages/LandingPagesFAQ";
 import { LandingPagesCTA } from "@/components/landing-pages/LandingPagesCTA";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
+
+const subNavItems = [
+  { label: "Vitrine", sectionId: "vitrine" },
+  { label: "Avantages", sectionId: "features" },
+  { label: "Exemples", sectionId: "exemples" },
+  { label: "Processus", sectionId: "process" },
+  { label: "Tarifs", sectionId: "tarifs" },
+  { label: "FAQ", sectionId: "faq" },
+];
 
 export const metadata: Metadata = {
   title: "Landing Pages Haute Conversion pour SaaS | Aurentia Agency",
@@ -79,6 +89,7 @@ export default function LandingPagesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <SubNavSetter items={subNavItems} />
       <main className="flex min-h-screen flex-col items-center w-full overflow-hidden">
         <LandingPagesHero />
         <LandingPagesVitrine />

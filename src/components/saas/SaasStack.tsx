@@ -60,7 +60,7 @@ export function SaasStack() {
   }
 
   return (
-    <Section className="py-28 md:py-36 relative">
+    <Section id="stack" className="py-28 md:py-36 relative">
       <SectionBackground
         variant="base"
         orbs={[

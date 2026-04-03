@@ -66,7 +66,7 @@ export function SitesVitrinesNiches() {
   );
 
   return (
-    <Section>
+    <Section id="niches">
       <SectionBackground variant="alt" />
 
       <div className="relative z-10">

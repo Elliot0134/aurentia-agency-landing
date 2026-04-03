@@ -171,7 +171,7 @@ function AdvantageCard({ icon: Icon, title, description, extra: Extra, iconStyle
 
 export function HomeAdvantages() {
   return (
-    <Section theme="dark-alt-2" className="section-divider-orange py-32">
+    <Section id="advantages" theme="dark-alt-2" className="section-divider-orange py-32">
       {/* Ambient glow */}
       <div
         aria-hidden="true"

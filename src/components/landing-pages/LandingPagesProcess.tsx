@@ -57,7 +57,7 @@ export function LandingPagesProcess() {
   });
 
   return (
-    <Section className="py-28 md:py-36 relative">
+    <Section id="process" className="py-28 md:py-36 relative">
       <SectionBackground variant="base" />
 
       <div className="relative z-10">

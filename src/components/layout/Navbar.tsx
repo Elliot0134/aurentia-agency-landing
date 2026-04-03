@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { ThemeSwitch } from "@/components/unlumen-ui/theme-switch";
 import { siteConfig } from "@/data/content";
 import { CalModal } from "@/components/shared/CalModal";
+import { useSubNav } from "@/components/shared/SubNavContext";
 
 const services = [
   { label: "Sites vitrines", href: "/sites-vitrines" },
@@ -126,6 +127,25 @@ export function Navbar() {
     agenceTimeoutRef.current = setTimeout(() => setAgenceDropdownOpen(false), 150);
   };
 
+  // Sub-nav (section tabs)
+  const { items: subNavItems, activeId: subNavActiveId, visible: subNavVisible } = useSubNav();
+  const hasSubNav = subNavItems.length > 0 && subNavVisible;
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const sectionHeight = rect.height;
+    const viewportHeight = window.innerHeight;
+    const navbarHeight = 110;
+    const availableHeight = viewportHeight - navbarHeight;
+    // Center the section in the available viewport (below navbar)
+    const offsetToCenter = sectionHeight > availableHeight
+      ? -navbarHeight // Section taller than viewport: align top below navbar
+      : (availableHeight - sectionHeight) / 2; // Center vertically
+    const y = rect.top + window.scrollY - navbarHeight - offsetToCenter;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }, []);
 
   return (
     <>
@@ -145,13 +165,14 @@ export function Navbar() {
 
       <nav
         data-splash-nav-pill
-        className="pointer-events-auto mx-auto max-w-5xl border transition-[background,backdrop-filter,border-color] duration-500"
+        className="pointer-events-auto mx-auto max-w-5xl border"
         style={{
           background: "var(--glass-nav-bg)",
           backdropFilter: `blur(${scrolled ? 24 : 16}px)`,
           WebkitBackdropFilter: `blur(${scrolled ? 24 : 16}px)`,
           borderColor: "var(--glass-border)",
-          borderRadius: mobileRounded ? "1.5rem" : "9999px",
+          borderRadius: mobileRounded ? "1.5rem" : "1.5rem",
+          transition: "background 500ms ease-in-out, backdrop-filter 500ms ease-in-out, border-color 500ms ease-in-out, border-radius 700ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         <div className="flex items-center justify-between px-6 py-3">
@@ -288,6 +309,45 @@ export function Navbar() {
           </div>
         </div>
 
+        {/* Sub-nav section tabs */}
+        <div
+          className="hidden md:grid overflow-hidden transition-[grid-template-rows,opacity] duration-700 ease-in-out"
+          style={{
+            gridTemplateRows: hasSubNav ? "1fr" : "0fr",
+            opacity: hasSubNav ? 1 : 0,
+          }}
+        >
+          <div className="min-h-0 overflow-hidden">
+          <div className="border-t border-foreground/[0.06] mx-4" />
+          <div className="flex items-center justify-center gap-1 px-4 py-1.5 overflow-x-auto scrollbar-hide">
+            {subNavItems.map(({ label, sectionId }) => {
+              const isPricing = sectionId === "pricing" || sectionId === "tarifs";
+              return (
+              <button
+                key={sectionId}
+                onClick={() => scrollToSection(sectionId)}
+                className={`relative whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-500 ease-in-out ${
+                  isPricing
+                    ? "bg-accent-primary/15 text-accent-primary hover:bg-accent-primary/25"
+                    : subNavActiveId === sectionId
+                      ? "text-foreground"
+                      : "text-foreground/50 hover:text-foreground/80"
+                }`}
+              >
+                {label}
+                {/* Active indicator */}
+                <span
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-accent-primary transition-all duration-500 ease-in-out ${
+                    subNavActiveId === sectionId ? "w-6 opacity-100" : "w-0 opacity-0"
+                  }`}
+                />
+              </button>
+              );
+            })}
+          </div>
+          </div>
+        </div>
+
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ${
@@ -296,6 +356,31 @@ export function Navbar() {
           style={{ borderColor: "var(--glass-border)" }}
         >
           <div className="px-4 py-3 space-y-1">
+            {/* Section sub-nav (mobile) */}
+            {subNavItems.length > 0 && (
+              <>
+                <p className="text-xl font-heading font-bold text-foreground uppercase tracking-wider px-3 pt-2">
+                  Sections
+                </p>
+                {subNavItems.map(({ label, sectionId }) => (
+                  <button
+                    key={sectionId}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      setTimeout(() => scrollToSection(sectionId), 350);
+                    }}
+                    className={`block w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
+                      subNavActiveId === sectionId
+                        ? "text-foreground bg-foreground/5"
+                        : "text-foreground/70 hover:text-foreground hover:bg-foreground/5"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </>
+            )}
+
             {/* Services sub-items */}
             <p className="text-xl font-heading font-bold text-foreground uppercase tracking-wider px-3 pt-2">
               Services

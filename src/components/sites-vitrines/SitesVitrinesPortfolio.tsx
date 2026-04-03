@@ -168,7 +168,7 @@ export function SitesVitrinesPortfolio() {
   );
 
   return (
-    <Section theme="dark-alt-2" className="section-divider-orange">
+    <Section id="portfolio" theme="dark-alt-2" className="section-divider-orange">
       <SectionBackground
         orbs={[
           { color: "orange", position: "top-[10%] right-[20%]", size: "w-[400px] h-[300px]", opacity: "[0.04]" },

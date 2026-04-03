@@ -11,7 +11,19 @@ import { SitesVitrinesDifferenciateurs } from "@/components/sites-vitrines/Sites
 import { SitesVitrinesPortfolio } from "@/components/sites-vitrines/SitesVitrinesPortfolio";
 import { SitesVitrinesFAQ } from "@/components/sites-vitrines/SitesVitrinesFAQ";
 import { SitesVitrinesCTA } from "@/components/sites-vitrines/SitesVitrinesCTA";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { faqItems } from "@/data/sites-vitrines-content";
+
+const subNavItems = [
+  { label: "Démo", sectionId: "showcase" },
+  { label: "Avantages", sectionId: "features" },
+  { label: "Processus", sectionId: "process" },
+  { label: "Secteurs", sectionId: "niches" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Pourquoi nous", sectionId: "differenciateurs" },
+  { label: "Portfolio", sectionId: "portfolio" },
+  { label: "FAQ", sectionId: "faq" },
+];
 
 export const metadata: Metadata = {
   title: "Site Vitrine Sur-Mesure d\u00e8s 1\u202F200\u202F\u20ac \u2014 Livr\u00e9 en 48h | Aurentia",
@@ -135,6 +147,7 @@ const jsonLd = [
 export default function SitesVitrinesPage() {
   return (
     <>
+      <SubNavSetter items={subNavItems} />
       <main className="flex min-h-screen flex-col items-center w-full overflow-hidden">
         <SitesVitrinesHero />
         <SitesVitrinesShowcase />

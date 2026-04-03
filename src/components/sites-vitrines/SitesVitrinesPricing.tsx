@@ -13,7 +13,7 @@ import { Check, Gift, ArrowRight, CreditCard } from "lucide-react";
 
 export function SitesVitrinesPricing() {
   return (
-    <Section>
+    <Section id="pricing">
       {/* Header */}
       <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
         <BlurReveal className="mb-4">

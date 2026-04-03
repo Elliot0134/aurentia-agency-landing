@@ -10,6 +10,17 @@ import { SaasPortfolio } from "@/components/saas/SaasPortfolio";
 import { SaasPricing } from "@/components/saas/SaasPricing";
 import { SaasFAQ } from "@/components/saas/SaasFAQ";
 import { SaasCTA } from "@/components/saas/SaasCTA";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
+
+const subNavItems = [
+  { label: "Services", sectionId: "services" },
+  { label: "Intégrations", sectionId: "integrations" },
+  { label: "Stack", sectionId: "stack" },
+  { label: "Processus", sectionId: "process" },
+  { label: "Portfolio", sectionId: "portfolio" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "FAQ", sectionId: "faq" },
+];
 
 export const metadata: Metadata = {
   title: "Développement SaaS & Logiciels Métier | Aurentia Agency",
@@ -89,6 +100,7 @@ export default function SaasPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ScrollToTop />
+      <SubNavSetter items={subNavItems} />
       <main className="flex min-h-screen flex-col w-full">
         <SaasHero />
         <SaasServices />

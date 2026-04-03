@@ -64,7 +64,7 @@ export function LandingPagesFeatures() {
   );
 
   return (
-    <Section>
+    <Section id="features">
       <SectionBackground variant="alt" />
 
       <div className="relative z-10">

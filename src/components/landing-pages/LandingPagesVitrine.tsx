@@ -36,7 +36,7 @@ export function LandingPagesVitrine() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Section className="py-28 md:py-36 min-h-[60vh] relative">
+    <Section id="vitrine" className="py-28 md:py-36 min-h-[60vh] relative">
       <SectionBackground variant="base" />
 
       <div ref={sectionRef} className="relative z-10">

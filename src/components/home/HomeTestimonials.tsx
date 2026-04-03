@@ -171,6 +171,7 @@ function TestimonialCard({
 export function HomeTestimonials() {
   return (
     <Section
+      id="testimonials"
       theme="dark-alt"
       className="section-divider-orange py-32"
     >

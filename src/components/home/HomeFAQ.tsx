@@ -146,6 +146,7 @@ export function HomeFAQ() {
 
   return (
     <Section
+      id="faq"
       theme="dark-alt-2"
       className="section-divider-orange py-32"
     >

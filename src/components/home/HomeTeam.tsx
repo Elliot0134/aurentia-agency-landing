@@ -49,7 +49,7 @@ const team = [
 
 export function HomeTeam() {
   return (
-    <Section id="equipe" theme="dark" className="force-dark relative overflow-hidden -mt-8" data-theme="dark" style={{ clipPath: "ellipse(150% 100% at 50% 100%)" }}>
+    <Section id="equipe" theme="dark" className="force-dark relative overflow-hidden -mt-8" data-theme="dark" >
 
       {/* Orange glow at top — inverted arc (same as hero bottom) */}
       <div className="absolute top-[-40%] left-1/2 -translate-x-1/2 z-[2] pointer-events-none w-[90%] aspect-[3/1] rounded-full" style={{ background: "var(--accent)", filter: "blur(100px)", opacity: "var(--hero-glow-opacity)" }} />

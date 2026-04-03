@@ -71,7 +71,7 @@ export interface FAQItem {
 
 export const heroContent = {
   badge: "SITES VITRINES SUR-MESURE",
-  h1: "Votre site vitrine sur-mesure. Livré en 48h. À partir de 1\u202F200\u202F\u20AC.",
+  h1: "Votre site vitrine sur-mesure. Livré en 72h. À partir de 1\u202F500\u202F\u20AC.",
   subtitle:
     "Design unique, SEO intégré, performance native. Propulsé par l\u2019IA, forgé par 20 ans d\u2019expertise web. On vous montre le résultat avant de facturer.",
   cta: "Réserver mon call découverte",
@@ -240,7 +240,7 @@ export const pricingContent = {
 export const pricingPlans: PricingPlan[] = [
   {
     name: "Essentiel",
-    price: "1\u202F200\u202F\u20AC",
+    price: "1\u202F500\u202F\u20AC",
     description: "Un site vitrine complet et pro, prêt à convertir.",
     features: [
       "Site vitrine 3 pages",
@@ -261,7 +261,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Croissance",
-    price: "1\u202F600\u202F\u20AC",
+    price: "1\u202F900\u202F\u20AC",
     description: "Pour ceux qui veulent grandir. Le plus choisi.",
     highlighted: true,
     highlightLabel: "POPULAIRE",
@@ -284,7 +284,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Premium",
-    price: "2\u202F200\u202F\u20AC",
+    price: "3\u202F200\u202F\u20AC",
     priceNote: "À partir de — sur devis",
     description: "L\u2019offre complète, stratégie incluse.",
     features: [
@@ -444,7 +444,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "Combien co\u00FBte un site vitrine chez Aurentia\u202F?",
     answer:
-      "Nos sites vitrines d\u00E9marrent \u00E0 1\u202F200\u202F\u20AC. Le prix d\u00E9pend du nombre de pages, des fonctionnalit\u00E9s souhait\u00E9es et du niveau de personnalisation. On en parle ensemble pendant le call \u2014 c\u2019est gratuit et sans engagement.",
+      "Nos sites vitrines d\u00E9marrent \u00E0 1\u202F500\u202F\u20AC. Le prix d\u00E9pend du nombre de pages, des fonctionnalit\u00E9s souhait\u00E9es et du niveau de personnalisation. On en parle ensemble pendant le call \u2014 c\u2019est gratuit et sans engagement.",
   },
   {
     question: "Comment c\u2019est possible de livrer en 48h\u202F?",
