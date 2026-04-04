@@ -23,9 +23,9 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 2.4,
+      duration: 1.0,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 0.45,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.2,
       infinite: false,
     });

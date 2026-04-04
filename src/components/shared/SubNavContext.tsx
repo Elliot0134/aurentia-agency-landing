@@ -51,14 +51,27 @@ export function SubNavSetter({ items }: { items: SubNavItem[] }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Show sub-nav only after scrolling past the hero
+  // Show sub-nav only after the user actually scrolls (relative to initial position)
   useEffect(() => {
+    let initialScrollY: number | null = null;
+
     const handleScroll = () => {
-      setVisible(window.scrollY > 20);
+      if (initialScrollY === null) {
+        initialScrollY = window.scrollY;
+      }
+      setVisible(window.scrollY > initialScrollY + 20);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Capture initial position after a short delay to account for auto-scrolls (e.g. easter egg)
+    const timer = setTimeout(() => {
+      initialScrollY = window.scrollY;
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [setVisible]);
 
   // Track which section is in view
