@@ -51,28 +51,24 @@ export function SubNavSetter({ items }: { items: SubNavItem[] }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Show sub-nav only after the user actually scrolls (relative to initial position)
+  // Show sub-nav only after scrolling past the first section (hero)
   useEffect(() => {
-    let initialScrollY: number | null = null;
-
     const handleScroll = () => {
-      if (initialScrollY === null) {
-        initialScrollY = window.scrollY;
+      // Use the first section's sectionId as reference, fallback to "hero"
+      const firstId = items[0]?.sectionId;
+      const anchor = document.getElementById(firstId ?? "hero") ?? document.getElementById("hero");
+      if (anchor) {
+        // Show sub-nav when the anchor section enters the viewport
+        const rect = anchor.getBoundingClientRect();
+        setVisible(rect.top < window.innerHeight * 0.5);
+      } else {
+        setVisible(window.scrollY > 20);
       }
-      setVisible(window.scrollY > initialScrollY + 20);
     };
-
-    // Capture initial position after a short delay to account for auto-scrolls (e.g. easter egg)
-    const timer = setTimeout(() => {
-      initialScrollY = window.scrollY;
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }, 200);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [setVisible]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [items, setVisible]);
 
   // Track which section is in view
   const handleIntersect = useCallback(
