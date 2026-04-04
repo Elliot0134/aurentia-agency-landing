@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
 
 /* ── Prize definitions (server-side source of truth) ── */
 const PRIZES = [
@@ -43,7 +45,7 @@ export async function POST(req: NextRequest) {
     const prizeLabel = PRIZES[prizeIndex].label;
 
     // Log in DB
-    const { error: insertError } = await supabase
+    const { error: insertError } = await getSupabase()
       .from("lucky_spin_entries")
       .insert({ email, prize_label: prizeLabel, prize_index: prizeIndex });
 
