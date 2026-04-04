@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Linkedin } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
@@ -79,18 +80,18 @@ export function Skills20Aurentia() {
         {/* Aurentia links */}
         <BlurReveal>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
+            <Link
               href="/formation"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity duration-500"
             >
               Découvrir la formation →
-            </a>
-            <a
+            </Link>
+            <Link
               href="/#agence"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/15 text-foreground/70 font-medium text-sm hover:border-foreground/30 hover:text-foreground transition-all duration-500"
             >
               L&apos;agence web
-            </a>
+            </Link>
           </div>
         </BlurReveal>
       </div>
