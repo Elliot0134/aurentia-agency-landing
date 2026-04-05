@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 interface FormData {
   nom: string;
   email: string;
+  tel: string;
   typeProjet: string;
   budget: string;
   message: string;
@@ -236,6 +237,7 @@ export function HomeContact() {
   const [formData, setFormData] = useState<FormData>({
     nom: "",
     email: "",
+    tel: "",
     typeProjet: "",
     budget: "",
     message: "",
@@ -261,6 +263,7 @@ export function HomeContact() {
         body: JSON.stringify({
           nom: formData.nom,
           email: formData.email,
+          tel: formData.tel,
           type_projet: formData.typeProjet,
           budget: formData.budget,
           message: formData.message,
@@ -410,6 +413,21 @@ export function HomeContact() {
                         className={inputBase}
                       />
                     </div>
+                  </div>
+
+                  {/* Téléphone */}
+                  <div>
+                    <Label htmlFor="tel">Téléphone</Label>
+                    <input
+                      id="tel"
+                      name="tel"
+                      type="tel"
+                      autoComplete="tel"
+                      placeholder="+33 6 12 34 56 78"
+                      value={formData.tel}
+                      onChange={handleChange}
+                      className={inputBase}
+                    />
                   </div>
 
                   {/* Type de projet */}
