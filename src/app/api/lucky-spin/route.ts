@@ -1,12 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-function getSupabase() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
 
 /* ── Prize definitions (server-side source of truth) ── */
 const PRIZES = [
@@ -40,19 +32,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email invalide" }, { status: 400 });
     }
 
-    // Server-side prize pick
     const prizeIndex = pickPrize();
     const prizeLabel = PRIZES[prizeIndex].label;
+    const isWin = !PRIZES[prizeIndex].isLoss;
 
-    // Log in DB
-    const { error: insertError } = await getSupabase()
-      .from("lucky_spin_entries")
-      .insert({ email, prize_label: prizeLabel, prize_index: prizeIndex });
-
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
-    }
+    // Send lead to N8N webhook (non-blocking)
+    fetch("https://aurentia-agency.app.n8n.cloud/webhook/lead-magnet-aurentia-agency-landing", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    }).catch((err) => console.error("N8N webhook error:", err));
 
     return NextResponse.json({ prizeIndex, prizeLabel });
   } catch {

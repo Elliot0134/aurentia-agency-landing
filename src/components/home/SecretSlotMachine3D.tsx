@@ -7,13 +7,13 @@ import { PRIZES, SHOWCASE } from "./easterEggData";
 import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 /* ─────────────────────────────────────────────
-   PDF mapping per prize label
+   Prize → landing page URL mapping
    ───────────────────────────────────────────── */
-const PRIZE_PDF_MAP: Record<string, string | null> = {
-  "Skills Claude Code": "/downloads/skills-claude-code.pdf",
-  "Skills Claude": "/downloads/skills-claude-code.pdf",
-  "Formation Claude": "/downloads/formation-claude.pdf",
-  "50€ Crédits": null, // no PDF — contact by email
+const PRIZE_URL_MAP: Record<string, string | null> = {
+  "Skills Claude Code": "/formation/20-skills-claude",
+  "Skills Claude": "/formation/20-skills-claude",
+  "Formation Claude": "/formation/guide-demarrage-claude",
+  "50€ Crédits": null, // contact by email
   "Perdu": null,
 };
 
@@ -176,7 +176,7 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
 
   const isValidEmail = email.includes("@") && email.includes(".");
   const wonPrize = prizeIndex !== null ? PRIZES[prizeIndex] : null;
-  const pdfUrl = wonPrize ? PRIZE_PDF_MAP[wonPrize.label] ?? null : null;
+  const prizeUrl = wonPrize ? PRIZE_URL_MAP[wonPrize.label] ?? null : null;
 
   const fireConfetti = useCallback(() => {
     const defaults = { startVelocity: 35, spread: 55, ticks: 100, zIndex: 9999, colors: ["#c96442", "#d97757", "#e8b931", "#9c87f5", "#fff"] };
@@ -363,23 +363,21 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
                 </div>
               )}
 
-              {/* Download PDF or contact message */}
-              {!wonPrize.isLoss && pdfUrl && (
+              {/* Link to lead magnet page */}
+              {!wonPrize.isLoss && prizeUrl && (
                 <a
-                  href={pdfUrl}
-                  download
+                  href={prizeUrl}
                   className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-2xl bg-accent-gradient text-white font-bold text-sm border border-white/10 shadow-lg shadow-accent-primary/20 hover:shadow-[0_8px_30px_-4px_rgba(201,100,66,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
                   </svg>
-                  T&eacute;l&eacute;charger ton lot
+                  Acc&eacute;der &agrave; ton lot
                 </a>
               )}
 
-              {!wonPrize.isLoss && !pdfUrl && (
+              {!wonPrize.isLoss && !prizeUrl && (
                 <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-foreground/[0.06] border border-foreground/[0.1]">
                   <span className="text-2xl">📧</span>
                   <p className="text-sm text-foreground-muted">

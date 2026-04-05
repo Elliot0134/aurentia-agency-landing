@@ -250,15 +250,28 @@ export function HomeContact() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate async — no actual API call
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 900);
+    try {
+      await fetch("https://aurentia-agency.app.n8n.cloud/webhook/contact-form-aurentia-landing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nom: formData.nom,
+          email: formData.email,
+          type_projet: formData.typeProjet,
+          budget: formData.budget,
+          message: formData.message,
+        }),
+      });
+    } catch (err) {
+      console.error("Contact form webhook error:", err);
+    }
+
+    setLoading(false);
+    setSubmitted(true);
   }
 
   return (
