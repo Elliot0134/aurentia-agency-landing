@@ -7,7 +7,6 @@ import {
   Code2,
   BrainCircuit,
   Sparkles,
-  MessageCircle,
   Tag,
   Layers,
   Headphones,
@@ -76,7 +75,7 @@ export const homeData: HomeData = {
           "Votre projet, votre code source. Aucune dépendance, aucun lock-in — vous pouvez le faire évoluer avec n'importe quel développeur.",
       },
       {
-        icon: MessageCircle,
+        image: "/images/icons/whatsapp-icon.webp",
         title: "Support sur WhatsApp",
         description:
           "Une question ? Un bug ? Écrivez-nous directement sur WhatsApp. Réponse en moins de 2h, pas de ticket sans réponse.",

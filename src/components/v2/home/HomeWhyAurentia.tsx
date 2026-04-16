@@ -1,4 +1,5 @@
 // src/components/v2/home/HomeWhyAurentia.tsx
+import Image from "next/image";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 
@@ -20,9 +21,20 @@ export function HomeWhyAurentia() {
               key={item.title}
               className="group flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-sm"
             >
-              <div className="flex size-11 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary transition-colors duration-500 ease-in-out group-hover:bg-accent-primary group-hover:text-white">
-                <Icon className="size-5" />
-              </div>
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={48}
+                  height={48}
+                  className="size-12 object-contain"
+                  style={{ filter: "drop-shadow(0 4px 8px #25D36640)" }}
+                />
+              ) : Icon ? (
+                <div className="flex size-11 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary transition-colors duration-500 ease-in-out group-hover:bg-accent-primary group-hover:text-white">
+                  <Icon className="size-5" />
+                </div>
+              ) : null}
               <h3 className="font-heading text-lg font-bold text-foreground">{item.title}</h3>
               <p className="text-base text-foreground/65">{item.description}</p>
             </div>

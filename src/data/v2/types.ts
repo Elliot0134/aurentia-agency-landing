@@ -71,13 +71,13 @@ export type Testimonial = {
 
 export type HomeData = {
   hero: {
-    eyebrow: string;
+    eyebrow?: string;
     headline: string;
     headlineAccent?: string;
     subHeadline: string;
-    badges: Badge[];
+    badges?: Badge[];
     cta: DualCTA;
-    visual: { kind: "image"; src: string; alt: string };
+    visual?: { kind: "image"; src: string; alt: string };
   };
   logoStrip: {
     label: string;
@@ -97,7 +97,12 @@ export type HomeData = {
   whyAurentia: {
     eyebrow: string;
     title: string;
-    items: { icon: LucideIcon; title: string; description: string }[];
+    items: {
+      icon?: LucideIcon;
+      image?: string;
+      title: string;
+      description: string;
+    }[];
   };
   realisationsPreview: Realisation[];
   testimonials: Testimonial[];
