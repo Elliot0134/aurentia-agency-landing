@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
 import { FooterV2 } from "@/components/v2/layout/FooterV2";
+import { ChatbotWidget } from "@/components/v2/chatbot/ChatbotWidget";
 
 export const metadata: Metadata = {
   title: {
@@ -18,6 +19,7 @@ export default function V2Layout({ children }: { children: ReactNode }) {
       <NavbarV2 />
       <main className="flex flex-col">{children}</main>
       <FooterV2 />
+      <ChatbotWidget />
     </div>
   );
 }
