@@ -180,20 +180,20 @@ export function ChatbotWidget() {
                 : "h-[80vh] w-[calc(100vw-48px)] sm:h-[520px] sm:w-[380px]",
             )}
           >
-            <div className="flex shrink-0 items-center justify-between bg-foreground px-4 py-3 text-background">
+            <div className="flex shrink-0 items-center justify-between bg-accent-primary px-4 py-3 text-white">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-background/15">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <div>
                   <h3 className="text-sm font-medium">Aurentia</h3>
-                  <p className="text-sm text-background/70">En ligne</p>
+                  <p className="text-sm text-white/75">En ligne</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-background/15"
+                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
                   aria-label={
                     isExpanded ? "Réduire le chat" : "Agrandir le chat"
                   }
@@ -206,7 +206,7 @@ export function ChatbotWidget() {
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-background/15"
+                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
                   aria-label="Fermer le chat"
                 >
                   <X className="h-5 w-5" />
@@ -222,7 +222,7 @@ export function ChatbotWidget() {
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
                   <div className="flex max-w-[85%] gap-3 self-start">
-                    <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                    <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-primary text-white">
                       <Sparkles className="h-4 w-4" />
                     </div>
                     <div className="rounded-2xl rounded-bl-sm border border-foreground/10 bg-background p-3 text-sm leading-relaxed text-foreground">
@@ -236,7 +236,7 @@ export function ChatbotWidget() {
                         <button
                           key={reply.value}
                           onClick={() => handleQuickReply(reply)}
-                          className="rounded-xl border border-foreground/15 bg-background px-4 py-2 text-left text-sm font-medium text-foreground transition-colors duration-500 ease-in-out hover:bg-foreground hover:text-background"
+                          className="rounded-xl border border-foreground/15 bg-background px-4 py-2 text-left text-sm font-medium text-foreground transition-colors duration-500 ease-in-out hover:border-accent-primary hover:bg-accent-primary hover:text-white"
                         >
                           {reply.label}
                         </button>
@@ -267,7 +267,7 @@ export function ChatbotWidget() {
                             <User className="h-4 w-4" />
                           </div>
                         ) : (
-                          <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                          <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-primary text-white">
                             <Sparkles className="h-4 w-4" />
                           </div>
                         )}
@@ -276,7 +276,7 @@ export function ChatbotWidget() {
                           className={cn(
                             "whitespace-pre-line rounded-2xl p-3 text-sm leading-relaxed",
                             msg.role === "user"
-                              ? "rounded-br-sm bg-foreground text-background"
+                              ? "rounded-br-sm bg-accent-primary text-white"
                               : "rounded-bl-sm border border-foreground/10 bg-background text-foreground",
                           )}
                         >
@@ -288,7 +288,7 @@ export function ChatbotWidget() {
                         <div className="self-start pl-11">
                           <button
                             onClick={handleCtaClick}
-                            className="inline-flex items-center gap-2 rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors duration-500 ease-in-out hover:bg-foreground/90"
+                            className="inline-flex items-center gap-2 rounded-xl bg-accent-primary px-4 py-2 text-sm font-medium text-white transition-opacity duration-500 ease-in-out hover:opacity-90"
                           >
                             Prendre contact
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -301,7 +301,7 @@ export function ChatbotWidget() {
 
                 {isLoading && (
                   <div className="flex max-w-[85%] gap-3 self-start">
-                    <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                    <div className="mt-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-primary text-white">
                       <Sparkles className="h-4 w-4" />
                     </div>
                     <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm border border-foreground/10 bg-background p-4">
@@ -333,7 +333,7 @@ export function ChatbotWidget() {
                   disabled={
                     !inputValue.trim() || isLoading || !qualificationDone
                   }
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-foreground text-background transition-colors duration-500 ease-in-out hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-primary text-white transition-opacity duration-500 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Envoyer"
                 >
                   <Send className="h-4 w-4" />
