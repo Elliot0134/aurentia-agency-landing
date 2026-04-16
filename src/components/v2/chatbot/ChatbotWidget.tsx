@@ -193,7 +193,7 @@ export function ChatbotWidget() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
+                  className="cursor-pointer rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
                   aria-label={
                     isExpanded ? "Réduire le chat" : "Agrandir le chat"
                   }
@@ -206,7 +206,7 @@ export function ChatbotWidget() {
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
+                  className="cursor-pointer rounded-full p-2 transition-colors duration-500 ease-in-out hover:bg-white/15"
                   aria-label="Fermer le chat"
                 >
                   <X className="h-5 w-5" />
@@ -236,7 +236,7 @@ export function ChatbotWidget() {
                         <button
                           key={reply.value}
                           onClick={() => handleQuickReply(reply)}
-                          className="rounded-xl border border-foreground/15 bg-background px-4 py-2 text-left text-sm font-medium text-foreground transition-colors duration-500 ease-in-out hover:border-accent-primary hover:bg-accent-primary hover:text-white"
+                          className="cursor-pointer rounded-xl border border-foreground/15 bg-background px-4 py-2 text-left text-sm font-medium text-foreground transition-colors duration-500 ease-in-out hover:border-accent-primary hover:bg-accent-primary hover:text-white"
                         >
                           {reply.label}
                         </button>
@@ -288,7 +288,7 @@ export function ChatbotWidget() {
                         <div className="self-start pl-11">
                           <button
                             onClick={handleCtaClick}
-                            className="inline-flex items-center gap-2 rounded-xl bg-accent-primary px-4 py-2 text-sm font-medium text-white transition-opacity duration-500 ease-in-out hover:opacity-90"
+                            className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent-primary px-4 py-2 text-sm font-medium text-white transition-opacity duration-500 ease-in-out hover:opacity-90"
                           >
                             Prendre contact
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -333,7 +333,7 @@ export function ChatbotWidget() {
                   disabled={
                     !inputValue.trim() || isLoading || !qualificationDone
                   }
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-primary text-white transition-opacity duration-500 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-accent-primary text-white transition-opacity duration-500 ease-in-out hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Envoyer"
                 >
                   <Send className="h-4 w-4" />
@@ -350,7 +350,7 @@ export function ChatbotWidget() {
             setShowTooltip(false);
             setIsOpen(true);
           }}
-          className="animate-in fade-in slide-in-from-bottom-2 mb-3 mr-1 whitespace-nowrap rounded-2xl border border-foreground/10 bg-background px-4 py-2 text-sm font-medium text-foreground shadow-lg transition-shadow duration-500 ease-in-out hover:shadow-xl"
+          className="animate-in fade-in slide-in-from-bottom-2 mb-3 mr-1 cursor-pointer whitespace-nowrap rounded-2xl border border-foreground/10 bg-background px-4 py-2 text-sm font-medium text-foreground shadow-lg transition-shadow duration-500 ease-in-out hover:shadow-xl"
           aria-label="Ouvrir le chat d'aide"
         >
           Besoin d&apos;aide ? 💬
@@ -361,7 +361,7 @@ export function ChatbotWidget() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-accent-primary text-white shadow-xl shadow-accent-primary/25 transition-opacity duration-500 ease-in-out hover:opacity-90"
+        className="relative flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-accent-primary text-white shadow-xl shadow-accent-primary/25 transition-opacity duration-500 ease-in-out hover:opacity-90"
         aria-label={isOpen ? "Fermer le chat" : "Ouvrir le chat"}
       >
         <AnimatePresence mode="wait" initial={false}>
