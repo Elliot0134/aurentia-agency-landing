@@ -9,6 +9,7 @@ import {
   Send,
   User,
   Sparkles,
+  MessageCircle,
   ArrowRight,
   Maximize2,
   Minimize2,
@@ -360,7 +361,7 @@ export function ChatbotWidget() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-foreground/10 bg-foreground text-background shadow-xl shadow-foreground/20"
+        className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-accent-primary text-white shadow-xl shadow-accent-primary/25 transition-opacity duration-500 ease-in-out hover:opacity-90"
         aria-label={isOpen ? "Fermer le chat" : "Ouvrir le chat"}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -376,14 +377,14 @@ export function ChatbotWidget() {
             </motion.div>
           ) : (
             <motion.div
-              key="sparkles"
+              key="chat"
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
               className="flex h-full w-full items-center justify-center"
             >
-              <Sparkles className="h-6 w-6" />
+              <MessageCircle className="h-6 w-6" />
             </motion.div>
           )}
         </AnimatePresence>
