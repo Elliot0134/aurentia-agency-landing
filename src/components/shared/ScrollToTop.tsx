@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function ScrollToTop() {
+  const pathname = usePathname();
+  const isV2 = pathname?.startsWith("/v2") ?? false;
+
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -54,7 +59,10 @@ export function ScrollToTop() {
       <button
         onClick={handleClick}
         aria-label="Retour en haut"
-        className="fixed bottom-6 right-6 z-[9999] flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-foreground/10 bg-card-bg shadow-lg backdrop-blur-xl transition-colors duration-500 hover:bg-card-bg-hover"
+        className={cn(
+          "fixed right-6 z-[9999] flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-foreground/10 bg-card-bg shadow-lg backdrop-blur-xl transition-colors duration-500 hover:bg-card-bg-hover",
+          isV2 ? "bottom-24" : "bottom-6"
+        )}
         style={{ color: "var(--text-primary)" }}
       >
         <ArrowUp size={20} />
