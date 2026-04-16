@@ -3,35 +3,25 @@
 // NOTE: client counts, satisfaction scores and realisation KPIs are plausible
 // placeholders — to be replaced with real data before launch.
 import {
-  Sparkles,
-  Zap,
   Globe,
   Code2,
   BrainCircuit,
-  ShieldCheck,
-  Users,
+  Sparkles,
+  MessageCircle,
+  Tag,
+  Layers,
+  Headphones,
 } from "lucide-react";
 import type { HomeData } from "./types";
 
 export const homeData: HomeData = {
   hero: {
-    eyebrow: "L'agence IA full-stack",
-    headline: "L'IA dans vos produits.",
-    headlineAccent: "L'IA dans votre quotidien.",
+    headline: "On construit vos sites,\nSaaS et outils IA.",
     subHeadline:
-      "Sites et SaaS construits avec l'IA. Formations et automatisations déployées chez vous. Une seule agence pour tout votre virage digital.",
-    badges: [
-      { label: "+50 projets livrés", icon: Sparkles },
-      { label: "Partenaire Anthropic Claude", icon: BrainCircuit },
-    ],
+      "Agence tech full-stack à Paris. On conçoit, on code, on livre — du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
     cta: {
       primary: { label: "Discutons de votre projet", href: "/v2/contact" },
       secondary: { label: "Voir nos offres", href: "#pillars" },
-    },
-    visual: {
-      kind: "image",
-      src: "/images/v2/hero-home.jpg",
-      alt: "L'équipe Aurentia en mission",
     },
   },
   logoStrip: {
@@ -77,31 +67,43 @@ export const homeData: HomeData = {
   },
   whyAurentia: {
     eyebrow: "Pourquoi Aurentia",
-    title: "Une agence pensée pour l'ère de l'IA",
+    title: "Pourquoi faire le choix Aurentia",
     items: [
       {
-        icon: Zap,
-        title: "5× plus rapide",
+        icon: Code2,
+        title: "Propriétaire de votre code",
         description:
-          "L'IA accélère chaque étape — du design au déploiement. On livre en jours ce que les autres font en mois.",
+          "Votre projet, votre code source. Aucune dépendance, aucun lock-in — vous pouvez le faire évoluer avec n'importe quel développeur.",
       },
       {
-        icon: BrainCircuit,
-        title: "L'IA en profondeur",
+        icon: MessageCircle,
+        title: "Support sur WhatsApp",
         description:
-          "On ne fait pas que parler d'IA, on l'utilise au quotidien et on sait l'intégrer concrètement dans vos produits et vos workflows.",
+          "Une question ? Un bug ? Écrivez-nous directement sur WhatsApp. Réponse en moins de 2h, pas de ticket sans réponse.",
       },
       {
-        icon: ShieldCheck,
-        title: "Qualité garantie",
+        icon: Sparkles,
+        title: "Propulsé par l'IA",
         description:
-          "Code propre, design soigné, accompagnement humain. La vitesse n'est jamais un compromis sur la qualité.",
+          "On utilise l'intelligence artificielle à chaque étape. Résultat : des livraisons 3× plus rapides sans compromis sur la qualité.",
       },
       {
-        icon: Users,
-        title: "Sur-mesure réel",
+        icon: Tag,
+        title: "Prix transparent",
         description:
-          "Aucun template recyclé. Chaque projet est conçu spécifiquement pour vos besoins, votre marque, vos clients.",
+          "Un devis clair dès le départ. Pas d'abonnement mensuel caché, pas de frais surprise. Un prix, un projet livré.",
+      },
+      {
+        icon: Layers,
+        title: "Technologies modernes",
+        description:
+          "Des technologies performantes, rapides et fiables. Pas de WordPress, pas de no-code — du vrai code sur-mesure, fait pour durer.",
+      },
+      {
+        icon: Headphones,
+        title: "30 jours de support inclus",
+        description:
+          "On ne disparaît pas après le lancement. Ajustements, corrections, questions — on reste à vos côtés pendant 30 jours.",
       },
     ],
   },
