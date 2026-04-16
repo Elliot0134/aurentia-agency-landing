@@ -1,10 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import { CalModal } from "./CalModal";
 
 export function FloatingCTA() {
+  const pathname = usePathname();
+  const isV2 = pathname?.startsWith("/v2") ?? false;
+
   const [visible, setVisible] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
   const [showPing, setShowPing] = useState(false);
@@ -36,6 +40,8 @@ export function FloatingCTA() {
       };
     }
   }, [visible, showPing]);
+
+  if (isV2) return null;
 
   return (
     <>
