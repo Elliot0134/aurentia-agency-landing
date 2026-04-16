@@ -8,7 +8,6 @@ export function HomeWhyAurentia() {
   return (
     <SectionContainer
       id="why"
-      eyebrow={whyAurentia.eyebrow}
       title={whyAurentia.title}
       subtitle="Ce qui nous différencie des autres agences. Pas des promesses — des engagements concrets."
       className="py-32 md:py-40"
