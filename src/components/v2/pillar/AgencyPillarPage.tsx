@@ -5,6 +5,14 @@ import { ArrowUpRight } from "lucide-react";
 import type { AgencyPillarData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { DualCTA } from "@/components/v2/shared/DualCTA";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
+
+const agencyPillarSubNavItems = [
+  { label: "Composition", sectionId: "composition" },
+  { label: "Histoire", sectionId: "story" },
+  { label: "Équipe", sectionId: "team" },
+  { label: "Contact", sectionId: "cta" },
+];
 
 type AgencyPillarPageProps = {
   data: AgencyPillarData;
@@ -21,14 +29,14 @@ function SubPageWrapper({ href, available, children }: SubPageWrapperProps) {
     return (
       <Link
         href={href}
-        className="group flex h-full flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface p-7 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+        className="group flex h-full flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
       >
         {children}
       </Link>
     );
   }
   return (
-    <div className="relative flex h-full flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface p-7 opacity-70">
+    <div className="relative flex h-full flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 opacity-70">
       <span className="absolute right-4 top-4 rounded-full bg-foreground/10 px-2.5 py-1 text-sm font-semibold text-foreground/65">
         Bientôt
       </span>
@@ -40,12 +48,13 @@ function SubPageWrapper({ href, available, children }: SubPageWrapperProps) {
 export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
   return (
     <>
+      <SubNavSetter items={agencyPillarSubNavItems} />
       <section className="border-b border-foreground/10">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-7 px-6 py-24 text-center md:px-12 md:py-32">
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent-primary">
             {data.hero.eyebrow}
           </p>
-          <h1 className="font-heading text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="max-w-4xl text-foreground">
             {data.hero.headline}
           </h1>
           <p className="max-w-2xl text-base text-foreground/70 md:text-lg">{data.hero.subHeadline}</p>
@@ -53,14 +62,14 @@ export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
         </div>
       </section>
 
-      <SectionContainer eyebrow="L'agence" title="Tout ce qui constitue Aurentia">
+      <SectionContainer id="composition" eyebrow="L'agence" title="Tout ce qui constitue Aurentia">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {data.subPages.map((p) => {
             const Icon = p.icon;
             return (
               <SubPageWrapper key={p.title} href={p.href} available={p.available}>
-                <div className="flex size-12 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
-                  <Icon className="size-6" />
+                <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary">
+                  <Icon className="size-6" strokeWidth={1.5} />
                 </div>
                 <h3 className="font-heading text-xl font-bold text-foreground">{p.title}</h3>
                 <p className="flex-1 text-base text-foreground/65">{p.description}</p>
@@ -76,6 +85,7 @@ export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
       </SectionContainer>
 
       <SectionContainer
+        id="story"
         eyebrow="Notre histoire"
         title={data.story.title}
         className="bg-background-surface"
@@ -84,7 +94,7 @@ export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
         <p className="text-base leading-relaxed text-foreground/75 md:text-lg">{data.story.paragraph}</p>
       </SectionContainer>
 
-      <SectionContainer eyebrow="L'équipe" title={data.teamPreview.title}>
+      <SectionContainer id="team" eyebrow="L'équipe" title={data.teamPreview.title}>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {data.teamPreview.members.map((m) => (
             <div key={m.name} className="flex flex-col items-center gap-3 text-center">
@@ -102,19 +112,19 @@ export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
         <div className="mt-12 flex justify-center">
           <Link
             href={data.teamPreview.seeAllHref}
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-base font-semibold text-foreground transition-all duration-500 ease-in-out hover:border-foreground/40"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-base font-semibold text-foreground transition-colors duration-500 ease-in-out hover:border-foreground/40"
           >
             Voir l&apos;équipe complète
           </Link>
         </div>
       </SectionContainer>
 
-      <SectionContainer alignHeader="center">
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            {data.finalCta.title}
-          </h2>
-          <p className="text-base text-foreground/70 md:text-lg">{data.finalCta.subtitle}</p>
+      <SectionContainer
+        id="cta"
+        title={data.finalCta.title}
+        subtitle={data.finalCta.subtitle}
+      >
+        <div className="flex justify-center">
           <DualCTA primary={data.finalCta.cta} size="lg" />
         </div>
       </SectionContainer>

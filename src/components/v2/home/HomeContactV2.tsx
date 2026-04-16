@@ -68,16 +68,16 @@ export function HomeContactV2() {
     "rounded-xl border border-foreground/15 bg-background px-4 py-3 text-base text-foreground placeholder:text-foreground/40 focus:border-accent-primary focus:outline-none transition-colors duration-500 ease-in-out";
 
   return (
-    <SectionContainer alignHeader="center" innerClassName="max-w-2xl">
+    <SectionContainer id="contact" alignHeader="center" innerClassName="max-w-2xl">
       <div className="flex flex-col items-center gap-6 text-center">
-        <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        <h2 className="font-heading text-4xl tracking-tight text-foreground md:text-5xl lg:text-6xl">
           {contactCta.title}
         </h2>
         <p className="text-base text-foreground/70 md:text-lg">{contactCta.subtitle}</p>
       </div>
       <form
         onSubmit={handleSubmit}
-        className="mt-12 flex flex-col gap-4 rounded-3xl border border-foreground/10 bg-background-surface p-8 md:p-10"
+        className="mt-12 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface p-8 md:p-10"
       >
         <div className="grid gap-4 md:grid-cols-2">
           <input name="nom" type="text" required placeholder="Votre nom" className={inputBase} />

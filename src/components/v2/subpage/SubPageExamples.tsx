@@ -30,7 +30,7 @@ export function SubPageExamples({ data }: SubPageExamplesProps) {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {data.items.map((item, idx) => (
           <ItemWrapper key={idx} href={item.href}>
-            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-background">
+            <div className="aspect-[4/3] overflow-hidden rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] transition-colors duration-500 ease-in-out dark:group-hover:border-foreground/25">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.imageUrl}

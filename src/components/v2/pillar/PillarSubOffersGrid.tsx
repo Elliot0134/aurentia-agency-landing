@@ -10,7 +10,7 @@ type PillarSubOffersGridProps = {
 
 export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
   return (
-    <SectionContainer eyebrow="Nos offres" title={subOffers.title}>
+    <SectionContainer id="offers" eyebrow="Nos offres" title={subOffers.title}>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {subOffers.variant === "grid"
           ? subOffers.items.map((item) => {
@@ -19,10 +19,10 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex h-full flex-col gap-5 rounded-2xl border border-foreground/10 bg-background-surface p-7 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+                  className="group flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
-                    <Icon className="size-6" />
+                  <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary">
+                    <Icon className="size-6" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-heading text-xl font-bold text-foreground">{item.title}</h3>
                   <p className="flex-1 text-base text-foreground/70">{item.pitch}</p>
@@ -42,10 +42,10 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
               return (
                 <div
                   key={idx}
-                  className="flex h-full flex-col gap-5 rounded-2xl border border-foreground/10 bg-background-surface p-7"
+                  className="flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
                 >
-                  <div className="flex size-12 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
-                    <Icon className="size-6" />
+                  <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary">
+                    <Icon className="size-6" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-heading text-xl font-bold text-foreground">{item.title}</h3>
                   <p className="flex-1 text-base text-foreground/70">{item.description}</p>
@@ -55,7 +55,7 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
       </div>
 
       {subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
-        <div className="mt-16 flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface p-8">
+        <div className="mt-16 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface p-8">
           <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/55">
             Notre stack
           </h3>

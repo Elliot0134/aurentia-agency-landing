@@ -15,7 +15,7 @@ export function HomePillarsGrid() {
             <Link
               key={p.title}
               href={p.href}
-              className="group flex h-full flex-col gap-5 rounded-2xl border border-foreground/10 bg-background-surface p-8 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+              className="group flex h-full flex-col gap-5 rounded-2xl border border-transparent dark:border-foreground/10 bg-background-surface p-8 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
             >
               <div className="flex size-12 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
                 <Icon className="size-6" />

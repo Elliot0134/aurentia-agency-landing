@@ -18,7 +18,7 @@ export function HomeWhyAurentia() {
           return (
             <div
               key={item.title}
-              className="group flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-sm"
+              className="group flex flex-col gap-4 rounded-2xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-sm"
             >
               {item.image ? (
                 <Image
