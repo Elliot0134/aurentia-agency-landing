@@ -10,7 +10,7 @@ export function HomeWhyAurentia() {
       eyebrow={whyAurentia.eyebrow}
       title={whyAurentia.title}
       subtitle="Ce qui nous différencie des autres agences. Pas des promesses — des engagements concrets."
-      className="bg-background-surface"
+      className="bg-background-surface py-32 md:py-40"
     >
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {whyAurentia.items.map((item) => {
