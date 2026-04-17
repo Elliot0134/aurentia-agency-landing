@@ -46,6 +46,30 @@ export function HomeEasterEggV2({
         title={title}
         tagline={tagline}
       />
+
+      {/* Bottom halo — soft glow that bleeds into the hero without a visible
+          hard edge. Starts at low opacity so there is no sharp line at the
+          section boundary, then fades up organically. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[500px]"
+        aria-hidden
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(
+              ellipse 140% 90% at 50% 110%,
+              color-mix(in srgb, var(--orange-500) 30%, transparent) 0%,
+              color-mix(in srgb, var(--orange-500) 22%, transparent) 15%,
+              color-mix(in srgb, var(--orange-500) 14%, transparent) 30%,
+              color-mix(in srgb, var(--orange-500) 8%, transparent) 45%,
+              color-mix(in srgb, var(--orange-500) 4%, transparent) 60%,
+              color-mix(in srgb, var(--orange-500) 1%, transparent) 80%,
+              transparent 100%
+            )`,
+          }}
+        />
+      </div>
     </div>
   );
 }
