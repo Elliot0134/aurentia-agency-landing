@@ -14,6 +14,9 @@ import {
   FileText,
   Hammer,
   Rocket,
+  CalendarCheck,
+  Clock,
+  ShieldCheck,
 } from "lucide-react";
 import type { HomeData } from "./types";
 
@@ -201,6 +204,45 @@ export const homeData: HomeData = {
       },
     ],
   },
+  blogPreview: {
+    title: "Dernières publications",
+    articles: [
+      {
+        slug: "automatiser-40-pourcent-admin-avec-claude",
+        category: "IA",
+        title: "Comment on a automatisé 40% de nos tâches admin avec Claude",
+        excerpt:
+          "Retour d'expérience : les workflows, skills et automations qu'on a déployés en interne pour gagner 2 jours par semaine.",
+        date: "2026-04-10",
+        readingTime: "6 min",
+        imageUrl: "/images/v2/blog/blog-1.svg",
+        href: "/blog/automatiser-40-pourcent-admin-avec-claude",
+      },
+      {
+        slug: "pourquoi-votre-site-ne-convertit-pas",
+        category: "Sites Web",
+        title: "Pourquoi votre site ne convertit pas (et comment corriger en 7 jours)",
+        excerpt:
+          "Les 5 erreurs qu'on voit sur 8 sites sur 10 — et le plan concret pour les corriger sans tout refondre.",
+        date: "2026-04-03",
+        readingTime: "5 min",
+        imageUrl: "/images/v2/blog/blog-2.svg",
+        href: "/blog/pourquoi-votre-site-ne-convertit-pas",
+      },
+      {
+        slug: "mvp-en-12-jours-notre-methode",
+        category: "SaaS",
+        title: "MVP en 12 jours : la méthode qu'on utilise pour nos clients",
+        excerpt:
+          "Stack, découpage, choix techniques, outils IA : comment on livre un MVP fonctionnel en 2 semaines sans rogner sur la qualité.",
+        date: "2026-03-27",
+        readingTime: "8 min",
+        imageUrl: "/images/v2/blog/blog-3.svg",
+        href: "/blog/mvp-en-12-jours-notre-methode",
+      },
+    ],
+    seeAllCta: { label: "Voir tous les articles", href: "/blog" },
+  },
   faq: [
     {
       question: "Combien de temps pour livrer un projet ?",
@@ -235,6 +277,25 @@ export const homeData: HomeData = {
         "Support inclus pendant 30 jours pour tout projet. Au-delà, on propose des forfaits de maintenance et d'évolution adaptés à votre rythme. On ne disparaît jamais après la livraison.",
     },
   ],
+  bookingCta: {
+    eyebrow: "Plus rapide",
+    title: "Prenons 15 minutes ensemble",
+    subtitle:
+      "Un appel rapide pour comprendre votre besoin et vous dire si on peut vous aider. Sans engagement.",
+    signals: [
+      { icon: CalendarCheck, label: "Créneau sous 48h" },
+      { icon: Clock, label: "15 min chrono" },
+      { icon: ShieldCheck, label: "Sans engagement" },
+    ],
+    cta: {
+      label: "Réserver un créneau",
+      href: "https://cal.com/aurentia-agency",
+    },
+    secondaryLink: {
+      label: "ou envoyez-nous un brief détaillé",
+      href: "#contact",
+    },
+  },
   contactCta: {
     title: "Discutons de votre projet",
     subtitle:
