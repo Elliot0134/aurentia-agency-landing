@@ -14,6 +14,8 @@ import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
 import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
 import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { HomeBlogPreview } from "@/components/v2/home/HomeBlogPreview";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
@@ -26,6 +28,7 @@ const subNavItems = [
   { label: "Pourquoi", sectionId: "why" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
+  { label: "Blog", sectionId: "blog" },
   { label: "FAQ", sectionId: "faq" },
   { label: "Contact", sectionId: "contact" },
 ];
@@ -89,7 +92,11 @@ export default function HomeV2() {
         <SectionDivider />
         <HomeMethodV2 />
         <SectionDivider />
+        <HomeBlogPreview />
+        <SectionDivider />
         <HomeFAQV2 />
+        <SectionDivider />
+        <HomeBookingCTA />
         <SectionDivider />
         <HomeContactV2 />
       </div>
