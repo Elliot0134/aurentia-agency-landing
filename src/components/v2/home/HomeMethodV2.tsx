@@ -47,14 +47,13 @@ export function HomeMethodV2() {
       id="method"
       title="Comment on travaille"
       subtitle="Un processus simple et transparent. Vous savez toujours où en est votre projet."
-      className="bg-background-surface"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {STEPS.map((step, idx) => {
           const Icon = step.icon;
           return (
-            <BlurReveal key={step.num} delay={idx * 0.1}>
-              <Card className={cn(cardInteractiveClasses, "relative flex flex-col gap-5 p-8")}>
+            <BlurReveal key={step.num} delay={idx * 0.1} className="h-full">
+              <Card className={cn(cardInteractiveClasses, "relative flex h-full flex-col gap-5 p-8")}>
                 {/* Icon + step number */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-accent-primary/10 text-accent-primary">
