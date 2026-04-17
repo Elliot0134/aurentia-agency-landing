@@ -67,6 +67,22 @@ export type Testimonial = {
   stat?: string;
 };
 
+export type BlogArticlePreview = {
+  slug: string;
+  category: string;
+  title: string;
+  excerpt: string;
+  date: string;          // ISO format: "2026-04-10"
+  readingTime: string;   // ex: "5 min"
+  imageUrl: string;
+  href: string;
+};
+
+export type BookingCtaSignal = {
+  icon: LucideIcon;
+  label: string;
+};
+
 /* ──────────────────────────────────────────────
    Home page data shape
    ────────────────────────────────────────────── */
@@ -112,7 +128,20 @@ export type HomeData = {
     title: string;
     steps: ProcessStep[];
   };
+  blogPreview: {
+    title: string;
+    articles: BlogArticlePreview[];
+    seeAllCta: CTA;
+  };
   faq: FAQItem[];
+  bookingCta: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    signals: BookingCtaSignal[];
+    cta: CTA;
+    secondaryLink: CTA;
+  };
   contactCta: {
     title: string;
     subtitle: string;
