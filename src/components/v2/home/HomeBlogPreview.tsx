@@ -26,13 +26,13 @@ function ArticleCard({ article }: { article: BlogArticlePreview }) {
       className="block h-full"
       data-cursor="click"
     >
-      <SpotlightCard className="group flex h-full flex-col overflow-hidden p-0">
+      <SpotlightCard className="group flex h-full flex-col overflow-hidden p-0 border-0 dark:border hover:translate-y-0">
         <div className="relative aspect-[16/9] w-full overflow-hidden">
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
-            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+            className="object-cover"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         </div>
