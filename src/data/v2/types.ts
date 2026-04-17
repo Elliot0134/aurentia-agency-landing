@@ -39,6 +39,7 @@ export type ProcessStep = {
   number: string; // "01", "02"…
   title: string;
   description: string;
+  icon?: LucideIcon;
 };
 
 export type FAQItem = {
@@ -63,6 +64,7 @@ export type Testimonial = {
   company: string;
   avatarUrl?: string;
   pillar?: "sites-web" | "saas" | "solutions-ia";
+  stat?: string;
 };
 
 /* ──────────────────────────────────────────────

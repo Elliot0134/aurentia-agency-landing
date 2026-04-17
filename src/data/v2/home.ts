@@ -10,6 +10,10 @@ import {
   Tag,
   Layers,
   Headphones,
+  MessageSquare,
+  FileText,
+  Hammer,
+  Rocket,
 } from "lucide-react";
 import type { HomeData } from "./types";
 
@@ -17,7 +21,7 @@ export const homeData: HomeData = {
   hero: {
     headline: "On construit vos sites,\nSaaS et outils IA.",
     subHeadline:
-      "Agence tech full-stack à Paris. On conçoit, on code, on livre — du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
+      "Agence tech full-stack à Avignon. On conçoit, on code, on livre — du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
     cta: {
       primary: { label: "Discutons de votre projet", href: "/v2/contact" },
       secondary: { label: "Voir nos offres", href: "#pillars" },
@@ -143,6 +147,7 @@ export const homeData: HomeData = {
       role: "Fondatrice",
       company: "Atelier Marie",
       pillar: "sites-web",
+      stat: "Livré en 5 jours",
     },
     {
       quote:
@@ -151,6 +156,7 @@ export const homeData: HomeData = {
       role: "Directeur",
       company: "Cabinet Conseil",
       pillar: "solutions-ia",
+      stat: "+0,5 ETP gagné",
     },
     {
       quote:
@@ -159,6 +165,7 @@ export const homeData: HomeData = {
       role: "CEO",
       company: "Startup B2B",
       pillar: "saas",
+      stat: "MVP en 12 jours",
     },
   ],
   method: {
@@ -169,24 +176,28 @@ export const homeData: HomeData = {
         title: "Briefing",
         description:
           "On comprend votre besoin, vos contraintes et vos objectifs en un seul appel.",
+        icon: MessageSquare,
       },
       {
         number: "02",
         title: "Devis & cadrage",
         description:
           "Devis clair sous 24h, périmètre détaillé, deadline ferme.",
+        icon: FileText,
       },
       {
         number: "03",
         title: "Production",
         description:
           "Sprints courts, livrables réguliers, vous suivez l'avancement en temps réel.",
+        icon: Hammer,
       },
       {
         number: "04",
         title: "Livraison & support",
         description:
           "Mise en ligne, formation et support inclus pendant 30 jours.",
+        icon: Rocket,
       },
     ],
   },
