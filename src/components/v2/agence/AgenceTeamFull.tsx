@@ -98,8 +98,8 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
         className="pointer-events-none absolute inset-0 hidden md:block"
         style={{
           background: isEven
-            ? "linear-gradient(to right, var(--background-surface, var(--background)) 0%, var(--background-surface, var(--background)) 25%, color-mix(in srgb, var(--background-surface, var(--background)) 80%, transparent) 40%, color-mix(in srgb, var(--background-surface, var(--background)) 30%, transparent) 55%, transparent 70%)"
-            : "linear-gradient(to left, var(--background-surface, var(--background)) 0%, var(--background-surface, var(--background)) 25%, color-mix(in srgb, var(--background-surface, var(--background)) 80%, transparent) 40%, color-mix(in srgb, var(--background-surface, var(--background)) 30%, transparent) 55%, transparent 70%)",
+            ? "linear-gradient(to right, var(--color-background-surface) 0%, var(--color-background-surface) 25%, color-mix(in srgb, var(--color-background-surface) 80%, transparent) 40%, color-mix(in srgb, var(--color-background-surface) 30%, transparent) 55%, transparent 70%)"
+            : "linear-gradient(to left, var(--color-background-surface) 0%, var(--color-background-surface) 25%, color-mix(in srgb, var(--color-background-surface) 80%, transparent) 40%, color-mix(in srgb, var(--color-background-surface) 30%, transparent) 55%, transparent 70%)",
         }}
       />
 
