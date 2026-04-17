@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { HomeEasterEggV2 } from "@/components/v2/home/HomeEasterEggV2";
 import { HomeHeroV2 } from "@/components/v2/home/HomeHeroV2";
 import { HomeServicesV2 } from "@/components/v2/home/HomeServicesV2";
@@ -13,8 +14,10 @@ import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
 import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
 import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
+import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 
 const subNavItems = [
   { label: "Services", sectionId: "pillars" },
@@ -45,7 +48,7 @@ export default function HomeV2() {
   }, []);
 
   // Grayscale-on-scroll fade (0.15 → 0 over the first 600px of scroll)
-  useEffect(() => {
+  useGSAP(() => {
     if (!wrapperRef.current) return;
 
     gsap.fromTo(
@@ -62,7 +65,7 @@ export default function HomeV2() {
         },
       },
     );
-  }, []);
+  }, { scope: wrapperRef });
 
   return (
     <>
@@ -71,13 +74,23 @@ export default function HomeV2() {
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
         <HomeEasterEggV2 />
         <HomeHeroV2 />
+        <SectionDivider />
         <HomeServicesV2 />
+        <SectionDivider />
         <HomeRealisationsPreview />
+        <SectionDivider />
         <HomeTeamV2 />
+        <SectionDivider />
+        <HomeQuoteV2 />
+        <SectionDivider />
         <HomeWhyAurentia />
+        <SectionDivider />
         <HomeTestimonialsV2 />
+        <SectionDivider />
         <HomeMethodV2 />
+        <SectionDivider />
         <HomeFAQV2 />
+        <SectionDivider />
         <HomeContactV2 />
       </div>
     </>
