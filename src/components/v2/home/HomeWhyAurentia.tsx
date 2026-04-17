@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { Card } from "@/components/v2/shared/Card";
 
 export function HomeWhyAurentia() {
   const { whyAurentia } = homeData;
@@ -16,9 +17,9 @@ export function HomeWhyAurentia() {
         {whyAurentia.items.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <Card
               key={item.title}
-              className="group flex flex-col gap-4 rounded-2xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-sm"
+              className="group flex flex-col gap-4 rounded-2xl p-7 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-sm"
             >
               {item.image ? (
                 <Image
@@ -36,7 +37,7 @@ export function HomeWhyAurentia() {
               ) : null}
               <h3 className="font-heading text-lg font-bold text-foreground">{item.title}</h3>
               <p className="text-base text-foreground/65">{item.description}</p>
-            </div>
+            </Card>
           );
         })}
       </div>

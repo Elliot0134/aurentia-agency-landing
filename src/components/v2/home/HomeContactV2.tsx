@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { cardClasses } from "@/components/v2/shared/Card";
 import { cn } from "@/lib/utils";
 
 const TYPE_PROJET_OPTIONS = [
@@ -77,7 +78,7 @@ export function HomeContactV2() {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="mt-12 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface p-8 md:p-10"
+        className={cn(cardClasses, "mt-12 flex flex-col gap-4 p-8 md:p-10")}
       >
         <div className="grid gap-4 md:grid-cols-2">
           <input name="nom" type="text" required placeholder="Votre nom" className={inputBase} />

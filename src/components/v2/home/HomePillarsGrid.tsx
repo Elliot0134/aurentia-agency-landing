@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { cardClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 export function HomePillarsGrid() {
   const { pillars } = homeData;
@@ -15,7 +17,10 @@ export function HomePillarsGrid() {
             <Link
               key={p.title}
               href={p.href}
-              className="group flex h-full flex-col gap-5 rounded-2xl border border-transparent dark:border-foreground/10 bg-background-surface p-8 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+              className={cn(
+                cardClasses,
+                "group flex h-full flex-col gap-5 rounded-2xl p-8 transition-all duration-500 ease-in-out dark:hover:border-foreground/20 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]",
+              )}
             >
               <div className="flex size-12 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
                 <Icon className="size-6" />

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Realisation } from "@/data/v2/types";
+import { cardClasses, cardInteractiveClasses } from "@/components/v2/shared/Card";
 import { cn } from "@/lib/utils";
 
 type RealisationCardProps = {
@@ -14,7 +15,9 @@ export function RealisationCard({ realisation, className }: RealisationCardProps
     <Link
       href={realisation.href}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] transition-colors duration-500 ease-in-out dark:hover:border-foreground/25",
+        cardClasses,
+        cardInteractiveClasses,
+        "group flex h-full flex-col overflow-hidden",
         className
       )}
     >

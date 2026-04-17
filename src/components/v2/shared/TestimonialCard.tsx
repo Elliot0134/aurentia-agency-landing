@@ -1,5 +1,6 @@
 // src/components/v2/shared/TestimonialCard.tsx
 import type { Testimonial } from "@/data/v2/types";
+import { cardClasses, cardInteractiveClasses } from "@/components/v2/shared/Card";
 import { cn } from "@/lib/utils";
 
 type TestimonialCardProps = {
@@ -66,7 +67,9 @@ export function TestimonialCard({ testimonial, className }: TestimonialCardProps
   return (
     <article
       className={cn(
-        "relative z-10 flex h-full flex-col gap-6 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25",
+        cardClasses,
+        cardInteractiveClasses,
+        "relative z-10 flex h-full flex-col gap-6 p-8",
         className
       )}
     >

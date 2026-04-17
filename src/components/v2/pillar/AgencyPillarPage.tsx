@@ -6,6 +6,8 @@ import type { AgencyPillarData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { DualCTA } from "@/components/v2/shared/DualCTA";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
+import { Card, cardClasses, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 const agencyPillarSubNavItems = [
   { label: "Composition", sectionId: "composition" },
@@ -29,19 +31,23 @@ function SubPageWrapper({ href, available, children }: SubPageWrapperProps) {
     return (
       <Link
         href={href}
-        className="group flex h-full flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+        className={cn(
+          cardClasses,
+          cardInteractiveClasses,
+          "group flex h-full flex-col gap-4 p-7",
+        )}
       >
         {children}
       </Link>
     );
   }
   return (
-    <div className="relative flex h-full flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 opacity-70">
+    <Card className="relative flex h-full flex-col gap-4 p-7 opacity-70">
       <span className="absolute right-4 top-4 rounded-full bg-foreground/10 px-2.5 py-1 text-sm font-semibold text-foreground/65">
         Bientôt
       </span>
       {children}
-    </div>
+    </Card>
   );
 }
 

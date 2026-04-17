@@ -1,6 +1,8 @@
 // src/components/v2/subpage/SubPageForWho.tsx
 import type { ProfileCard } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { Card, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 type SubPageForWhoProps = {
   profiles: ProfileCard[];
@@ -18,9 +20,9 @@ export function SubPageForWho({ profiles }: SubPageForWhoProps) {
         {profiles.map((profile) => {
           const Icon = profile.icon;
           return (
-            <div
+            <Card
               key={profile.title}
-              className="flex items-start gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-6 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+              className={cn(cardInteractiveClasses, "flex items-start gap-4 p-6")}
             >
               <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary">
                 <Icon className="size-5" />
@@ -29,7 +31,7 @@ export function SubPageForWho({ profiles }: SubPageForWhoProps) {
                 <h3 className="font-heading text-lg font-bold text-foreground">{profile.title}</h3>
                 <p className="text-base text-foreground/65">{profile.description}</p>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

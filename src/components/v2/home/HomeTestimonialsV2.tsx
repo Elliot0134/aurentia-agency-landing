@@ -2,6 +2,7 @@
 
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { Card } from "@/components/v2/shared/Card";
 
 type Testimonial = {
   name: string;
@@ -101,7 +102,7 @@ function Avatar({ gradient, initials }: { gradient: string; initials: string }) 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   const { name, role, company, quote, stat, avatarGradient, initials } = testimonial;
   return (
-    <div className="relative z-10 flex flex-col gap-6 p-8 h-full rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04]">
+    <Card className="relative z-10 flex flex-col gap-6 p-8 h-full">
       {/* Top row: stars + stat badge */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <StarRating />
@@ -133,7 +134,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           </span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 

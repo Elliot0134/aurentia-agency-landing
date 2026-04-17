@@ -14,6 +14,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ArrowUpRight } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { Card } from "@/components/v2/shared/Card";
 import {
   AIIntegrationMockup,
   AuditMockup,
@@ -455,7 +456,7 @@ function OfferCard({
 }) {
   const { Visual, title, desc, tags, priceFrom, href } = offer;
   return (
-    <div className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-transparent dark:border-foreground/10 bg-background-surface transition-all duration-500 ease-in-out hover:-translate-y-1">
+    <Card className="group relative flex w-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1">
       <div className="flex flex-col p-4 md:p-5">
         {/* Title */}
         <h3 className="mb-3 font-heading text-xl leading-tight text-foreground md:text-2xl">
@@ -512,7 +513,7 @@ function OfferCard({
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 

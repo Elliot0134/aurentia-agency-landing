@@ -1,6 +1,8 @@
 // src/components/v2/pillar/PillarMethod.tsx
 import type { ProcessStep } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { Card, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 type PillarMethodProps = {
   title: string;
@@ -14,9 +16,9 @@ export function PillarMethod({ title, steps }: PillarMethodProps) {
         {steps.map((step) => {
           const Icon = step.icon;
           return (
-            <div
+            <Card
               key={step.number}
-              className="relative flex flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+              className={cn(cardInteractiveClasses, "relative flex flex-col gap-5 p-8")}
             >
               {/* Icon + step number */}
               <div className="flex items-center justify-between">
@@ -39,7 +41,7 @@ export function PillarMethod({ title, steps }: PillarMethodProps) {
               <p className="text-sm leading-relaxed text-foreground/65">
                 {step.description}
               </p>
-            </div>
+            </Card>
           );
         })}
       </div>

@@ -4,6 +4,8 @@ import { MessageSquare, Pencil, Paintbrush, Headphones } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { Card, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 type Step = {
   num: string;
@@ -52,7 +54,7 @@ export function HomeMethodV2() {
           const Icon = step.icon;
           return (
             <BlurReveal key={step.num} delay={idx * 0.1}>
-              <div className="relative flex flex-col gap-5 p-8 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] transition-colors duration-500 ease-in-out dark:hover:border-foreground/25">
+              <Card className={cn(cardInteractiveClasses, "relative flex flex-col gap-5 p-8")}>
                 {/* Icon + step number */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-accent-primary/10 text-accent-primary">
@@ -70,7 +72,7 @@ export function HomeMethodV2() {
                 <p className="text-sm leading-relaxed text-foreground/65">
                   {step.desc}
                 </p>
-              </div>
+              </Card>
             </BlurReveal>
           );
         })}

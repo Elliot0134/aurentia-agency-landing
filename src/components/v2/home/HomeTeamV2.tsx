@@ -5,6 +5,7 @@ import { Linkedin } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { Card } from "@/components/v2/shared/Card";
 
 type Member = {
   name: string;
@@ -61,7 +62,7 @@ const team: Member[] = [
 
 function TeamCard({ member, idx }: { member: Member; idx: number }) {
   return (
-    <div className="relative p-4 h-full flex flex-col justify-end rounded-3xl bg-background-surface dark:bg-foreground/[0.04] border border-transparent dark:border-foreground/10 group overflow-hidden">
+    <Card className="relative p-4 h-full flex flex-col justify-end group overflow-hidden">
       {/* Background image — desktop: always right, mobile: alternate */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -118,7 +119,7 @@ function TeamCard({ member, idx }: { member: Member; idx: number }) {
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 

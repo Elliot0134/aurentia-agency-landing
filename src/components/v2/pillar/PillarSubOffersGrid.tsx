@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { CommercialPillarData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { Card, cardClasses, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { cn } from "@/lib/utils";
 
 type PillarSubOffersGridProps = {
   subOffers: CommercialPillarData["subOffers"];
@@ -19,7 +21,11 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+                  className={cn(
+                    cardClasses,
+                    cardInteractiveClasses,
+                    "group flex h-full flex-col gap-5 p-7",
+                  )}
                 >
                   <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary">
                     <Icon className="size-6" strokeWidth={1.5} />
@@ -40,22 +46,22 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
           : subOffers.items.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div
+                <Card
                   key={idx}
-                  className="flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+                  className={cn(cardInteractiveClasses, "flex h-full flex-col gap-5 p-7")}
                 >
                   <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary">
                     <Icon className="size-6" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-heading text-xl font-bold text-foreground">{item.title}</h3>
                   <p className="flex-1 text-base text-foreground/70">{item.description}</p>
-                </div>
+                </Card>
               );
             })}
       </div>
 
       {subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
-        <div className="mt-16 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface p-8">
+        <Card className="mt-16 flex flex-col gap-4 p-8">
           <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/55">
             Notre stack
           </h3>
@@ -66,7 +72,7 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
               </span>
             ))}
           </div>
-        </div>
+        </Card>
       )}
     </SectionContainer>
   );
