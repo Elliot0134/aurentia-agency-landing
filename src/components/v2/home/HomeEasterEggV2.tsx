@@ -47,9 +47,10 @@ export function HomeEasterEggV2({
         tagline={tagline}
       />
 
-      {/* Bottom halo — soft glow that bleeds into the hero without a visible
-          hard edge. Starts at low opacity so there is no sharp line at the
-          section boundary, then fades up organically. */}
+      {/* Bottom halo — radial centered at the very edge (boundary with the
+          hero). Peak intensity AT the boundary, fades upward with a rounded
+          organic falloff. Uses the orange ramp directly so the color is
+          guaranteed visible in both light and dark themes. */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[500px]"
         aria-hidden
@@ -58,13 +59,14 @@ export function HomeEasterEggV2({
           className="absolute inset-0"
           style={{
             background: `radial-gradient(
-              ellipse 140% 90% at 50% 110%,
-              color-mix(in srgb, var(--orange-500) 30%, transparent) 0%,
-              color-mix(in srgb, var(--orange-500) 22%, transparent) 15%,
-              color-mix(in srgb, var(--orange-500) 14%, transparent) 30%,
-              color-mix(in srgb, var(--orange-500) 8%, transparent) 45%,
-              color-mix(in srgb, var(--orange-500) 4%, transparent) 60%,
-              color-mix(in srgb, var(--orange-500) 1%, transparent) 80%,
+              ellipse 130% 100% at 50% 100%,
+              color-mix(in srgb, var(--orange-500) 45%, transparent) 0%,
+              color-mix(in srgb, var(--orange-500) 36%, transparent) 12%,
+              color-mix(in srgb, var(--orange-500) 26%, transparent) 25%,
+              color-mix(in srgb, var(--orange-500) 18%, transparent) 38%,
+              color-mix(in srgb, var(--orange-500) 11%, transparent) 52%,
+              color-mix(in srgb, var(--orange-500) 6%, transparent) 66%,
+              color-mix(in srgb, var(--orange-500) 2%, transparent) 82%,
               transparent 100%
             )`,
           }}

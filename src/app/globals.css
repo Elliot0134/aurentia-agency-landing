@@ -611,6 +611,11 @@
   /* ── Easter-egg section overrides (v2): hide the grid pattern and dampen
        bold titles so the section feels continuous with the hero rather than
        a separate chapter. */
+  [data-v2-root] [data-v2-easter-egg] {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -1px;
+  }
   [data-v2-root] [data-v2-easter-egg] .hero-grid {
     display: none !important;
   }
