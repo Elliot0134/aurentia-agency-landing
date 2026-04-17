@@ -24,8 +24,8 @@ import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 const subNavItems = [
   { label: "Services", sectionId: "pillars" },
   { label: "Réalisations", sectionId: "realisations" },
-  { label: "Équipe", sectionId: "equipe" },
   { label: "Pourquoi", sectionId: "why" },
+  { label: "Équipe", sectionId: "equipe" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
   { label: "Blog", sectionId: "blog" },
@@ -84,11 +84,11 @@ export default function HomeV2() {
         <SectionDivider />
         <HomeBookingCTA />
         <SectionDivider />
-        <HomeTeamV2 />
+        <HomeWhyAurentia />
         <SectionDivider />
         <HomeQuoteV2 />
         <SectionDivider />
-        <HomeWhyAurentia />
+        <HomeTeamV2 />
         <SectionDivider />
         <HomeTestimonialsV2 />
         <SectionDivider />
