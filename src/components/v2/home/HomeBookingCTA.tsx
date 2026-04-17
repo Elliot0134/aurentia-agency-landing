@@ -48,7 +48,7 @@ export function HomeBookingCTA() {
             href={bookingCta.cta.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-10 inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:bg-foreground/90"
+            className="group mt-10 inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white transition-all duration-500 ease-in-out hover:bg-accent-primary/90"
           >
             {bookingCta.cta.label}
             <ArrowRight className="size-4 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />

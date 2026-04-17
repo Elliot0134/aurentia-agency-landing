@@ -82,6 +82,8 @@ export default function HomeV2() {
         <SectionDivider />
         <HomeRealisationsPreview />
         <SectionDivider />
+        <HomeBookingCTA />
+        <SectionDivider />
         <HomeTeamV2 />
         <SectionDivider />
         <HomeQuoteV2 />
@@ -95,8 +97,6 @@ export default function HomeV2() {
         <HomeBlogPreview />
         <SectionDivider />
         <HomeFAQV2 />
-        <SectionDivider />
-        <HomeBookingCTA />
         <SectionDivider />
         <HomeContactV2 />
       </div>
