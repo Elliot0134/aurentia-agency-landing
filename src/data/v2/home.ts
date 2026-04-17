@@ -278,7 +278,6 @@ export const homeData: HomeData = {
     },
   ],
   bookingCta: {
-    eyebrow: "Plus rapide",
     title: "Prenons 15 minutes ensemble",
     subtitle:
       "Un appel rapide pour comprendre votre besoin et vous dire si on peut vous aider. Sans engagement.",
@@ -290,10 +289,6 @@ export const homeData: HomeData = {
     cta: {
       label: "Réserver un créneau",
       href: "https://cal.com/aurentia-agency",
-    },
-    secondaryLink: {
-      label: "ou envoyez-nous un brief détaillé",
-      href: "#contact",
     },
   },
   contactCta: {

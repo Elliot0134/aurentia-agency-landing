@@ -135,12 +135,10 @@ export type HomeData = {
   };
   faq: FAQItem[];
   bookingCta: {
-    eyebrow: string;
     title: string;
     subtitle: string;
     signals: BookingCtaSignal[];
     cta: CTA;
-    secondaryLink: CTA;
   };
   contactCta: {
     title: string;
