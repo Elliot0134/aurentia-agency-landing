@@ -9,6 +9,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "comparateur-ia-facile",
     "name": "Comparateur-IA-Facile",
+    "tagline": "Le comparateur qui rend l'IA accessible à tous les francophones.",
     "type": "SaaS",
     "secteur": "tech-ia",
     "city": "France",
@@ -34,11 +35,9 @@ export const realisationsStatic: ProjectFrontmatter[] = [
       "Claude AI"
     ],
     "liveUrl": "https://comparateur-ia-facile.com",
-    "coverImage": "/images/portfolio/comparateur-ia-1.webp",
+    "coverImage": "/realisations/comparateur-ia/hero.webp",
     "images": [
-      "/images/portfolio/comparateur-ia-1.webp",
-      "/images/portfolio/comparateur-ia-2.webp",
-      "/images/portfolio/comparateur-ia-3.webp"
+      "/realisations/comparateur-ia/hero.webp"
     ],
     "metrics": [
       {
@@ -66,6 +65,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "maison-enileh",
     "name": "Maison Enileh",
+    "tagline": "Une marque avignonnaise qui mérite un écrin à sa hauteur.",
     "type": "Site vitrine",
     "secteur": "services-pro",
     "city": "Avignon",
@@ -108,6 +108,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "allo-restau",
     "name": "Allo Restau",
+    "tagline": "La livraison qui remet les restaurateurs au centre du jeu.",
     "type": "Landing page",
     "secteur": "restauration",
     "city": "France",
@@ -152,6 +153,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "friendiz",
     "name": "Friend'iz",
+    "tagline": "La plateforme sociale qui connecte autrement.",
     "type": "Site vitrine",
     "secteur": "tech-ia",
     "city": "France",
@@ -188,6 +190,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "golf-mentor",
     "name": "Golf Mentor",
+    "tagline": "Le coach de golf IA qui débloque votre jeu en 5 minutes.",
     "type": "SaaS",
     "secteur": "coaching",
     "city": "France",
@@ -230,6 +233,7 @@ export const realisationsStatic: ProjectFrontmatter[] = [
   {
     "slug": "savistas",
     "name": "Savistas",
+    "tagline": "Le SaaS qui réinvente la façon de travailler avec la donnée.",
     "type": "SaaS",
     "secteur": "tech-ia",
     "city": "France",

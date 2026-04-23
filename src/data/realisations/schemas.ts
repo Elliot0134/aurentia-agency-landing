@@ -40,6 +40,7 @@ export type ProjectTestimonial = z.infer<typeof ProjectTestimonial>;
 export const ProjectFrontmatter = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string(),
+  tagline: z.string().optional(),
   type: ProjectType,
   secteur: Secteur,
   city: z.string(),

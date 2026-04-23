@@ -8,9 +8,7 @@ type Props = {
 
 export function CaseStudyHero({ project }: Props) {
   const secteurLabel = secteurs[project.secteur]?.label ?? project.secteur;
-  const tagline =
-    project.seo?.description ??
-    `${project.type} — ${secteurLabel} — ${project.year}`;
+  const tagline = project.tagline ?? project.seo?.description;
 
   return (
     <section
@@ -37,8 +35,13 @@ export function CaseStudyHero({ project }: Props) {
             <h1 className="font-heading text-4xl tracking-tight text-foreground md:text-5xl lg:text-6xl">
               {project.name}
             </h1>
-            <p className="text-base text-foreground/70 md:text-lg">
-              {tagline}
+            {tagline && (
+              <p className="font-heading text-xl leading-snug text-foreground/90 md:text-2xl">
+                {tagline}
+              </p>
+            )}
+            <p className="text-sm text-foreground/60 md:text-base">
+              {project.type} · {secteurLabel} · Livré en {project.duration}
             </p>
           </div>
           <div className="relative w-full">
