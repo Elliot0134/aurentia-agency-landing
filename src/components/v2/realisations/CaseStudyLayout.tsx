@@ -16,7 +16,7 @@ export function CaseStudyLayout({ project, children, className }: Props) {
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] lg:gap-16">
           <div className="hidden lg:block">
-            <div className="sticky top-28">
+            <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
               <CaseStudyRail project={project} />
             </div>
           </div>
