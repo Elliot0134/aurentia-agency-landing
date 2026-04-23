@@ -113,9 +113,9 @@ export default async function CaseStudyPage({
       <JsonLd data={creativeWorkForProject(project)} />
 
       <main className="flex min-h-screen flex-col">
-        <CaseStudyLayout project={project}>
-          <CaseStudyHero project={project} />
+        <CaseStudyHero project={project} />
 
+        <CaseStudyLayout project={project}>
           <article className="flex flex-col gap-6 text-base text-foreground/80">
             <div className="max-w-3xl">
               <MDXRemote

@@ -12,7 +12,6 @@ export type CaseStudyRailSection = {
 };
 
 export const CASE_STUDY_SECTIONS: CaseStudyRailSection[] = [
-  { id: "hero", label: "Introduction" },
   { id: "contexte", label: "Contexte" },
   { id: "defi", label: "Défi" },
   { id: "solution", label: "Solution" },
