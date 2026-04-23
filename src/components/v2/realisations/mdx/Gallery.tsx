@@ -10,13 +10,17 @@ import {
 import { cn } from "@/lib/utils";
 
 interface GalleryProps {
-  items: string[];
+  /** Preferred prop name — matches the MDX authoring convention. */
+  images?: string[];
+  /** Legacy alias. */
+  items?: string[];
   alt?: string;
   className?: string;
 }
 
-export function Gallery({ items, alt = "", className }: GalleryProps) {
+export function Gallery({ images, items, alt = "", className }: GalleryProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const pictures = images ?? items ?? [];
 
   return (
     <>
@@ -26,7 +30,7 @@ export function Gallery({ items, alt = "", className }: GalleryProps) {
           className,
         )}
       >
-        {items.map((src, i) => (
+        {pictures.map((src, i) => (
           <button
             key={src + i}
             type="button"
@@ -56,7 +60,7 @@ export function Gallery({ items, alt = "", className }: GalleryProps) {
           {openIndex !== null && (
             <div className="relative w-full aspect-[16/10]">
               <Image
-                src={items[openIndex]}
+                src={pictures[openIndex]}
                 alt={`${alt} ${openIndex + 1}`.trim()}
                 fill
                 sizes="95vw"
