@@ -82,7 +82,7 @@ export const aboutStoryContent = {
     },
     {
       label: "La mission",
-      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 48h, à partir de 1 200€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
+      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 72h, à partir de 1 200€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
     },
   ],
 };
@@ -96,7 +96,7 @@ export const valueCards: ValueCard[] = [
   },
   {
     icon: "Zap",
-    title: "48h. Pas 6 semaines.",
+    title: "72h. Pas 6 semaines.",
     text: "L'IA nous donne un superpouvoir : la vitesse. Pas parce qu'on bâcle — parce que notre process est redoutablement efficace.",
   },
   {
@@ -121,7 +121,7 @@ export const teamMembers: TeamMember[] = [
     name: "Elliot Estrade",
     role: "CEO, IA & Design",
     badge: "Architecte IA & Design",
-    bio: "Entrepreneur et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev). Co-fondateur de Kaelen Studio (jeux Roblox). Créateur de Comparateur-IA-Facile.com. Formateur IA en entreprise — il forme des équipes à intégrer l'intelligence artificielle dans leurs process. C'est lui qui a forgé le workflow IA d'Aurentia — le système sur-mesure qui permet de livrer un site pro en 48h. La vision, l'innovation, la vitesse.",
+    bio: "Entrepreneur et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev). Co-fondateur de Kaelen Studio (jeux Roblox). Créateur de Comparateur-IA-Facile.com. Formateur IA en entreprise — il forme des équipes à intégrer l'intelligence artificielle dans leurs process. C'est lui qui a forgé le workflow IA d'Aurentia — le système sur-mesure qui permet de livrer un site pro en 72h. La vision, l'innovation, la vitesse.",
     tags: [
       "Intelligence Artificielle",
       "Design UI/UX",
@@ -187,7 +187,7 @@ export const fatherSonContent = {
   subtitle:
     "Trois expertises complémentaires, un seul objectif : rendre le web pro accessible à chaque business.",
   quote:
-    "\"Ce qu'on livrait en 3 semaines, on le livre maintenant en 48h. Sans aucun compromis sur la qualité.\"",
+    "\"Ce qu'on livrait en 3 semaines, on le livre maintenant en 72h. Sans aucun compromis sur la qualité.\"",
   quoteAuthor:
     "L'équipe fondatrice, après 6 mois de R&D sur le workflow IA.",
 };

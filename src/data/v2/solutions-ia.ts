@@ -11,6 +11,10 @@ import {
   Building2,
   Target,
   Clock,
+  ScanSearch,
+  ClipboardList,
+  Cog,
+  Headphones,
 } from "lucide-react";
 import type { CommercialPillarData } from "./types";
 
@@ -120,24 +124,28 @@ export const solutionsIaData: CommercialPillarData = {
         title: "Audit",
         description:
           "On cartographie vos process et on identifie les quick wins IA à fort ROI. Livrable : une note claire avec les leviers prioritaires.",
+        icon: ScanSearch,
       },
       {
         number: "02",
         title: "Plan d'action",
         description:
           "On priorise les chantiers IA et on définit ensemble une roadmap sur 30 à 90 jours. Pas d'effet d'annonce — que du concret.",
+        icon: ClipboardList,
       },
       {
         number: "03",
         title: "Déploiement",
         description:
           "On configure Claude, on développe les skills et on intègre dans votre stack. Vous voyez les résultats en une à trois semaines.",
+        icon: Cog,
       },
       {
         number: "04",
         title: "Formation",
         description:
           "On forme vos équipes à utiliser et faire évoluer les outils. À la fin, vous êtes autonome.",
+        icon: Headphones,
       },
     ],
   },
@@ -169,6 +177,7 @@ export const solutionsIaData: CommercialPillarData = {
       role: "Directrice opérations",
       company: "Groupe Meca",
       pillar: "solutions-ia",
+      stat: "+40% productivité",
     },
     {
       quote:
@@ -177,6 +186,7 @@ export const solutionsIaData: CommercialPillarData = {
       role: "Directeur",
       company: "Cabinet Conseil",
       pillar: "solutions-ia",
+      stat: "+2h/jour/associé",
     },
   ],
   faq: [

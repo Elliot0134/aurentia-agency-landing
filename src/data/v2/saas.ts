@@ -10,6 +10,9 @@ import {
   Users,
   Clock,
   ShieldCheck,
+  ClipboardList,
+  Palette,
+  Code2,
 } from "lucide-react";
 import type { CommercialPillarData } from "./types";
 
@@ -118,24 +121,28 @@ export const saasData: CommercialPillarData = {
         title: "Cadrage produit",
         description:
           "Deux heures pour définir le périmètre MVP, les user flows critiques et ce qui attend le v2.",
+        icon: ClipboardList,
       },
       {
         number: "02",
         title: "Sprint design",
         description:
-          "Maquettes haute-fidélité livrées en 48h, validées avec vous, prêtes à être intégrées.",
+          "Maquettes haute-fidélité livrées en 72h, validées avec vous, prêtes à être intégrées.",
+        icon: Palette,
       },
       {
         number: "03",
         title: "Sprint dev",
         description:
           "Développement en sprints courts, Preview deploys Vercel à chaque push, vous suivez en temps réel.",
+        icon: Code2,
       },
       {
         number: "04",
         title: "Livraison & handover",
         description:
           "Déploiement en production, documentation technique, formation de votre équipe si besoin, 30 jours de support.",
+        icon: Rocket,
       },
     ],
   },
@@ -167,6 +174,7 @@ export const saasData: CommercialPillarData = {
       role: "CEO",
       company: "Startup B2B",
       pillar: "saas",
+      stat: "−75% budget",
     },
     {
       quote:
@@ -175,6 +183,7 @@ export const saasData: CommercialPillarData = {
       role: "Directeur",
       company: "Cabinet Meridian",
       pillar: "saas",
+      stat: "−60% temps/dossier",
     },
   ],
   faq: [

@@ -6,6 +6,10 @@ import {
   Briefcase,
   Users,
   Clock,
+  MessageSquare,
+  Search,
+  BarChart3,
+  FileText,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -71,24 +75,28 @@ export const solutionsIaAuditData: SubPageData = {
       title: "Kick-off",
       description:
         "Appel d'alignement pour comprendre votre activité, votre organisation et vos priorités stratégiques.",
+      icon: MessageSquare,
     },
     {
       number: "02",
       title: "Entretiens & immersion",
       description:
         "On interroge 3 à 8 personnes clés dans votre équipe et on observe les process réels, pas les process rêvés.",
+      icon: Search,
     },
     {
       number: "03",
       title: "Analyse & priorisation",
       description:
         "On scoring chaque process selon l'impact IA potentiel, la faisabilité et le ROI attendu. On priorise.",
+      icon: BarChart3,
     },
     {
       number: "04",
       title: "Livraison & restitution",
       description:
         "Rapport PDF complet, roadmap 90 jours chiffrée, atelier de restitution avec votre équipe pour embarquer tout le monde.",
+      icon: FileText,
     },
   ],
   pricing: {
@@ -161,6 +169,7 @@ export const solutionsIaAuditData: SubPageData = {
       role: "Directeur",
       company: "Cabinet Meridian",
       pillar: "solutions-ia",
+      stat: "27 chantiers IA",
     },
     {
       quote:
@@ -169,6 +178,7 @@ export const solutionsIaAuditData: SubPageData = {
       role: "Head of Ops",
       company: "Fable Studio",
       pillar: "solutions-ia",
+      stat: "Équipe alignée",
     },
   ],
   faq: [

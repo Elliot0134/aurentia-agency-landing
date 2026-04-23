@@ -9,7 +9,7 @@
 
 export const heroContent = {
   badge: "CONCIERGERIES AIRBNB & LOCATIONS SAISONNIÈRES",
-  h1: "Votre site conciergerie sur-mesure. Livré en 48h. À partir de 1\u202F200\u202F€.",
+  h1: "Votre site conciergerie sur-mesure. Livré en 72h. À partir de 1\u202F200\u202F€.",
   subtitle:
     "Réservations directes, SEO local, design premium. Propulsé par l\u2019IA, forgé par 20 ans d\u2019expertise web. On vous montre le résultat avant de facturer.",
   cta: "Réserver mon call découverte",

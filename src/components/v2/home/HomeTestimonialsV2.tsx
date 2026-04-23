@@ -102,7 +102,7 @@ function Avatar({ gradient, initials }: { gradient: string; initials: string }) 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   const { name, role, company, quote, stat, avatarGradient, initials } = testimonial;
   return (
-    <Card className="relative z-10 flex flex-col gap-6 p-8 h-full">
+    <Card className="relative z-10 flex flex-col gap-6 p-8 h-full !bg-background border-foreground/10">
       {/* Top row: stars + stat badge */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <StarRating />
@@ -144,7 +144,7 @@ export function HomeTestimonialsV2() {
       id="testimonials"
       title="Ce que nos clients disent"
       subtitle="Des résultats concrets. Des livraisons rapides. Des partenaires qui reviennent."
-      className="bg-background-surface"
+      surface
       innerClassName="!max-w-none"
     >
       {/* Marquee — break out of container */}

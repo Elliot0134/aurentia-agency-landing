@@ -2,50 +2,57 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { NavLink } from "@/data/v2/types";
-import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
-  pillarLabel: string;
-  pillarHref: string;
   items: NavLink[];
-  className?: string;
+  open: boolean;
+  top: number;
+  left: number;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 };
 
-export function MegaMenu({ pillarLabel, pillarHref, items, className }: MegaMenuProps) {
-  return (
+export function MegaMenu({ items, open, top, left, onMouseEnter, onMouseLeave }: MegaMenuProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div
-      className={cn(
-        "absolute left-1/2 top-full mt-3 w-[min(640px,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-foreground/10 bg-background-surface p-4 shadow-[0_10px_60px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all duration-500 ease-in-out",
-        className
-      )}
       role="menu"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={`fixed z-[60] w-60 origin-top overflow-hidden rounded-2xl border transition-[opacity,transform] duration-200 ${
+        open ? "opacity-100 scale-100 translate-y-0" : "pointer-events-none opacity-0 scale-95 -translate-y-1"
+      }`}
+      style={{
+        top,
+        left,
+        background: "color-mix(in srgb, var(--background) 30%, transparent)",
+        backdropFilter: "blur(40px) saturate(1.8)",
+        WebkitBackdropFilter: "blur(40px) saturate(1.8)",
+        borderColor: "var(--glass-border-hover)",
+        boxShadow: "0 8px 32px -20px rgba(0, 0, 0, 0.1), 0 1px 0 0 rgba(255, 255, 255, 0.08) inset",
+      }}
     >
-      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-        {items.map((item) => (
-          <Link
-            key={item.href + item.label}
-            href={item.href}
-            className="group flex flex-col gap-1 rounded-xl px-4 py-3 transition-colors duration-500 ease-in-out hover:bg-foreground/5"
-            role="menuitem"
-          >
-            <span className="text-base font-semibold text-foreground">{item.label}</span>
-            {item.description && (
-              <span className="text-sm text-foreground/60">{item.description}</span>
-            )}
-          </Link>
-        ))}
-      </div>
-      <div className="mt-3 border-t border-foreground/10 pt-3">
+      {items.map((item) => (
         <Link
-          href={pillarHref}
-          className="group inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold text-accent-primary transition-colors duration-500 ease-in-out hover:bg-accent-primary/10"
+          key={item.href + item.label}
+          href={item.href}
+          className="block px-4 py-2.5 text-sm text-foreground/70 transition-colors duration-500 ease-in-out hover:bg-foreground/5 hover:text-foreground"
+          role="menuitem"
         >
-          Voir tout {pillarLabel}
-          <ChevronRight className="size-4 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
+          {item.label}
         </Link>
-      </div>
-    </div>
+      ))}
+    </div>,
+    document.body
   );
 }

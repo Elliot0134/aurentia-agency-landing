@@ -15,7 +15,7 @@ const faqs = [
   {
     question: "Comment se déroule un projet ?",
     answer:
-      "Appel découverte → Maquettes en 48h → Développement itératif avec vos retours → Tests → Lancement. Vous avez un interlocuteur unique du début à la fin.",
+      "Appel découverte → Maquettes en 72h → Développement itératif avec vos retours → Tests → Lancement. Vous avez un interlocuteur unique du début à la fin.",
   },
   {
     question: "Quelles technologies utilisez-vous ?",

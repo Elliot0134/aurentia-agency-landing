@@ -5,6 +5,10 @@ import {
   Users,
   Briefcase,
   Building2,
+  ClipboardList,
+  Video,
+  Hammer,
+  Trophy,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -70,24 +74,28 @@ export const solutionsIaFormationData: SubPageData = {
       title: "Pré-formation",
       description:
         "On vous envoie un questionnaire pour comprendre votre équipe, votre stack et vos besoins. On adapte le contenu.",
+      icon: ClipboardList,
     },
     {
       number: "02",
       title: "Sessions live",
       description:
         "3 sessions de 2 heures en visio : prise en main, cas d'usage avancés, création de skills sur-mesure.",
+      icon: Video,
     },
     {
       number: "03",
       title: "Pratique guidée",
       description:
         "Entre les sessions, vous pratiquez sur vos vrais dossiers. Support Slack pour débloquer rapidement.",
+      icon: Hammer,
     },
     {
       number: "04",
       title: "Bilan & autonomie",
       description:
         "Bilan final avec l'équipe, remise du certificat, plan d'action pour continuer à monter en compétence.",
+      icon: Trophy,
     },
   ],
   pricing: {
@@ -159,6 +167,7 @@ export const solutionsIaFormationData: SubPageData = {
       role: "Directrice opérations",
       company: "Groupe Meca",
       pillar: "solutions-ia",
+      stat: "Équipe autonome",
     },
     {
       quote:
@@ -167,6 +176,7 @@ export const solutionsIaFormationData: SubPageData = {
       role: "Consultant senior",
       company: "Cabinet Conseil",
       pillar: "solutions-ia",
+      stat: "Utilisé dès J+1",
     },
   ],
   faq: [

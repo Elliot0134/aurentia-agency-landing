@@ -100,11 +100,11 @@ export const conciergeriesSiteConfig = {
 // ---------------------
 
 export const conciergeriesSeo = {
-  title: "Site Vitrine Conciergerie Airbnb — Livré en 48h | Aurentia",
+  title: "Site Vitrine Conciergerie Airbnb — Livré en 72h | Aurentia",
   description:
-    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 48h. À partir de 1 200€. On vous montre votre site AVANT le paiement.",
+    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 200€. On vous montre votre site AVANT le paiement.",
   openGraph: {
-    title: "Site vitrine pour conciergerie — Livré en 48h | Aurentia",
+    title: "Site vitrine pour conciergerie — Livré en 72h | Aurentia",
     description:
       "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 200€.",
     image: "/images/opengraph/opengraph.png",
@@ -120,7 +120,7 @@ export const conciergeriesHeroContent = {
   headline:
     "Vos commissions Airbnb financent vos concurrents. Votre site les supprime.",
   subtitle:
-    "Un site sur-mesure pour votre conciergerie. Design unique, SEO local, réservations directes. Livré en 48h, à partir de 1 200€. Et on vous le montre AVANT que vous payiez.",
+    "Un site sur-mesure pour votre conciergerie. Design unique, SEO local, réservations directes. Livré en 72h, à partir de 1 200€. Et on vous le montre AVANT que vous payiez.",
   ctaPrimary: "Voir mon futur site gratuitement",
   ctaSecondary: "Découvrir les tarifs ↓",
   stats: [
@@ -252,7 +252,7 @@ export const conciergeriesInnovationContent = {
 // ---------------------
 
 export const conciergeriesProcessContent = {
-  title: "Du brief au site en ligne. 48h.",
+  title: "Du brief au site en ligne. 72h.",
   subtitle: "Trois étapes. Zéro prise de tête.",
   steps: [
     {
@@ -271,7 +271,7 @@ export const conciergeriesProcessContent = {
         "Design unique, responsive, SEO intégré. Vous validez, on ajuste. 3 tours de révision inclus.",
       icon: "Hammer",
       label: "Jour 1-2",
-      duration: "24-48h",
+      duration: "24-72h",
     },
     {
       number: "03",
@@ -336,7 +336,7 @@ export const conciergeriesPricingPlans: PricingPlan[] = [
   {
     name: "Essentiel",
     price: "1\u202F200\u202F\u20AC",
-    description: "Votre vitrine professionnelle, prête en 48h.",
+    description: "Votre vitrine professionnelle, prête en 72h.",
     features: [
       "Site vitrine 3 pages",
       "Design sur-mesure — zéro template",
@@ -350,7 +350,7 @@ export const conciergeriesPricingPlans: PricingPlan[] = [
       "Charte graphique",
     ],
     subscription: "19\u202F\u20AC/mois",
-    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 48h",
+    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 72h",
     cta: "Choisir l\u2019Essentiel",
     ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   },
@@ -418,7 +418,7 @@ export const conciergeriesComparisonContent = {
     },
     {
       label: "Délai",
-      values: ["4 - 8 semaines", "2 - 4 semaines", "1 - 2 semaines", "48h"],
+      values: ["4 - 8 semaines", "2 - 4 semaines", "1 - 2 semaines", "72h"],
     },
     {
       label: "Design sur-mesure",
@@ -461,9 +461,9 @@ export const conciergeriesFaqContent = {
         "À partir de 1 200€ HT pour le pack Essentiel. Le pack Croissance à 1 990€ ajoute le blog SEO, le chatbot IA et le bilingue. Le pack Premium est sur devis pour un écosystème complet avec réservation en ligne.",
     },
     {
-      question: "48h, vraiment ? Pas bâclé ?",
+      question: "72h, vraiment ? Pas bâclé ?",
       answer:
-        "La V1 est livrée en 24-48h. C'est rapide parce que notre process est efficace, pas parce qu'on coupe des coins. 20 ans d'expertise valident chaque détail. La version finale avec vos retours : 7 jours max.",
+        "La V1 est livrée en 24-72h. C'est rapide parce que notre process est efficace, pas parce qu'on coupe des coins. 20 ans d'expertise valident chaque détail. La version finale avec vos retours : 7 jours max.",
     },
     {
       question: "C'est quoi l'IA ? Mon site va ressembler à du généré ?",

@@ -27,7 +27,7 @@ function ItemWrapper({ href, children }: ItemWrapperProps) {
 
 export function SubPageExamples({ data }: SubPageExamplesProps) {
   return (
-    <SectionContainer id="examples" eyebrow="Exemples" title={data.title} className="bg-background-surface">
+    <SectionContainer id="examples" eyebrow="Exemples" title={data.title} surface>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {data.items.map((item, idx) => (
           <ItemWrapper key={idx} href={item.href}>

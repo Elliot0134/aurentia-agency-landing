@@ -1,7 +1,6 @@
 // src/app/v2/solutions-ia/formation-ia/page.tsx
 import type { Metadata } from "next";
-import { SubPage } from "@/components/v2/subpage/SubPage";
-import { solutionsIaFormationData } from "@/data/v2/solutions-ia-formation";
+import { SolutionsIaSubPage } from "@/components/v2/solutions-ia/SolutionsIaSubPage";
 
 export const metadata: Metadata = {
   title: "Formation IA pour entreprises",
@@ -10,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function FormationIaPage() {
-  return <SubPage data={solutionsIaFormationData} />;
+  return <SolutionsIaSubPage slug="formation-ia" />;
 }

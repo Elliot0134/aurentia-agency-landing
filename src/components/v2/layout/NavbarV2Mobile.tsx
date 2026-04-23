@@ -12,7 +12,7 @@ export function NavbarV2Mobile() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   return (
-    <nav className="md:hidden">
+    <nav className="lg:hidden">
       <div className="flex items-center justify-between px-6 py-4">
         <Link
           href={navbarConfig.logo.href}
@@ -109,7 +109,7 @@ export function NavbarV2Mobile() {
           <Link
             href={navbarConfig.cta.href}
             onClick={() => setOpen(false)}
-            className="mt-4 flex w-full items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background transition-all duration-500 ease-in-out hover:bg-foreground/90"
+            className="mt-4 flex w-full items-center justify-center rounded-full bg-accent-primary px-5 py-3 text-sm font-semibold text-white transition-all duration-500 ease-in-out hover:opacity-90"
           >
             {navbarConfig.cta.label}
           </Link>

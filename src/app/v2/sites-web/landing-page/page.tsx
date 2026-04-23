@@ -1,7 +1,6 @@
 // src/app/v2/sites-web/landing-page/page.tsx
 import type { Metadata } from "next";
-import { SubPage } from "@/components/v2/subpage/SubPage";
-import { sitesWebLandingData } from "@/data/v2/sites-web-landing";
+import { SitesWebSubPage } from "@/components/v2/sites-web/SitesWebSubPage";
 
 export const metadata: Metadata = {
   title: "Landing pages haute conversion dès 1 500 €",
@@ -10,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function LandingPageSubpage() {
-  return <SubPage data={sitesWebLandingData} />;
+  return <SitesWebSubPage slug="landing-page" />;
 }

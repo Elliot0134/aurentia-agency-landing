@@ -1,15 +1,29 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import gsap from "gsap";
 import confetti from "canvas-confetti";
-import { PRIZES, SHOWCASE } from "./easterEggData";
+import {
+  PRIZES as DEFAULT_PRIZES,
+  SHOWCASE as DEFAULT_SHOWCASE,
+  type Prize,
+} from "./easterEggData";
 import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
 /* ─────────────────────────────────────────────
-   Prize → landing page URL mapping
+   Showcase item shape (matches easterEggData)
    ───────────────────────────────────────────── */
-const PRIZE_URL_MAP: Record<string, string | null> = {
+export interface ShowcaseItem {
+  icon: string;
+  label: string;
+  desc: string;
+  color: string;
+}
+
+/* ─────────────────────────────────────────────
+   Default prize → landing page URL mapping
+   ───────────────────────────────────────────── */
+const DEFAULT_PRIZE_URL_MAP: Record<string, string | null> = {
   "Skills Claude Code": "/formation/20-skills-claude",
   "Skills Claude": "/formation/20-skills-claude",
   "Formation Claude": "/formation/guide-demarrage-claude",
@@ -22,7 +36,6 @@ const PRIZE_URL_MAP: Record<string, string | null> = {
    ───────────────────────────────────────────── */
 const VISIBLE_ROWS = 3;
 const REPEATS = 12;
-const REEL_ITEMS = Array.from({ length: REPEATS }, () => PRIZES).flat();
 
 /* ─────────────────────────────────────────────
    SlotReel — single vertical reel
@@ -32,11 +45,15 @@ function SlotReel({
   isSpinning,
   delay,
   onStop,
+  prizes,
+  reelItems,
 }: {
   targetIndex: number | null;
   isSpinning: boolean;
   delay: number;
   onStop?: () => void;
+  prizes: Prize[];
+  reelItems: Prize[];
 }) {
   const stripRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +76,7 @@ function SlotReel({
     if (!isSpinning || targetIndex === null || !stripRef.current) return;
 
     const landingCycle = 8;
-    const landingIndex = landingCycle * PRIZES.length + targetIndex;
+    const landingIndex = landingCycle * prizes.length + targetIndex;
     const targetY = -((landingIndex - 1) * cellH);
 
     gsap.set(stripRef.current, { y: 0 });
@@ -91,7 +108,7 @@ function SlotReel({
         }
       },
     });
-  }, [animationsEnabled, isSpinning, targetIndex, delay, onStop, cellH]);
+  }, [animationsEnabled, isSpinning, targetIndex, delay, onStop, cellH, prizes.length]);
 
   return (
     <div ref={wrapperRef} className="relative flex-1 overflow-hidden h-full">
@@ -101,7 +118,7 @@ function SlotReel({
 
       <div ref={containerRef}>
         <div ref={stripRef} className="will-change-transform">
-          {REEL_ITEMS.map((prize, i) => (
+          {reelItems.map((prize, i) => (
             <div key={i} className="flex flex-col items-center justify-center select-none" style={{ height: cellH }}>
               <span className="text-2xl sm:text-3xl leading-none drop-shadow-sm">{prize.icon}</span>
               <span className="text-[6px] sm:text-[7px] font-mono font-bold tracking-wider uppercase mt-0.5 leading-none" style={{ color: prize.color, opacity: 0.6 }}>
@@ -165,7 +182,28 @@ function MachineSVG() {
    ───────────────────────────────────────────── */
 type Step = "idle" | "spinning" | "result";
 
-export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
+export interface SecretSlotMachine3DProps {
+  onClose: () => void;
+  /** Override default prize pool (client-side display only — server still picks via /api/lucky-spin). */
+  prizes?: Prize[];
+  /** Override default showcase cards shown below the machine. */
+  showcase?: ShowcaseItem[];
+  /** Override the prize-label → landing-page URL map. Values of `null` trigger the email fallback. */
+  prizeUrlMap?: Record<string, string | null>;
+  /** Custom headline (default: "Tourne les rouleaux, tente ta chance."). */
+  title?: string;
+  /** Custom tagline under the headline (default: "Aligne les symboles et remporte ton lot. 3 rouleaux, 1 chance."). */
+  tagline?: string;
+}
+
+export function SecretSlotMachine3D({
+  onClose,
+  prizes = DEFAULT_PRIZES,
+  showcase = DEFAULT_SHOWCASE,
+  prizeUrlMap = DEFAULT_PRIZE_URL_MAP,
+  title,
+  tagline,
+}: SecretSlotMachine3DProps) {
   const [step, setStep] = useState<Step>("idle");
   const [email, setEmail] = useState("");
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
@@ -174,9 +212,16 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
   const machineRef = useRef<HTMLDivElement>(null);
   const winLineRef = useRef<HTMLDivElement>(null);
 
+  // Reel items depend on the active prizes pool — memoized so we only rebuild
+  // the strip when the pool itself changes.
+  const reelItems = useMemo(
+    () => Array.from({ length: REPEATS }, () => prizes).flat(),
+    [prizes]
+  );
+
   const isValidEmail = email.includes("@") && email.includes(".");
-  const wonPrize = prizeIndex !== null ? PRIZES[prizeIndex] : null;
-  const prizeUrl = wonPrize ? PRIZE_URL_MAP[wonPrize.label] ?? null : null;
+  const wonPrize = prizeIndex !== null ? prizes[prizeIndex] : null;
+  const prizeUrl = wonPrize ? prizeUrlMap[wonPrize.label] ?? null : null;
 
   const fireConfetti = useCallback(() => {
     const defaults = { startVelocity: 35, spread: 55, ticks: 100, zIndex: 9999, colors: ["#c96442", "#d97757", "#e8b931", "#9c87f5", "#fff"] };
@@ -232,15 +277,18 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
             duration: 0.15, yoyo: true, repeat: 4,
           });
         }
-        if (prizeIndex !== null && !PRIZES[prizeIndex].isLoss) {
+        if (prizeIndex !== null && !prizes[prizeIndex].isLoss) {
           setTimeout(() => fireConfetti(), 300);
         }
         setTimeout(() => setStep("result"), 1000);
       }
       return newStops;
     });
-  }, [prizeIndex, fireConfetti]);
+  }, [prizeIndex, fireConfetti, prizes]);
 
+
+  const headline = title ?? "Tourne les rouleaux, tente ta chance.";
+  const subline = tagline ?? "Aligne les symboles et remporte ton lot. 3 rouleaux, 1 chance.";
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -279,16 +327,19 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
               {/* 3 reels */}
               <div className="flex h-full divide-x divide-foreground/[0.06]">
                 <SlotReel
-                  targetIndex={prizeIndex !== null ? (PRIZES[prizeIndex].isLoss ? (prizeIndex + 1) % PRIZES.length : prizeIndex) : null}
+                  targetIndex={prizeIndex !== null ? (prizes[prizeIndex].isLoss ? (prizeIndex + 1) % prizes.length : prizeIndex) : null}
                   isSpinning={step === "spinning"} delay={0} onStop={handleReelStop}
+                  prizes={prizes} reelItems={reelItems}
                 />
                 <SlotReel
-                  targetIndex={prizeIndex !== null ? (PRIZES[prizeIndex].isLoss ? (prizeIndex + 2) % PRIZES.length : prizeIndex) : null}
+                  targetIndex={prizeIndex !== null ? (prizes[prizeIndex].isLoss ? (prizeIndex + 2) % prizes.length : prizeIndex) : null}
                   isSpinning={step === "spinning"} delay={1} onStop={handleReelStop}
+                  prizes={prizes} reelItems={reelItems}
                 />
                 <SlotReel
                   targetIndex={prizeIndex}
                   isSpinning={step === "spinning"} delay={2} onStop={handleReelStop}
+                  prizes={prizes} reelItems={reelItems}
                 />
               </div>
             </div>
@@ -302,13 +353,13 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
           <div className="space-y-3 w-full max-w-sm">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-primary/10 border border-accent-primary/20 mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-primary animate-pulse" />
-              <span className="text-[10px] uppercase tracking-wider text-accent-primary font-bold">Slot Machine</span>
+              <span className="text-sm uppercase tracking-wider text-accent-primary font-bold">Slot Machine</span>
             </div>
             <h3 className="text-xl sm:text-3xl font-heading font-bold text-foreground leading-tight mb-1">
-              Tourne les rouleaux,{" "}<span className="text-accent-primary">tente ta chance</span>.
+              {headline}
             </h3>
             <p className="text-sm text-foreground-muted leading-relaxed">
-              Aligne les symboles et remporte ton lot. 3 rouleaux, 1 chance.
+              {subline}
             </p>
           </div>
 
@@ -407,7 +458,7 @@ export function SecretSlotMachine3D({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-          {SHOWCASE.map((item) => (
+          {showcase.map((item) => (
             <div key={item.label} className="group rounded-2xl bg-foreground/[0.05] backdrop-blur-xl border border-foreground/[0.08] p-5 transition-all duration-300 hover:bg-foreground/[0.08] hover:border-foreground/[0.15] hover:-translate-y-1">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-inner" style={{ background: `linear-gradient(135deg, ${item.color}22, ${item.color}11)` }}>

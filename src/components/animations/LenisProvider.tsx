@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,8 +12,12 @@ gsap.registerPlugin(ScrollTrigger);
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const animationsEnabled = useAnimationsEnabled();
+  const pathname = usePathname();
 
   useEffect(() => {
+    // Disable Lenis smooth scroll on /v2 routes
+    if (pathname?.startsWith("/v2")) return;
+
     // On mobile: skip Lenis entirely for native scroll performance.
     // ScrollTrigger still works (so inline GSAP in components can reveal elements)
     // but without the Lenis overhead.
@@ -46,7 +51,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       delete (window as unknown as Record<string, unknown>).__lenis;
       gsap.ticker.remove(lenis.raf as unknown as gsap.TickerCallback);
     };
-  }, [animationsEnabled]);
+  }, [animationsEnabled, pathname]);
 
   return <>{children}</>;
 }

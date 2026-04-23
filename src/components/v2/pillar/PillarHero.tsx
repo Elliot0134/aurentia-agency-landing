@@ -22,7 +22,7 @@ export function PillarHero({ hero }: PillarHeroProps) {
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent-primary">
             {hero.eyebrow}
           </p>
-          <h1 className="font-heading text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="max-w-3xl text-foreground">
             {hero.headline}
           </h1>
           <p className="max-w-xl text-base text-foreground/70 md:text-lg">

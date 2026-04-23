@@ -1,6 +1,5 @@
 // src/components/v2/subpage/SubPage.tsx
 import type { SubPageData } from "@/data/v2/types";
-import { SubPageStickyNav } from "./SubPageStickyNav";
 import { SubPageHero } from "./SubPageHero";
 import { SubPageForWho } from "./SubPageForWho";
 import { SubPageWhatYouGet } from "./SubPageWhatYouGet";
@@ -11,16 +10,28 @@ import { SubPageFAQ } from "./SubPageFAQ";
 import { SubPageCTA } from "./SubPageCTA";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { TestimonialCard } from "@/components/v2/shared/TestimonialCard";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 type SubPageProps = {
   data: SubPageData;
 };
 
+const subPageSubNavItems = [
+  { label: "Pour qui", sectionId: "for-who" },
+  { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Process", sectionId: "process" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Exemples", sectionId: "examples" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Devis", sectionId: "cta" },
+];
+
 export function SubPage({ data }: SubPageProps) {
   return (
     <>
+      <SubNavSetter items={subPageSubNavItems} />
       <SubPageHero hero={data.hero} />
-      <SubPageStickyNav />
       <SubPageForWho profiles={data.forWho} />
       <SubPageWhatYouGet data={data.whatYouGet} />
       <SubPageProcess steps={data.process} />
@@ -28,7 +39,7 @@ export function SubPage({ data }: SubPageProps) {
       <SubPageExamples data={data.examples} />
 
       {data.testimonials.length > 0 && (
-        <SectionContainer eyebrow="Témoignages" title="Ils en parlent mieux que nous">
+        <SectionContainer id="testimonials" eyebrow="Témoignages" title="Ils en parlent mieux que nous">
           <div className="grid gap-6 md:grid-cols-2">
             {data.testimonials.map((t, i) => (
               <TestimonialCard key={i} testimonial={t} />

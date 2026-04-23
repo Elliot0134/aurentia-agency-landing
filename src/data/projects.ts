@@ -152,7 +152,7 @@ export const projects: Project[] = [
     coverImage: "/images/portfolio/maison-enileh-1.webp",
     images: ["/images/portfolio/maison-enileh-1.webp"],
     tags: ["Charte graphique", "Design UI", "Developpement", "SEO"],
-    duration: "48h",
+    duration: "72h",
     status: "Livre",
     context:
       "Maison Enileh est une marque basee a Avignon qui avait besoin d'une presence en ligne professionnelle pour refleter la qualite de ses produits et services. Aucun site existant, toute la communication passait par les reseaux sociaux.",
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     results: [
       {
         metric: "Mise en ligne",
-        value: "48h",
+        value: "72h",
         context: "Du brief au site en ligne",
       },
       {
@@ -417,7 +417,7 @@ export const projects: Project[] = [
     coverImage: "/images/portfolio/golf-mentor-1.webp",
     images: ["/images/portfolio/golf-mentor-1.webp"],
     tags: ["Charte graphique", "Design UI", "Developpement", "SEO"],
-    duration: "48h",
+    duration: "72h",
     status: "Livre",
     context:
       "Golf Mentor est une plateforme SaaS dediee aux golfeurs qui souhaitent ameliorer leur jeu grace a des analyses et des conseils personnalises. Le produit existait mais manquait d'une interface moderne et d'une landing page capable de convertir.",
@@ -447,13 +447,13 @@ export const projects: Project[] = [
       {
         icon: "Zap",
         title: "Livraison express",
-        description: "Site complet livre en 48h, pret a convertir.",
+        description: "Site complet livre en 72h, pret a convertir.",
       },
     ],
     results: [
       {
         metric: "Livraison",
-        value: "48h",
+        value: "72h",
         context: "Du brief au site en ligne",
       },
       {

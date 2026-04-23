@@ -151,7 +151,7 @@ export const processSteps: ProcessStep[] = [
     number: "02",
     icon: "Layers",
     title: "La création",
-    duration: "24-48h",
+    duration: "24-72h",
     text: "L\u2019IA accélère le design et le code. L\u2019expertise humaine valide chaque choix. On forge votre site sur-mesure — design, contenu, SEO, responsive. Tout.",
   },
   {
@@ -255,7 +255,7 @@ export const pricingPlans: PricingPlan[] = [
       "Charte graphique",
     ],
     subscription: "19\u202F\u20AC/mois",
-    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 48h",
+    subscriptionDetails: "Hébergement, SSL, backups, monitoring, support 72h",
     cta: "Choisir l\u2019Essentiel",
     ctaLink: "https://cal.com/elliot-estrade-ixfuya/site-vitrine",
   },
@@ -313,7 +313,7 @@ export const pricingIncluded: PricingIncluded[] = [
   { text: "Hébergement premium (Vercel)" },
   { text: "Certificat SSL / HTTPS" },
   { text: "Analytics intégrés" },
-  { text: "Livraison en 48h" },
+  { text: "Livraison en 72h" },
   { text: "Retours illimités jusqu\u2019à validation" },
   { text: "Accompagnement post-livraison" },
 ];
@@ -331,7 +331,7 @@ export const differentiateurs: DifferentiateurCard[] = [
   {
     icon: "Cpu",
     title: "L\u2019IA qui accélère tout",
-    text: "Design, code, contenu, SEO — l\u2019IA propulse chaque étape. Pas pour remplacer l\u2019humain. Pour amplifier 20 ans d\u2019expertise. Résultat : 48h au lieu de 6 semaines.",
+    text: "Design, code, contenu, SEO — l\u2019IA propulse chaque étape. Pas pour remplacer l\u2019humain. Pour amplifier 20 ans d\u2019expertise. Résultat : 72h au lieu de 6 semaines.",
     accent: "orange",
   },
   {
@@ -379,7 +379,7 @@ export const portfolioItems: PortfolioItem[] = [
     clientName: "Maison Enileh",
     niche: "Conciergerie",
     tag: "Site Vitrine",
-    duration: "48h",
+    duration: "72h",
     images: ["/images/portfolio/maison-enileh-1.webp"],
   },
   {
@@ -427,7 +427,7 @@ export const portfolioItems: PortfolioItem[] = [
     clientName: "Golf Mentor",
     niche: "Sport",
     tag: "Site Vitrine + SaaS",
-    duration: "48h",
+    duration: "72h",
     images: ["/images/portfolio/golf-mentor-1.webp"],
   },
 ];
@@ -447,9 +447,9 @@ export const faqItems: FAQItem[] = [
       "Nos sites vitrines d\u00E9marrent \u00E0 1\u202F500\u202F\u20AC. Le prix d\u00E9pend du nombre de pages, des fonctionnalit\u00E9s souhait\u00E9es et du niveau de personnalisation. On en parle ensemble pendant le call \u2014 c\u2019est gratuit et sans engagement.",
   },
   {
-    question: "Comment c\u2019est possible de livrer en 48h\u202F?",
+    question: "Comment c\u2019est possible de livrer en 72h\u202F?",
     answer:
-      "L\u2019IA acc\u00E9l\u00E8re le design, le code et le contenu. L\u2019expertise humaine de 20 ans valide chaque choix. On ne b\u00E2cle rien \u2014 notre process est simplement redoutablement efficace. L\u00E0 o\u00F9 une agence classique met 6 semaines, on met 48h.",
+      "L\u2019IA acc\u00E9l\u00E8re le design, le code et le contenu. L\u2019expertise humaine de 20 ans valide chaque choix. On ne b\u00E2cle rien \u2014 notre process est simplement redoutablement efficace. L\u00E0 o\u00F9 une agence classique met 6 semaines, on met 72h.",
   },
   {
     question: "Est-ce que vous utilisez des templates\u202F?",
@@ -502,6 +502,6 @@ export const ctaContent = {
   proofs: [
     "Gratuit et sans engagement",
     "On vous montre VOTRE site",
-    "Livraison en 48h apr\u00E8s validation",
+    "Livraison en 72h apr\u00E8s validation",
   ],
 };

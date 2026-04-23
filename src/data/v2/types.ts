@@ -25,7 +25,7 @@ export type Badge = {
 };
 
 export type Stat = {
-  value: string; // e.g. "200+", "48h", "4.9/5"
+  value: string; // e.g. "200+", "72h", "4.9/5"
   label: string; // e.g. "projets livrés"
 };
 
@@ -212,8 +212,14 @@ export type PricingPack = {
   name: string;
   price: string;
   priceSuffix?: string;
+  priceNote?: string;
+  description?: string;
   recommended?: boolean;
+  highlightLabel?: string;
   features: string[];
+  bonus?: string[];
+  subscription?: string;
+  subscriptionDetails?: string;
   cta: CTA;
 };
 
@@ -232,7 +238,15 @@ export type SubPageData = {
   forWho: ProfileCard[];
   whatYouGet: {
     title: string;
+    subtitle?: string;
     items: string[];
+    groups?: {
+      icon: LucideIcon;
+      title: string;
+      pitch: string;
+      items?: string[];
+      scores?: { label: string; value: number }[];
+    }[];
   };
   process: ProcessStep[];
   pricing: {
@@ -240,6 +254,8 @@ export type SubPageData = {
     subtitle?: string;
     packs: PricingPack[];
     note?: string;
+    conditions?: string[];
+    sideLink?: CTA;
   };
   examples: {
     title: string;
@@ -251,6 +267,18 @@ export type SubPageData = {
     title: string;
     subtitle: string;
     cta: CTA;
+  };
+  trustStats?: Stat[];
+  guarantees?: {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  }[];
+  comparison?: {
+    title: string;
+    subtitle?: string;
+    columns: { label: string; highlight?: boolean }[];
+    rows: { label: string; values: (string | true | false)[] }[];
   };
 };
 

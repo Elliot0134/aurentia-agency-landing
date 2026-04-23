@@ -15,13 +15,13 @@ export const siteConfig = {
 };
 
 export const heroContent = {
-  headline: "Votre site professionnel en 48h.",
+  headline: "Votre site professionnel en 72h.",
   headlineAccent: "Par l'IA. À partir de 1 200€.",
   subtitle:
-    "Un site unique pour votre conciergerie — pas un template. Design sur-mesure, SEO intégré, livré en 48h par notre alliance IA + 20 ans d'expertise web. Et on vous le montre AVANT que vous payiez.",
+    "Un site unique pour votre conciergerie — pas un template. Design sur-mesure, SEO intégré, livré en 72h par notre alliance IA + 20 ans d'expertise web. Et on vous le montre AVANT que vous payiez.",
   ctaPrimary: "Voir ce qu'on peut faire pour vous",
   ctaSecondary: "Découvrir nos réalisations",
-  badges: ["Livré en 48h", "Satisfait ou on recommence", "Zéro template"],
+  badges: ["Livré en 72h", "Satisfait ou on recommence", "Zéro template"],
   stats: [
     { value: 15, suffix: "+", label: "Sites livrés" },
     { value: 48, suffix: "h", label: "Livraison moyenne" },
@@ -71,7 +71,7 @@ export const solutionContent = {
       name: "Elliot",
       role: "Spécialiste IA & Design",
       description:
-        "Il a fusionné l'intelligence artificielle avec l'expertise de son père pour créer un système qui produit des sites pro en 48h.",
+        "Il a fusionné l'intelligence artificielle avec l'expertise de son père pour créer un système qui produit des sites pro en 72h.",
       image: "/images/team/elliot.jpg", // TODO: Add actual photo
     },
     {
@@ -82,7 +82,7 @@ export const solutionContent = {
     },
   ],
   promise:
-    "Un site professionnel, 100% unique, livré en 48h, à partir de 1 200€. Et tant que c'est pas parfait, on ne lance pas.",
+    "Un site professionnel, 100% unique, livré en 72h, à partir de 1 200€. Et tant que c'est pas parfait, on ne lance pas.",
 };
 
 export const innovationContent = {
@@ -111,7 +111,7 @@ export const innovationContent = {
 };
 
 export const processContent = {
-  title: "48h du brief au site en ligne.",
+  title: "72h du brief au site en ligne.",
   titleAccent: "Voici comment.",
   steps: [
     {
@@ -125,7 +125,7 @@ export const processContent = {
       number: "02",
       title: "On crée votre site",
       description:
-        "En 48h, votre site est prêt : design unique, responsive mobile, SEO intégré, lead magnet intégré. Vous validez, on ajuste. 3 tours de révision inclus.",
+        "En 72h, votre site est prêt : design unique, responsive mobile, SEO intégré, lead magnet intégré. Vous validez, on ajuste. 3 tours de révision inclus.",
       icon: "⚡",
     },
     {
@@ -178,7 +178,7 @@ export const pricingContent = {
     {
       name: "Essentiel",
       price: "1 200€",
-      description: "Votre vitrine professionnelle, prête en 48h",
+      description: "Votre vitrine professionnelle, prête en 72h",
       features: [
         "Site 5 pages, design unique",
         "Responsive + animations",
@@ -186,7 +186,7 @@ export const pricingContent = {
         "Lead magnet intégré",
         "Charte graphique offerte",
         "Analyse de marché offerte",
-        "Livraison 48h",
+        "Livraison 72h",
       ],
       subscription: "19€/mois",
       subscriptionLabel: "Hébergement + support",
@@ -236,7 +236,7 @@ export const comparisonContent = {
   columns: ["Agence classique", "Freelance", "Template DIY", "Aurentia"],
   rows: [
     { label: "Prix", values: ["3 000-8 000€", "1 500-3 000€", "0-200€", "1 200-1 990€"] },
-    { label: "Délai", values: ["4-8 semaines", "2-4 semaines", "1-2 semaines", "48h"] },
+    { label: "Délai", values: ["4-8 semaines", "2-4 semaines", "1-2 semaines", "72h"] },
     { label: "Design unique", values: [true, "Souvent", false, true] },
     { label: "SEO intégré", values: ["Parfois", "Rarement", false, true] },
     { label: "Support long terme", values: ["Coûteux", "Incertain", false, "Dès 19€/mois"] },
@@ -253,8 +253,8 @@ export const faqContent = {
         "C'est tout le contraire. L'IA nous permet de créer un design unique pour VOUS, pas un template. Derrière chaque site, il y a 20 ans d'expertise humaine qui valide chaque détail.",
     },
     {
-      question: "48h c'est vraiment possible ?",
-      answer: "Oui. Notre V1 est livrée en 24-48h. La livraison finale (avec vos retours et ajustements) prend 7 jours max.",
+      question: "72h c'est vraiment possible ?",
+      answer: "Oui. Notre V1 est livrée en 24-72h. La livraison finale (avec vos retours et ajustements) prend 7 jours max.",
     },
     {
       question: "1 200€ c'est pas trop peu pour un bon site ?",

@@ -1,7 +1,6 @@
 // src/app/v2/solutions-ia/configuration-claude/page.tsx
 import type { Metadata } from "next";
-import { SubPage } from "@/components/v2/subpage/SubPage";
-import { solutionsIaConfigClaudeData } from "@/data/v2/solutions-ia-config-claude";
+import { SolutionsIaSubPage } from "@/components/v2/solutions-ia/SolutionsIaSubPage";
 
 export const metadata: Metadata = {
   title: "Configuration Claude pour votre workflow",
@@ -10,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function ConfigurationClaudePage() {
-  return <SubPage data={solutionsIaConfigClaudeData} />;
+  return <SolutionsIaSubPage slug="configuration-claude" />;
 }

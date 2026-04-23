@@ -14,11 +14,11 @@ import { ConciergerieLeadMagnet } from "@/components/conciergerie/ConciergerieLe
 import { ConciergerieCTA } from "@/components/conciergerie/ConciergerieCTA";
 
 export const metadata: Metadata = {
-  title: "Site Vitrine Conciergerie Airbnb — Livré en 48h | Aurentia",
+  title: "Site Vitrine Conciergerie Airbnb — Livré en 72h | Aurentia",
   description:
-    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 48h. À partir de 1 200€. On vous montre votre site AVANT le paiement.",
+    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 200€. On vous montre votre site AVANT le paiement.",
   openGraph: {
-    title: "Site vitrine pour conciergerie — Livré en 48h | Aurentia",
+    title: "Site vitrine pour conciergerie — Livré en 72h | Aurentia",
     description:
       "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 200€.",
     images: [{ url: "/images/opengraph/opengraph.png" }],
@@ -32,7 +32,7 @@ const jsonLd = [
     "@type": "Service",
     name: "Site Vitrine pour Conciergerie — Aurentia",
     description:
-      "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 48h.",
+      "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h.",
     provider: {
       "@type": "Organization",
       name: "Aurentia Agency",

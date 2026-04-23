@@ -24,10 +24,10 @@ export function SubPagePricing({ data }: SubPagePricingProps) {
           <div
             key={pack.name}
             className={cn(
-              "relative flex flex-col gap-6 rounded-2xl border bg-background-surface p-8 transition-all duration-500 ease-in-out",
+              "relative flex flex-col gap-6 rounded-3xl border bg-background p-8 transition-colors duration-500 ease-in-out",
               pack.recommended
-                ? "border-accent-primary shadow-[0_4px_30px_rgba(201,100,66,0.18)]"
-                : "border-foreground/10"
+                ? "border-accent-primary/60 hover:border-accent-primary"
+                : "border-foreground/10 hover:border-foreground/25"
             )}
           >
             {pack.recommended && (

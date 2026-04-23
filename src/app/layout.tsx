@@ -45,9 +45,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aurentia — Agence web premium à Avignon | Sites vitrines & SaaS en 48h",
+  title: "Aurentia — Agence web premium à Avignon | Sites vitrines & SaaS en 72h",
   description:
-    "Agence web premium. Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, développement Next.js, SEO intégré. Livré en 48h à 2 semaines.",
+    "Agence web premium. Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, développement Next.js, SEO intégré. Livré en 72h à 2 semaines.",
   keywords: [
     "agence web avignon",
     "site vitrine sur-mesure",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     url: "https://aurentia.agency",
     siteName: "Aurentia",
     title: "Aurentia — Agence web premium à Avignon",
-    description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 48h.",
+    description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 72h.",
     images: [
       {
         url: "https://aurentia.agency/images/opengraph/opengraph.png",

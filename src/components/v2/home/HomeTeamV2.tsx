@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Linkedin } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
-import { TextGradientReveal } from "@/components/animations/TextGradientReveal";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { Card } from "@/components/v2/shared/Card";
 
@@ -168,13 +167,6 @@ export function HomeTeamV2() {
           </div>
         </BlurReveal>
 
-        <div className="max-w-5xl mx-auto text-center pt-32">
-          <TextGradientReveal
-            text="Tant que ce n'est pas parfait, on ne lance pas."
-            elementType="p"
-            className="text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight justify-center opacity-80"
-          />
-        </div>
     </SectionContainer>
   );
 }

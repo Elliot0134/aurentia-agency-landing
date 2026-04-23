@@ -4,7 +4,8 @@ import { useRef, useState, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SecretSlotMachine3D } from "./SecretSlotMachine3D";
+import { SecretSlotMachine3D, type ShowcaseItem } from "./SecretSlotMachine3D";
+import type { Prize } from "./easterEggData";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { useAnimationsEnabled } from "@/components/animations/AnimationContext";
 
@@ -18,7 +19,26 @@ if (typeof window !== "undefined") {
    2. Roulette wheel + form
    ───────────────────────────────────────────── */
 
-export function HeroEasterEgg() {
+export interface HeroEasterEggProps {
+  /** Override default prize pool (client-side display only). */
+  prizes?: Prize[];
+  /** Override default showcase cards shown below the machine. */
+  showcase?: ShowcaseItem[];
+  /** Override the prize-label → landing-page URL map. */
+  prizeUrlMap?: Record<string, string | null>;
+  /** Custom slot-machine headline. */
+  title?: string;
+  /** Custom slot-machine tagline. */
+  tagline?: string;
+}
+
+export function HeroEasterEgg({
+  prizes,
+  showcase,
+  prizeUrlMap,
+  title,
+  tagline,
+}: HeroEasterEggProps = {}) {
   const wrapperRef = useRef<HTMLElement>(null);
   const titleSectionRef = useRef<HTMLDivElement>(null);
   const titleContentRef = useRef<HTMLDivElement>(null);
@@ -104,7 +124,14 @@ export function HeroEasterEgg() {
             </div>
           ) : (
             <div className="w-full">
-              <SecretSlotMachine3D onClose={handleClose} />
+              <SecretSlotMachine3D
+                onClose={handleClose}
+                prizes={prizes}
+                showcase={showcase}
+                prizeUrlMap={prizeUrlMap}
+                title={title}
+                tagline={tagline}
+              />
             </div>
           )}
         </div>
@@ -131,7 +158,7 @@ export function HeroEasterEgg() {
         <div ref={titleContentRef} className="relative z-10 w-full text-center px-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/[0.06] backdrop-blur-xl border border-foreground/[0.1] mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-primary animate-pulse" />
-            <span className="text-[11px] font-mono tracking-[0.15em] uppercase text-accent-primary">
+            <span className="text-sm font-mono tracking-[0.15em] uppercase text-accent-primary">
               Easter egg
             </span>
           </div>

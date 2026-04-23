@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 
 const CLICKABLE_SELECTOR =
@@ -10,8 +11,11 @@ export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const posRef = useRef({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
+  const pathname = usePathname();
+  const isV2 = pathname?.startsWith("/v2") ?? false;
 
   useEffect(() => {
+    if (isV2) return;
     if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
 
     const cursor = cursorRef.current;
@@ -107,7 +111,9 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", onMouseLeave);
       document.documentElement.classList.remove("has-custom-cursor");
     };
-  }, []);
+  }, [isV2]);
+
+  if (isV2) return null;
 
   return (
     <div ref={cursorRef} className="custom-cursor hidden md:block">

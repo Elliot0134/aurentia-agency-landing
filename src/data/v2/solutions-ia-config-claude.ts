@@ -6,6 +6,9 @@ import {
   Users,
   Sparkles,
   Clock,
+  ScanSearch,
+  Pencil,
+  Headphones,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -71,24 +74,28 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       title: "Audit de stack",
       description:
         "On regarde votre codebase, vos conventions, votre CI et vos pain points. Objectif : savoir ce qu'on doit automatiser.",
+      icon: ScanSearch,
     },
     {
       number: "02",
       title: "Design du setup",
       description:
         "On rédige le CLAUDE.md, on définit les hooks et on liste les skills à créer. Validation rapide avec vous.",
+      icon: Pencil,
     },
     {
       number: "03",
       title: "Développement & tests",
       description:
         "On développe les skills custom, on branche les hooks et on teste sur vos vrais scénarios.",
+      icon: Code2,
     },
     {
       number: "04",
       title: "Handover & support",
       description:
         "Session d'1 heure pour former l'équipe, livraison du repo de config, support 30 jours inclus.",
+      icon: Headphones,
     },
   ],
   pricing: {
@@ -145,6 +152,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       role: "Lead dev",
       company: "Studio Nord",
       pillar: "solutions-ia",
+      stat: "Vélocité ×5",
     },
     {
       quote:
@@ -153,6 +161,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       role: "CTO",
       company: "Northlight",
       pillar: "solutions-ia",
+      stat: "−80% review loops",
     },
   ],
   faq: [

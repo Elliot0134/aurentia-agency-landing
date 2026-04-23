@@ -6,6 +6,9 @@ import {
   Briefcase,
   Clock,
   Target,
+  MessageSquare,
+  Pencil,
+  Code2,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -71,59 +74,52 @@ export const sitesWebLandingData: SubPageData = {
       title: "Brief & stratégie",
       description:
         "On challenge votre positionnement, votre promesse et votre cible. On aligne sur l'objectif chiffré (leads, conversions, MRR).",
+      icon: MessageSquare,
     },
     {
       number: "02",
       title: "Copy & design",
       description:
         "On rédige le copywriting orienté conversion et on conçoit un design qui ne ressemble à aucune autre landing du marché.",
+      icon: Pencil,
     },
     {
       number: "03",
       title: "Intégration & tracking",
       description:
         "Intégration rapide (<1s), tracking complet, tests sur tous les appareils.",
+      icon: Code2,
     },
     {
       number: "04",
       title: "Lancement & itérations",
       description:
         "Mise en ligne, suivi des premiers résultats, petits ajustements inclus pendant 30 jours.",
+      icon: Rocket,
     },
   ],
   pricing: {
-    title: "Deux formats, un seul objectif : convertir",
+    title: "Un investissement qui se mesure en conversions.",
+    subtitle: "Chaque page est sur-mesure. Le prix aussi.",
     packs: [
       {
-        name: "Standard",
+        name: "Landing page haute conversion",
         price: "1 500 €",
+        priceNote: "À partir de — sur devis selon la complexité et les animations",
+        description: "Livraison en 1 à 2 semaines.",
         features: [
-          "Landing page one-pager sur-mesure",
-          "Copywriting inclus (3 sections)",
-          "Responsive parfait",
-          "Tracking GA4 + conversions",
-          "Formulaire de capture",
-          "30 jours de support",
+          "Design sur-mesure",
+          "Textes rédigés pour convaincre vos visiteurs",
+          "Animations fluides et premium",
+          "Parfait sur mobile, tablette et ordinateur",
+          "Référencement Google optimisé",
+          "Affichage clair en mode clair et sombre",
+          "Mise en ligne clé en main",
         ],
-        cta: { label: "Choisir Standard", href: "/v2/contact" },
-      },
-      {
-        name: "Premium",
-        price: "3 500 €",
-        recommended: true,
-        features: [
-          "Landing page one-pager premium",
-          "Copywriting complet (toutes sections)",
-          "Animations scroll avancées",
-          "Tracking full-funnel + événements custom",
-          "Préparation A/B test",
-          "Intégration CRM (HubSpot, Notion, Airtable…)",
-          "60 jours de support + 1 itération majeure",
-        ],
-        cta: { label: "Choisir Premium", href: "/v2/contact" },
+        cta: { label: "Discuter de votre projet", href: "/v2/contact" },
       },
     ],
-    note: "Hébergement Vercel offert pour toute landing Aurentia.",
+    note: "Le prix dépend du nombre de sections, de la complexité des animations, et du volume de contenu. On vous fait un devis précis après le brief créatif.",
   },
   examples: {
     title: "Quelques lancements récents",
@@ -158,6 +154,7 @@ export const sitesWebLandingData: SubPageData = {
       role: "Founder",
       company: "Northlight",
       pillar: "sites-web",
+      stat: "22% conversion",
     },
     {
       quote:
@@ -166,6 +163,7 @@ export const sitesWebLandingData: SubPageData = {
       role: "Head of Growth",
       company: "Kairos Ops",
       pillar: "sites-web",
+      stat: "CPA ÷2",
     },
   ],
   faq: [
@@ -202,7 +200,7 @@ export const sitesWebLandingData: SubPageData = {
     {
       question: "Combien de temps pour être en ligne ?",
       answer:
-        "Entre 3 et 7 jours ouvrés selon le pack et la réactivité sur le copywriting. En urgence, on a déjà livré en 48h — mais on ne promet pas ce délai par défaut.",
+        "Entre 3 et 7 jours ouvrés selon le pack et la réactivité sur le copywriting. En urgence, on a déjà livré en 72h — mais on ne promet pas ce délai par défaut.",
     },
   ],
   finalCta: {

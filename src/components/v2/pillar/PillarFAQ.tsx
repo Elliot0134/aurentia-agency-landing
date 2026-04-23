@@ -10,6 +10,7 @@ type PillarFAQProps = {
 export function PillarFAQ({ items }: PillarFAQProps) {
   return (
     <SectionContainer
+      id="faq"
       eyebrow="FAQ"
       title="Vos questions, nos réponses"
       className="bg-background-surface"

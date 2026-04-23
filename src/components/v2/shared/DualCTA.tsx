@@ -19,7 +19,7 @@ export function DualCTA({ primary, secondary, className, size = "md" }: DualCTAP
       <Link
         href={primary.href}
         className={cn(
-          "group inline-flex items-center gap-2 rounded-full bg-foreground text-background font-semibold transition-all duration-500 ease-in-out hover:bg-foreground/90",
+          "group inline-flex items-center gap-2 rounded-full bg-foreground font-semibold text-background transition-colors duration-500 ease-in-out hover:bg-foreground/90",
           padding
         )}
       >
@@ -31,7 +31,7 @@ export function DualCTA({ primary, secondary, className, size = "md" }: DualCTAP
         <Link
           href={secondary.href}
           className={cn(
-            "inline-flex items-center gap-2 rounded-full border border-foreground/20 text-foreground/85 font-semibold transition-all duration-500 ease-in-out hover:border-foreground/40 hover:text-foreground",
+            "inline-flex items-center gap-2 rounded-full border border-foreground/20 font-semibold text-foreground transition-colors duration-500 ease-in-out hover:border-foreground/40",
             padding
           )}
         >

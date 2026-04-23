@@ -26,13 +26,13 @@ const subNavItems = [
 ];
 
 export const metadata: Metadata = {
-  title: "Site Vitrine Sur-Mesure d\u00e8s 1\u202F200\u202F\u20ac \u2014 Livr\u00e9 en 48h | Aurentia",
+  title: "Site Vitrine Sur-Mesure d\u00e8s 1\u202F200\u202F\u20ac \u2014 Livr\u00e9 en 72h | Aurentia",
   description:
-    "Site vitrine professionnel, unique, optimis\u00e9 SEO. Livr\u00e9 en 48h par notre \u00e9quipe IA + 20 ans d\u2019expertise web. D\u00e8s 1\u202F200\u202F\u20ac. Z\u00e9ro template.",
+    "Site vitrine professionnel, unique, optimis\u00e9 SEO. Livr\u00e9 en 72h par notre \u00e9quipe IA + 20 ans d\u2019expertise web. D\u00e8s 1\u202F200\u202F\u20ac. Z\u00e9ro template.",
   openGraph: {
-    title: "Site Vitrine Sur-Mesure d\u00e8s 1\u202F200\u202F\u20ac \u2014 Livr\u00e9 en 48h",
+    title: "Site Vitrine Sur-Mesure d\u00e8s 1\u202F200\u202F\u20ac \u2014 Livr\u00e9 en 72h",
     description:
-      "Z\u00e9ro template. SEO int\u00e9gr\u00e9. Design unique. Livr\u00e9 en 48h par 20 ans d\u2019expertise web + IA.",
+      "Z\u00e9ro template. SEO int\u00e9gr\u00e9. Design unique. Livr\u00e9 en 72h par 20 ans d\u2019expertise web + IA.",
     url: "https://aurentia.agency/sites-vitrines",
     type: "website",
     images: [
@@ -62,7 +62,7 @@ const jsonLd = [
     "@type": "Service",
     name: "Cr\u00e9ation de Sites Vitrines Sur-Mesure",
     description:
-      "Sites vitrines professionnels, uniques, optimis\u00e9s SEO. Livr\u00e9s en 48h. \u00c0 partir de 1\u202F200\u202F\u20ac.",
+      "Sites vitrines professionnels, uniques, optimis\u00e9s SEO. Livr\u00e9s en 72h. \u00c0 partir de 1\u202F200\u202F\u20ac.",
     provider: {
       "@type": "Organization",
       name: "Aurentia Agency",

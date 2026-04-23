@@ -247,7 +247,7 @@ export const homeData: HomeData = {
     {
       question: "Combien de temps pour livrer un projet ?",
       answer:
-        "Cela dépend du type de projet : un site vitrine est livré en 48h à 5 jours, une landing page en 3 à 7 jours, un MVP SaaS en 1 à 2 semaines, une formation IA en 1 semaine. Pour les projets plus ambitieux, on cadre une roadmap claire avec des livrables intermédiaires.",
+        "Cela dépend du type de projet : un site vitrine est livré en 72h à 5 jours, une landing page en 3 à 7 jours, un MVP SaaS en 1 à 2 semaines, une formation IA en 1 semaine. Pour les projets plus ambitieux, on cadre une roadmap claire avec des livrables intermédiaires.",
     },
     {
       question: "Quel est votre tarif moyen ?",
@@ -282,7 +282,7 @@ export const homeData: HomeData = {
     subtitle:
       "Un appel rapide pour comprendre votre besoin et vous dire si on peut vous aider. Sans engagement.",
     signals: [
-      { icon: CalendarCheck, label: "Créneau sous 48h" },
+      { icon: CalendarCheck, label: "Créneau sous 72h" },
       { icon: Clock, label: "15 min chrono" },
       { icon: ShieldCheck, label: "Sans engagement" },
     ],

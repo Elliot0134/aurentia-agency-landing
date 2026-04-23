@@ -6,9 +6,9 @@ import { FAQAccordion } from "@/components/v2/shared/FAQAccordion";
 export function HomeFAQV2() {
   return (
     <SectionContainer
-      eyebrow="FAQ"
+      id="faq"
       title="Vos questions, nos réponses"
-      className="bg-background-surface"
+      surface
       innerClassName="max-w-3xl"
     >
       <FAQAccordion items={homeData.faq} />

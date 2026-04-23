@@ -68,14 +68,14 @@ export const agenceStory = {
     },
     {
       label: "La mission",
-      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 48h, à partir de 1 200€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
+      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 72h, à partir de 1 200€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
     },
   ],
 };
 
 export const agenceStats: AgenceStat[] = [
   { value: 20, suffix: "ans", label: "d'expertise web cumulée" },
-  { value: 48, suffix: "h", label: "pour livrer votre V1" },
+  { value: 72, suffix: "h", label: "pour livrer votre V1" },
   { value: 15, suffix: "+", label: "sites livrés" },
   { value: 100, suffix: "%", label: "de clients satisfaits" },
 ];
@@ -90,7 +90,7 @@ export const agenceTeam: AgenceTeamMember[] = [
     name: "Elliot Estrade",
     role: "CEO, IA & Design",
     badge: "Architecte IA & Design",
-    bio: "Entrepreneur et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev). Co-fondateur de Kaelen Studio (jeux Roblox). Créateur de Comparateur-IA-Facile.com. Formateur IA en entreprise — il forme des équipes à intégrer l'intelligence artificielle dans leurs process. C'est lui qui a forgé le workflow IA d'Aurentia — le système sur-mesure qui permet de livrer un site pro en 48h. La vision, l'innovation, la vitesse.",
+    bio: "Entrepreneur et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev). Co-fondateur de Kaelen Studio (jeux Roblox). Créateur de Comparateur-IA-Facile.com. Formateur IA en entreprise — il forme des équipes à intégrer l'intelligence artificielle dans leurs process. C'est lui qui a forgé le workflow IA d'Aurentia — le système sur-mesure qui permet de livrer un site pro en 72h. La vision, l'innovation, la vitesse.",
     tags: [
       "Intelligence Artificielle",
       "Design UI/UX",
@@ -164,7 +164,7 @@ export const agenceValues: AgenceValueCard[] = [
   },
   {
     icon: "Zap",
-    title: "48h. Pas 6 semaines.",
+    title: "72h. Pas 6 semaines.",
     text: "L'IA nous donne un superpouvoir : la vitesse. Pas parce qu'on bâcle — parce que notre process est redoutablement efficace.",
   },
   {

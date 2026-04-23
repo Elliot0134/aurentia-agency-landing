@@ -1,7 +1,6 @@
 // src/app/v2/solutions-ia/audit/page.tsx
 import type { Metadata } from "next";
-import { SubPage } from "@/components/v2/subpage/SubPage";
-import { solutionsIaAuditData } from "@/data/v2/solutions-ia-audit";
+import { SolutionsIaSubPage } from "@/components/v2/solutions-ia/SolutionsIaSubPage";
 
 export const metadata: Metadata = {
   title: "Audit IA de votre business",
@@ -10,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function AuditPage() {
-  return <SubPage data={solutionsIaAuditData} />;
+  return <SolutionsIaSubPage slug="audit" />;
 }

@@ -16,6 +16,7 @@ import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
 import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
 import { HomeBlogPreview } from "@/components/v2/home/HomeBlogPreview";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
@@ -95,6 +96,8 @@ export default function HomeV2() {
         <HomeMethodV2 />
         <SectionDivider />
         <HomeBlogPreview />
+        <SectionDivider />
+        <HomeBookingEmbed />
         <SectionDivider />
         <HomeFAQV2 />
         <SectionDivider />

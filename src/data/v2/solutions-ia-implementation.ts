@@ -7,6 +7,10 @@ import {
   Building2,
   Sparkles,
   ShieldCheck,
+  MessageSquare,
+  FileText,
+  Code2,
+  Rocket,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -72,36 +76,41 @@ export const solutionsIaImplementationData: SubPageData = {
       title: "Atelier de cadrage",
       description:
         "Une demi-journée pour cartographier vos process, valider les cas d'usage et définir le périmètre du MVP.",
+      icon: MessageSquare,
     },
     {
       number: "02",
       title: "Cahier des charges",
       description:
         "On rédige un doc technique et fonctionnel précis : flux, intégrations, sécurité, métriques de succès. Validé avec vous avant de coder.",
+      icon: FileText,
     },
     {
       number: "03",
       title: "Développement",
       description:
         "Développement des skills IA, intégration à votre stack, tests sur vos vrais scénarios. On vous fait des démos régulières.",
+      icon: Code2,
     },
     {
       number: "04",
       title: "Déploiement",
       description:
         "Mise en production progressive, suivi des premières utilisations réelles, ajustements.",
+      icon: Rocket,
     },
     {
       number: "05",
       title: "Formation & support",
       description:
         "Formation de vos équipes (utilisateurs et admins), remise de la documentation, 3 mois de support prioritaire.",
+      icon: Headphones,
     },
   ],
   pricing: {
     title: "Tarification sur-mesure, selon le périmètre",
     subtitle:
-      "Chaque implémentation est unique. On cadre le périmètre ensemble et on vous fournit un devis clair sous 48h après le cadrage.",
+      "Chaque implémentation est unique. On cadre le périmètre ensemble et on vous fournit un devis clair sous 72h après le cadrage.",
     packs: [
       {
         name: "Implémentation IA sur-mesure",
@@ -154,6 +163,7 @@ export const solutionsIaImplementationData: SubPageData = {
       role: "Directeur",
       company: "Cabinet Conseil",
       pillar: "solutions-ia",
+      stat: "Réponse ÷3",
     },
     {
       quote:
@@ -162,6 +172,7 @@ export const solutionsIaImplementationData: SubPageData = {
       role: "Directeur",
       company: "Cabinet Meridian",
       pillar: "solutions-ia",
+      stat: "20 min → 30 s",
     },
   ],
   faq: [

@@ -12,7 +12,7 @@ export function ServiceBadge({ badge, className }: ServiceBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-accent-primary/25 bg-accent-primary/10 px-3.5 py-1.5 text-sm font-medium text-accent-primary transition-colors duration-500 ease-in-out",
+        "inline-flex items-center gap-1.5 rounded-full border border-accent-primary/20 bg-accent-primary/10 px-3.5 py-1.5 text-sm font-medium text-accent-primary transition-colors duration-500 ease-in-out",
         className
       )}
     >

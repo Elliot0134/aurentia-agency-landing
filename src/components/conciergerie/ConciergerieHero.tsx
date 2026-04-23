@@ -90,7 +90,7 @@ export function ConciergerieHero() {
             <br />
             <span>Livré en </span>
             <span className="bg-gradient-to-r from-accent-secondary to-accent-primary bg-clip-text text-transparent underline decoration-accent-primary/50 underline-offset-4 decoration-2 md:decoration-4">
-              48h
+              72h
             </span>
             <span> dès </span>
             <span className="bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent underline decoration-accent-primary/50 underline-offset-4 decoration-2 md:decoration-4">

@@ -52,11 +52,12 @@ export function HomeContactV2() {
     };
 
     try {
-      await fetch(N8N_WEBHOOK_URL, {
+      const res = await fetch(N8N_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) throw new Error("Erreur serveur, veuillez réessayer.");
       setStatus("success");
       form.reset();
     } catch (err) {

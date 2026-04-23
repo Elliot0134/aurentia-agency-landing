@@ -1,32 +1,118 @@
 // src/data/v2/sites-web.ts
-// DRAFT_COPY — to refine before swap
-// NOTE: stats are plausible placeholders pending real CRM/analytics data.
+// Content sourced from live /sites-vitrines page
 import {
   Globe,
   FileText,
   Rocket,
-  Store,
-  Briefcase,
   Sparkles,
   Clock,
+  MessageSquare,
+  Palette,
+  Code2,
+  Search,
+  Smartphone,
+  Headphones,
+  Shield,
+  BrainCircuit,
+  Eye,
+  HandCoins,
+  Hotel,
+  UtensilsCrossed,
+  Store,
+  Briefcase,
+  Dumbbell,
+  Building2,
 } from "lucide-react";
-import type { CommercialPillarData } from "./types";
+import type { CommercialPillarData, FAQItem } from "./types";
+import type { LucideIcon } from "lucide-react";
+
+/* ──────────────────────────────────────────────
+   Extra types for sections not in CommercialPillarData
+   ────────────────────────────────────────────── */
+
+export type SitesWebFeature = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
+
+export type SitesWebNiche = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  badge?: string;
+  href?: string;
+  ctaLabel?: string;
+};
+
+export type SitesWebPack = {
+  name: string;
+  price: string;
+  priceSuffix?: string;
+  tagline: string;
+  popular?: boolean;
+  features: string[];
+  bonuses: string[];
+  subscription: string;
+  subscriptionNote: string;
+  cta: { label: string; href: string };
+};
+
+export type SitesWebWhyItem = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export type SitesWebExtra = {
+  features: SitesWebFeature[];
+  niches: {
+    title: string;
+    subtitle: string;
+    items: SitesWebNiche[];
+    footerNote: string;
+  };
+  pricing: {
+    title: string;
+    subtitle: string;
+    packs: SitesWebPack[];
+    paymentTerms: string[];
+  };
+  why: {
+    title: string;
+    subtitle: string;
+    items: SitesWebWhyItem[];
+  };
+  faqExtended: FAQItem[];
+  finalCta: {
+    title: string;
+    description: string;
+    cta: { label: string; href: string };
+    bullets: string[];
+  };
+};
+
+/* ──────────────────────────────────────────────
+   Core pillar data (hero, method, etc.)
+   ────────────────────────────────────────────── */
 
 export const sitesWebData: CommercialPillarData = {
   slug: "sites-web",
   hero: {
-    eyebrow: "Pilier Sites Web",
+    eyebrow: "Sites vitrines sur-mesure",
     headline:
-      "Des sites qui convertissent, livrés en jours — pas en mois.",
+      "Votre site vitrine sur-mesure.\nLivré en 72h dès 1 500 €.",
     subHeadline:
-      "Sites vitrines et landing pages sur-mesure, construits avec l'IA pour une qualité pro à la vitesse d'un prototype. Aucun template recyclé.",
+      "Design unique, SEO intégré, performance native. Propulsé par l'IA, forgé par 20 ans d'expertise web. On vous montre le résultat avant de facturer.",
     badges: [
-      { label: "Livré en 48h à 7 jours", icon: Clock },
-      { label: "100% sur-mesure", icon: Sparkles },
+      { label: "Livré en 72h", icon: Clock },
+      { label: "Dès 1 500 €", icon: Sparkles },
     ],
     cta: {
-      primary: { label: "Discutons de votre site", href: "/v2/contact" },
-      secondary: { label: "Voir les offres", href: "#sub-offers" },
+      primary: { label: "Réserver mon call découverte", href: "/v2/contact" },
+      secondary: { label: "Voir les tarifs", href: "#pricing" },
     },
     visual: {
       kind: "image",
@@ -36,7 +122,7 @@ export const sitesWebData: CommercialPillarData = {
   },
   stats: [
     { value: "200+", label: "sites livrés" },
-    { value: "48h", label: "délai moyen" },
+    { value: "72h", label: "délai moyen" },
     { value: "100%", label: "sur-mesure" },
     { value: "4.9/5", label: "satisfaction clients" },
   ],
@@ -49,7 +135,7 @@ export const sitesWebData: CommercialPillarData = {
         title: "Site vitrine",
         pitch:
           "Pour présenter votre activité, générer de la confiance et capter des leads locaux.",
-        priceFrom: "1 200 €",
+        priceFrom: "1 500 €",
         href: "/v2/sites-web/site-vitrine",
       },
       {
@@ -92,55 +178,68 @@ export const sitesWebData: CommercialPillarData = {
     ],
   },
   method: {
-    title: "Comment on travaille",
+    title: "De l'échange au lancement. En 48 heures.",
     steps: [
       {
         number: "01",
-        title: "Brief express",
+        title: "L'échange",
         description:
-          "Un appel de 30 minutes pour comprendre votre activité, votre cible et vos objectifs.",
+          "Un call de 20 minutes. On comprend votre activité, vos objectifs, votre audience. Vous nous envoyez votre contenu (textes, photos, logo). C'est tout ce dont on a besoin.",
+        icon: MessageSquare,
       },
       {
         number: "02",
-        title: "Design & contenu",
+        title: "La création",
         description:
-          "On conçoit le design, on rédige les textes et on produit les visuels — l'IA nous fait gagner un temps fou sans rogner sur la qualité.",
+          "L'IA accélère le design et le code. L'expertise humaine valide chaque choix. On forge votre site sur-mesure — design, contenu, SEO, responsive. Tout.",
+        icon: Palette,
       },
       {
         number: "03",
-        title: "Intégration & tests",
+        title: "Votre validation",
         description:
-          "Intégration responsive, SEO de base, performance au top. On teste tout avant de vous livrer.",
+          "On vous montre le site terminé. Vous testez, vous regardez chaque page, chaque détail. Retours illimités jusqu'à ce que ce soit parfait. Vous ne payez qu'après validation.",
+        icon: Eye,
       },
       {
         number: "04",
-        title: "Mise en ligne & support",
+        title: "Lancement + suivi",
         description:
-          "Déploiement, formation rapide pour éditer vos contenus, et 30 jours de support inclus.",
+          "Mise en ligne sur votre domaine. Configuration email, analytics, Google Business. Et on reste là après — pour les ajustements, les questions, les évolutions.",
+        icon: Rocket,
       },
     ],
   },
   realisationsFiltered: [
     {
-      slug: "refonte-marie",
-      title: "Refonte complète et SEO multiplié par 4",
-      client: "Atelier Marie",
+      slug: "maison-enileh",
+      title: "Site vitrine conciergerie — livré en 72h",
+      client: "Maison Enileh",
       pillar: "sites-web",
-      resultKpi: "+340% trafic organique",
-      imageUrl: "/images/v2/realisations/sites-web-1.jpg",
-      href: "/v2/agence",
+      resultKpi: "Livré en 72h",
+      imageUrl: "/images/portfolio/maison-enileh-1.webp",
+      href: "/realisations/maison-enileh",
     },
     {
-      slug: "landing-seed-round",
-      title: "Landing page de lancement pour levée seed",
-      client: "Northlight",
+      slug: "savistas",
+      title: "SaaS + Landing page en 72h",
+      client: "Savistas",
       pillar: "sites-web",
-      resultKpi: "22% de taux de conversion",
-      imageUrl: "/images/v2/realisations/sites-web-2.jpg",
-      href: "/v2/agence",
+      resultKpi: "Livré en 72h",
+      imageUrl: "/images/portfolio/savistas-1.webp",
+      href: "/realisations/savistas",
     },
   ],
   testimonialsFiltered: [
+    {
+      quote:
+        "Aurentia a livré notre site en 5 jours. Cinq jours. Et le résultat est meilleur que ce que d'autres agences nous proposaient en deux mois.",
+      author: "Marie L.",
+      role: "Fondatrice",
+      company: "Atelier Marie",
+      pillar: "sites-web",
+      stat: "Livré en 5 jours",
+    },
     {
       quote:
         "On avait déjà consulté trois agences, toutes parlaient en mois et en milliers d'euros. Aurentia a livré un site qu'on aime en moins d'une semaine pour un budget honnête.",
@@ -148,52 +247,307 @@ export const sitesWebData: CommercialPillarData = {
       role: "Co-fondatrice",
       company: "Studio Nord",
       pillar: "sites-web",
-    },
-    {
-      quote:
-        "Notre landing de lancement a fait 22% de conversion dès le premier jour. Le niveau de finition est du même ordre que ce qu'on voit chez les grosses agences SF.",
-      author: "Julien M.",
-      role: "Founder",
-      company: "Northlight",
-      pillar: "sites-web",
+      stat: "Livré en 6 jours",
     },
   ],
   faq: [
     {
-      question: "Mon site sera-t-il vraiment unique ?",
+      question: "Combien coûte un site vitrine chez Aurentia ?",
       answer:
-        "Oui. On ne part jamais d'un template tout fait. Le design est pensé pour votre marque et votre audience, même si on s'appuie sur des composants modernes pour aller vite.",
+        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call — c'est gratuit et sans engagement.",
     },
     {
-      question: "Est-ce que je peux éditer mon site moi-même après la livraison ?",
+      question: "Comment c'est possible de livrer en 72h ?",
       answer:
-        "Oui. On livre avec un back-office simple pour que vous puissiez modifier textes, photos et pages clés sans dépendre de nous. On vous forme en 30 minutes à la livraison.",
+        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 20 ans valide chaque choix. On ne bâcle rien — notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
+    },
+    {
+      question: "Est-ce que vous utilisez des templates ?",
+      answer:
+        "Jamais. Chaque site est conçu sur-mesure pour votre activité, votre identité et vos objectifs. On part de zéro à chaque fois. C'est la seule façon de créer un site qui vous ressemble vraiment.",
     },
     {
       question: "Le SEO est-il inclus ?",
       answer:
-        "Oui, le SEO technique est inclus dans toutes nos offres (sitemap, metas, performance, structured data). Pour une stratégie de contenu et du netlinking, on propose des accompagnements dédiés en option.",
+        "Oui, dans chaque site. Structure technique optimisée, balises méta, vitesse de chargement, responsive, données structurées. Votre site est prêt à être indexé et visible dès la mise en ligne.",
     },
     {
-      question: "Combien ça coûte exactement ?",
+      question:
+        "Je n'ai pas de contenu (textes, photos). Vous pouvez vous en charger ?",
       answer:
-        "Sites vitrines à partir de 1 200 € (format Essentiel) et landing pages à partir de 1 500 €. Les prix montent selon le nombre de pages, la complexité du design et les fonctionnalités. Devis clair sous 24h.",
+        "Oui. On rédige le contenu adapté à votre activité et optimisé SEO. Pour les photos, on peut utiliser des visuels professionnels ou vous accompagner pour un shooting. On s'occupe de tout.",
     },
     {
-      question: "Avez-vous un délai minimum ou maximum ?",
+      question: "Que se passe-t-il après la livraison ?",
       answer:
-        "Délai minimum : 48h pour un site vitrine simple quand tout est prêt côté contenu. Délai maximum sur les formats standards : 7 jours. Au-delà, c'est qu'on parle d'un projet custom qui mérite un cadrage dédié.",
+        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions — on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
     },
     {
-      question: "Et l'hébergement ?",
+      question: "Quelles technologies utilisez-vous ?",
       answer:
-        "On déploie sur Vercel (le meilleur rapport perfs/prix du marché). Vous gardez la main complète sur le domaine et l'hébergement — aucun enfermement. On peut aussi déployer sur votre infra si vous en avez une.",
+        "Next.js, React, Tailwind CSS, hébergement Vercel. Ce sont les technologies des plus grandes startups mondiales. Votre site est rapide, sécurisé, et techniquement à la pointe.",
+    },
+    {
+      question:
+        "Je veux aussi un logo / une identité visuelle. C'est possible ?",
+      answer:
+        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 20 ans de direction créative derrière chaque projet.",
     },
   ],
   finalCta: {
-    title: "Prêt à lancer votre site ?",
+    title: "Prêt à révéler votre business en ligne ?",
     subtitle:
-      "Un appel de 15 minutes suffit pour savoir si on peut vous aider. Devis clair sous 24h.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+      "On prépare un aperçu de votre futur site AVANT le call. Vous voyez le résultat, vous jugez. Gratuit. 20 minutes. Sans engagement.",
+    cta: { label: "Réserver mon call découverte", href: "/v2/contact" },
+  },
+};
+
+/* ──────────────────────────────────────────────
+   Extended data — sections specific to /sites-web
+   ────────────────────────────────────────────── */
+
+export const sitesWebExtra: SitesWebExtra = {
+  features: [
+    {
+      icon: Palette,
+      title: "Design sur-mesure",
+      description:
+        "Zéro template. Chaque pixel est pensé pour votre activité, votre audience, votre marque. Un site qui ne ressemble à aucun autre.",
+    },
+    {
+      icon: Search,
+      title: "SEO intégré dès le départ",
+      description:
+        "Structure technique, balises, vitesse, contenu optimisé. Vous êtes indexé et visible sur Google dès la mise en ligne.",
+    },
+    {
+      icon: Smartphone,
+      title: "Responsive natif",
+      description:
+        "Votre site est parfait sur mobile, tablette et desktop. 60% de vos visiteurs arrivent sur téléphone — on le sait.",
+    },
+    {
+      icon: Rocket,
+      title: "Performance maximale",
+      description:
+        "Temps de chargement inférieur à 2 secondes. Next.js, hébergement Vercel, images optimisées. Vos visiteurs ne patientent pas.",
+    },
+    {
+      icon: Shield,
+      title: "Sécurisé et maintenable",
+      description:
+        "HTTPS, headers sécurisés, code propre et documenté. Votre site est solide, protégé, facile à faire évoluer.",
+    },
+    {
+      icon: Headphones,
+      title: "Accompagnement après livraison",
+      description:
+        "On ne disparaît pas après le lancement. Modifications mineures, questions, évolutions — on reste disponible.",
+    },
+  ],
+
+  niches: {
+    title: "Un site sur-mesure. Quelle que soit votre activité.",
+    subtitle:
+      "On travaille niche par niche. Chaque site est pensé pour votre métier, vos clients, vos enjeux.",
+    items: [
+      {
+        icon: Building2,
+        title: "Conciergeries",
+        description:
+          "Locations saisonnières, gestion de biens, accueil voyageurs. Un site qui inspire confiance aux propriétaires et aux locataires.",
+        badge: "Offre dédiée",
+        href: "/conciergeries",
+        ctaLabel: "Découvrir l'offre conciergeries",
+      },
+      {
+        icon: Hotel,
+        title: "Hôtels & Hébergements",
+        description:
+          "Chambres d'hôtes, hôtels, gîtes. Un site qui donne envie de réserver avant même d'avoir vu les photos.",
+      },
+      {
+        icon: UtensilsCrossed,
+        title: "Restaurants & Bars",
+        description:
+          "Votre carte, votre ambiance, vos horaires. Un site qui fait saliver et qui convertit le passant curieux en client.",
+      },
+      {
+        icon: Store,
+        title: "Commerces & Boutiques",
+        description:
+          "Artisans, commerçants, boutiques de quartier. Un site vitrine qui attire les clients locaux et renforce votre présence.",
+      },
+      {
+        icon: Briefcase,
+        title: "Professions libérales",
+        description:
+          "Avocats, consultants, coachs, thérapeutes. Un site qui pose votre expertise et rassure vos futurs clients.",
+      },
+      {
+        icon: Dumbbell,
+        title: "Salles de sport & Bien-être",
+        description:
+          "Studios, salles de sport, spas. Un site qui donne l'énergie de s'inscrire dès la première visite.",
+      },
+    ],
+    footerNote:
+      "Votre niche n'est pas listée ? On s'adapte. Chaque site est conçu pour votre métier spécifique.",
+  },
+
+  pricing: {
+    title: "Un site pro. Des tarifs clairs.",
+    subtitle: "3 packs clairs. Pas de surprise. Paiement en 3× possible.",
+    packs: [
+      {
+        name: "Essentiel",
+        price: "1 500 €",
+        tagline: "Un site vitrine complet et pro, prêt à convertir.",
+        features: [
+          "Site vitrine 3 pages",
+          "Design sur-mesure — zéro template",
+          "Responsive + animations",
+          "SEO de base",
+          "Connexion domaine",
+        ],
+        bonuses: ["Charte graphique", "Étude concurrentielle IA"],
+        subscription: "19 €/mois — 1er mois offert",
+        subscriptionNote:
+          "Hébergement, SSL, backups, monitoring, support 72h",
+        cta: { label: "Choisir l'Essentiel", href: "/v2/contact" },
+      },
+      {
+        name: "Croissance",
+        price: "1 900 €",
+        tagline: "Pour ceux qui veulent grandir. Le plus choisi.",
+        popular: true,
+        features: [
+          "Tout le pack Essentiel",
+          "Blog + 4 articles SEO/mois",
+          "SEO avancé (schema, maillage)",
+          "Pages multilingues FR/EN",
+        ],
+        bonuses: [
+          "Lead magnet intégré",
+          "Analyse de marché IA",
+          "Étude concurrentielle IA",
+        ],
+        subscription: "35 €/mois — 1er mois offert",
+        subscriptionNote:
+          "Plan 19 € + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
+        cta: { label: "Choisir Croissance", href: "/v2/contact" },
+      },
+      {
+        name: "Premium",
+        price: "3 200 €",
+        priceSuffix: "À partir de — sur devis",
+        tagline: "",
+        features: [
+          "Tout le pack Croissance",
+          "Chatbot IA personnalisé",
+          "Module d'avis clients",
+          "Formation visio 1h",
+        ],
+        bonuses: [
+          "Stratégie de croissance IA",
+          "Clientèles cibles IA",
+          "Crédits réseaux sociaux IA",
+        ],
+        subscription: "75 €/mois — 1er mois offert",
+        subscriptionNote:
+          "Plan 35 € + modifs illimitées, rapport SEO mensuel, support 12h",
+        cta: { label: "Choisir Premium", href: "/v2/contact" },
+      },
+    ],
+    paymentTerms: [
+      "Paiement 50% à la V1, solde à la livraison",
+      "Paiement en 3× possible",
+      "3 tours de révision inclus",
+      "1er mois d'abonnement offert",
+    ],
+  },
+
+  why: {
+    title: "Pourquoi Aurentia. Pas une autre agence.",
+    subtitle: "Trois raisons. Pas des slogans — des faits.",
+    items: [
+      {
+        icon: BrainCircuit,
+        title: "L'IA qui accélère tout",
+        description:
+          "Design, code, contenu, SEO — l'IA propulse chaque étape. Pas pour remplacer l'humain. Pour amplifier 20 ans d'expertise. Résultat : 72h au lieu de 6 semaines.",
+      },
+      {
+        icon: Code2,
+        title: "20 ans de craft web",
+        description:
+          "Fabien a forgé des centaines de sites. Il sait ce qui convertit, ce qui dure, ce qui illumine un business. L'IA est un outil. L'œil, c'est 20 ans d'expérience.",
+        ctaLabel: "En savoir plus sur l'équipe",
+        ctaHref: "/v2/agence/a-propos",
+      },
+      {
+        icon: HandCoins,
+        title: "On montre avant de facturer",
+        description:
+          "Votre site est construit AVANT le call. Vous voyez le résultat, vous jugez. Pas de mockup flou, pas de promesse en l'air. Vous décidez en toute connaissance.",
+      },
+    ],
+  },
+
+  faqExtended: [
+    {
+      question: "Combien coûte un site vitrine chez Aurentia ?",
+      answer:
+        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call — c'est gratuit et sans engagement.",
+    },
+    {
+      question: "Comment c'est possible de livrer en 72h ?",
+      answer:
+        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 20 ans valide chaque choix. On ne bâcle rien — notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
+    },
+    {
+      question: "Est-ce que vous utilisez des templates ?",
+      answer:
+        "Jamais. Chaque site est conçu sur-mesure pour votre activité, votre identité et vos objectifs. On part de zéro à chaque fois. C'est la seule façon de créer un site qui vous ressemble vraiment.",
+    },
+    {
+      question: "Le SEO est-il inclus ?",
+      answer:
+        "Oui, dans chaque site. Structure technique optimisée, balises méta, vitesse de chargement, responsive, données structurées. Votre site est prêt à être indexé et visible dès la mise en ligne.",
+    },
+    {
+      question:
+        "Je n'ai pas de contenu (textes, photos). Vous pouvez vous en charger ?",
+      answer:
+        "Oui. On rédige le contenu adapté à votre activité et optimisé SEO. Pour les photos, on peut utiliser des visuels professionnels ou vous accompagner pour un shooting. On s'occupe de tout.",
+    },
+    {
+      question: "Que se passe-t-il après la livraison ?",
+      answer:
+        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions — on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
+    },
+    {
+      question: "Quelles technologies utilisez-vous ?",
+      answer:
+        "Next.js, React, Tailwind CSS, hébergement Vercel. Ce sont les technologies des plus grandes startups mondiales. Votre site est rapide, sécurisé, et techniquement à la pointe.",
+    },
+    {
+      question:
+        "Je veux aussi un logo / une identité visuelle. C'est possible ?",
+      answer:
+        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 20 ans de direction créative derrière chaque projet.",
+    },
+  ],
+
+  finalCta: {
+    title: "Prêt à révéler votre business en ligne ?",
+    description:
+      "On prépare un aperçu de votre futur site AVANT le call. Vous voyez le résultat, vous jugez. Gratuit. 20 minutes. Sans engagement.",
+    cta: { label: "Réserver mon call découverte", href: "/v2/contact" },
+    bullets: [
+      "Gratuit et sans engagement",
+      "On vous montre VOTRE site",
+      "Livraison en 72h après validation",
+    ],
   },
 };

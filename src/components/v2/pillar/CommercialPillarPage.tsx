@@ -10,14 +10,26 @@ import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { RealisationCard } from "@/components/v2/shared/RealisationCard";
 import { TestimonialCard } from "@/components/v2/shared/TestimonialCard";
 import { DualCTA } from "@/components/v2/shared/DualCTA";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 type CommercialPillarPageProps = {
   data: CommercialPillarData;
 };
 
+const commercialPillarSubNavItems = [
+  { label: "Nos offres", sectionId: "offers" },
+  { label: "Pour qui", sectionId: "for-who" },
+  { label: "Méthode", sectionId: "method" },
+  { label: "Réalisations", sectionId: "realisations" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "cta" },
+];
+
 export function CommercialPillarPage({ data }: CommercialPillarPageProps) {
   return (
     <>
+      <SubNavSetter items={commercialPillarSubNavItems} />
       <PillarHero hero={data.hero} />
       <PillarStatsBanner stats={data.stats} />
       <PillarSubOffersGrid subOffers={data.subOffers} />
@@ -25,7 +37,7 @@ export function CommercialPillarPage({ data }: CommercialPillarPageProps) {
       <PillarMethod title={data.method.title} steps={data.method.steps} />
 
       {data.realisationsFiltered.length > 0 && (
-        <SectionContainer eyebrow="Réalisations" title="Quelques projets récents">
+        <SectionContainer id="realisations" eyebrow="Réalisations" title="Quelques projets récents">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {data.realisationsFiltered.map((r) => (
               <RealisationCard key={r.slug} realisation={r} />
@@ -36,6 +48,7 @@ export function CommercialPillarPage({ data }: CommercialPillarPageProps) {
 
       {data.testimonialsFiltered.length > 0 && (
         <SectionContainer
+          id="testimonials"
           eyebrow="Témoignages"
           title="Ils nous font confiance"
           className="bg-background-surface"
@@ -50,12 +63,12 @@ export function CommercialPillarPage({ data }: CommercialPillarPageProps) {
 
       <PillarFAQ items={data.faq} />
 
-      <SectionContainer alignHeader="center">
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            {data.finalCta.title}
-          </h2>
-          <p className="text-base text-foreground/70 md:text-lg">{data.finalCta.subtitle}</p>
+      <SectionContainer
+        id="cta"
+        title={data.finalCta.title}
+        subtitle={data.finalCta.subtitle}
+      >
+        <div className="flex justify-center">
           <DualCTA primary={data.finalCta.cta} size="lg" />
         </div>
       </SectionContainer>

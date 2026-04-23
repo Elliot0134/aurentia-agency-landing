@@ -22,10 +22,10 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
             src={member.image}
             alt={`Portrait de ${member.name}`}
             fill
-            className="object-contain object-bottom transition-transform duration-700 ease-in-out group-hover:scale-105"
+            className="object-contain object-bottom"
             sizes="100vw"
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background-surface to-transparent dark:from-[rgba(255,255,255,0.04)]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[rgba(255,255,255,0.04)] to-transparent opacity-0 dark:opacity-100" />
         </div>
 
         <div className="relative z-10 flex flex-col gap-3 p-5">
@@ -72,7 +72,7 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
 
       {/* ── Desktop: side-by-side with photo bleed ── */}
       <div
-        className="pointer-events-none absolute inset-0 hidden md:block"
+        className="pointer-events-none absolute inset-0 hidden opacity-0 md:block dark:opacity-100"
         style={{
           background: isEven
             ? "linear-gradient(to right, transparent 40%, color-mix(in srgb, var(--foreground) 10%, transparent) 60%, color-mix(in srgb, var(--foreground) 18%, transparent) 100%)"
@@ -89,13 +89,13 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
           src={member.image}
           alt={`Portrait de ${member.name}`}
           fill
-          className="object-contain object-bottom transition-transform duration-700 ease-in-out group-hover:scale-105"
+          className="object-contain object-bottom"
           sizes="55vw"
         />
       </div>
 
       <div
-        className="pointer-events-none absolute inset-0 hidden md:block"
+        className="pointer-events-none absolute inset-0 hidden opacity-0 md:block dark:opacity-100"
         style={{
           background: isEven
             ? "linear-gradient(to right, var(--color-background-surface) 0%, var(--color-background-surface) 25%, color-mix(in srgb, var(--color-background-surface) 80%, transparent) 40%, color-mix(in srgb, var(--color-background-surface) 30%, transparent) 55%, transparent 70%)"

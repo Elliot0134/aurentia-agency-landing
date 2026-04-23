@@ -16,7 +16,7 @@ import { AboutCTA } from "@/components/about/AboutCTA";
 export const metadata: Metadata = {
   title: "À propos d'Aurentia — Agence Web IA | Aurentia Agency",
   description:
-    "3 profils, 20 ans de craft web et l'IA comme superpouvoir. Découvrez l'équipe qui livre votre site pro en 48h à partir de 1 200€.",
+    "3 profils, 20 ans de craft web et l'IA comme superpouvoir. Découvrez l'équipe qui livre votre site pro en 72h à partir de 1 200€.",
   openGraph: {
     title: "L'équipe Aurentia — 20 ans de craft web + IA",
     description:
