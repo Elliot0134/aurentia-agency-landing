@@ -97,7 +97,6 @@ export default async function CaseStudyPage({
   if (!record) notFound();
   const project = record.frontmatter;
   const related = getRelatedProjects(project.slug, 3);
-  const secteurLabel = secteurs[project.secteur]?.label ?? project.secteur;
 
   const mdxSource = prepareMdxSource(record.mdxSource);
 
@@ -118,9 +117,6 @@ export default async function CaseStudyPage({
           <CaseStudyHero project={project} />
 
           <article className="flex flex-col gap-6 text-base text-foreground/80">
-            <p className="text-sm uppercase tracking-wide text-foreground/50">
-              {project.type} — {secteurLabel} — {project.city} — {project.year}
-            </p>
             <div className="max-w-3xl">
               <MDXRemote
                 source={mdxSource}

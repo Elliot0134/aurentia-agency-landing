@@ -73,64 +73,30 @@ export function CaseStudyRail({ project, className, onNavigate }: Props) {
   };
 
   return (
-    <aside className={cn("flex flex-col gap-8 text-sm", className)}>
-      <div className="flex flex-col gap-3">
+    <aside className={cn("flex flex-col gap-5 text-sm", className)}>
+      <div className="flex flex-col gap-2">
         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent-primary">
           Étude de cas
         </p>
-        <h2 className="font-heading text-2xl leading-tight text-foreground">
+        <h2 className="font-heading text-lg leading-tight text-foreground">
           {project.name}
         </h2>
+        <p className="text-sm text-foreground/60">
+          {project.type} · {secteurLabel} · {project.year}
+        </p>
+        {project.liveUrl && (
+          <Link
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 inline-flex w-fit items-center gap-1 text-sm text-foreground underline underline-offset-4 transition-colors duration-500 ease-in-out hover:text-accent-primary"
+          >
+            Voir le site ↗
+          </Link>
+        )}
       </div>
 
-      <dl className="grid grid-cols-1 gap-4 text-sm">
-        <div className="flex flex-col gap-1">
-          <dt className="text-sm uppercase tracking-wide text-foreground/50">
-            Type
-          </dt>
-          <dd className="text-sm text-foreground">{project.type}</dd>
-        </div>
-        <div className="flex flex-col gap-1">
-          <dt className="text-sm uppercase tracking-wide text-foreground/50">
-            Secteur
-          </dt>
-          <dd className="text-sm text-foreground">{secteurLabel}</dd>
-        </div>
-        <div className="flex flex-col gap-1">
-          <dt className="text-sm uppercase tracking-wide text-foreground/50">
-            Année
-          </dt>
-          <dd className="text-sm text-foreground">{project.year}</dd>
-        </div>
-        <div className="flex flex-col gap-1">
-          <dt className="text-sm uppercase tracking-wide text-foreground/50">
-            Durée
-          </dt>
-          <dd className="text-sm text-foreground">{project.duration}</dd>
-        </div>
-        {project.liveUrl && (
-          <div className="flex flex-col gap-1">
-            <dt className="text-sm uppercase tracking-wide text-foreground/50">
-              Live
-            </dt>
-            <dd className="text-sm">
-              <Link
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground underline underline-offset-4 transition-colors duration-500 ease-in-out hover:text-accent-primary"
-              >
-                Voir le site
-              </Link>
-            </dd>
-          </div>
-        )}
-      </dl>
-
-      <nav className="flex flex-col gap-1 border-l border-foreground/10 pl-4">
-        <p className="mb-2 text-sm uppercase tracking-wide text-foreground/50">
-          Sommaire
-        </p>
+      <nav className="flex flex-col gap-0 border-l border-foreground/10">
         {CASE_STUDY_SECTIONS.map((section) => {
           const isActive = active === section.id;
           return (
@@ -139,10 +105,10 @@ export function CaseStudyRail({ project, className, onNavigate }: Props) {
               href={`#${section.id}`}
               onClick={(e) => handleAnchorClick(e, section.id)}
               className={cn(
-                "relative -ml-4 border-l-2 pl-4 py-1.5 text-sm transition-all duration-500 ease-in-out",
+                "-ml-px border-l-2 py-1.5 pl-4 text-sm transition-all duration-500 ease-in-out",
                 isActive
                   ? "border-foreground text-foreground"
-                  : "border-transparent text-foreground/60 hover:text-foreground hover:border-foreground/30",
+                  : "border-transparent text-foreground/60 hover:border-foreground/30 hover:text-foreground",
               )}
             >
               {section.label}
