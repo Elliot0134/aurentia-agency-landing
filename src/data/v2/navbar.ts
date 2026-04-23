@@ -35,11 +35,15 @@ export const navbarConfig: NavbarConfig = {
       ],
     },
     {
+      label: "Réalisations",
+      href: "/v2/realisations",
+    },
+    {
       label: "L'agence",
       href: "/v2/agence",
       children: [
         { label: "À propos", href: "/v2/agence/a-propos", description: "Équipe, méthode, manifeste" },
-        { label: "Réalisations", href: "/v2/agence", description: "Bientôt — cas clients détaillés" },
+        { label: "Réalisations", href: "/v2/realisations", description: "Nos cas clients détaillés" },
         { label: "Le blog", href: "/v2/agence", description: "Bientôt — articles et tendances" },
         { label: "Ressources", href: "/v2/agence", description: "Bientôt — guides, templates, outils" },
         { label: "Affiliation", href: "/v2/agence", description: "Bientôt — 10% sur chaque projet recommandé" },

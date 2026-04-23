@@ -25,7 +25,7 @@ export const footerConfig: FooterConfig = {
       title: "L'agence",
       links: [
         { label: "À propos", href: "/v2/agence/a-propos" },
-        { label: "Réalisations", href: "/v2/agence" },
+        { label: "Réalisations", href: "/v2/realisations" },
         { label: "Blog", href: "/v2/agence" },
         { label: "Ressources", href: "/v2/agence" },
         { label: "Affiliation", href: "/v2/agence" },

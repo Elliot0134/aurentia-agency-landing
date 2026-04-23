@@ -4,6 +4,9 @@
   "private": true,
   "packageManager": "pnpm@10.26.2",
   "scripts": {
+    "generate:realisations": "node scripts/generate-realisations-static.mjs",
+    "predev": "pnpm run generate:realisations",
+    "prebuild": "pnpm run generate:realisations",
     "dev": "next dev",
     "dev:turbo": "NEXT_TURBOPACK_PERSISTENT_CACHING=false next dev --turbopack",
     "build": "next build",
