@@ -283,7 +283,7 @@ export function HomePortfolio() {
       <BlurReveal delay={0.3}>
         <div className="flex justify-center mt-12">
           <Link
-            href="/realisations"
+            href="/v2/realisations"
             className="inline-flex items-center gap-2 text-base font-medium text-background bg-foreground hover:bg-foreground/90 px-6 py-3 rounded-lg transition-all duration-500 group/cta"
           >
             Voir nos réalisations

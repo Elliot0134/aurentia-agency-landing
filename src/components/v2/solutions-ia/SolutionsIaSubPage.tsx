@@ -1,0 +1,84 @@
+// src/components/v2/solutions-ia/SolutionsIaSubPage.tsx
+"use client";
+
+import type { SubPageData } from "@/data/v2/types";
+import { solutionsIaConfigClaudeData } from "@/data/v2/solutions-ia-config-claude";
+import { solutionsIaFormationData } from "@/data/v2/solutions-ia-formation";
+import { solutionsIaAuditData } from "@/data/v2/solutions-ia-audit";
+import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
+import { WhatYouGetSection } from "@/components/v2/shared/WhatYouGetSection";
+import { PricingSection } from "@/components/v2/shared/PricingSection";
+import { MethodSection } from "@/components/v2/shared/MethodSection";
+import { ExamplesGrid } from "@/components/v2/shared/ExamplesGrid";
+import { TestimonialsMarquee } from "@/components/v2/shared/TestimonialsMarquee";
+import { FAQSection } from "@/components/v2/shared/FAQSection";
+import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { SubNavSetter } from "@/components/shared/SubNavContext";
+
+const DATA_MAP: Record<string, SubPageData> = {
+  "configuration-claude": solutionsIaConfigClaudeData,
+  "formation-ia": solutionsIaFormationData,
+  audit: solutionsIaAuditData,
+};
+
+const SUB_NAV = [
+  { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Méthode", sectionId: "method" },
+  { label: "Exemples", sectionId: "examples" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "contact" },
+];
+
+export function SolutionsIaSubPage({ slug }: { slug: string }) {
+  const data = DATA_MAP[slug];
+  if (!data) return null;
+
+  return (
+    <>
+      <SubNavSetter items={SUB_NAV} />
+
+      <PageHeroCentered
+        eyebrow={data.hero.eyebrow}
+        headline={data.hero.headline}
+        subHeadline={data.hero.subHeadline}
+        priceFrom={data.hero.priceFrom}
+        badges={data.hero.badges}
+        cta={data.hero.cta}
+      />
+
+      <WhatYouGetSection
+        data={data.whatYouGet}
+        subtitle="Pas de surprise — voici exactement ce que vous recevez."
+      />
+
+      <PricingSection data={data.pricing} />
+
+      <MethodSection
+        title="Comment on travaille"
+        subtitle="Un processus simple et transparent. Vous savez toujours où en est votre mission."
+        steps={data.process}
+      />
+
+      {data.examples.items.length > 0 && (
+        <ExamplesGrid
+          data={data.examples}
+          subtitle="Des missions récentes pour des équipes qui bougent."
+        />
+      )}
+
+      {data.testimonials.length > 0 && (
+        <TestimonialsMarquee
+          testimonials={data.testimonials}
+          title="Ils ont vu la différence en quelques semaines"
+          subtitle="Des retours concrets de dirigeants et d'équipes qu'on a accompagnés."
+        />
+      )}
+
+      <FAQSection items={data.faq} />
+
+      <HomeContactV2 />
+    </>
+  );
+}

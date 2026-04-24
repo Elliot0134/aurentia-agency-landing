@@ -1,6 +1,7 @@
 "use client";
 
-import { MessageSquare, Pencil, Paintbrush, Headphones } from "lucide-react";
+import Link from "next/link";
+import { MessageSquare, Pencil, Paintbrush, Headphones, ArrowRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
@@ -75,6 +76,15 @@ export function HomeMethodV2() {
             </BlurReveal>
           );
         })}
+      </div>
+      <div className="mt-12 flex justify-center">
+        <Link
+          href="#rdv-embed"
+          className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+        >
+          Réserver un appel
+          <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+        </Link>
       </div>
     </SectionContainer>
   );

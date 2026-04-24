@@ -13,7 +13,6 @@ import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
 import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
-import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
 import { HomeBlogPreview } from "@/components/v2/home/HomeBlogPreview";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
@@ -31,7 +30,6 @@ const subNavItems = [
   { label: "Méthode", sectionId: "method" },
   { label: "Blog", sectionId: "blog" },
   { label: "FAQ", sectionId: "faq" },
-  { label: "Contact", sectionId: "contact" },
 ];
 
 if (typeof window !== "undefined") {
@@ -97,11 +95,9 @@ export default function HomeV2() {
         <SectionDivider />
         <HomeBlogPreview />
         <SectionDivider />
-        <HomeBookingEmbed />
-        <SectionDivider />
         <HomeFAQV2 />
         <SectionDivider />
-        <HomeContactV2 />
+        <HomeBookingEmbed />
       </div>
     </>
   );

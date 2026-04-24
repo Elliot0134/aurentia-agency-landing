@@ -26,7 +26,7 @@ export const homeData: HomeData = {
     subHeadline:
       "Agence tech full-stack à Avignon. On conçoit, on code, on livre — du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
     cta: {
-      primary: { label: "Discutons de votre projet", href: "/v2/contact" },
+      primary: { label: "Discutons de votre projet", href: "#rdv-embed" },
       secondary: { label: "Voir nos offres", href: "#pillars" },
     },
   },
@@ -288,7 +288,7 @@ export const homeData: HomeData = {
     ],
     cta: {
       label: "Réserver un créneau",
-      href: "https://cal.com/aurentia-agency",
+      href: "#rdv-embed",
     },
   },
   contactCta: {

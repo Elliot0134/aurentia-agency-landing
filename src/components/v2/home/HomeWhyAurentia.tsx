@@ -1,5 +1,7 @@
 // src/components/v2/home/HomeWhyAurentia.tsx
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card } from "@/components/v2/shared/Card";
@@ -40,6 +42,15 @@ export function HomeWhyAurentia() {
             </Card>
           );
         })}
+      </div>
+      <div className="mt-12 flex justify-center">
+        <Link
+          href="#rdv-embed"
+          className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+        >
+          Réserver un appel
+          <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+        </Link>
       </div>
     </SectionContainer>
   );
