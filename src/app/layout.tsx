@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Plus_Jakarta_Sans, JetBrains_Mono, Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { LenisProvider } from "@/components/animations/LenisProvider";
-import { CustomCursor } from "@/components/animations/CustomCursor";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
-import { SplashWrapper } from "@/components/animations/SplashWrapper";
 import { ScrollToTop } from "@/components/animations/ScrollToTop";
-import { Navbar } from "@/components/layout/Navbar";
-import { FloatingCTA } from "@/components/shared/FloatingCTA";
+import { SplashWrapper } from "@/components/animations/SplashWrapper";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { SubNavProvider } from "@/components/shared/SubNavContext";
+import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
+import { FooterV2 } from "@/components/v2/layout/FooterV2";
+import { ChatbotWidget } from "@/components/v2/chatbot/ChatbotWidget";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-inter",
@@ -45,7 +45,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aurentia — Agence web premium à Avignon | Sites vitrines & SaaS en 72h",
+  title: {
+    default: "Aurentia — Agence web premium à Avignon | Sites vitrines & SaaS en 72h",
+    template: "%s | Aurentia Agency",
+  },
   description:
     "Agence web premium. Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, développement Next.js, SEO intégré. Livré en 72h à 2 semaines.",
   keywords: [
@@ -67,7 +70,8 @@ export const metadata: Metadata = {
     url: "https://aurentia.agency",
     siteName: "Aurentia",
     title: "Aurentia — Agence web premium à Avignon",
-    description: "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 72h.",
+    description:
+      "Sites vitrines, landing pages et applications SaaS sur-mesure. Design premium, livré en 72h.",
     images: [
       {
         url: "https://aurentia.agency/images/opengraph/opengraph.png",
@@ -89,15 +93,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="fr"
-      className={cn(plusJakarta.variable, jetbrainsMono.variable, recoleta.variable, "font-sans", geist.variable)}
+      className={cn(
+        plusJakarta.variable,
+        jetbrainsMono.variable,
+        recoleta.variable,
+        "font-sans",
+        geist.variable,
+      )}
       suppressHydrationWarning
     >
       <head>
@@ -113,7 +119,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
               name: "Aurentia",
-              description: "Agence web premium — Sites vitrines, landing pages et applications SaaS sur-mesure",
+              description:
+                "Agence web premium — Sites vitrines, landing pages et applications SaaS sur-mesure",
               url: "https://aurentia.agency",
               logo: "https://aurentia.agency/logo.png",
               address: {
@@ -134,15 +141,13 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ThemeProvider>
           <SubNavProvider>
-            <LenisProvider>
-              <ScrollToTop />
-              <CustomCursor />
-              <ScrollProgress />
-              <Navbar />
-              <SplashWrapper />
-              <FloatingCTA />
-              {children}
-            </LenisProvider>
+            <ScrollToTop />
+            <ScrollProgress />
+            <NavbarV2 />
+            <SplashWrapper />
+            <main className="flex flex-col">{children}</main>
+            <FooterV2 />
+            <ChatbotWidget />
           </SubNavProvider>
         </ThemeProvider>
       </body>

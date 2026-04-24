@@ -1,13 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 
 export function ScrollToTop() {
-  const pathname = usePathname();
-  const isV2 = pathname?.startsWith("/v2") ?? false;
-
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -46,7 +42,6 @@ export function ScrollToTop() {
     }, 700); // matches the CSS transition duration
   }, [fading]);
 
-  if (isV2) return null;
   if (!show) return null;
 
   return (

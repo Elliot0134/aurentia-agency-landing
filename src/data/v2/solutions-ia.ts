@@ -1,4 +1,4 @@
-// src/data/v2/solutions-ia.ts
+// src/data/solutions-ia.ts
 // DRAFT_COPY — to refine before swap
 // NOTE: stats are plausible placeholders.
 import {
@@ -33,13 +33,13 @@ export const solutionsIaData: CommercialPillarData = {
     cta: {
       primary: {
         label: "Discutons de votre besoin IA",
-        href: "/v2/contact",
+        href: "/contact",
       },
       secondary: { label: "Voir les offres", href: "#sub-offers" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/solutions-ia/hero.jpg",
+      src: "/images/solutions-ia/hero.jpg",
       alt: "Illustration solutions IA Aurentia",
     },
   },
@@ -59,7 +59,7 @@ export const solutionsIaData: CommercialPillarData = {
         pitch:
           "On forme votre équipe à utiliser Claude, les skills et les agents IA pour 5× leur productivité.",
         priceFrom: "990 €",
-        href: "/v2/solutions-ia/formation-ia",
+        href: "/solutions-ia/formation-ia",
       },
       {
         icon: Settings,
@@ -67,7 +67,7 @@ export const solutionsIaData: CommercialPillarData = {
         pitch:
           "On paramètre Claude Code pour votre stack : CLAUDE.md, hooks, skills, MCP servers. Tout opérationnel.",
         priceFrom: "1 500 €",
-        href: "/v2/solutions-ia/configuration-claude",
+        href: "/solutions-ia/configuration-claude",
       },
       {
         icon: Lightbulb,
@@ -75,7 +75,7 @@ export const solutionsIaData: CommercialPillarData = {
         pitch:
           "On analyse vos process et on identifie les leviers IA à fort ROI. Roadmap 90 jours en sortie.",
         priceFrom: "990 €",
-        href: "/v2/solutions-ia/audit",
+        href: "/solutions-ia/audit",
       },
       {
         icon: BrainCircuit,
@@ -83,7 +83,7 @@ export const solutionsIaData: CommercialPillarData = {
         pitch:
           "On développe et déploie des skills IA custom dans votre stack. Intégrations, formation, support inclus.",
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/implementation-ia",
+        href: "/solutions-ia/implementation-ia",
       },
     ],
   },
@@ -156,8 +156,8 @@ export const solutionsIaData: CommercialPillarData = {
       client: "Cabinet Conseil",
       pillar: "solutions-ia",
       resultKpi: "−65% temps de réponse client",
-      imageUrl: "/images/v2/realisations/solutions-ia-1.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/solutions-ia-1.jpg",
+      href: "/agence",
     },
     {
       slug: "formation-pme-industrie",
@@ -165,8 +165,8 @@ export const solutionsIaData: CommercialPillarData = {
       client: "Groupe Meca",
       pillar: "solutions-ia",
       resultKpi: "+40% de productivité équipe",
-      imageUrl: "/images/v2/realisations/solutions-ia-2.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/solutions-ia-2.jpg",
+      href: "/agence",
     },
   ],
   testimonialsFiltered: [
@@ -225,6 +225,6 @@ export const solutionsIaData: CommercialPillarData = {
     title: "On audite votre stack IA cette semaine ?",
     subtitle:
       "30 minutes au téléphone pour identifier vos priorités IA et chiffrer un plan d'action.",
-    cta: { label: "Réserver l'audit", href: "/v2/contact" },
+    cta: { label: "Réserver l'audit", href: "/contact" },
   },
 };

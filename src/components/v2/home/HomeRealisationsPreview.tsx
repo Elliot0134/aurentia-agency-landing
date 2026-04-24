@@ -14,7 +14,7 @@ export function HomeRealisationsPreview() {
       <BlurReveal delay={0.3}>
         <div className="mt-12 flex justify-center">
           <Link
-            href="/v2/realisations"
+            href="/realisations"
             className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:bg-foreground/90 group/cta"
           >
             Voir nos réalisations

@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Footer } from "@/components/layout/Footer";
 import { ComingSoon } from "@/components/shared/ComingSoon";
 
 export const metadata: Metadata = {
@@ -16,7 +15,6 @@ export default function BlogPage() {
           description="Nos articles sur le web, l'IA et le digital arrivent bientôt."
         />
       </main>
-      <Footer />
     </>
   );
 }

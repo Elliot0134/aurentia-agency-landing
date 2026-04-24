@@ -1,4 +1,4 @@
-// src/components/v2/sites-web/SitesWebRealisations.tsx
+// src/components/sites-web/SitesWebRealisations.tsx
 "use client";
 
 import Link from "next/link";
@@ -100,7 +100,7 @@ export function SitesWebRealisations({ items }: SitesWebRealisationsProps) {
       <BlurReveal delay={0.3}>
         <div className="mt-12 flex justify-center">
           <Link
-            href="/v2/realisations"
+            href="/realisations"
             className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:gap-3 hover:bg-foreground/90"
           >
             Voir toutes nos réalisations

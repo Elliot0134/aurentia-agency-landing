@@ -1,4 +1,4 @@
-// src/data/v2/solutions-ia-audit.ts
+// src/data/solutions-ia-audit.ts
 // DRAFT_COPY — to refine before swap
 import {
   Target,
@@ -27,12 +27,12 @@ export const solutionsIaAuditData: SubPageData = {
       { label: "Roadmap chiffrée", icon: Target },
     ],
     cta: {
-      primary: { label: "Demander l'audit", href: "/v2/contact" },
+      primary: { label: "Demander l'audit", href: "/contact" },
       secondary: { label: "Voir les formats", href: "#pricing" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/solutions-ia/audit-hero.jpg",
+      src: "/images/solutions-ia/audit-hero.jpg",
       alt: "Audit IA Aurentia livrables",
     },
   },
@@ -114,7 +114,7 @@ export const solutionsIaAuditData: SubPageData = {
           "Rapport synthétique 5 pages",
           "Appel de restitution de 30 min",
         ],
-        cta: { label: "Choisir Express", href: "/v2/contact" },
+        cta: { label: "Choisir Express", href: "/contact" },
       },
       {
         name: "Audit Approfondi",
@@ -131,7 +131,7 @@ export const solutionsIaAuditData: SubPageData = {
           "Rapport PDF complet (20+ pages)",
           "2 semaines de questions/réponses post-livraison",
         ],
-        cta: { label: "Choisir Approfondi", href: "/v2/contact" },
+        cta: { label: "Choisir Approfondi", href: "/contact" },
       },
     ],
     note: "L'audit est souvent déductible du budget d'une mission d'implémentation IA ultérieure chez Aurentia.",
@@ -141,23 +141,23 @@ export const solutionsIaAuditData: SubPageData = {
     items: [
       {
         title: "Groupe Meca — PME industrielle",
-        imageUrl: "/images/v2/solutions-ia/audit-meca.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/audit-meca.jpg",
+        href: "/agence",
       },
       {
         title: "Cabinet Meridian — cabinet d'expertise",
-        imageUrl: "/images/v2/solutions-ia/audit-meridian.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/audit-meridian.jpg",
+        href: "/agence",
       },
       {
         title: "Fable Studio — agence contenu",
-        imageUrl: "/images/v2/solutions-ia/audit-fable.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/audit-fable.jpg",
+        href: "/agence",
       },
       {
         title: "Pulsio — équipe produit SaaS",
-        imageUrl: "/images/v2/solutions-ia/audit-pulsio.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/audit-pulsio.jpg",
+        href: "/agence",
       },
     ],
   },
@@ -217,6 +217,6 @@ export const solutionsIaAuditData: SubPageData = {
     title: "On fait votre audit ce mois-ci ?",
     subtitle:
       "30 minutes d'appel pour cadrer le format et le planning.",
-    cta: { label: "Réserver l'audit", href: "/v2/contact" },
+    cta: { label: "Réserver l'audit", href: "/contact" },
   },
 };

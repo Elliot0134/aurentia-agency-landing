@@ -1,5 +1,5 @@
-import type { Prize } from "@/components/home/easterEggData";
-import type { ShowcaseItem } from "@/components/home/SecretSlotMachine3D";
+import type { Prize } from "./easterEggData";
+import type { ShowcaseItem } from "./SecretSlotMachine3D";
 
 /* ─────────────────────────────────────────────
    Prizes — /v2/saas

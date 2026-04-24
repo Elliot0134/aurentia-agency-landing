@@ -1,4 +1,4 @@
-// src/data/v2/sites-web-formules.ts
+// src/data/sites-web-formules.ts
 import { FileText, Globe, ShoppingBag, Layers } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -35,8 +35,8 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Site vitrine Maison Enileh",
     },
     proof: "200+ sites livrés depuis 2019",
-    href: "/v2/sites-web/site-vitrine",
-    rdvHref: "/v2/contact",
+    href: "/sites-web/site-vitrine",
+    rdvHref: "/contact",
   },
   {
     slug: "landing-page",
@@ -56,8 +56,8 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Landing page Comparateur IA Facile",
     },
     proof: "12+ landings livrées cette année",
-    href: "/v2/sites-web/landing-page",
-    rdvHref: "/v2/contact",
+    href: "/sites-web/landing-page",
+    rdvHref: "/contact",
   },
   {
     slug: "e-commerce",
@@ -77,8 +77,8 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Boutique en ligne AlloRestau",
     },
     proof: "Intégration Stripe, Shopify, Supabase",
-    href: "/v2/sites-web/e-commerce",
-    rdvHref: "/v2/contact",
+    href: "/sites-web/e-commerce",
+    rdvHref: "/contact",
   },
   {
     slug: "sur-mesure",
@@ -98,7 +98,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Projet sur-mesure Friendiz",
     },
     proof: "SaaS, marketplaces, apps internes",
-    href: "/v2/contact",
-    rdvHref: "/v2/contact",
+    href: "/contact",
+    rdvHref: "/contact",
   },
 ];

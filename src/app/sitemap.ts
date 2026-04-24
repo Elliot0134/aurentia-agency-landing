@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${baseUrl}/v2/realisations`,
+      url: `${baseUrl}/realisations`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Case studies
   for (const project of getAllProjectFrontmatter()) {
     entries.push({
-      url: `${baseUrl}/v2/realisations/${project.slug}`,
+      url: `${baseUrl}/realisations/${project.slug}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: project.featured ? 0.9 : 0.7,
@@ -47,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       projects.length >= 1;
     if (!indexable) continue;
     entries.push({
-      url: `${baseUrl}/v2/realisations/secteur/${secteur.slug}`,
+      url: `${baseUrl}/realisations/secteur/${secteur.slug}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,

@@ -1,4 +1,4 @@
-// src/components/v2/sites-web/SitesWebServicesV2.tsx
+// src/components/sites-web/SitesWebServicesV2.tsx
 "use client";
 
 import { useCallback, useEffect, useRef, type ComponentType } from "react";
@@ -27,7 +27,7 @@ const OFFERS: Offer[] = [
     desc: "Présence pro pour TPE, artisans, commerces. SEO, responsive, rapide.",
     tags: ["SEO", "Responsive", "Animations", "Sur-mesure"],
     priceFrom: "1 200 €",
-    href: "/v2/sites-web/site-vitrine",
+    href: "/sites-web/site-vitrine",
     Visual: VitrineMockup,
   },
   {
@@ -35,7 +35,7 @@ const OFFERS: Offer[] = [
     desc: "Une page, un objectif. Pages haute conversion pour startups et SaaS.",
     tags: ["Conversion", "A/B Testing", "Analytics", "Performance"],
     priceFrom: "1 500 €",
-    href: "/v2/sites-web/landing-page",
+    href: "/sites-web/landing-page",
     Visual: LandingMockup,
   },
 ];
@@ -116,7 +116,7 @@ export function SitesWebServicesV2() {
 
       <div className="mt-8 flex items-center justify-center md:mt-10">
         <Link
-          href="/v2/contact"
+          href="/contact"
           className="group inline-flex items-center gap-2 text-sm font-medium text-foreground transition-all duration-500 ease-in-out hover:gap-3"
         >
           Besoin d&apos;un site sur-mesure{" "}

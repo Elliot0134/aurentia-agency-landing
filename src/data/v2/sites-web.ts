@@ -1,4 +1,4 @@
-// src/data/v2/sites-web.ts
+// src/data/sites-web.ts
 // Content sourced from live /sites-vitrines page
 import {
   Globe,
@@ -111,12 +111,12 @@ export const sitesWebData: CommercialPillarData = {
       { label: "Dès 1 500 €", icon: Sparkles },
     ],
     cta: {
-      primary: { label: "Réserver mon call découverte", href: "/v2/contact" },
+      primary: { label: "Réserver mon call découverte", href: "/contact" },
       secondary: { label: "Voir les tarifs", href: "#pricing" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/sites-web/hero.jpg",
+      src: "/images/sites-web/hero.jpg",
       alt: "Aperçus de sites livrés par Aurentia",
     },
   },
@@ -136,7 +136,7 @@ export const sitesWebData: CommercialPillarData = {
         pitch:
           "Pour présenter votre activité, générer de la confiance et capter des leads locaux.",
         priceFrom: "1 500 €",
-        href: "/v2/sites-web/site-vitrine",
+        href: "/sites-web/site-vitrine",
       },
       {
         icon: FileText,
@@ -144,7 +144,7 @@ export const sitesWebData: CommercialPillarData = {
         pitch:
           "Pour pousser une offre, un produit ou une levée — taux de conversion maximisé.",
         priceFrom: "1 500 €",
-        href: "/v2/sites-web/landing-page",
+        href: "/sites-web/landing-page",
       },
     ],
   },
@@ -298,7 +298,7 @@ export const sitesWebData: CommercialPillarData = {
     title: "Prêt à révéler votre business en ligne ?",
     subtitle:
       "On prépare un aperçu de votre futur site AVANT le call. Vous voyez le résultat, vous jugez. Gratuit. 20 minutes. Sans engagement.",
-    cta: { label: "Réserver mon call découverte", href: "/v2/contact" },
+    cta: { label: "Réserver mon call découverte", href: "/contact" },
   },
 };
 
@@ -414,7 +414,7 @@ export const sitesWebExtra: SitesWebExtra = {
         subscription: "19 €/mois — 1er mois offert",
         subscriptionNote:
           "Hébergement, SSL, backups, monitoring, support 72h",
-        cta: { label: "Choisir l'Essentiel", href: "/v2/contact" },
+        cta: { label: "Choisir l'Essentiel", href: "/contact" },
       },
       {
         name: "Croissance",
@@ -435,7 +435,7 @@ export const sitesWebExtra: SitesWebExtra = {
         subscription: "35 €/mois — 1er mois offert",
         subscriptionNote:
           "Plan 19 € + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
-        cta: { label: "Choisir Croissance", href: "/v2/contact" },
+        cta: { label: "Choisir Croissance", href: "/contact" },
       },
       {
         name: "Premium",
@@ -456,7 +456,7 @@ export const sitesWebExtra: SitesWebExtra = {
         subscription: "75 €/mois — 1er mois offert",
         subscriptionNote:
           "Plan 35 € + modifs illimitées, rapport SEO mensuel, support 12h",
-        cta: { label: "Choisir Premium", href: "/v2/contact" },
+        cta: { label: "Choisir Premium", href: "/contact" },
       },
     ],
     paymentTerms: [
@@ -483,7 +483,7 @@ export const sitesWebExtra: SitesWebExtra = {
         description:
           "Fabien a forgé des centaines de sites. Il sait ce qui convertit, ce qui dure, ce qui illumine un business. L'IA est un outil. L'œil, c'est 20 ans d'expérience.",
         ctaLabel: "En savoir plus sur l'équipe",
-        ctaHref: "/v2/agence/a-propos",
+        ctaHref: "/agence/a-propos",
       },
       {
         icon: HandCoins,
@@ -543,7 +543,7 @@ export const sitesWebExtra: SitesWebExtra = {
     title: "Prêt à révéler votre business en ligne ?",
     description:
       "On prépare un aperçu de votre futur site AVANT le call. Vous voyez le résultat, vous jugez. Gratuit. 20 minutes. Sans engagement.",
-    cta: { label: "Réserver mon call découverte", href: "/v2/contact" },
+    cta: { label: "Réserver mon call découverte", href: "/contact" },
     bullets: [
       "Gratuit et sans engagement",
       "On vous montre VOTRE site",

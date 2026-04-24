@@ -1,4 +1,4 @@
-// src/data/v2/home.ts
+// src/data/home.ts
 // DRAFT_COPY — to refine before swap
 // NOTE: client counts, satisfaction scores and realisation KPIs are plausible
 // placeholders — to be replaced with real data before launch.
@@ -33,12 +33,12 @@ export const homeData: HomeData = {
   logoStrip: {
     label: "Ils nous font confiance",
     logos: [
-      { name: "Client A", src: "/images/v2/logos/client-a.svg" },
-      { name: "Client B", src: "/images/v2/logos/client-b.svg" },
-      { name: "Client C", src: "/images/v2/logos/client-c.svg" },
-      { name: "Client D", src: "/images/v2/logos/client-d.svg" },
-      { name: "Client E", src: "/images/v2/logos/client-e.svg" },
-      { name: "Client F", src: "/images/v2/logos/client-f.svg" },
+      { name: "Client A", src: "/images/logos/client-a.svg" },
+      { name: "Client B", src: "/images/logos/client-b.svg" },
+      { name: "Client C", src: "/images/logos/client-c.svg" },
+      { name: "Client D", src: "/images/logos/client-d.svg" },
+      { name: "Client E", src: "/images/logos/client-e.svg" },
+      { name: "Client F", src: "/images/logos/client-f.svg" },
     ],
   },
   pillars: {
@@ -51,7 +51,7 @@ export const homeData: HomeData = {
         pitch:
           "Sites vitrines et landing pages livrés en jours grâce à l'IA",
         priceFrom: "1 200 €",
-        href: "/v2/sites-web",
+        href: "/sites-web",
       },
       {
         icon: Code2,
@@ -59,7 +59,7 @@ export const homeData: HomeData = {
         pitch:
           "MVP fonctionnel en 1 à 2 semaines, architecture pro, IA intégrée",
         priceFrom: "5 000 €",
-        href: "/v2/saas",
+        href: "/saas",
       },
       {
         icon: BrainCircuit,
@@ -67,7 +67,7 @@ export const homeData: HomeData = {
         pitch:
           "Formations, configuration Claude, audits et skills custom déployés chez vous",
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia",
+        href: "/solutions-ia",
       },
     ],
   },
@@ -120,8 +120,8 @@ export const homeData: HomeData = {
       client: "Atelier Marie",
       pillar: "sites-web",
       resultKpi: "+340% trafic organique",
-      imageUrl: "/images/v2/realisations/realisation-1.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/realisation-1.jpg",
+      href: "/agence",
     },
     {
       slug: "mvp-12-jours",
@@ -129,8 +129,8 @@ export const homeData: HomeData = {
       client: "Startup B2B",
       pillar: "saas",
       resultKpi: "12 jours · 0 → 100 utilisateurs",
-      imageUrl: "/images/v2/realisations/realisation-2.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/realisation-2.jpg",
+      href: "/agence",
     },
     {
       slug: "skill-claude-conseil",
@@ -138,8 +138,8 @@ export const homeData: HomeData = {
       client: "Cabinet Conseil",
       pillar: "solutions-ia",
       resultKpi: "−65% temps de réponse",
-      imageUrl: "/images/v2/realisations/realisation-3.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/realisation-3.jpg",
+      href: "/agence",
     },
   ],
   testimonials: [
@@ -215,7 +215,7 @@ export const homeData: HomeData = {
           "Retour d'expérience : les workflows, skills et automations qu'on a déployés en interne pour gagner 2 jours par semaine.",
         date: "2026-04-10",
         readingTime: "6 min",
-        imageUrl: "/images/v2/blog/blog-1.svg",
+        imageUrl: "/images/blog/blog-1.svg",
         href: "/blog/automatiser-40-pourcent-admin-avec-claude",
       },
       {
@@ -226,7 +226,7 @@ export const homeData: HomeData = {
           "Les 5 erreurs qu'on voit sur 8 sites sur 10 — et le plan concret pour les corriger sans tout refondre.",
         date: "2026-04-03",
         readingTime: "5 min",
-        imageUrl: "/images/v2/blog/blog-2.svg",
+        imageUrl: "/images/blog/blog-2.svg",
         href: "/blog/pourquoi-votre-site-ne-convertit-pas",
       },
       {
@@ -237,7 +237,7 @@ export const homeData: HomeData = {
           "Stack, découpage, choix techniques, outils IA : comment on livre un MVP fonctionnel en 2 semaines sans rogner sur la qualité.",
         date: "2026-03-27",
         readingTime: "8 min",
-        imageUrl: "/images/v2/blog/blog-3.svg",
+        imageUrl: "/images/blog/blog-3.svg",
         href: "/blog/mvp-en-12-jours-notre-methode",
       },
     ],
@@ -295,6 +295,6 @@ export const homeData: HomeData = {
     title: "Discutons de votre projet",
     subtitle:
       "Réponse en moins de 24h. Pas de SDR, pas de pitch — directement avec l'équipe technique.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+    cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };

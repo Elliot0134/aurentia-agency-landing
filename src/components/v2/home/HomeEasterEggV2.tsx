@@ -1,9 +1,9 @@
 // src/components/v2/home/HomeEasterEggV2.tsx
 "use client";
 
-import { HeroEasterEgg } from "@/components/home/HeroEasterEgg";
-import type { ShowcaseItem } from "@/components/home/SecretSlotMachine3D";
-import type { Prize } from "@/components/home/easterEggData";
+import { HeroEasterEgg } from "@/components/v2/easter-egg/HeroEasterEgg";
+import type { ShowcaseItem } from "@/components/v2/easter-egg/SecretSlotMachine3D";
+import type { Prize } from "@/components/v2/easter-egg/easterEggData";
 
 export interface HomeEasterEggV2Props {
   /** Override default prize pool (client-side display only). */

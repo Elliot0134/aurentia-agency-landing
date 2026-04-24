@@ -1,4 +1,4 @@
-// src/components/v2/sites-web/SitesWebFormulesHub.tsx
+// src/components/sites-web/SitesWebFormulesHub.tsx
 "use client";
 
 import Link from "next/link";
@@ -55,7 +55,7 @@ export function SitesWebFormulesHub() {
         <p className="mt-10 text-center text-sm text-foreground/60 md:text-base">
           Pas sûr de ce qu'il vous faut&nbsp;?{" "}
           <Link
-            href="/v2/contact"
+            href="/contact"
             className="font-semibold text-accent-primary underline-offset-4 transition-colors duration-500 ease-in-out hover:underline"
           >
             Prenez 20 min avec nous, on vous oriente gratuitement.

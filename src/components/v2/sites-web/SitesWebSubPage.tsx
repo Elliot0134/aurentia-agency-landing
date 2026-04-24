@@ -1,4 +1,4 @@
-// src/components/v2/sites-web/SitesWebSubPage.tsx
+// src/components/sites-web/SitesWebSubPage.tsx
 "use client";
 
 import Link from "next/link";
@@ -46,7 +46,7 @@ function ContextualHelpCTA() {
         <p className="text-sm text-foreground/60 md:text-base">
           Vous hésitez entre deux packs&nbsp;?{" "}
           <Link
-            href="/v2/contact"
+            href="/contact"
             className="inline-flex items-center gap-1 font-semibold text-accent-primary underline-offset-4 transition-colors duration-500 ease-in-out hover:underline"
           >
             20 min au téléphone, on vous oriente gratuitement.

@@ -1,4 +1,4 @@
-// src/data/v2/saas.ts
+// src/data/saas.ts
 // DRAFT_COPY — to refine before swap
 // NOTE: realisation KPIs and stats are plausible placeholders.
 import {
@@ -29,12 +29,12 @@ export const saasData: CommercialPillarData = {
       { label: "Architecture production", icon: ShieldCheck },
     ],
     cta: {
-      primary: { label: "Parler de mon SaaS", href: "/v2/contact" },
+      primary: { label: "Parler de mon SaaS", href: "/contact" },
       secondary: { label: "Voir ce qu'on construit", href: "#sub-offers" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/saas/hero.jpg",
+      src: "/images/saas/hero.jpg",
       alt: "Captures d'écran de SaaS livrés par Aurentia",
     },
   },
@@ -153,8 +153,8 @@ export const saasData: CommercialPillarData = {
       client: "Startup B2B",
       pillar: "saas",
       resultKpi: "12 jours · 0 → 100 utilisateurs",
-      imageUrl: "/images/v2/realisations/saas-1.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/saas-1.jpg",
+      href: "/agence",
     },
     {
       slug: "refonte-cabinet",
@@ -162,8 +162,8 @@ export const saasData: CommercialPillarData = {
       client: "Cabinet Meridian",
       pillar: "saas",
       resultKpi: "−60% temps de traitement dossier",
-      imageUrl: "/images/v2/realisations/saas-2.jpg",
-      href: "/v2/agence",
+      imageUrl: "/images/realisations/saas-2.jpg",
+      href: "/agence",
     },
   ],
   testimonialsFiltered: [
@@ -222,6 +222,6 @@ export const saasData: CommercialPillarData = {
     title: "On cadre votre MVP cette semaine ?",
     subtitle:
       "Un appel de 30 minutes suffit pour savoir ce qu'on peut livrer, quand, et pour combien.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+    cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };

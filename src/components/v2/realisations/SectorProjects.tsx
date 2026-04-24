@@ -23,7 +23,7 @@ export function SectorProjects({ secteur, projects }: Props) {
               réalisations.
             </p>
             <Link
-              href="/v2/realisations"
+              href="/realisations"
               className="inline-flex items-center gap-2 text-base font-semibold text-foreground transition-colors duration-500 ease-in-out hover:text-accent-primary"
             >
               Voir toutes les réalisations →

@@ -1,4 +1,4 @@
-// src/components/v2/home/HomeBookingEmbed.tsx
+// src/components/home/HomeBookingEmbed.tsx
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -55,7 +55,7 @@ export function HomeBookingEmbed() {
             <p className="mt-5 text-base text-white/80 md:text-lg">
               Ou écrivez-nous via le{" "}
               <Link
-                href="/v2/contact"
+                href="/contact"
                 className="underline underline-offset-4 transition-opacity duration-500 ease-in-out hover:opacity-80"
               >
                 formulaire de contact

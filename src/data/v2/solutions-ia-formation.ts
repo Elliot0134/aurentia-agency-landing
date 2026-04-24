@@ -1,4 +1,4 @@
-// src/data/v2/solutions-ia-formation.ts
+// src/data/solutions-ia-formation.ts
 // DRAFT_COPY — to refine before swap
 import {
   Sparkles,
@@ -26,12 +26,12 @@ export const solutionsIaFormationData: SubPageData = {
       { label: "Cas d'usage réels", icon: Sparkles },
     ],
     cta: {
-      primary: { label: "Demander la formation", href: "/v2/contact" },
+      primary: { label: "Demander la formation", href: "/contact" },
       secondary: { label: "Voir les formules", href: "#pricing" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/solutions-ia/formation-hero.jpg",
+      src: "/images/solutions-ia/formation-hero.jpg",
       alt: "Session de formation IA Aurentia",
     },
   },
@@ -113,7 +113,7 @@ export const solutionsIaFormationData: SubPageData = {
           "Certificat de formation",
           "Éligible OPCO",
         ],
-        cta: { label: "Choisir Découverte", href: "/v2/contact" },
+        cta: { label: "Choisir Découverte", href: "/contact" },
       },
       {
         name: "Équipe complète",
@@ -129,7 +129,7 @@ export const solutionsIaFormationData: SubPageData = {
           "Certificat individuel",
           "Éligible OPCO",
         ],
-        cta: { label: "Choisir Équipe complète", href: "/v2/contact" },
+        cta: { label: "Choisir Équipe complète", href: "/contact" },
       },
     ],
     note: "Formation éligible aux fonds OPCO sur demande. Devis officiel fourni sous 24h.",
@@ -139,23 +139,23 @@ export const solutionsIaFormationData: SubPageData = {
     items: [
       {
         title: "Groupe Meca — PME industrielle",
-        imageUrl: "/images/v2/solutions-ia/formation-meca.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/formation-meca.jpg",
+        href: "/agence",
       },
       {
         title: "Cabinet Conseil — 12 consultants",
-        imageUrl: "/images/v2/solutions-ia/formation-cabinet.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/formation-cabinet.jpg",
+        href: "/agence",
       },
       {
         title: "Studio Nord — agence créative",
-        imageUrl: "/images/v2/solutions-ia/formation-studio.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/formation-studio.jpg",
+        href: "/agence",
       },
       {
         title: "Freelances collective — 8 solopreneurs",
-        imageUrl: "/images/v2/solutions-ia/formation-freelances.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/formation-freelances.jpg",
+        href: "/agence",
       },
     ],
   },
@@ -215,6 +215,6 @@ export const solutionsIaFormationData: SubPageData = {
     title: "On forme votre équipe ce mois-ci ?",
     subtitle:
       "30 minutes au téléphone pour caler les objectifs et le planning.",
-    cta: { label: "Demander la formation", href: "/v2/contact" },
+    cta: { label: "Demander la formation", href: "/contact" },
   },
 };

@@ -1,4 +1,4 @@
-// src/data/v2/footer.ts
+// src/data/footer.ts
 import type { FooterConfig } from "./types";
 import { Linkedin, Instagram, Twitter, Github } from "lucide-react";
 
@@ -11,25 +11,25 @@ export const footerConfig: FooterConfig = {
     {
       title: "Offres",
       links: [
-        { label: "Sites Web", href: "/v2/sites-web" },
-        { label: "Site vitrine", href: "/v2/sites-web/site-vitrine" },
-        { label: "Landing page", href: "/v2/sites-web/landing-page" },
-        { label: "SaaS sur-mesure", href: "/v2/saas" },
-        { label: "Formation IA", href: "/v2/solutions-ia/formation-ia" },
-        { label: "Configuration Claude", href: "/v2/solutions-ia/configuration-claude" },
-        { label: "Audit", href: "/v2/solutions-ia/audit" },
-        { label: "Implémentation IA", href: "/v2/solutions-ia/implementation-ia" },
+        { label: "Sites Web", href: "/sites-web" },
+        { label: "Site vitrine", href: "/sites-web/site-vitrine" },
+        { label: "Landing page", href: "/sites-web/landing-page" },
+        { label: "SaaS sur-mesure", href: "/saas" },
+        { label: "Formation IA", href: "/solutions-ia/formation-ia" },
+        { label: "Configuration Claude", href: "/solutions-ia/configuration-claude" },
+        { label: "Audit", href: "/solutions-ia/audit" },
+        { label: "Implémentation IA", href: "/solutions-ia/implementation-ia" },
       ],
     },
     {
       title: "L'agence",
       links: [
-        { label: "À propos", href: "/v2/agence/a-propos" },
-        { label: "Réalisations", href: "/v2/realisations" },
-        { label: "Blog", href: "/v2/agence" },
-        { label: "Ressources", href: "/v2/agence" },
-        { label: "Affiliation", href: "/v2/agence" },
-        { label: "Contact", href: "/v2/contact" },
+        { label: "À propos", href: "/agence/a-propos" },
+        { label: "Réalisations", href: "/realisations" },
+        { label: "Blog", href: "/agence" },
+        { label: "Ressources", href: "/agence" },
+        { label: "Affiliation", href: "/agence" },
+        { label: "Contact", href: "/contact" },
       ],
     },
     {

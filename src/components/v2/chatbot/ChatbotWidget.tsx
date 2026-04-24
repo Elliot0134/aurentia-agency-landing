@@ -141,7 +141,7 @@ export function ChatbotWidget() {
 
   const handleCtaClick = useCallback(() => {
     setIsOpen(false);
-    const onHome = pathname === "/v2";
+    const onHome = pathname === "/";
     if (onHome) {
       const el = document.getElementById("contact");
       if (el) {

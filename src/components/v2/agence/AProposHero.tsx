@@ -1,4 +1,4 @@
-// src/components/v2/agence/AProposHero.tsx
+// src/components/agence/AProposHero.tsx
 "use client";
 
 import Link from "next/link";
@@ -85,7 +85,7 @@ export function AProposHero() {
           {/* CTAs */}
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/v2/contact"
+              href="/contact"
               className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
             >
               Travailler avec nous

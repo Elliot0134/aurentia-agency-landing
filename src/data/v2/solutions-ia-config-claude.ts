@@ -1,4 +1,4 @@
-// src/data/v2/solutions-ia-config-claude.ts
+// src/data/solutions-ia-config-claude.ts
 // DRAFT_COPY — to refine before swap
 import {
   Code2,
@@ -26,12 +26,12 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       { label: "100% sur-mesure", icon: Sparkles },
     ],
     cta: {
-      primary: { label: "Discutons de votre setup", href: "/v2/contact" },
+      primary: { label: "Discutons de votre setup", href: "/contact" },
       secondary: { label: "Voir ce qui est inclus", href: "#what" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/solutions-ia/config-claude-hero.jpg",
+      src: "/images/solutions-ia/config-claude-hero.jpg",
       alt: "Setup Claude Code configuré par Aurentia",
     },
   },
@@ -114,7 +114,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
           "Documentation interne",
           "30 jours de support",
         ],
-        cta: { label: "Commander la configuration", href: "/v2/contact" },
+        cta: { label: "Commander la configuration", href: "/contact" },
       },
     ],
     note: "Pour les équipes de plus de 10 devs ou les stacks complexes, on adapte le périmètre et le prix.",
@@ -124,23 +124,23 @@ export const solutionsIaConfigClaudeData: SubPageData = {
     items: [
       {
         title: "Studio Nord — agence créative",
-        imageUrl: "/images/v2/solutions-ia/config-studio-nord.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/config-studio-nord.jpg",
+        href: "/agence",
       },
       {
         title: "Northlight — startup SaaS",
-        imageUrl: "/images/v2/solutions-ia/config-northlight.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/config-northlight.jpg",
+        href: "/agence",
       },
       {
         title: "Groupe Meca — outil interne",
-        imageUrl: "/images/v2/solutions-ia/config-meca.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/config-meca.jpg",
+        href: "/agence",
       },
       {
         title: "Kairos Ops — équipe growth",
-        imageUrl: "/images/v2/solutions-ia/config-kairos.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/config-kairos.jpg",
+        href: "/agence",
       },
     ],
   },
@@ -200,6 +200,6 @@ export const solutionsIaConfigClaudeData: SubPageData = {
     title: "On configure votre Claude cette semaine ?",
     subtitle:
       "30 minutes d'audit gratuit pour cadrer ce qui mérite d'être automatisé chez vous.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+    cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };

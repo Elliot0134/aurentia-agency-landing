@@ -4,7 +4,7 @@ type Crumb = { label: string; href?: string };
 
 export function ReaBreadcrumbs({ items }: { items?: Crumb[] }) {
   const crumbs: Crumb[] = items ?? [
-    { label: "Accueil", href: "/v2" },
+    { label: "Accueil", href: "/" },
     { label: "Réalisations" },
   ];
 

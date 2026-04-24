@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
 import { siteConfig } from "@/data/content";
-import { ThemeSwitch } from "@/components/unlumen-ui/theme-switch";
+import { ThemeSwitch } from "@/components/v2/shared/theme-switch";
 import { MegaMenu } from "./MegaMenu";
 import { cn } from "@/lib/utils";
 
@@ -109,7 +109,7 @@ export function NavbarV2Desktop() {
 
         {/* Center — Logo */}
         <div className="shrink-0">
-          <Link href="/v2" className="flex items-baseline group shrink-0">
+          <Link href="/" className="flex items-baseline group shrink-0">
             <span className="font-heading text-[1.3rem] leading-none text-foreground font-bold group-hover:opacity-80 transition-opacity duration-500">
               Aurentia
             </span>

@@ -18,8 +18,8 @@ export function SectorPageLayout({ secteur, projects }: Props) {
     <>
       <ReaBreadcrumbs
         items={[
-          { label: "Accueil", href: "/v2" },
-          { label: "Réalisations", href: "/v2/realisations" },
+          { label: "Accueil", href: "/" },
+          { label: "Réalisations", href: "/realisations" },
           { label: secteur.label },
         ]}
       />

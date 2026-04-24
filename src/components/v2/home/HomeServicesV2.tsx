@@ -1,4 +1,4 @@
-// src/components/v2/home/HomeServicesV2.tsx
+// src/components/home/HomeServicesV2.tsx
 "use client";
 
 import {
@@ -54,14 +54,14 @@ const TABS: TabDef[] = [
   {
     key: "sites-web",
     label: "Sites Web",
-    href: "/v2/sites-web",
+    href: "/sites-web",
     offers: [
       {
         title: "Site vitrine",
         desc: "Présence pro pour TPE, artisans, commerces. SEO, responsive, rapide.",
         tags: ["SEO", "Responsive", "Animations", "Sur-mesure"],
         priceFrom: "1 200 €",
-        href: "/v2/sites-web/site-vitrine",
+        href: "/sites-web/site-vitrine",
         Visual: VitrineMockup,
       },
       {
@@ -69,7 +69,7 @@ const TABS: TabDef[] = [
         desc: "Une page, un objectif. Pages haute conversion pour startups et SaaS.",
         tags: ["Conversion", "A/B Testing", "Analytics", "Performance"],
         priceFrom: "1 500 €",
-        href: "/v2/sites-web/landing-page",
+        href: "/sites-web/landing-page",
         Visual: LandingMockup,
       },
     ],
@@ -77,14 +77,14 @@ const TABS: TabDef[] = [
   {
     key: "saas",
     label: "SaaS",
-    href: "/v2/saas",
+    href: "/saas",
     offers: [
       {
         title: "MVP SaaS",
         desc: "Prototype fonctionnel livré en 1 à 2 semaines. Architecture pro, prêt à scaler.",
         tags: ["Next.js", "Supabase", "Auth", "Stripe"],
         priceFrom: "5 000 €",
-        href: "/v2/saas",
+        href: "/saas",
         Visual: DashMockup,
       },
       {
@@ -92,7 +92,7 @@ const TABS: TabDef[] = [
         desc: "Modernisation d'un produit existant. Refactor propre, UX revue, perf au top.",
         tags: ["Refactor", "UX", "Performance", "Migration"],
         priceFrom: "Sur devis",
-        href: "/v2/saas",
+        href: "/saas",
         Visual: RefonteMockup,
       },
       {
@@ -100,7 +100,7 @@ const TABS: TabDef[] = [
         desc: "On branche Claude dans votre produit — agents, skills, tools sur-mesure.",
         tags: ["Claude", "Agents", "Tools", "Skills"],
         priceFrom: "Sur devis",
-        href: "/v2/saas",
+        href: "/saas",
         Visual: AIIntegrationMockup,
       },
     ],
@@ -108,14 +108,14 @@ const TABS: TabDef[] = [
   {
     key: "formation-ia",
     label: "Formation IA",
-    href: "/v2/solutions-ia/formation-ia",
+    href: "/solutions-ia/formation-ia",
     offers: [
       {
         title: "Formation équipes",
         desc: "Bootcamp Claude, workshops IA. Sessions in-house ou remote pour monter vos équipes en compétence.",
         tags: ["Bootcamp", "Workshops", "In-house", "Remote"],
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/formation-ia",
+        href: "/solutions-ia/formation-ia",
         Visual: FormationMockup,
       },
       {
@@ -123,7 +123,7 @@ const TABS: TabDef[] = [
         desc: "Vidéos structurées et skills Claude sur-mesure déployés pour vos équipes.",
         tags: ["Vidéos", "Skills", "Claude", "Custom"],
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/formation-ia",
+        href: "/solutions-ia/formation-ia",
         Visual: AIIntegrationMockup,
       },
       {
@@ -131,7 +131,7 @@ const TABS: TabDef[] = [
         desc: "Coaching continu 3 à 6 mois. Un expert IA à disposition pour débloquer et accélérer.",
         tags: ["Coaching", "Continu", "Expert", "Suivi"],
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/formation-ia",
+        href: "/solutions-ia/formation-ia",
         Visual: ImplementationMockup,
       },
     ],
@@ -139,14 +139,14 @@ const TABS: TabDef[] = [
   {
     key: "systeme-ia",
     label: "Système IA",
-    href: "/v2/solutions-ia",
+    href: "/solutions-ia",
     offers: [
       {
         title: "Audit IA",
         desc: "Audit complet de votre business — process, coûts, ROI, opportunités d'automation.",
         tags: ["Process", "Coûts", "ROI", "Opportunités"],
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/audit",
+        href: "/solutions-ia/audit",
         Visual: AuditMockup,
       },
       {
@@ -154,7 +154,7 @@ const TABS: TabDef[] = [
         desc: "Skills custom déployés directement chez vous. On code, on teste, on livre.",
         tags: ["Skills", "Deploy", "Custom", "On-site"],
         priceFrom: "Sur devis",
-        href: "/v2/solutions-ia/implementation-ia",
+        href: "/solutions-ia/implementation-ia",
         Visual: ImplementationMockup,
       },
     ],

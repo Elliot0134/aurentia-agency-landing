@@ -1,4 +1,4 @@
-// src/data/v2/sites-web-vitrine.ts
+// src/data/sites-web-vitrine.ts
 // DRAFT_COPY — to refine before swap
 import {
   Clock,
@@ -25,12 +25,12 @@ export const sitesWebVitrineData: SubPageData = {
     priceFrom: "1 200 €",
     badges: [],
     cta: {
-      primary: { label: "Discutons de mon site", href: "/v2/contact" },
+      primary: { label: "Discutons de mon site", href: "/contact" },
       secondary: { label: "Nos offres", href: "#pricing" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/sites-web/vitrine-hero.jpg",
+      src: "/images/sites-web/vitrine-hero.jpg",
       alt: "Maquettes de sites vitrines livrés par Aurentia",
     },
   },
@@ -162,7 +162,7 @@ export const sitesWebVitrineData: SubPageData = {
         subscription: "19 €/mois",
         subscriptionDetails:
           "Hébergement, certificat de sécurité, sauvegardes, surveillance, support sous 72h",
-        cta: { label: "Choisir l'Essentiel", href: "/v2/contact" },
+        cta: { label: "Choisir l'Essentiel", href: "/contact" },
       },
       {
         name: "Croissance",
@@ -184,7 +184,7 @@ export const sitesWebVitrineData: SubPageData = {
         subscription: "35 €/mois",
         subscriptionDetails:
           "Plan 19 € + maintenance, 1 modification/mois, support sous 24h, 4 articles/mois",
-        cta: { label: "Choisir Croissance", href: "/v2/contact" },
+        cta: { label: "Choisir Croissance", href: "/contact" },
       },
       {
         name: "Premium",
@@ -206,7 +206,7 @@ export const sitesWebVitrineData: SubPageData = {
         subscription: "75 €/mois",
         subscriptionDetails:
           "Plan 35 € + modifications illimitées, rapport de visibilité Google mensuel, support sous 12h",
-        cta: { label: "Choisir Premium", href: "/v2/contact" },
+        cta: { label: "Choisir Premium", href: "/contact" },
       },
     ],
     conditions: [
@@ -223,23 +223,23 @@ export const sitesWebVitrineData: SubPageData = {
     items: [
       {
         title: "Atelier Marie — menuiserie d'art",
-        imageUrl: "/images/v2/sites-web/example-atelier-marie.svg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/example-atelier-marie.svg",
+        href: "/agence",
       },
       {
         title: "Café Lumen — brasserie de quartier",
-        imageUrl: "/images/v2/sites-web/example-cafe-lumen.svg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/example-cafe-lumen.svg",
+        href: "/agence",
       },
       {
         title: "Maître Dufour — cabinet d'avocats",
-        imageUrl: "/images/v2/sites-web/example-dufour.svg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/example-dufour.svg",
+        href: "/agence",
       },
       {
         title: "Clinique du Parc — ostéopathie",
-        imageUrl: "/images/v2/sites-web/example-clinique-parc.svg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/example-clinique-parc.svg",
+        href: "/agence",
       },
     ],
   },
@@ -304,7 +304,7 @@ export const sitesWebVitrineData: SubPageData = {
     title: "On construit votre site cette semaine ?",
     subtitle:
       "15 minutes au téléphone et vous savez quoi, quand et combien. Devis clair sous 24h.",
-    cta: { label: "Réserver un créneau", href: "/v2/contact" },
+    cta: { label: "Réserver un créneau", href: "/contact" },
   },
   trustStats: [
     { value: "72h", label: "délai moyen" },

@@ -1,4 +1,4 @@
-// src/data/v2/sites-web-landing.ts
+// src/data/sites-web-landing.ts
 // DRAFT_COPY — to refine before swap
 import {
   Rocket,
@@ -26,12 +26,12 @@ export const sitesWebLandingData: SubPageData = {
       { label: "Optimisée pour la conversion", icon: Target },
     ],
     cta: {
-      primary: { label: "Discutons de ma landing", href: "/v2/contact" },
+      primary: { label: "Discutons de ma landing", href: "/contact" },
       secondary: { label: "Voir les tarifs", href: "#pricing" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/sites-web/landing-hero.jpg",
+      src: "/images/sites-web/landing-hero.jpg",
       alt: "Exemples de landing pages construites par Aurentia",
     },
   },
@@ -116,7 +116,7 @@ export const sitesWebLandingData: SubPageData = {
           "Affichage clair en mode clair et sombre",
           "Mise en ligne clé en main",
         ],
-        cta: { label: "Discuter de votre projet", href: "/v2/contact" },
+        cta: { label: "Discuter de votre projet", href: "/contact" },
       },
     ],
     note: "Le prix dépend du nombre de sections, de la complexité des animations, et du volume de contenu. On vous fait un devis précis après le brief créatif.",
@@ -126,23 +126,23 @@ export const sitesWebLandingData: SubPageData = {
     items: [
       {
         title: "Northlight — lancement seed round",
-        imageUrl: "/images/v2/sites-web/landing-northlight.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/landing-northlight.jpg",
+        href: "/agence",
       },
       {
         title: "Pulsio — waitlist produit",
-        imageUrl: "/images/v2/sites-web/landing-pulsio.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/landing-pulsio.jpg",
+        href: "/agence",
       },
       {
         title: "Kairos Ops — campagne paid B2B",
-        imageUrl: "/images/v2/sites-web/landing-kairos.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/landing-kairos.jpg",
+        href: "/agence",
       },
       {
         title: "Fable Studio — lancement formation",
-        imageUrl: "/images/v2/sites-web/landing-fable.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/sites-web/landing-fable.jpg",
+        href: "/agence",
       },
     ],
   },
@@ -207,6 +207,6 @@ export const sitesWebLandingData: SubPageData = {
     title: "Votre landing live la semaine prochaine ?",
     subtitle:
       "Un appel de 15 minutes et on vous dit si on peut livrer dans vos délais.",
-    cta: { label: "Réserver un créneau", href: "/v2/contact" },
+    cta: { label: "Réserver un créneau", href: "/contact" },
   },
 };

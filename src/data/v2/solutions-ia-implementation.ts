@@ -1,4 +1,4 @@
-// src/data/v2/solutions-ia-implementation.ts
+// src/data/solutions-ia-implementation.ts
 // DRAFT_COPY — to refine before swap
 // NOTE: price is "Sur devis" per scope.
 import {
@@ -28,12 +28,12 @@ export const solutionsIaImplementationData: SubPageData = {
       { label: "Support 3 mois", icon: ShieldCheck },
     ],
     cta: {
-      primary: { label: "Discutons de votre besoin", href: "/v2/contact" },
+      primary: { label: "Discutons de votre besoin", href: "/contact" },
       secondary: { label: "Voir la méthode", href: "#process" },
     },
     visual: {
       kind: "image",
-      src: "/images/v2/solutions-ia/implementation-hero.jpg",
+      src: "/images/solutions-ia/implementation-hero.jpg",
       alt: "Implémentation IA sur-mesure Aurentia",
     },
   },
@@ -125,7 +125,7 @@ export const solutionsIaImplementationData: SubPageData = {
           "Documentation technique complète",
           "3 mois de support prioritaire",
         ],
-        cta: { label: "Demander un devis", href: "/v2/contact" },
+        cta: { label: "Demander un devis", href: "/contact" },
       },
     ],
     note: "À titre indicatif, nos implémentations démarrent à 4 500 € pour un cas d'usage simple et montent selon la complexité.",
@@ -135,23 +135,23 @@ export const solutionsIaImplementationData: SubPageData = {
     items: [
       {
         title: "Cabinet Conseil — agent service client",
-        imageUrl: "/images/v2/solutions-ia/impl-cabinet.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/impl-cabinet.jpg",
+        href: "/agence",
       },
       {
         title: "Groupe Meca — assistant commercial",
-        imageUrl: "/images/v2/solutions-ia/impl-meca.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/impl-meca.jpg",
+        href: "/agence",
       },
       {
         title: "Cabinet Meridian — analyse documents",
-        imageUrl: "/images/v2/solutions-ia/impl-meridian.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/impl-meridian.jpg",
+        href: "/agence",
       },
       {
         title: "Fable Studio — assistant rédaction",
-        imageUrl: "/images/v2/solutions-ia/impl-fable.jpg",
-        href: "/v2/agence",
+        imageUrl: "/images/solutions-ia/impl-fable.jpg",
+        href: "/agence",
       },
     ],
   },
@@ -216,6 +216,6 @@ export const solutionsIaImplementationData: SubPageData = {
     title: "On cadre votre implémentation IA ?",
     subtitle:
       "30 minutes pour comprendre votre besoin et vous dire si on peut livrer.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+    cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };

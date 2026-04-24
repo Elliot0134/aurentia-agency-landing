@@ -1,4 +1,4 @@
-// src/components/v2/implementation-ia/ImplementationIAHeroV2.tsx
+// src/components/implementation-ia/ImplementationIAHeroV2.tsx
 "use client";
 
 import Link from "next/link";
@@ -17,13 +17,13 @@ const CLIENT_LOGOS = [
 type SolutionTagKey = "audit" | "configuration-claude" | "formation-ia";
 
 const SOLUTION_TAGS: { key: SolutionTagKey; label: string; href: string }[] = [
-  { key: "audit", label: "Audit IA", href: "/v2/solutions-ia/audit" },
+  { key: "audit", label: "Audit IA", href: "/solutions-ia/audit" },
   {
     key: "configuration-claude",
     label: "Configuration Claude",
-    href: "/v2/solutions-ia/configuration-claude",
+    href: "/solutions-ia/configuration-claude",
   },
-  { key: "formation-ia", label: "Formation IA", href: "/v2/solutions-ia/formation-ia" },
+  { key: "formation-ia", label: "Formation IA", href: "/solutions-ia/formation-ia" },
 ];
 
 /**

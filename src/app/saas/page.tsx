@@ -1,118 +1,84 @@
-import { Metadata } from "next";
-import { Footer } from "@/components/layout/Footer";
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { EasterEggSaaS } from "@/components/v2/easter-egg/EasterEggSaaS";
+import { SaaSHeroV2 } from "@/components/v2/saas/SaaSHeroV2";
+import { SaaSSubOffersV2 } from "@/components/v2/saas/SaaSSubOffersV2";
+import { SaaSRealisationsV2 } from "@/components/v2/saas/SaaSRealisationsV2";
+import { SaaSWhyV2 } from "@/components/v2/saas/SaaSWhyV2";
+import { SaaSMethodV2 } from "@/components/v2/saas/SaaSMethodV2";
+import { SaaSFAQV2 } from "@/components/v2/saas/SaaSFAQV2";
+import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
+import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
+import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
-import { SaasHero } from "@/components/saas/SaasHero";
-import { SaasServices } from "@/components/saas/SaasServices";
-import { SaasIntegrations } from "@/components/saas/SaasIntegrations";
-import { SaasStack } from "@/components/saas/SaasStack";
-import { SaasProcess } from "@/components/saas/SaasProcess";
-import { SaasPortfolio } from "@/components/saas/SaasPortfolio";
-import { SaasPricing } from "@/components/saas/SaasPricing";
-import { SaasFAQ } from "@/components/saas/SaasFAQ";
-import { SaasCTA } from "@/components/saas/SaasCTA";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const subNavItems = [
-  { label: "Services", sectionId: "services" },
-  { label: "Intégrations", sectionId: "integrations" },
-  { label: "Stack", sectionId: "stack" },
-  { label: "Processus", sectionId: "process" },
-  { label: "Portfolio", sectionId: "portfolio" },
-  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Offres", sectionId: "offers" },
+  { label: "Réalisations", sectionId: "realisations" },
+  { label: "Équipe", sectionId: "equipe" },
+  { label: "Pourquoi", sectionId: "why" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Méthode", sectionId: "method" },
   { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "contact" },
 ];
 
-export const metadata: Metadata = {
-  title: "Développement SaaS & Logiciels Métier | Aurentia Agency",
-  description:
-    "MVP en 1 à 2 semaines à partir de 5 000€. Architecture, design et déploiement inclus. L'IA accélère, l'expertise humaine garantit la qualité.",
-  openGraph: {
-    title: "Développement SaaS & Logiciels Métier — Aurentia Agency",
-    description:
-      "MVP en 1 à 2 semaines. Architecture, design et déploiement inclus. À partir de 5 000€.",
-    url: "https://aurentia.agency/saas",
-    type: "website",
-    images: [
-      {
-        url: "/images/opengraph/opengraph.png",
-        width: 1200,
-        height: 630,
-        alt: "Aurentia Agency — Développement SaaS",
-      },
-    ],
-  },
-  alternates: {
-    canonical: "https://aurentia.agency/saas",
-  },
-};
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "Développement SaaS & Logiciels Métier",
-    provider: {
-      "@type": "Organization",
-      name: "Aurentia Agency",
-      url: "https://aurentia.agency",
-    },
-    description:
-      "Développement d'applications SaaS, logiciels métier, dashboards et portails clients. MVP livré en 1 à 2 semaines avec architecture, design et déploiement inclus.",
-    url: "https://aurentia.agency/saas",
-    areaServed: "FR",
-    offers: {
-      "@type": "Offer",
-      price: "5000",
-      priceCurrency: "EUR",
-      description: "À partir de 5 000€ pour un MVP pré-fonctionnel",
-    },
-    serviceType: [
-      "Développement SaaS",
-      "Logiciel métier",
-      "Application web sur-mesure",
-    ],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Accueil",
-        item: "https://aurentia.agency",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "SaaS & Logiciels Métier",
-        item: "https://aurentia.agency/saas",
-      },
-    ],
-  },
-];
+export default function HomeSaaS() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-export default function SaasPage() {
+  // Auto-scroll past the easter-egg section on mount
+  useEffect(() => {
+    const easterEgg = document.querySelector("[data-easter-egg]");
+    if (easterEgg) {
+      window.scrollTo({ top: easterEgg.scrollHeight, behavior: "instant" });
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+    }
+  }, []);
+
+  // Grayscale-on-scroll fade (0.15 → 0 over the first 600px of scroll)
+  useEffect(() => {
+    if (!wrapperRef.current) return;
+
+    gsap.fromTo(
+      wrapperRef.current,
+      { filter: "grayscale(0.15)" },
+      {
+        filter: "grayscale(0)",
+        ease: "none",
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: "top top",
+          end: "+=600",
+          scrub: true,
+        },
+      },
+    );
+  }, []);
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <ScrollToTop />
       <SubNavSetter items={subNavItems} />
-      <main className="flex min-h-screen flex-col w-full">
-        <SaasHero />
-        <SaasServices />
-        <SaasIntegrations />
-        <SaasStack />
-        <SaasProcess />
-        <SaasPortfolio />
-        <SaasPricing />
-        <SaasFAQ />
-        <SaasCTA />
-      </main>
-      <Footer />
+      <ScrollToTop />
+      <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
+        <EasterEggSaaS />
+        <SaaSHeroV2 />
+        <SaaSSubOffersV2 />
+        <SaaSRealisationsV2 />
+        <HomeTeamV2 />
+        <SaaSWhyV2 />
+        <HomeTestimonialsV2 />
+        <SaaSMethodV2 />
+        <SaaSFAQV2 />
+        <HomeContactV2 />
+      </div>
     </>
   );
 }

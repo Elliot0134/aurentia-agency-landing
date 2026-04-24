@@ -1,4 +1,4 @@
-// src/data/v2/agence-a-propos.ts
+// src/data/agence-a-propos.ts
 // DRAFT_COPY — to refine before swap
 // NOTE: team members bios are fictional placeholders except for Elliot Estrade.
 import {
@@ -32,25 +32,25 @@ export const aProposData: AProposData = {
         name: "Elliot Estrade",
         role: "Fondateur",
         bio: "Entrepreneur et développeur full-stack, Elliot a fondé Aurentia après avoir co-créé Aurentia (SaaS), ESST Solutions et d'autres produits IA. Il pilote la vision, la relation client et les projets les plus techniques de l'agence.",
-        avatarUrl: "/images/v2/team/elliot.jpg",
+        avatarUrl: "/images/team/elliot.jpg",
       },
       {
         name: "Claire Dubois",
         role: "Direction créative",
         bio: "Designer produit et directrice artistique, Claire a travaillé pour plusieurs studios parisiens avant de rejoindre Aurentia. Elle est garante de la qualité visuelle et de l'expérience utilisateur sur tous les projets de l'agence.",
-        avatarUrl: "/images/v2/team/claire.jpg",
+        avatarUrl: "/images/team/claire.jpg",
       },
       {
         name: "Marc Tessier",
         role: "Lead développeur",
         bio: "Développeur senior spécialisé Next.js, React et Supabase, Marc dirige la production technique. Il veille à la qualité du code, à la robustesse des architectures et à la montée en compétence de toute l'équipe dev.",
-        avatarUrl: "/images/v2/team/marc.jpg",
+        avatarUrl: "/images/team/marc.jpg",
       },
       {
         name: "Sophia Reyes",
         role: "IA engineer",
         bio: "Spécialiste IA et agents, Sophia conçoit les skills Claude custom et les intégrations IA pour les clients. Elle est aussi en charge de la veille et de la R&D sur les nouveautés Anthropic.",
-        avatarUrl: "/images/v2/team/sophia.jpg",
+        avatarUrl: "/images/team/sophia.jpg",
       },
     ],
   },
@@ -87,6 +87,6 @@ export const aProposData: AProposData = {
     title: "Envie de travailler ensemble ?",
     subtitle:
       "On prend un appel de 30 minutes, on parle de votre projet, et on voit ensemble si on est le bon partenaire.",
-    cta: { label: "Prendre rendez-vous", href: "/v2/contact" },
+    cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };
