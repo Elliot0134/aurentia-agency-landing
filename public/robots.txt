@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /realisations
+Disallow: /realisations/
+
+Sitemap: https://aurentia.agency/sitemap.xml

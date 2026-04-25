@@ -8,7 +8,7 @@ import { HomeEasterEggV2 } from "@/components/v2/home/HomeEasterEggV2";
 import { HomeHeroV2 } from "@/components/v2/home/HomeHeroV2";
 import { HomeServicesV2 } from "@/components/v2/home/HomeServicesV2";
 import { HomeWhyAurentia } from "@/components/v2/home/HomeWhyAurentia";
-import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
+// import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview"; // désactivé tant que /realisations n'est pas prêt
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
@@ -21,7 +21,7 @@ import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 
 const subNavItems = [
   { label: "Services", sectionId: "pillars" },
-  { label: "Réalisations", sectionId: "realisations" },
+  // { label: "Réalisations", sectionId: "realisations" }, — désactivé tant que /realisations n'est pas prêt
   { label: "Pourquoi", sectionId: "why" },
   { label: "Équipe", sectionId: "equipe" },
   { label: "Témoignages", sectionId: "testimonials" },
@@ -72,7 +72,7 @@ export default function HomeV2() {
         {/* <HomeEasterEggV2 /> — désactivé temporairement, on réactivera plus tard */}
         <HomeHeroV2 />
         <HomeServicesV2 />
-        <HomeRealisationsPreview />
+        {/* <HomeRealisationsPreview /> — désactivé tant que /realisations n'est pas prêt */}
         <HomeBookingCTA />
         <HomeWhyAurentia />
         <HomeQuoteV2 />
