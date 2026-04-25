@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/refs */
 
 import * as React from "react";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -81,7 +82,6 @@ export function ChatbotWidget() {
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        // eslint-disable-next-line react-hooks/refs
         body: () => ({ audience: audienceRef.current }),
       }),
     [],

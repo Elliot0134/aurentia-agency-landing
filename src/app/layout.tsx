@@ -8,7 +8,6 @@ import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { SubNavProvider } from "@/components/shared/SubNavContext";
 import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
 import { FooterV2 } from "@/components/v2/layout/FooterV2";
-import { ChatbotWidget } from "@/components/v2/chatbot/ChatbotWidget";
 import { WipModalProvider } from "@/components/shared/WipModal";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <NavbarV2 />
               <main className="flex flex-col">{children}</main>
               <FooterV2 />
-              <ChatbotWidget />
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>
