@@ -6,12 +6,14 @@ import { ArrowRight } from "lucide-react";
 import { saasData } from "@/data/v2/saas";
 
 const SAAS_CLIENT_LOGOS = [
-  "Startup B2B",
-  "Cabinet Meridian",
-  "Nova Tech",
-  "Pergame",
-  "Le Prisme",
-  "Atelier Marie",
+  "Comparateur IA Facile",
+  "French Tech",
+  "AlloRestau",
+  "Friend'iz",
+  "HiLove",
+  "Maison Enileh",
+  "Savistas",
+  "Golf Mentor",
 ];
 
 const STACK_TAGS = ["Next.js", "Supabase", "Stripe", "Vercel", "TypeScript"];

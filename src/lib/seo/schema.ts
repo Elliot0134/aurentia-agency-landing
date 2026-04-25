@@ -37,7 +37,7 @@ export function creativeWorkForProject(p: ProjectFrontmatter) {
     name: p.name,
     datePublished: `${p.year}-01-01`,
     creator: ORGANIZATION,
-    url: `${BASE_URL}/v2/realisations/${p.slug}`,
+    url: `${BASE_URL}/realisations/${p.slug}`,
     image: `${BASE_URL}${p.coverImage}`,
     keywords: [...p.tags, ...p.technos, p.type, secteurs[p.secteur].label].join(", "),
     ...(p.testimonial && {

@@ -145,7 +145,8 @@ export function TestimonialsMarquee({
       id={id}
       title={title}
       subtitle={subtitle}
-      className={cn("bg-background-surface", className)}
+      surface
+      className={className}
       innerClassName="!max-w-none"
     >
       <BlurReveal>

@@ -9,6 +9,7 @@ import {
   Video,
   Hammer,
   Trophy,
+  Clock,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -16,18 +17,19 @@ export const solutionsIaFormationData: SubPageData = {
   parentSlug: "solutions-ia",
   slug: "formation-ia",
   hero: {
-    eyebrow: "Solutions IA · Formation",
+    eyebrow: "Solutions IA · Formation · Bientôt disponible",
     headline: "La formation IA qui se voit sur la productivité dès la semaine d'après.",
     subHeadline:
-      "On forme votre équipe à utiliser Claude, les agents et les skills custom — avec des exercices sur vos vrais cas d'usage. Plus utile qu'un MOOC, plus durable qu'une conf.",
+      "On finalise actuellement le programme — sessions live, plateforme vidéo, bibliothèque de skills, exercices sur vos vrais cas d'usage. Contactez-nous pour être prévenu·e en avant-première (et bénéficier des conditions de lancement).",
     priceFrom: "990 €",
     badges: [
+      { label: "Bientôt disponible", icon: Clock },
       { label: "De 1 à 15 personnes", icon: Users },
       { label: "Cas d'usage réels", icon: Sparkles },
     ],
     cta: {
-      primary: { label: "Demander la formation", href: "/contact" },
-      secondary: { label: "Voir les formules", href: "#pricing" },
+      primary: { label: "Être prévenu·e en avant-première", href: "/contact" },
+      secondary: { label: "Voir le programme", href: "#what-you-get" },
     },
     visual: {
       kind: "image",

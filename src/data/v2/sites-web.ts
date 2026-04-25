@@ -483,7 +483,7 @@ export const sitesWebExtra: SitesWebExtra = {
         description:
           "Fabien a forgé des centaines de sites. Il sait ce qui convertit, ce qui dure, ce qui illumine un business. L'IA est un outil. L'œil, c'est 20 ans d'expérience.",
         ctaLabel: "En savoir plus sur l'équipe",
-        ctaHref: "/agence/a-propos",
+        ctaHref: "/agence",
       },
       {
         icon: HandCoins,

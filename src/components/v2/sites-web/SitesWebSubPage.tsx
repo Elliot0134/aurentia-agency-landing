@@ -18,6 +18,8 @@ import { SubPageTrustBand } from "@/components/v2/subpage/SubPageTrustBand";
 import { SubPageGuarantees } from "@/components/v2/subpage/SubPageGuarantees";
 import { SubPageComparison } from "@/components/v2/subpage/SubPageComparison";
 import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
@@ -71,6 +73,7 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       {data.forWho.length > 0 && <SubPageForWho profiles={data.forWho} />}
       <SitesWebExamples data={data.examples} />
       <SitesWebTestimonials items={data.testimonials} />
+      <HomeBookingCTA />
       <SitesWebWhatYouGet data={data.whatYouGet} />
       <SitesWebPricing data={data.pricing} />
       <ContextualHelpCTA />
@@ -85,7 +88,7 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
         />
       )}
       <SitesWebFAQ items={data.faq} />
-      <HomeContactV2 />
+      <HomeBookingEmbed />
     </>
   );
 }

@@ -145,30 +145,30 @@ export const homeData: HomeData = {
   testimonials: [
     {
       quote:
-        "Aurentia a livré notre site en 5 jours. Cinq jours. Et le résultat est meilleur que ce que d'autres agences nous proposaient en deux mois.",
-      author: "Marie L.",
+        "On voulait un site sobre, qui inspire confiance avant même qu'on nous appelle. Elliot a livré en 6 jours, et il a refusé qu'on utilise des photos stock — il a insisté pour qu'on fasse un shooting dans la cuisine. C'est exactement ce détail-là qui fait que les clients nous disent que ça donne envie.",
+      author: "Inès E.",
       role: "Fondatrice",
-      company: "Atelier Marie",
+      company: "Maison Enileh",
       pillar: "sites-web",
-      stat: "Livré en 5 jours",
+      stat: "Livré en 6 jours",
     },
     {
       quote:
-        "Ils ont configuré Claude pour notre équipe et nous ont formés. On a gagné l'équivalent d'un mi-temps en automatisations en moins de trois semaines.",
-      author: "Thomas R.",
-      role: "Directeur",
-      company: "Cabinet Conseil",
+        "Franchement j'étais sceptique sur le côté IA — trop de promesses dans ce milieu. Ils ont passé une journée complète à regarder comment on bossait avant de proposer quoi que ce soit. Aujourd'hui je passe plus mes dimanches soirs à traiter les mails élèves. Ça a l'air con, mais c'est ça qui change la vie.",
+      author: "Thomas B.",
+      role: "Fondateur",
+      company: "Golf Mentor",
       pillar: "solutions-ia",
-      stat: "+0,5 ETP gagné",
+      stat: "~8 h / semaine récupérées",
     },
     {
       quote:
-        "Notre MVP SaaS était en ligne 12 jours après notre premier appel. C'est ce qui nous a permis de signer notre seed round.",
-      author: "Lisa K.",
-      role: "CEO",
-      company: "Startup B2B",
+        "Le MVP était en ligne 3 semaines après le kick-off, avec un vrai paiement Stripe qui tourne. Ce qui m'a marqué c'est qu'Elliot répond à 23h quand un bug bloque une démo le lendemain — on en a pas croisé beaucoup qui font ça.",
+      author: "Camille F.",
+      role: "Co-fondatrice",
+      company: "AlloRestau",
       pillar: "saas",
-      stat: "MVP en 12 jours",
+      stat: "MVP en 3 semaines",
     },
   ],
   method: {

@@ -2,7 +2,6 @@
 import { Check } from "lucide-react";
 import type { SubPageData } from "@/data/v2/types";
 import { SectionContainer } from "./SectionContainer";
-import { cn } from "@/lib/utils";
 
 type WhatYouGetSectionProps = {
   data: SubPageData["whatYouGet"];
@@ -12,8 +11,8 @@ type WhatYouGetSectionProps = {
 };
 
 /**
- * Centered "what's included" section — grid of check items on a soft
- * background-surface tile, mirroring the home visual rhythm (big rounded cards).
+ * Centered "what's included" section — grid of check items inside a
+ * surface card, on a regular page background (matches the hero).
  */
 export function WhatYouGetSection({
   data,
@@ -26,9 +25,9 @@ export function WhatYouGetSection({
       id={id}
       title={data.title}
       subtitle={subtitle}
-      className={cn("bg-background-surface", className)}
+      className={className}
     >
-      <div className="rounded-3xl border border-transparent dark:border-foreground/10 bg-background dark:bg-foreground/[0.04] p-8 md:p-10">
+      <div className="rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8 md:p-10">
         <ul className="grid gap-4 md:grid-cols-2">
           {data.items.map((item) => (
             <li key={item} className="flex items-start gap-3">

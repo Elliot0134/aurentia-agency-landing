@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { EasterEggSitesWeb } from "@/components/v2/easter-egg/EasterEggSitesWeb";
 import { SitesWebHeroV2 } from "@/components/v2/sites-web/SitesWebHeroV2";
 import { SitesWebFeaturesV2 } from "@/components/v2/sites-web/SitesWebFeaturesV2";
 import { SitesWebMethodV2 } from "@/components/v2/sites-web/SitesWebMethodV2";
@@ -14,6 +13,8 @@ import { SitesWebFormulesSplits } from "@/components/v2/sites-web/SitesWebFormul
 import { SitesWebWhyV2 } from "@/components/v2/sites-web/SitesWebWhyV2";
 import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { SitesWebFAQV2 } from "@/components/v2/sites-web/SitesWebFAQV2";
 import { SitesWebFinalCtaV2 } from "@/components/v2/sites-web/SitesWebFinalCtaV2";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
@@ -71,11 +72,12 @@ export default function SitesWebPillarPage() {
       <SubNavSetter items={subNavItems} />
       <ScrollToTop />
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
-        <EasterEggSitesWeb />
         <SitesWebHeroV2 />
         <SectionDivider />
         <SitesWebFormulesHub />
         <SitesWebFormulesSplits />
+        <SectionDivider />
+        <HomeBookingCTA />
         <SectionDivider />
         <SitesWebFeaturesV2 />
         <SectionDivider />
@@ -88,6 +90,8 @@ export default function SitesWebPillarPage() {
         <HomeRealisationsPreview />
         <SectionDivider />
         <SitesWebFAQV2 />
+        <SectionDivider />
+        <HomeBookingEmbed />
         <SectionDivider />
         <SitesWebFinalCtaV2 />
       </div>

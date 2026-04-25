@@ -5,22 +5,22 @@ import { BrainCircuit, ShieldCheck, Layers, Users, Sparkles, Target } from "luci
 import { solutionsIaData } from "@/data/v2/solutions-ia";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
 import { SubOffersSection } from "@/components/v2/shared/SubOffersSection";
-import { RealisationsGrid } from "@/components/v2/shared/RealisationsGrid";
 import { MethodSection } from "@/components/v2/shared/MethodSection";
 import { FAQSection } from "@/components/v2/shared/FAQSection";
 import { TestimonialsMarquee } from "@/components/v2/shared/TestimonialsMarquee";
 import { PerksGrid, type Perk } from "@/components/v2/shared/PerksGrid";
-import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { SectionDivider } from "@/components/v2/shared/SectionDivider";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const SOLUTIONS_IA_SUB_NAV = [
   { label: "Offres", sectionId: "offers" },
   { label: "Pourquoi", sectionId: "perks" },
-  { label: "Réalisations", sectionId: "realisations" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
   { label: "FAQ", sectionId: "faq" },
-  { label: "Contact", sectionId: "contact" },
+  { label: "RDV", sectionId: "rdv-embed" },
 ];
 
 const PERKS: Perk[] = [
@@ -76,10 +76,18 @@ export function SolutionsIaPillarPage() {
         cta={data.hero.cta}
       />
 
+      <SectionDivider />
+
       <SubOffersSection
         subOffers={data.subOffers}
-        subtitle="Quatre façons d'installer l'IA chez vous — de la formation à l'implémentation complète."
+        subtitle="Trois portes d'entrée — un même objectif : déployer l'IA dans votre quotidien business."
       />
+
+      <SectionDivider />
+
+      <HomeBookingCTA />
+
+      <SectionDivider />
 
       <PerksGrid
         items={PERKS}
@@ -87,22 +95,17 @@ export function SolutionsIaPillarPage() {
         subtitle="Ce qui nous différencie des agences IA — des engagements concrets, pas des promesses."
       />
 
-      {data.realisationsFiltered.length > 0 && (
-        <RealisationsGrid
-          realisations={data.realisationsFiltered}
-          title="Quelques déploiements IA récents"
-          subtitle="Des équipes formées, des skills déployés, des process transformés."
-          seeMoreHref="/realisations"
-          seeMoreLabel="Voir toutes nos réalisations"
-        />
-      )}
+      <SectionDivider />
 
       {data.testimonialsFiltered.length > 0 && (
-        <TestimonialsMarquee
-          testimonials={data.testimonialsFiltered}
-          title="Ce que disent les équipes qu'on a accompagnées"
-          subtitle="Des dirigeants, des leads tech et des opérationnels qui utilisent l'IA tous les jours."
-        />
+        <>
+          <TestimonialsMarquee
+            testimonials={data.testimonialsFiltered}
+            title="Ce que disent les équipes qu'on a accompagnées"
+            subtitle="Des dirigeants, des leads tech et des opérationnels qui utilisent l'IA tous les jours."
+          />
+          <SectionDivider />
+        </>
       )}
 
       <MethodSection
@@ -111,9 +114,13 @@ export function SolutionsIaPillarPage() {
         steps={data.method.steps}
       />
 
+      <SectionDivider />
+
       <FAQSection items={data.faq} />
 
-      <HomeContactV2 />
+      <SectionDivider />
+
+      <HomeBookingEmbed />
     </>
   );
 }

@@ -72,7 +72,7 @@ function ProjectCard({ proj }: { proj: CardProject }) {
   const isLarge = proj.layout.includes("row-span-2");
 
   return (
-    <Link href={`/v2/realisations/${proj.slug}`} className="block w-full h-full">
+    <Link href={`/realisations/${proj.slug}`} className="block w-full h-full">
       <SpotlightCard className="w-full h-full p-4 md:p-5 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
         {/* Images (background) */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[inherit]">

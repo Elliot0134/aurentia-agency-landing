@@ -37,20 +37,28 @@ export function SubOffersSection({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-colors duration-500 ease-in-out dark:hover:border-foreground/25"
+                  className={cn(
+                    "group relative flex h-full flex-col gap-5 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out dark:hover:border-foreground/25",
+                    item.comingSoon && "opacity-70 hover:opacity-100",
+                  )}
                 >
+                  {item.comingSoon && (
+                    <span className="absolute right-5 top-5 rounded-full bg-foreground/10 px-2.5 py-1 text-sm font-medium text-foreground/65">
+                      Bientôt
+                    </span>
+                  )}
                   <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary transition-colors duration-500 ease-in-out group-hover:bg-accent-primary group-hover:text-white">
                     <Icon className="size-6" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-heading text-xl font-bold text-foreground">{item.title}</h3>
                   <p className="flex-1 text-base text-foreground/70">{item.pitch}</p>
-                  {item.priceFrom && (
+                  {item.priceFrom && !item.comingSoon && (
                     <p className="text-sm text-foreground/55">
                       À partir de <span className="font-semibold text-foreground">{item.priceFrom}</span>
                     </p>
                   )}
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-primary transition-transform duration-500 ease-in-out group-hover:translate-x-1">
-                    Découvrir <ArrowUpRight className="size-4" />
+                    {item.comingSoon ? "En savoir plus" : "Découvrir"} <ArrowUpRight className="size-4" />
                   </span>
                 </Link>
               );

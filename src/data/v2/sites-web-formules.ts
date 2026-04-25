@@ -14,6 +14,8 @@ export type SitesWebFormule = {
   proof?: string;
   href: string;
   rdvHref: string;
+  /** When true, the formule page is not live yet: show a "Coming soon" overlay and route clicks to the WIP modal. */
+  comingSoon?: boolean;
 };
 
 export const sitesWebFormules: SitesWebFormule[] = [
@@ -58,6 +60,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     proof: "12+ landings livrées cette année",
     href: "/sites-web/landing-page",
     rdvHref: "/contact",
+    comingSoon: true,
   },
   {
     slug: "e-commerce",
@@ -79,6 +82,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     proof: "Intégration Stripe, Shopify, Supabase",
     href: "/sites-web/e-commerce",
     rdvHref: "/contact",
+    comingSoon: true,
   },
   {
     slug: "sur-mesure",
@@ -98,7 +102,8 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Projet sur-mesure Friendiz",
     },
     proof: "SaaS, marketplaces, apps internes",
-    href: "/contact",
+    href: "/sites-web/sur-mesure",
     rdvHref: "/contact",
+    comingSoon: true,
   },
 ];

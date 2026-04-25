@@ -45,7 +45,7 @@ export function AgenceApproach() {
                   className={`pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl ${ORB_GLOW_MAP[pillar.accentColor]}`}
                   aria-hidden="true"
                 />
-                <div className="relative flex h-full flex-col items-start gap-5 rounded-2xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-sm md:p-10">
+                <div className="relative flex h-full flex-col items-start gap-5 rounded-2xl border border-transparent bg-background-surface dark:border-foreground/10 dark:bg-foreground/[0.04] p-8 transition-all duration-500 ease-in-out dark:hover:border-foreground/25 md:p-10">
                   <div
                     className={`flex h-12 w-12 items-center justify-center rounded-2xl ${ICON_BG_MAP[pillar.accentColor]}`}
                   >

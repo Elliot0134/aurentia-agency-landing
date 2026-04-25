@@ -4,7 +4,6 @@
 import {
   BrainCircuit,
   Lightbulb,
-  Settings,
   Video,
   Briefcase,
   Users,
@@ -25,7 +24,7 @@ export const solutionsIaData: CommercialPillarData = {
     headline:
       "L'IA qui travaille vraiment pour vous — pas à la place.",
     subHeadline:
-      "Formations, configuration Claude, audits et skills custom. On déploie l'IA dans votre équipe pour qu'elle devienne un vrai levier de productivité.",
+      "Audit, implémentation, configuration Claude, agents et automatisations sur-mesure. On déploie l'IA dans votre équipe pour qu'elle devienne un vrai levier de productivité — pas un gadget.",
     badges: [
       { label: "Partenaire Anthropic Claude", icon: BrainCircuit },
       { label: "Déploiement en 1 semaine", icon: Clock },
@@ -51,29 +50,13 @@ export const solutionsIaData: CommercialPillarData = {
   ],
   subOffers: {
     variant: "grid",
-    title: "Quatre façons de déployer l'IA chez vous",
+    title: "Trois portes d'entrée — un même objectif : déployer l'IA chez vous",
     items: [
-      {
-        icon: Video,
-        title: "Formation IA",
-        pitch:
-          "On forme votre équipe à utiliser Claude, les skills et les agents IA pour 5× leur productivité.",
-        priceFrom: "990 €",
-        href: "/solutions-ia/formation-ia",
-      },
-      {
-        icon: Settings,
-        title: "Configuration Claude",
-        pitch:
-          "On paramètre Claude Code pour votre stack : CLAUDE.md, hooks, skills, MCP servers. Tout opérationnel.",
-        priceFrom: "1 500 €",
-        href: "/solutions-ia/configuration-claude",
-      },
       {
         icon: Lightbulb,
         title: "Audit IA",
         pitch:
-          "On analyse vos process et on identifie les leviers IA à fort ROI. Roadmap 90 jours en sortie.",
+          "On cartographie vos process, on identifie les chantiers IA à fort ROI et on livre une roadmap 90 jours chiffrée. La porte d'entrée naturelle.",
         priceFrom: "990 €",
         href: "/solutions-ia/audit",
       },
@@ -81,9 +64,17 @@ export const solutionsIaData: CommercialPillarData = {
         icon: BrainCircuit,
         title: "Implémentation IA",
         pitch:
-          "On développe et déploie des skills IA custom dans votre stack. Intégrations, formation, support inclus.",
+          "Agents, automatisations, configuration Claude, skills métier sur-mesure. On conçoit, on développe, on déploie dans votre stack — formation et support inclus.",
         priceFrom: "Sur devis",
         href: "/solutions-ia/implementation-ia",
+      },
+      {
+        icon: Video,
+        title: "Formation IA",
+        pitch:
+          "On forme votre équipe à utiliser Claude, les agents et les skills custom sur vos vrais cas d'usage. Plus utile qu'un MOOC, plus durable qu'une conf.",
+        href: "/solutions-ia/formation-ia",
+        comingSoon: true,
       },
     ],
   },
@@ -206,9 +197,9 @@ export const solutionsIaData: CommercialPillarData = {
         "On configure tout pour que vos données restent contrôlées : API keys privées, stockage local si besoin, respect RGPD. On peut aussi déployer sur Claude Enterprise pour les besoins les plus stricts.",
     },
     {
-      question: "Quelle différence entre Formation et Configuration Claude ?",
+      question: "Configuration Claude, Agents, Skills — c'est des services à part ?",
       answer:
-        "La formation forme votre équipe aux bons usages, à la culture et aux bons prompts. La configuration, c'est le travail technique : installer Claude, configurer CLAUDE.md, créer hooks et skills sur-mesure pour votre stack. Les deux sont complémentaires.",
+        "Non, ce sont des spécialités d'Implémentation IA. Quand on implémente l'IA chez vous, selon le besoin on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier — souvent les trois en même temps. Une seule mission, une seule équipe, un seul devis.",
     },
     {
       question: "C'est quoi un skill Claude custom exactement ?",

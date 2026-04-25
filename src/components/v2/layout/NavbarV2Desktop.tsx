@@ -2,7 +2,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { WipAwareLink as Link } from "@/components/shared/WipModal";
+import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
 import { siteConfig } from "@/data/content";
@@ -11,10 +12,21 @@ import { MegaMenu } from "./MegaMenu";
 import { cn } from "@/lib/utils";
 
 export function NavbarV2Desktop() {
+  const pathname = usePathname();
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [menuPos, setMenuPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const triggerRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleLogoClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (pathname === "/") {
+        e.preventDefault();
+        document.getElementById("hero")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [pathname],
+  );
 
   useEffect(() => {
     return () => {
@@ -109,7 +121,7 @@ export function NavbarV2Desktop() {
 
         {/* Center — Logo */}
         <div className="shrink-0">
-          <Link href="/" className="flex items-baseline group shrink-0">
+          <Link href="/" onClick={handleLogoClick} className="flex items-baseline group shrink-0">
             <span className="font-heading text-[1.3rem] leading-none text-foreground font-bold group-hover:opacity-80 transition-opacity duration-500">
               Aurentia
             </span>

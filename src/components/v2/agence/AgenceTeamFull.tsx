@@ -11,10 +11,10 @@ import {
 } from "@/data/v2/agence-content";
 
 function MemberCard({ member, index }: { member: AgenceTeamMember; index: number }) {
-  const isEven = index % 2 === 0;
+  const imageOnRight = index % 2 === 0;
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] md:min-h-[480px]">
+    <div className="group relative overflow-hidden rounded-3xl border border-transparent bg-background-surface dark:border-foreground/10 dark:bg-foreground/[0.04] md:min-h-[480px]">
       {/* ── Mobile: stacked image + text ── */}
       <div className="flex flex-col md:hidden">
         <div className="relative h-[320px] w-full overflow-hidden">
@@ -74,22 +74,24 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
       <div
         className="pointer-events-none absolute inset-0 hidden opacity-0 md:block dark:opacity-100"
         style={{
-          background: isEven
+          background: imageOnRight
             ? "linear-gradient(to right, transparent 40%, color-mix(in srgb, var(--foreground) 10%, transparent) 60%, color-mix(in srgb, var(--foreground) 18%, transparent) 100%)"
             : "linear-gradient(to left, transparent 40%, color-mix(in srgb, var(--foreground) 10%, transparent) 60%, color-mix(in srgb, var(--foreground) 18%, transparent) 100%)",
         }}
       />
 
       <div
-        className={`pointer-events-none absolute bottom-0 hidden h-[110%] w-[55%] md:block ${
-          isEven ? "right-0" : "left-0 md:-left-[4%]"
+        className={`pointer-events-none absolute bottom-0 hidden h-full w-[55%] md:block ${
+          imageOnRight ? "right-0" : "left-0"
         }`}
       >
         <Image
           src={member.image}
           alt={`Portrait de ${member.name}`}
           fill
-          className="object-contain object-bottom"
+          className={
+            imageOnRight ? "object-contain object-right-bottom" : "object-contain object-left-bottom"
+          }
           sizes="55vw"
         />
       </div>
@@ -97,15 +99,15 @@ function MemberCard({ member, index }: { member: AgenceTeamMember; index: number
       <div
         className="pointer-events-none absolute inset-0 hidden opacity-0 md:block dark:opacity-100"
         style={{
-          background: isEven
+          background: imageOnRight
             ? "linear-gradient(to right, var(--color-background-surface) 0%, var(--color-background-surface) 25%, color-mix(in srgb, var(--color-background-surface) 80%, transparent) 40%, color-mix(in srgb, var(--color-background-surface) 30%, transparent) 55%, transparent 70%)"
             : "linear-gradient(to left, var(--color-background-surface) 0%, var(--color-background-surface) 25%, color-mix(in srgb, var(--color-background-surface) 80%, transparent) 40%, color-mix(in srgb, var(--color-background-surface) 30%, transparent) 55%, transparent 70%)",
         }}
       />
 
       <div
-        className={`relative z-10 hidden min-h-[480px] flex-col justify-center gap-4 p-10 md:flex lg:p-12 ${
-          isEven ? "md:w-[55%]" : "md:ml-auto md:w-[55%]"
+        className={`relative z-10 hidden min-h-[480px] w-full flex-col justify-center gap-4 p-10 md:flex md:w-[55%] lg:p-12 ${
+          imageOnRight ? "" : "md:ml-auto"
         }`}
       >
         <span className="inline-flex items-center self-start rounded-full bg-accent-primary/10 px-3 py-1.5 font-mono text-sm uppercase tracking-wider text-accent-primary">

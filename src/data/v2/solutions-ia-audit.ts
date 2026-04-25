@@ -104,7 +104,7 @@ export const solutionsIaAuditData: SubPageData = {
     packs: [
       {
         name: "Audit Express",
-        price: "990 €",
+        price: "800 €",
         priceSuffix: "demi-journée",
         features: [
           "Appel d'alignement de 30 min",
@@ -119,11 +119,11 @@ export const solutionsIaAuditData: SubPageData = {
       {
         name: "Audit Approfondi",
         price: "2 900 €",
-        priceSuffix: "5 jours + atelier",
+        priceSuffix: "2 jours + atelier",
         recommended: true,
         features: [
           "Kick-off étendu avec les dirigeants",
-          "5 jours de diagnostic",
+          "2 jours de diagnostic",
           "Interviews avec 5 à 8 collaborateurs",
           "Cartographie complète des process",
           "Roadmap 90 jours chiffrée et priorisée",
@@ -185,7 +185,7 @@ export const solutionsIaAuditData: SubPageData = {
     {
       question: "Quelle différence entre Express et Approfondi ?",
       answer:
-        "L'Express est une prise de vue rapide (demi-journée) pour identifier les quick wins évidents. L'Approfondi est un vrai diagnostic de 5 jours avec interviews d'équipe, rapport complet et atelier de restitution. Express pour les petites structures, Approfondi pour les PME et plus.",
+        "L'Express est une prise de vue rapide (demi-journée) pour identifier les quick wins évidents. L'Approfondi est un vrai diagnostic de 2 jours avec interviews d'équipe, rapport complet et atelier de restitution. Express pour les petites structures, Approfondi pour les PME et plus.",
     },
     {
       question: "Vous imposez une stack ou des outils ?",

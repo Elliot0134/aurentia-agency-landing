@@ -7,12 +7,15 @@ import { solutionsIaFormationData } from "@/data/v2/solutions-ia-formation";
 import { solutionsIaAuditData } from "@/data/v2/solutions-ia-audit";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
 import { WhatYouGetSection } from "@/components/v2/shared/WhatYouGetSection";
+import { PerksGrid } from "@/components/v2/shared/PerksGrid";
 import { PricingSection } from "@/components/v2/shared/PricingSection";
 import { MethodSection } from "@/components/v2/shared/MethodSection";
 import { ExamplesGrid } from "@/components/v2/shared/ExamplesGrid";
 import { TestimonialsMarquee } from "@/components/v2/shared/TestimonialsMarquee";
 import { FAQSection } from "@/components/v2/shared/FAQSection";
-import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
+import { SectionDivider } from "@/components/v2/shared/SectionDivider";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const DATA_MAP: Record<string, SubPageData> = {
@@ -21,23 +24,39 @@ const DATA_MAP: Record<string, SubPageData> = {
   audit: solutionsIaAuditData,
 };
 
-const SUB_NAV = [
+const BASE_SUB_NAV = [
   { label: "Inclus", sectionId: "what-you-get" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Méthode", sectionId: "method" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "FAQ", sectionId: "faq" },
-  { label: "Contact", sectionId: "contact" },
+  { label: "RDV", sectionId: "rdv-embed" },
+];
+
+const SUB_NAV_WITH_GUARANTEES = [
+  { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Garanties", sectionId: "guarantees" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Méthode", sectionId: "method" },
+  { label: "Exemples", sectionId: "examples" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "RDV", sectionId: "rdv-embed" },
 ];
 
 export function SolutionsIaSubPage({ slug }: { slug: string }) {
   const data = DATA_MAP[slug];
   if (!data) return null;
 
+  const subNav =
+    data.guarantees && data.guarantees.length > 0
+      ? SUB_NAV_WITH_GUARANTEES
+      : BASE_SUB_NAV;
+
   return (
     <>
-      <SubNavSetter items={SUB_NAV} />
+      <SubNavSetter items={subNav} />
 
       <PageHeroCentered
         eyebrow={data.hero.eyebrow}
@@ -50,10 +69,33 @@ export function SolutionsIaSubPage({ slug }: { slug: string }) {
 
       <WhatYouGetSection
         data={data.whatYouGet}
-        subtitle="Pas de surprise — voici exactement ce que vous recevez."
+        subtitle={
+          data.whatYouGet.subtitle ??
+          "Pas de surprise — voici exactement ce que vous recevez."
+        }
       />
 
+      <SectionDivider />
+
+      {data.guarantees && data.guarantees.length > 0 && (
+        <>
+          <PerksGrid
+            id="guarantees"
+            items={data.guarantees}
+            title="Pourquoi notre setup tient la route"
+            subtitle="Ce qui nous distingue des configurations génériques que vous trouvez ailleurs."
+          />
+          <SectionDivider />
+        </>
+      )}
+
       <PricingSection data={data.pricing} />
+
+      <SectionDivider />
+
+      <HomeBookingCTA />
+
+      <SectionDivider />
 
       <MethodSection
         title="Comment on travaille"
@@ -62,23 +104,33 @@ export function SolutionsIaSubPage({ slug }: { slug: string }) {
       />
 
       {data.examples.items.length > 0 && (
-        <ExamplesGrid
-          data={data.examples}
-          subtitle="Des missions récentes pour des équipes qui bougent."
-        />
+        <>
+          <SectionDivider />
+          <ExamplesGrid
+            data={data.examples}
+            subtitle="Des missions récentes pour des équipes qui bougent."
+          />
+        </>
       )}
 
       {data.testimonials.length > 0 && (
-        <TestimonialsMarquee
-          testimonials={data.testimonials}
-          title="Ils ont vu la différence en quelques semaines"
-          subtitle="Des retours concrets de dirigeants et d'équipes qu'on a accompagnés."
-        />
+        <>
+          <SectionDivider />
+          <TestimonialsMarquee
+            testimonials={data.testimonials}
+            title="Ils ont vu la différence en quelques semaines"
+            subtitle="Des retours concrets de dirigeants et d'équipes qu'on a accompagnés."
+          />
+        </>
       )}
+
+      <SectionDivider />
 
       <FAQSection items={data.faq} />
 
-      <HomeContactV2 />
+      <SectionDivider />
+
+      <HomeBookingEmbed />
     </>
   );
 }

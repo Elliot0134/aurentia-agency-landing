@@ -38,7 +38,7 @@ export function MethodSection({
       id={id}
       title={title}
       subtitle={subtitle}
-      className={cn("bg-background-surface", className)}
+      className={className}
     >
       <div className={cn("grid grid-cols-1 gap-5", cols)}>
         {steps.map((step, idx) => {

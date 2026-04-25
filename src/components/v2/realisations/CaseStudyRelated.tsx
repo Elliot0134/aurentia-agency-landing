@@ -26,7 +26,7 @@ export function CaseStudyRelated({ projects }: Props) {
           return (
             <li key={p.slug}>
               <Link
-                href={`/v2/realisations/${p.slug}`}
+                href={`/realisations/${p.slug}`}
                 className="group flex h-full flex-col gap-4 rounded-[1.5rem] bg-background-surface p-4 transition-all duration-700 ease-in-out hover:-translate-y-1"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1rem] bg-foreground/5">

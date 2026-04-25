@@ -2,7 +2,6 @@
 import type { FAQItem } from "@/data/v2/types";
 import { SectionContainer } from "./SectionContainer";
 import { FAQAccordion } from "./FAQAccordion";
-import { cn } from "@/lib/utils";
 
 type FAQSectionProps = {
   items: FAQItem[];
@@ -22,7 +21,8 @@ export function FAQSection({
     <SectionContainer
       id="faq"
       title={title}
-      className={cn("bg-background-surface", className)}
+      surface
+      className={className}
       innerClassName="max-w-3xl"
     >
       <FAQAccordion items={items} />

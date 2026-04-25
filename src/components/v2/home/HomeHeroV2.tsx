@@ -1,17 +1,19 @@
 // src/components/v2/home/HomeHeroV2.tsx
 "use client";
 
-import Link from "next/link";
+import { WipAwareLink as Link } from "@/components/shared/WipModal";
 import { ArrowRight } from "lucide-react";
 import { homeData } from "@/data/v2/home";
 
 const CLIENT_LOGOS = [
+  "Comparateur IA Facile",
+  "French Tech",
+  "AlloRestau",
+  "Friend'iz",
+  "HiLove",
   "Maison Enileh",
-  "Le Prisme",
-  "Atelier Marie",
-  "Nova Tech",
-  "Cabinet K.",
-  "Pergame",
+  "Savistas",
+  "Golf Mentor",
 ];
 
 type ServiceTabKey = "sites-web" | "saas" | "formation-ia" | "systeme-ia";
@@ -38,7 +40,7 @@ export function HomeHeroV2() {
   };
 
   return (
-    <section className="relative overflow-hidden">
+    <section id="hero" className="relative overflow-hidden">
       {/* ══════════════════════════════════════════════
            DECOR — top halo matching the easter-egg bottom halo.
            Radial centered at the very top edge → peak intensity at the

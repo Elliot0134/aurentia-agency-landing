@@ -10,7 +10,7 @@ import {
   type ComponentType,
   type ReactNode,
 } from "react";
-import Link from "next/link";
+import { WipAwareLink as Link } from "@/components/shared/WipModal";
 import gsap from "gsap";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";

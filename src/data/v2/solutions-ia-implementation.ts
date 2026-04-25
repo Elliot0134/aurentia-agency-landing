@@ -177,6 +177,11 @@ export const solutionsIaImplementationData: SubPageData = {
   ],
   faq: [
     {
+      question: "Configuration Claude, c'est inclus ou c'est en plus ?",
+      answer:
+        "C'est inclus dans l'implémentation, comme spécialité technique. Selon votre cas d'usage, on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier sur-mesure — souvent les trois en même temps. Pas de surcharge, c'est une seule mission. Vous pouvez aussi consulter notre page dédiée Configuration Claude pour les setups les plus orientés Claude pur.",
+    },
+    {
       question: "C'est quoi un skill IA exactement ?",
       answer:
         "Un skill, c'est un module (prompts, procédures, outils, intégrations) qui donne à Claude la capacité d'exécuter une tâche précise avec vos données et vos règles. C'est plus qu'un simple prompt — c'est un vrai agent métier.",

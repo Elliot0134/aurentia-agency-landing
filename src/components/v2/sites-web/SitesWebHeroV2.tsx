@@ -6,12 +6,14 @@ import { ArrowRight } from "lucide-react";
 import { sitesWebData } from "@/data/v2/sites-web";
 
 const CLIENT_LOGOS = [
+  "Comparateur IA Facile",
+  "French Tech",
+  "AlloRestau",
+  "Friend'iz",
+  "HiLove",
   "Maison Enileh",
-  "Le Prisme",
-  "Atelier Marie",
-  "Nova Tech",
-  "Cabinet K.",
-  "Pergame",
+  "Savistas",
+  "Golf Mentor",
 ];
 
 export function SitesWebHeroV2() {

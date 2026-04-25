@@ -35,7 +35,7 @@ export function AgenceValuesV2() {
               delay={index * 0.08}
               className={isWide ? "md:col-span-2" : ""}
             >
-              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out hover:border-foreground/20 hover:shadow-sm">
+              <div className="group flex h-full flex-col gap-4 rounded-2xl border border-transparent bg-background-surface dark:border-foreground/10 dark:bg-foreground/[0.04] p-7 transition-all duration-500 ease-in-out dark:hover:border-foreground/25">
                 <div className="flex size-11 items-center justify-center rounded-xl bg-accent-primary/10 text-accent-primary transition-colors duration-500 ease-in-out group-hover:bg-accent-primary group-hover:text-white">
                   <Icon className="size-5" />
                 </div>

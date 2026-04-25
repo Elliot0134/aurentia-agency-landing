@@ -21,7 +21,7 @@ export const sitesWebVitrineData: SubPageData = {
     eyebrow: "Sites Web · Site vitrine",
     headline: "Un site vitrine qui donne envie d'appeler, à partir de 1 500 €.",
     subHeadline:
-      "Un site qui inspire confiance, remonte sur Google et vous ramène des clients — sans attendre 3 mois ni y laisser 5 000 €.",
+      "Un site qui inspire confiance, remonte sur Google et vous ramène des clients — sans attendre 3 mois.",
     priceFrom: "1 200 €",
     badges: [],
     cta: {
@@ -158,7 +158,6 @@ export const sitesWebVitrineData: SubPageData = {
           "Référencement Google de base",
           "Mise en ligne sur votre nom de domaine",
         ],
-        bonus: ["Charte graphique (couleurs, typo, logo simple)"],
         subscription: "19 €/mois",
         subscriptionDetails:
           "Hébergement, certificat de sécurité, sauvegardes, surveillance, support sous 72h",
@@ -176,11 +175,6 @@ export const sitesWebVitrineData: SubPageData = {
           "Référencement Google avancé",
           "Site en français et en anglais",
         ],
-        bonus: [
-          "Page dédiée pour collecter des contacts",
-          "Étude de votre marché (par IA)",
-          "Analyse de vos concurrents (par IA)",
-        ],
         subscription: "35 €/mois",
         subscriptionDetails:
           "Plan 19 € + maintenance, 1 modification/mois, support sous 24h, 4 articles/mois",
@@ -194,14 +188,9 @@ export const sitesWebVitrineData: SubPageData = {
         features: [
           "Tout le pack Croissance",
           "Assistant virtuel personnalisé pour votre site",
-          "Création de logo",
+          "Nombre de pages illimité",
           "Affichage des avis clients",
           "Formation en visio (1h) pour prendre la main",
-        ],
-        bonus: [
-          "Plan d'action pour développer votre activité (par IA)",
-          "Profil de vos clients idéaux (par IA)",
-          "Posts réseaux sociaux prêts à publier (par IA)",
         ],
         subscription: "75 €/mois",
         subscriptionDetails:
@@ -222,24 +211,24 @@ export const sitesWebVitrineData: SubPageData = {
     title: "Quelques exemples récents",
     items: [
       {
-        title: "Atelier Marie — menuiserie d'art",
-        imageUrl: "/images/sites-web/example-atelier-marie.svg",
-        href: "/agence",
+        title: "Maison Enileh — cuisine libanaise",
+        imageUrl: "/images/portfolio/maison-enileh-1.webp",
+        href: "/realisations/maison-enileh",
       },
       {
-        title: "Café Lumen — brasserie de quartier",
-        imageUrl: "/images/sites-web/example-cafe-lumen.svg",
-        href: "/agence",
+        title: "AlloRestau — restaurant & commandes en ligne",
+        imageUrl: "/images/portfolio/allo-restau-1.webp",
+        href: "/realisations/allo-restau",
       },
       {
-        title: "Maître Dufour — cabinet d'avocats",
-        imageUrl: "/images/sites-web/example-dufour.svg",
-        href: "/agence",
+        title: "Savistas — accompagnement entrepreneur",
+        imageUrl: "/images/portfolio/savistas-1.webp",
+        href: "/realisations/savistas",
       },
       {
-        title: "Clinique du Parc — ostéopathie",
-        imageUrl: "/images/sites-web/example-clinique-parc.svg",
-        href: "/agence",
+        title: "Golf Mentor — coaching golf",
+        imageUrl: "/images/portfolio/golf-mentor-1.webp",
+        href: "/realisations/golf-mentor",
       },
     ],
   },

@@ -29,23 +29,13 @@ export function LinkedInEmbed({ url, className }: LinkedInEmbedProps) {
   }
 
   return (
-    <div
-      className={cn(
-        "relative w-full overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.03] transition-colors duration-700 ease-in-out",
-        className
-      )}
-    >
-      {/* 16:9-ish aspect ratio container */}
-      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-        <iframe
-          src={url}
-          title="Post LinkedIn"
-          className="absolute inset-0 h-full w-full"
-          allowFullScreen
-          loading="lazy"
-          style={{ border: "none" }}
-        />
-      </div>
-    </div>
+    <iframe
+      src={url}
+      title="Post LinkedIn"
+      className={cn("block w-full", className)}
+      style={{ height: "540px", border: "none" }}
+      allowFullScreen
+      loading="lazy"
+    />
   );
 }

@@ -1,5 +1,5 @@
 // src/components/v2/layout/FooterV2.tsx
-import Link from "next/link";
+import { WipAwareLink as Link } from "@/components/shared/WipModal";
 import { footerConfig } from "@/data/v2/footer";
 
 export function FooterV2() {

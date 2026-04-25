@@ -13,11 +13,9 @@ import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
 import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
-import { HomeBlogPreview } from "@/components/v2/home/HomeBlogPreview";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
-import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 
@@ -28,7 +26,6 @@ const subNavItems = [
   { label: "Équipe", sectionId: "equipe" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
-  { label: "Blog", sectionId: "blog" },
   { label: "FAQ", sectionId: "faq" },
 ];
 
@@ -39,12 +36,11 @@ if (typeof window !== "undefined") {
 export default function HomeV2() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll past the easter-egg section on mount
+  // Land on the hero on mount (skip the easter-egg section above it)
   useEffect(() => {
-    const easterEgg = document.querySelector("[data-easter-egg]");
-    if (easterEgg) {
-      // Instant scroll (no animation) to skip past the hidden section
-      window.scrollTo({ top: easterEgg.scrollHeight, behavior: "instant" });
+    const hero = document.getElementById("hero");
+    if (hero) {
+      window.scrollTo({ top: hero.offsetTop, behavior: "instant" });
       setTimeout(() => ScrollTrigger.refresh(), 100);
     }
   }, []);
@@ -72,31 +68,18 @@ export default function HomeV2() {
   return (
     <>
       <SubNavSetter items={subNavItems} />
-      <ScrollToTop />
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
-        <HomeEasterEggV2 />
+        {/* <HomeEasterEggV2 /> — désactivé temporairement, on réactivera plus tard */}
         <HomeHeroV2 />
-        <SectionDivider />
         <HomeServicesV2 />
-        <SectionDivider />
         <HomeRealisationsPreview />
-        <SectionDivider />
         <HomeBookingCTA />
-        <SectionDivider />
         <HomeWhyAurentia />
-        <SectionDivider />
         <HomeQuoteV2 />
-        <SectionDivider />
         <HomeTeamV2 />
-        <SectionDivider />
         <HomeTestimonialsV2 />
-        <SectionDivider />
         <HomeMethodV2 />
-        <SectionDivider />
-        <HomeBlogPreview />
-        <SectionDivider />
         <HomeFAQV2 />
-        <SectionDivider />
         <HomeBookingEmbed />
       </div>
     </>

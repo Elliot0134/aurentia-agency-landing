@@ -160,6 +160,7 @@ export type CommercialPillarSubOffersGrid = {
     pitch: string;
     priceFrom?: string;
     href: string;
+    comingSoon?: boolean;
   }[];
 };
 
@@ -359,6 +360,7 @@ export type NavLink = {
   label: string;
   href: string;
   description?: string;
+  comingSoon?: boolean;
 };
 
 export type NavSection = {

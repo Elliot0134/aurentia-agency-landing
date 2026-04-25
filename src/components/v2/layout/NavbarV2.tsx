@@ -37,7 +37,7 @@ export function NavbarV2() {
     <header
       ref={headerRef}
       className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 pointer-events-none"
-      style={{ paddingTop: "16px" }}
+      style={{ paddingTop: "max(16px, env(safe-area-inset-top))" }}
     >
       <nav
         className="pointer-events-auto mx-auto max-w-7xl border rounded-3xl"

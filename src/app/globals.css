@@ -72,22 +72,6 @@
 }
 
 /* ============================================
-   SPLASH SCREEN — Hide content until animation reveals it
-   Applied via CSS so it works BEFORE any JS loads.
-   The [data-splash-ready] attribute is added after the
-   splash animation completes to restore normal behavior.
-   ============================================ */
-/* On desktop: hide content until splash completes */
-@media (min-width: 768px) {
-  [data-splash-content]:not([data-splash-ready]) {
-    opacity: 0 !important;
-  }
-  [data-splash-navbar]:not([data-splash-ready]) {
-    opacity: 0 !important;
-  }
-}
-/* On mobile: show everything immediately — no splash screen */
-/* ============================================
    AURENTIA AGENCY — Global Styles
    Light & Dark mode support · Tailwind CSS v4
    ============================================ */

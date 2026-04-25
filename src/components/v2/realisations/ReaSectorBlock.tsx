@@ -35,7 +35,7 @@ export function ReaSectorBlock({ secteur, projects }: Props) {
 
         <div className="mt-10 flex justify-start md:mt-12">
           <Link
-            href={`/v2/realisations/secteur/${secteur.slug}`}
+            href={`/realisations/secteur/${secteur.slug}`}
             className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-base text-foreground/80 transition-colors duration-500 ease-in-out hover:border-foreground hover:text-foreground"
           >
             Voir tous nos projets {secteur.plural}

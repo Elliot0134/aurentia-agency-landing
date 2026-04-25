@@ -6,12 +6,14 @@ import { ArrowRight } from "lucide-react";
 import { solutionsIaImplementationData } from "@/data/v2/solutions-ia-implementation";
 
 const CLIENT_LOGOS = [
-  "Cabinet Conseil",
-  "Groupe Meca",
-  "Cabinet Meridian",
-  "Fable Studio",
-  "Le Prisme",
-  "Nova Tech",
+  "Comparateur IA Facile",
+  "French Tech",
+  "AlloRestau",
+  "Friend'iz",
+  "HiLove",
+  "Maison Enileh",
+  "Savistas",
+  "Golf Mentor",
 ];
 
 type SolutionTagKey = "audit" | "configuration-claude" | "formation-ia";
@@ -94,24 +96,6 @@ export function ImplementationIAHeroV2() {
               </Link>
             ))}
           </div>
-
-          {/* Badges — rendered as pills */}
-          {hero.badges && hero.badges.length > 0 && (
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {hero.badges.map((badge) => {
-                const Icon = badge.icon;
-                return (
-                  <span
-                    key={badge.label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 bg-background px-3 py-1 text-sm text-foreground/75"
-                  >
-                    {Icon && <Icon className="size-3.5 text-accent-primary" />}
-                    {badge.label}
-                  </span>
-                );
-              })}
-            </div>
-          )}
 
           {/* priceFrom teaser */}
           {hero.priceFrom && (

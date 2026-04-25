@@ -61,7 +61,7 @@ export default function PolitiqueConfidentialitePage() {
           }),
         }}
       />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background pt-24">
         <LegalPageLayout
           title="Politique de Confidentialité"
           lastUpdated="Mars 2026"

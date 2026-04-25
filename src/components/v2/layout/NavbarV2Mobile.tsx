@@ -1,21 +1,34 @@
 // src/components/v2/layout/NavbarV2Mobile.tsx
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useCallback, useState } from "react";
+import { WipAwareLink as Link, isWipHref } from "@/components/shared/WipModal";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
 import { cn } from "@/lib/utils";
 
 export function NavbarV2Mobile() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+
+  const handleLogoClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (pathname === "/") {
+        e.preventDefault();
+        document.getElementById("hero")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [pathname],
+  );
 
   return (
     <nav className="lg:hidden">
       <div className="flex items-center justify-between px-6 py-4">
         <Link
           href={navbarConfig.logo.href}
+          onClick={handleLogoClick}
           className="font-heading text-xl font-bold text-foreground"
         >
           {navbarConfig.logo.label}
@@ -75,17 +88,25 @@ export function NavbarV2Mobile() {
                       )}
                     >
                       <ul className="flex flex-col gap-1 pb-4 pl-4">
-                        {section.children!.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              onClick={() => setOpen(false)}
-                              className="block rounded-lg px-3 py-2 text-base text-foreground/75 transition-colors duration-500 ease-in-out hover:bg-foreground/5"
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
+                        {section.children!.map((child) => {
+                          const wip = isWipHref(child.href) || child.comingSoon === true;
+                          return (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                onClick={() => setOpen(false)}
+                                className="flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-base text-foreground/75 transition-colors duration-500 ease-in-out hover:bg-foreground/5"
+                              >
+                                <span>{child.label}</span>
+                                {wip && (
+                                  <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-sm font-medium text-foreground/60">
+                                    Bientôt
+                                  </span>
+                                )}
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   )}

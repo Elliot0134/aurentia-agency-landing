@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { WipAwareLink } from "@/components/shared/WipModal";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { Card } from "@/components/v2/shared/Card";
@@ -19,14 +20,21 @@ export function SitesWebFormulesHub() {
         {sitesWebFormules.map((formule, idx) => (
           <BlurReveal key={formule.slug} delay={idx * 0.08} className="h-full">
             <Card className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:border-foreground/25 hover:shadow-[0_0_40px_rgba(228,85,18,0.06)]">
-              <Link
+              <WipAwareLink
                 href={formule.href}
                 className="flex h-full flex-1 cursor-pointer flex-col p-6 md:p-8"
               >
-                <h3 className="mb-2 font-heading text-xl leading-tight text-foreground md:text-2xl">
-                  {formule.name}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-heading text-xl leading-tight text-foreground md:text-2xl">
+                    {formule.name}
+                  </h3>
+                  {formule.comingSoon && (
+                    <span className="shrink-0 rounded-full border border-foreground/15 bg-background-surface px-2.5 py-1 text-sm font-medium text-foreground/70">
+                      Coming soon
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {formule.pitch}
                 </p>
 
@@ -44,7 +52,7 @@ export function SitesWebFormulesHub() {
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </div>
-              </Link>
+              </WipAwareLink>
             </Card>
           </BlurReveal>
         ))}

@@ -16,13 +16,13 @@ export function ReaProjectCard({ project, size = "default", className }: Props) 
 
   return (
     <Link
-      href={`/v2/realisations/${project.slug}`}
+      href={`/realisations/${project.slug}`}
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-2xl bg-foreground/[0.03] transition-colors duration-700 ease-in-out hover:bg-foreground/[0.06]",
         className,
       )}
     >
-      <div className="relative w-full overflow-hidden rounded-2xl aspect-[4/3]">
+      <div className="relative w-full overflow-hidden rounded-2xl aspect-video">
         <Image
           src={project.coverImage}
           alt={project.name}
@@ -38,15 +38,6 @@ export function ReaProjectCard({ project, size = "default", className }: Props) 
       </div>
 
       <div className="flex flex-col gap-3 p-5 md:p-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-foreground/10 bg-background/60 px-3 py-1 text-sm text-foreground/70 backdrop-blur-sm">
-            {project.type}
-          </span>
-          <span className="rounded-full border border-foreground/10 bg-background/60 px-3 py-1 text-sm text-foreground/70 backdrop-blur-sm">
-            {secteurLabel}
-          </span>
-        </div>
-
         <div className="flex items-end justify-between gap-4">
           <h3
             className={cn(
@@ -58,6 +49,15 @@ export function ReaProjectCard({ project, size = "default", className }: Props) 
           </h3>
           <span className="shrink-0 text-sm text-foreground/60">
             {project.year}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-foreground/10 bg-background/60 px-3 py-1 text-sm text-foreground/70 backdrop-blur-sm">
+            {project.type}
+          </span>
+          <span className="rounded-full border border-foreground/10 bg-background/60 px-3 py-1 text-sm text-foreground/70 backdrop-blur-sm">
+            {secteurLabel}
           </span>
         </div>
       </div>

@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { WipAwareLink } from "@/components/shared/WipModal";
 import { ArrowRight, Calendar, Check } from "lucide-react";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { sitesWebFormules } from "@/data/v2/sites-web-formules";
@@ -48,8 +49,30 @@ export function SitesWebFormulesSplits() {
                     alt={formule.image.alt}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-700 ease-in-out hover:scale-[1.03]"
+                    className={cn(
+                      "object-cover transition-transform duration-700 ease-in-out hover:scale-[1.03]",
+                      formule.comingSoon && "blur-sm scale-[1.02]",
+                    )}
                   />
+                  {formule.comingSoon && (
+                    <>
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundColor:
+                            "color-mix(in srgb, var(--background) 35%, transparent)",
+                          backdropFilter: "blur(4px)",
+                          WebkitBackdropFilter: "blur(4px)",
+                        }}
+                        aria-hidden
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="rounded-full border border-foreground/15 bg-background-surface px-4 py-2 text-sm font-semibold tracking-wide text-foreground/80 shadow-sm">
+                          Coming soon
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </BlurReveal>
 
@@ -80,13 +103,13 @@ export function SitesWebFormulesSplits() {
                 </ul>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <Link
+                  <WipAwareLink
                     href={formule.href}
                     className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all duration-500 ease-in-out hover:bg-foreground/90"
                   >
                     Découvrir
                     <ArrowRight className="size-4 transition-transform duration-500 ease-in-out group-hover:translate-x-0.5" />
-                  </Link>
+                  </WipAwareLink>
                   <Link
                     href={formule.rdvHref}
                     className="inline-flex items-center gap-2 rounded-full bg-accent-primary px-6 py-3 text-sm font-semibold text-white transition-all duration-500 ease-in-out hover:bg-accent-primary/90"

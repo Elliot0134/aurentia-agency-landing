@@ -8,16 +8,6 @@ const nextConfig: NextConfig = {
         destination: "/sites-vitrines/conciergerie",
         permanent: true,
       },
-      {
-        source: "/realisations",
-        destination: "/v2/realisations",
-        permanent: true,
-      },
-      {
-        source: "/realisations/:slug",
-        destination: "/v2/realisations/:slug",
-        permanent: true,
-      },
     ];
   },
 };
