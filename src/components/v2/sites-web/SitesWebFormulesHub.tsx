@@ -61,7 +61,7 @@ export function SitesWebFormulesHub() {
       {/* Guidance text */}
       <BlurReveal delay={0.3}>
         <p className="mt-10 text-center text-sm text-foreground/60 md:text-base">
-          Pas sûr de ce qu'il vous faut&nbsp;?{" "}
+          Pas sûr de ce qu&apos;il vous faut&nbsp;?{" "}
           <Link
             href="/contact"
             className="font-semibold text-accent-primary underline-offset-4 transition-colors duration-500 ease-in-out hover:underline"

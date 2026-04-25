@@ -81,6 +81,7 @@ export function ChatbotWidget() {
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
+        // eslint-disable-next-line react-hooks/refs
         body: () => ({ audience: audienceRef.current }),
       }),
     [],

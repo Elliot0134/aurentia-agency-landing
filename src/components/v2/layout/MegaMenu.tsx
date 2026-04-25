@@ -19,6 +19,7 @@ export function MegaMenu({ items, open, top, left, onMouseEnter, onMouseLeave }:
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
