@@ -1,21 +1,76 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ============================================
-   SPLASH SCREEN — Hide content until animation reveals it
-   Applied via CSS so it works BEFORE any JS loads.
-   The [data-splash-ready] attribute is added after the
-   splash animation completes to restore normal behavior.
+   WALDENBURG — ElevenLabs custom font (hotlinked from eleven-public-cdn)
+   For /v2 test only. Waldenburg is a commercial font by Kilotype;
+   replace with a licensed copy (or a free alternative like Cabinet Grotesk
+   or Geist) before shipping to production.
    ============================================ */
-/* On desktop: hide content until splash completes */
-@media (min-width: 768px) {
-  [data-splash-content]:not([data-splash-ready]) {
-    opacity: 0 !important;
-  }
-  [data-splash-navbar]:not([data-splash-ready]) {
-    opacity: 0 !important;
-  }
+@font-face {
+  font-family: "Waldenburg";
+  src: url("https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Buch-latin.1f7863d3c4317f3d.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
-/* On mobile: show everything immediately — no splash screen */
+@font-face {
+  font-family: "Waldenburg";
+  src: url("https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Normal-latin.47fcefe5bf77b4e5.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Waldenburg";
+  src: url("https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Fett-latin.e6b0db8ee0a63897.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Waldenburg FH";
+  src: url("https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-FettHalbschmal-latin.f75400b2d7673b43.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   TELEGRAF (PP Telegraf) — Pangram Pangram Foundry
+   Used as /v2 heading font. Hotlinked via onlinewebfonts CDN for test.
+   Before prod: purchase license and self-host in /public/fonts/.
+   ============================================ */
+@font-face {
+  font-family: "Telegraf";
+  src: url("https://db.onlinewebfonts.com/t/cd7b05ba22e73021e0a390f532a72589.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Telegraf";
+  src: url("https://db.onlinewebfonts.com/t/0024a88d446551756658a7550228b70d.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Telegraf";
+  src: url("https://db.onlinewebfonts.com/t/ac187c52eeff516225fc35f138f225fc.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Telegraf";
+  src: url("https://db.onlinewebfonts.com/t/2d7764cff2ba6b0b0f9b77d23162f325.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ============================================
    AURENTIA AGENCY — Global Styles
    Light & Dark mode support · Tailwind CSS v4
@@ -51,6 +106,38 @@
   --color-card-border-hover: var(--glass-border-hover);
   --color-navbar-bg: var(--glass-nav-bg);
   --color-badge-bg: var(--glass-badge-bg);
+
+  /* Shadcn-style tokens (used by /v2 — scoped via [data-v2-root]) */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -103,6 +190,37 @@
 
     --section-padding: 8rem;
     --section-padding-mobile: 4rem;
+
+    /* Shadcn-style fallbacks (nacré palette) — overridden inside [data-v2-root] */
+    --primary: var(--accent);
+    --primary-foreground: #faf9f6;
+    --secondary: var(--bg-alt);
+    --secondary-foreground: var(--text-primary);
+    --accent-foreground: #faf9f6;
+    --muted: var(--bg-alt);
+    --muted-foreground: var(--text-muted);
+    --destructive: #ff3434;
+    --destructive-foreground: #faf9f6;
+    --border: rgba(59, 57, 41, 0.12);
+    --input: rgba(59, 57, 41, 0.12);
+    --ring: var(--accent);
+    --card: var(--bg-surface);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-surface);
+    --popover-foreground: var(--text-primary);
+    --sidebar: var(--bg-alt);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--accent);
+    --sidebar-primary-foreground: #faf9f6;
+    --sidebar-accent: var(--bg-surface);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: rgba(59, 57, 41, 0.12);
+    --sidebar-ring: var(--accent);
+    --chart-1: #c96442;
+    --chart-2: #d97757;
+    --chart-3: #b05730;
+    --chart-4: #e8945a;
+    --chart-5: #83827d;
   }
 
   [data-theme="dark"] {
@@ -131,6 +249,227 @@
 
     --cell-border: rgba(250, 249, 246, 0.08);
     --cell-fill: rgba(250, 249, 246, 0.03);
+
+    /* Shadcn-style fallbacks — dark overrides for rgba-hardcoded tokens */
+    --border: rgba(250, 249, 246, 0.1);
+    --input: rgba(250, 249, 246, 0.1);
+    --sidebar-border: rgba(250, 249, 246, 0.1);
+  }
+
+  /* ------------------------------------------
+     /v2 scope — ElevenLabs palette (verbatim from elevenlabs.io).
+     Applied to everything inside <div data-v2-root> (src/app/v2/layout.tsx).
+     Does NOT affect pages outside /v2.
+     ------------------------------------------ */
+  [data-v2-root] {
+    /* ElevenLabs raw neutrals */
+    --eggshell: #FDFCFC;
+    --white-50: #FFFFFF;
+    --white-200: #F5F3F1;
+    --neutral-50: #F2F2F2;
+    --neutral-100: #E5E5E5;
+    --neutral-200: #DCDCDC;
+    --neutral-300: #BDBDBD;
+    --neutral-400: #949494;
+    --neutral-500: #767676;
+    --neutral-600: #6E6E6E;
+    --neutral-700: #525252;
+    --neutral-800: #464646;
+    --neutral-900: #3D3D3D;
+    --neutral-950: #1C1C1C;
+
+    /* ElevenLabs orange ramp (brand accent — kept for charts/highlights) */
+    --orange-50: #FFF7ED;
+    --orange-100: #FEECD6;
+    --orange-200: #FCD5AC;
+    --orange-300: #F9B778;
+    --orange-400: #F58633;
+    --orange-500: #F36F1C;
+    --orange-600: #E45512;
+    --orange-700: #BD3F11;
+    --orange-800: #963316;
+    --orange-900: #792C15;
+    --orange-950: #492104;
+
+    /* Shadcn-semantic tokens (derived from ElevenLabs shadcn HSLs) */
+    --background: var(--eggshell);
+    --foreground: #0A0A0A;          /* hsl(0 0% 3.9%) */
+    --card: var(--white-50);
+    --card-foreground: #0A0A0A;
+    --popover: var(--white-50);
+    --popover-foreground: #0A0A0A;
+    --primary: #171717;             /* hsl(0 0% 9%) — dark CTA buttons */
+    --primary-foreground: #FAFAFA;  /* hsl(0 0% 98%) */
+    --secondary: #F5F5F5;           /* hsl(0 0% 96.1%) */
+    --secondary-foreground: #171717;
+    --muted: #F5F5F5;
+    --muted-foreground: #737373;    /* hsl(0 0% 45.1%) */
+    /* Brand accent — Aurentia orange (same token as navbar "Prendre RDV") */
+    --accent: var(--orange-500);
+    --accent2: var(--orange-700);
+    --accent-foreground: #FFFFFF;
+    --destructive: #EF4444;         /* hsl(0 84.2% 60.2%) */
+    --destructive-foreground: #FAFAFA;
+    --border: #E5E5E5;              /* hsl(0 0% 89.8%) */
+    --input: #E5E5E5;
+    --ring: #0A0A0A;
+
+    /* Sidebar */
+    --sidebar: var(--white-200);
+    --sidebar-foreground: #171717;
+    --sidebar-primary: #171717;
+    --sidebar-primary-foreground: #FAFAFA;
+    --sidebar-accent: #F2F2F2;
+    --sidebar-accent-foreground: #171717;
+    --sidebar-border: #E5E5E5;
+    --sidebar-ring: #171717;
+
+    /* Charts — ElevenLabs orange ramp */
+    --chart-1: var(--orange-400);
+    --chart-2: var(--orange-500);
+    --chart-3: var(--orange-600);
+    --chart-4: var(--orange-700);
+    --chart-5: var(--orange-800);
+
+    /* Design tokens — ElevenLabs values */
+    --radius: 0.5rem;
+    --page-background-color: var(--eggshell);
+
+    /* Typography — 100% hardcoded, zero var() indirection to avoid
+       "invalid at computed-value time" fallbacks to serif browser defaults */
+    --font-telegraf: "Telegraf", "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-sans: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-heading: "Telegraf", "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-display: "Telegraf", "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+    /* Bridge to legacy token system — FLAT backgrounds (no section alternation,
+       matches ElevenLabs: single eggshell bg across all sections) */
+    --bg-base: var(--eggshell);
+    --bg-alt: var(--eggshell);
+    --bg-surface: #F4F4F5;
+    --text-primary: #0A0A0A;
+    --text-muted: #737373;
+    --text-dim: var(--neutral-400);
+    --color-background: var(--eggshell);
+    --color-background-alt: var(--eggshell);
+    --color-background-surface: #F4F4F5;
+    --color-foreground: #0A0A0A;
+    --color-foreground-muted: #737373;
+    --color-foreground-dim: var(--neutral-400);
+
+    /* Glass tokens — navbar, dropdowns, badges (eggshell-tinted) */
+    --glass-card-bg: rgba(10, 10, 10, 0.03);
+    --glass-card-hover: rgba(10, 10, 10, 0.06);
+    --glass-border: rgba(10, 10, 10, 0.08);
+    --glass-border-hover: rgba(10, 10, 10, 0.12);
+    --glass-nav-bg: rgba(253, 252, 252, 0.7);
+    --glass-dropdown-bg: rgba(253, 252, 252, 0.8);
+    --glass-badge-bg: rgba(10, 10, 10, 0.05);
+    --color-card-bg: rgba(10, 10, 10, 0.03);
+    --color-card-bg-hover: rgba(10, 10, 10, 0.06);
+    --color-card-border: rgba(10, 10, 10, 0.08);
+    --color-card-border-hover: rgba(10, 10, 10, 0.12);
+    --color-navbar-bg: rgba(253, 252, 252, 0.7);
+    --color-badge-bg: rgba(10, 10, 10, 0.05);
+  }
+
+  [data-theme="dark"] [data-v2-root] {
+    /* Dark mode — mirrored inverse (ElevenLabs site is light-only) */
+    --background: var(--neutral-950);
+    --foreground: #FAFAFA;
+    --card: #171717;
+    --card-foreground: #FAFAFA;
+    --popover: #171717;
+    --popover-foreground: #FAFAFA;
+    --primary: #FAFAFA;
+    --primary-foreground: #171717;
+    --secondary: #262626;
+    --secondary-foreground: #FAFAFA;
+    --muted: #262626;
+    --muted-foreground: var(--neutral-400);
+    /* Brand accent stays orange in dark mode too — brand color, not theme-dependent */
+    --accent: var(--orange-500);
+    --accent2: var(--orange-700);
+    --accent-foreground: #FFFFFF;
+    --border: #262626;
+    --input: #262626;
+    --ring: #D4D4D4;
+
+    --sidebar: #171717;
+    --sidebar-foreground: #FAFAFA;
+    --sidebar-primary: #FAFAFA;
+    --sidebar-primary-foreground: #171717;
+    --sidebar-accent: #262626;
+    --sidebar-accent-foreground: #FAFAFA;
+    --sidebar-border: #262626;
+
+    --chart-1: var(--orange-300);
+    --chart-2: var(--orange-400);
+    --chart-3: var(--orange-500);
+    --chart-4: var(--orange-600);
+    --chart-5: var(--orange-700);
+
+    /* Bridge — dark background: flat page bg, elevated gray for cards */
+    --bg-base: var(--neutral-950);
+    --bg-alt: var(--neutral-950);
+    --bg-surface: #262626;
+    --text-primary: #FAFAFA;
+    --text-muted: var(--neutral-400);
+    --text-dim: var(--neutral-500);
+    --color-background: var(--neutral-950);
+    --color-background-alt: var(--neutral-950);
+    --color-background-surface: #262626;
+    --color-foreground: #FAFAFA;
+    --color-foreground-muted: var(--neutral-400);
+    --color-foreground-dim: var(--neutral-500);
+
+    /* Glass tokens — dark */
+    --glass-card-bg: rgba(250, 250, 250, 0.03);
+    --glass-card-hover: rgba(250, 250, 250, 0.06);
+    --glass-border: rgba(250, 250, 250, 0.08);
+    --glass-border-hover: rgba(250, 250, 250, 0.12);
+    --glass-nav-bg: rgba(28, 28, 28, 0.7);
+    --glass-dropdown-bg: rgba(28, 28, 28, 0.8);
+    --glass-badge-bg: rgba(250, 250, 250, 0.08);
+    --color-card-bg: rgba(250, 250, 250, 0.03);
+    --color-card-bg-hover: rgba(250, 250, 250, 0.06);
+    --color-card-border: rgba(250, 250, 250, 0.08);
+    --color-card-border-hover: rgba(250, 250, 250, 0.12);
+    --color-navbar-bg: rgba(28, 28, 28, 0.7);
+    --color-badge-bg: rgba(250, 250, 250, 0.08);
+  }
+
+  /* ------------------------------------------
+     /v2 cards — no borders in light theme.
+     The gray `bg-background-surface` (#F4F4F5) already separates
+     cards from the eggshell page bg, so borders are redundant.
+     Sections use border-b/border-t (directional) so they're unaffected.
+     Matches cards that combine `.border` (all-sides) with a card bg
+     and either `border-foreground/10` or `border-border`.
+     Dark theme keeps the original Tailwind border color.
+     ------------------------------------------ */
+  [data-v2-root] .border.border-foreground\/10.bg-background-surface,
+  [data-v2-root] .border.border-foreground\/10.bg-background,
+  [data-v2-root] .border.border-border.bg-background-surface,
+  [data-v2-root] .border.border-border.bg-background {
+    border-color: transparent;
+  }
+
+  [data-v2-root] .border.border-foreground\/10.bg-background-surface:hover,
+  [data-v2-root] .border.border-foreground\/10.bg-background:hover,
+  [data-v2-root] .border.border-border.bg-background-surface:hover,
+  [data-v2-root] .border.border-border.bg-background:hover {
+    border-color: transparent;
+  }
+
+  [data-theme="dark"] [data-v2-root] .border.border-foreground\/10.bg-background-surface,
+  [data-theme="dark"] [data-v2-root] .border.border-foreground\/10.bg-background {
+    border-color: rgba(250, 250, 250, 0.1);
+  }
+
+  [data-theme="dark"] [data-v2-root] .border.border-border.bg-background-surface,
+  [data-theme="dark"] [data-v2-root] .border.border-border.bg-background {
+    border-color: var(--border);
   }
 
   body {
@@ -146,6 +485,165 @@
   h1, h2 {
     font-family: var(--font-heading);
   }
+
+  /* ------------------------------------------
+     /v2 scope — ElevenLabs typography scale
+     Weights: 300 (Light) for h1/h2/h3, 400 (Regular) for h4/h5/p.
+     NOT 700. ElevenLabs headings are deliberately light.
+     Sizes follow the --f-heading-* scale from the elevenlabs.io CSS.
+     ------------------------------------------ */
+  [data-v2-root] {
+    font-family: var(--font-sans);
+  }
+
+  [data-v2-root] h1,
+  [data-v2-root] h2,
+  [data-v2-root] h3,
+  [data-v2-root] h4,
+  [data-v2-root] h5,
+  [data-v2-root] h6,
+  [data-v2-root] .font-heading {
+    font-family: "Telegraf", "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif !important;
+  }
+
+  /* Force sans-serif on ALL elements inside v2 to kill any serif fallback */
+  [data-v2-root] {
+    font-family: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", ui-sans-serif, system-ui, -apple-system, sans-serif !important;
+  }
+
+  /* h1 — heading-01 (Telegraf Regular 400) */
+  [data-v2-root] h1 {
+    font-size: 2rem;
+    line-height: 105%;
+    letter-spacing: -0.03em !important;
+    font-weight: 400;
+  }
+  /* h2 — heading-02 (Telegraf Regular 400) */
+  [data-v2-root] h2 {
+    font-size: 2rem;
+    line-height: 110%;
+    letter-spacing: -0.03em !important;
+    font-weight: 400;
+  }
+  /* h3 — heading-03 (Telegraf Regular 400) */
+  [data-v2-root] h3 {
+    font-size: 1.75rem;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  /* h4 — heading-04 */
+  [data-v2-root] h4 {
+    font-size: 1.25rem;
+    line-height: 130%;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  /* h5 — heading-05 */
+  [data-v2-root] h5 {
+    font-size: 1.125rem;
+    line-height: 135%;
+    font-weight: 400;
+  }
+  /* h6 — subhead-02 style */
+  [data-v2-root] h6 {
+    font-size: 1rem;
+    line-height: 140%;
+    font-weight: 500;
+  }
+
+  /* Body paragraphs — Inter 400 (paragraph-02) */
+  [data-v2-root] p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 140%;
+    font-weight: 400;
+  }
+
+  /* md — 768px */
+  @media (min-width: 768px) {
+    [data-v2-root] h1 { font-size: 2.5rem; }
+    [data-v2-root] h2 { font-size: 2.5rem; line-height: 105%; }
+    [data-v2-root] h3 { font-size: 2rem; }
+    [data-v2-root] h4 { font-size: 1.25rem; }
+    [data-v2-root] p  { font-size: 1rem; }
+  }
+
+  /* lg — 1024px */
+  @media (min-width: 1024px) {
+    [data-v2-root] h1 { font-size: 3.25rem; line-height: 105%; }
+    [data-v2-root] h2 { font-size: 3rem; }
+    [data-v2-root] h3 { font-size: 2.25rem; }
+    [data-v2-root] h4 { font-size: 1.5rem; }
+    [data-v2-root] h5 { font-size: 1.25rem; }
+    [data-v2-root] p  { font-size: 1.125rem; line-height: 160%; }
+  }
+
+  /* xl — 1280px */
+  @media (min-width: 1280px) {
+    [data-v2-root] h1 { font-size: 3.75rem; }
+  }
+
+  /* Keep inline strong/b subtle (body emphasis only) — but let
+     Tailwind .font-bold/.font-semibold classes render at their real weight
+     so section titles and headings can be properly bold. */
+  [data-v2-root] strong,
+  [data-v2-root] b {
+    font-weight: 500;
+  }
+
+  /* ── Easter-egg section overrides (v2): hide the grid pattern and dampen
+       bold titles so the section feels continuous with the hero rather than
+       a separate chapter. */
+  [data-v2-root] [data-v2-easter-egg] {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -1px;
+  }
+  [data-v2-root] [data-v2-easter-egg] .hero-grid {
+    display: none !important;
+  }
+  [data-v2-root] [data-v2-easter-egg] h1,
+  [data-v2-root] [data-v2-easter-egg] h2,
+  [data-v2-root] [data-v2-easter-egg] h3,
+  [data-v2-root] [data-v2-easter-egg] .font-bold,
+  [data-v2-root] [data-v2-easter-egg] .font-extrabold,
+  [data-v2-root] [data-v2-easter-egg] .font-semibold {
+    font-weight: 500 !important;
+  }
+
+  /* Prize showcase cards — borderless in light, surface bg */
+  [data-v2-root] [data-v2-easter-egg] .grid > div {
+    border-color: transparent !important;
+    background-color: var(--bg-surface) !important;
+    backdrop-filter: none !important;
+  }
+  [data-theme="dark"] [data-v2-root] [data-v2-easter-egg] .grid > div {
+    border-color: color-mix(in srgb, currentColor 10%, transparent) !important;
+    background-color: color-mix(in srgb, currentColor 4%, transparent) !important;
+  }
+
+  /* Email input — clean up to match v2 form style */
+  [data-v2-root] [data-v2-easter-egg] input[type="email"] {
+    border-color: transparent !important;
+    background-color: var(--bg-surface) !important;
+    backdrop-filter: none !important;
+  }
+  [data-v2-root] [data-v2-easter-egg] input[type="email"]:focus {
+    border-color: var(--accent) !important;
+    background-color: var(--background) !important;
+  }
+
+  /* Result/feedback cards — same borderless treatment */
+  [data-v2-root] [data-v2-easter-egg] div[class*="border-l-4"],
+  [data-v2-root] [data-v2-easter-egg] div[class*="border-foreground"][class*="rounded-2xl"]:not(.grid > div) {
+    border-color: transparent !important;
+    background-color: var(--bg-surface) !important;
+  }
+  [data-v2-root] [data-v2-easter-egg] div[class*="border-l-4"] {
+    border-left-color: var(--accent) !important;
+  }
+
 
   /* Smooth scrolling (respects reduced-motion below) */
   html {

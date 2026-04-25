@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Footer } from "@/components/layout/Footer";
 import { LegalPageLayout, type TocItem } from "@/components/legal/LegalPageLayout";
 import { LegalSection } from "@/components/legal/LegalSection";
 
@@ -688,7 +687,6 @@ export default function CGVPage() {
           </LegalSection>
         </LegalPageLayout>
       </main>
-      <Footer />
     </>
   );
 }

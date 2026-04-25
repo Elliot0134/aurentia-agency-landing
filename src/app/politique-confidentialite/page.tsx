@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 import { LegalSection } from "@/components/legal/LegalSection";
@@ -62,7 +61,7 @@ export default function PolitiqueConfidentialitePage() {
           }),
         }}
       />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background pt-24">
         <LegalPageLayout
           title="Politique de Confidentialité"
           lastUpdated="Mars 2026"
@@ -781,7 +780,6 @@ export default function PolitiqueConfidentialitePage() {
           </LegalSection>
         </LegalPageLayout>
       </main>
-      <Footer />
       <ScrollToTop />
     </>
   );

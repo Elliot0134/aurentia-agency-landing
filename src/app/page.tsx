@@ -3,54 +3,54 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Footer } from "@/components/layout/Footer";
-import { HeroEasterEgg } from "@/components/home/HeroEasterEgg";
-import { HomeHero } from "@/components/home/HomeHero";
-
-import { HomeServices } from "@/components/home/HomeServices";
-import { HomeProcess } from "@/components/home/HomeProcess";
-import { HomeTeam } from "@/components/home/HomeTeam";
-import { HomePortfolio } from "@/components/home/HomePortfolio";
-import { HomeTestimonials } from "@/components/home/HomeTestimonials";
-import { HomeAdvantages } from "@/components/home/HomeAdvantages";
-import { HomeFAQ } from "@/components/home/HomeFAQ";
-import { HomeContact } from "@/components/home/HomeContact";
-import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { useGSAP } from "@gsap/react";
+import { HomeEasterEggV2 } from "@/components/v2/home/HomeEasterEggV2";
+import { HomeHeroV2 } from "@/components/v2/home/HomeHeroV2";
+import { HomeServicesV2 } from "@/components/v2/home/HomeServicesV2";
+import { HomeWhyAurentia } from "@/components/v2/home/HomeWhyAurentia";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
+import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
+import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
+import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
+import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
+import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
+import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
+import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 
 const subNavItems = [
-  { label: "Services", sectionId: "services" },
-  { label: "Réalisations", sectionId: "portfolio" },
+  { label: "Services", sectionId: "pillars" },
+  { label: "Réalisations", sectionId: "realisations" },
+  { label: "Pourquoi", sectionId: "why" },
   { label: "Équipe", sectionId: "equipe" },
-  { label: "Avantages", sectionId: "advantages" },
-  { label: "Avis", sectionId: "testimonials" },
-  { label: "Processus", sectionId: "process" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Méthode", sectionId: "method" },
   { label: "FAQ", sectionId: "faq" },
-  { label: "Contact", sectionId: "contact" },
 ];
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function Home() {
+export default function HomeV2() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll past the easter egg section on mount
+  // Land on the hero on mount (skip the easter-egg section above it)
   useEffect(() => {
-    const easterEgg = document.querySelector("[data-easter-egg]");
-    if (easterEgg) {
-      // Instant scroll (no animation) to skip past the hidden section
-      window.scrollTo({ top: easterEgg.scrollHeight, behavior: "instant" });
-      // Refresh ScrollTrigger after repositioning
+    const hero = document.getElementById("hero");
+    if (hero) {
+      window.scrollTo({ top: hero.offsetTop, behavior: "instant" });
       setTimeout(() => ScrollTrigger.refresh(), 100);
     }
   }, []);
 
-  useEffect(() => {
+  // Grayscale-on-scroll fade (0.15 → 0 over the first 600px of scroll)
+  useGSAP(() => {
     if (!wrapperRef.current) return;
 
-    gsap.fromTo(wrapperRef.current,
+    gsap.fromTo(
+      wrapperRef.current,
       { filter: "grayscale(0.15)" },
       {
         filter: "grayscale(0)",
@@ -60,29 +60,27 @@ export default function Home() {
           start: "top top",
           end: "+=600",
           scrub: true,
-        }
-      }
+        },
+      },
     );
-  }, []);
+  }, { scope: wrapperRef });
 
   return (
     <>
       <SubNavSetter items={subNavItems} />
-      <ScrollToTop />
       <div ref={wrapperRef} className="will-change-[filter,opacity]" data-splash-content>
-        <main className="flex min-h-screen flex-col w-full">
-          <HeroEasterEgg />
-          <HomeHero />
-          <HomeServices />
-          <HomePortfolio />
-          <HomeTeam />
-          <HomeAdvantages />
-          <HomeTestimonials />
-          <HomeProcess />
-          <HomeFAQ />
-          <HomeContact />
-        </main>
-        <Footer />
+        {/* <HomeEasterEggV2 /> — désactivé temporairement, on réactivera plus tard */}
+        <HomeHeroV2 />
+        <HomeServicesV2 />
+        <HomeRealisationsPreview />
+        <HomeBookingCTA />
+        <HomeWhyAurentia />
+        <HomeQuoteV2 />
+        <HomeTeamV2 />
+        <HomeTestimonialsV2 />
+        <HomeMethodV2 />
+        <HomeFAQV2 />
+        <HomeBookingEmbed />
       </div>
     </>
   );

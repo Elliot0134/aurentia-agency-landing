@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 import { LegalSection } from "@/components/legal/LegalSection";
@@ -280,7 +279,6 @@ export default function MentionsLegalesPage() {
           </LegalSection>
         </LegalPageLayout>
       </main>
-      <Footer />
       <ScrollToTop />
     </>
   );
