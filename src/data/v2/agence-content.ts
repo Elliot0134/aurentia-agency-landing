@@ -88,19 +88,19 @@ export const agenceStatsSection = {
 export const agenceTeam: AgenceTeamMember[] = [
   {
     name: "Elliot Estrade",
-    role: "CEO, IA & Design",
-    badge: "Architecte IA & Design",
-    bio: "Entrepreneur et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev). Co-fondateur de Kaelen Studio (jeux Roblox). Créateur de Comparateur-IA-Facile.com. Formateur IA en entreprise — il forme des équipes à intégrer l'intelligence artificielle dans leurs process. C'est lui qui a forgé le workflow IA d'Aurentia — le système sur-mesure qui permet de livrer un site pro en 72h. La vision, l'innovation, la vitesse.",
+    role: "CEO, Vision & IA",
+    badge: "Entrepreneur & Architecte IA",
+    bio: "À l'origine d'Aurentia. Entrepreneur multi-projets et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev) et de Friend'iz (CBD pour animaux). Co-créateur de Comparateur-IA-Facile.com avec Matthieu et Olivier. Formateur IA en entreprise. Chez Aurentia, il porte la vision, la stratégie business et la direction produit — design, IA et positionnement, c'est lui qui orchestre, avec l'équipe.",
     tags: [
+      "Vision & Stratégie",
+      "Direction produit",
       "Intelligence Artificielle",
       "Design UI/UX",
-      "Automatisation",
-      "Stratégie produit",
+      "Business development",
       "Formation IA",
-      "E-commerce",
     ],
     image: "/images/team/elliot.webp",
-    linkedin: "https://www.linkedin.com/in/elliot-estrade/",
+    linkedin: "https://www.linkedin.com/in/elliot-estrade-8b7754201/",
   },
   {
     name: "Matthieu Bousquet",
@@ -148,10 +148,25 @@ export const agenceTeam: AgenceTeamMember[] = [
     image: "/images/team/olivier-droite.webp",
     linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",
   },
+  {
+    name: "Stéphane Guillemot",
+    role: "E-commerce & Scale",
+    badge: "Serial entrepreneur e-commerce",
+    bio: "Serial entrepreneur, 4 sociétés créées et cédées en 25 ans. CEO d'Achatvip (45 M€ de CA, 2,7M membres, 3 500 expéditions/jour) et co-fondateur d'Inshop chez Veepee — Trophée de l'Innovation E-commerce 2013. Ex-Country Manager de 3COM France (120 M€) et d'Efficient Networks (groupe Siemens). Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien. Chez Aurentia, il apporte la vision e-commerce et la culture du scale-up.",
+    tags: [
+      "E-commerce scaling",
+      "Stratégie & vision",
+      "IA appliquée",
+      "DeFi & Fintech",
+      "Direction générale",
+    ],
+    image: "/images/team/stephane.webp",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
+  },
 ];
 
 export const agenceTeamSection = {
-  title: "Quatre profils. Une seule exigence.",
+  title: "Cinq profils. Une seule exigence.",
   subtitle: "20 ans de craft web, l'IA comme superpouvoir, et une ingénierie sans compromis.",
 };
 

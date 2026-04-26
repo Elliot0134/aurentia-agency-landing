@@ -20,13 +20,13 @@ type Member = {
 const team: Member[] = [
   {
     name: "Elliot",
-    role: "CEO, IA & Design",
-    desc: "Architecte IA et design. La vision, l'innovation, la direction créative.",
+    role: "CEO, Vision & IA",
+    desc: "Stratégie, direction produit et IA. Le moteur d'Aurentia.",
     details:
-      "Fondateur de Friend'iz (e-commerce) et CEO d'ESST Solutions. Spécialiste automatisation N8N et développement avec Claude Code. Formateur et consultant IA en entreprise.",
+      "À l'origine d'Aurentia. Entrepreneur multi-projets et architecte IA. Fondateur d'ESST Solutions et de Friend'iz (CBD pour animaux). Co-créateur de Comparateur-IA-Facile.com avec Matthieu et Olivier. Chez Aurentia, il porte la vision, la stratégie et la direction produit/IA.",
     imageRight: "/images/team/elliot.webp",
     imageLeft: "/images/team/elliot.webp",
-    linkedin: "https://www.linkedin.com/in/elliot-estrade/",
+    linkedin: "https://www.linkedin.com/in/elliot-estrade-8b7754201/",
   },
   {
     name: "Matthieu",
@@ -57,6 +57,16 @@ const team: Member[] = [
     imageRight: "/images/team/olivier-droite.webp",
     imageLeft: "/images/team/olivier-gauche.webp",
     linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",
+  },
+  {
+    name: "Stéphane",
+    role: "E-commerce & Scale",
+    desc: "La culture du scale-up. 25 ans de serial entrepreneur, vision e-commerce et IA.",
+    details:
+      "Serial entrepreneur, 4 sociétés créées et cédées. CEO d'Achatvip (45 M€ de CA, 2,7M membres) et co-fondateur d'Inshop chez Veepee — Trophée de l'Innovation E-commerce 2013. Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien.",
+    imageRight: "/images/team/stephane.webp",
+    imageLeft: "/images/team/stephane.webp",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
   },
 ];
 
@@ -130,7 +140,7 @@ export function AProposTeam() {
   return (
     <SectionContainer
       id="equipe"
-      title="Les quatre fondateurs"
+      title="Les cinq fondateurs"
       subtitle="Une équipe resserrée, complémentaire, qui pilote chaque projet de A à Z. Pas de sous-traitance, pas d'intermédiaires."
       className="relative"
     >
@@ -143,7 +153,7 @@ export function AProposTeam() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 auto-rows-[240px] md:auto-rows-[320px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-[240px] md:auto-rows-[320px]">
           {secondRow.map((member, idx) => (
             <BlurReveal key={member.name} delay={(idx + 2) * 0.2} className="h-full">
               <TeamCard member={member} idx={idx + 2} />
