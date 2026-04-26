@@ -262,6 +262,8 @@ export type SubPageData = {
   };
   examples: {
     title: string;
+    /** "card" (default) crops images in a bordered card. "bare" displays full images without bg/border. */
+    variant?: "card" | "bare";
     items: { title: string; imageUrl?: string; href?: string }[];
   };
   testimonials: Testimonial[];

@@ -182,6 +182,7 @@ export const sitesWebSurMesureData: SubPageData = {
   },
   examples: {
     title: "Deux projets sur-mesure récents",
+    variant: "bare",
     items: [
       {
         title: "Comparateur IA Facile — comparateur SaaS",
