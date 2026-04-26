@@ -6,7 +6,12 @@ import { ArrowRight } from "lucide-react";
 import type { SubPageData } from "@/data/v2/types";
 import { sitesWebLandingData } from "@/data/v2/sites-web-landing";
 import { sitesWebVitrineData } from "@/data/v2/sites-web-vitrine";
+import { sitesWebEcommerceData } from "@/data/v2/sites-web-ecommerce";
+import { sitesWebSurMesureData } from "@/data/v2/sites-web-sur-mesure";
 import { SitesWebHero } from "./SitesWebHero";
+import { EcommerceAnatomy } from "./ecommerce/EcommerceAnatomy";
+import { EcommerceStack } from "./ecommerce/EcommerceStack";
+import { EcommerceShowcase } from "./ecommerce/EcommerceShowcase";
 import { SitesWebWhatYouGet } from "./SitesWebWhatYouGet";
 import { SitesWebPricing } from "./SitesWebPricing";
 import { SitesWebMethod } from "./SitesWebMethod";
@@ -26,9 +31,11 @@ import { ScrollToTop } from "@/components/shared/ScrollToTop";
 const DATA_MAP: Record<string, SubPageData> = {
   "landing-page": sitesWebLandingData,
   "site-vitrine": sitesWebVitrineData,
+  ecommerce: sitesWebEcommerceData,
+  "sur-mesure": sitesWebSurMesureData,
 };
 
-const SUB_NAV = [
+const DEFAULT_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Témoignages", sectionId: "testimonials" },
@@ -37,6 +44,19 @@ const SUB_NAV = [
   { label: "Garanties", sectionId: "guarantees" },
   { label: "Méthode", sectionId: "method" },
   { label: "Comparatif", sectionId: "comparison" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "contact" },
+];
+
+const ECOMMERCE_SUB_NAV = [
+  { label: "Pour qui", sectionId: "for-who" },
+  { label: "Exemples", sectionId: "examples" },
+  { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Anatomie", sectionId: "anatomy" },
+  { label: "Outils", sectionId: "stack" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Méthode", sectionId: "method" },
+  { label: "Showcase", sectionId: "showcase" },
   { label: "FAQ", sectionId: "faq" },
   { label: "Contact", sectionId: "contact" },
 ];
@@ -64,9 +84,12 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
   const data = DATA_MAP[slug];
   if (!data) return null;
 
+  const isEcommerce = slug === "ecommerce";
+  const subNav = isEcommerce ? ECOMMERCE_SUB_NAV : DEFAULT_SUB_NAV;
+
   return (
     <>
-      <SubNavSetter items={SUB_NAV} />
+      <SubNavSetter items={subNav} />
       <ScrollToTop />
       <SitesWebHero hero={data.hero} />
       {data.trustStats && <SubPageTrustBand stats={data.trustStats} />}
@@ -75,10 +98,13 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       <SitesWebTestimonials items={data.testimonials} />
       <HomeBookingCTA />
       <SitesWebWhatYouGet data={data.whatYouGet} />
+      {isEcommerce && <EcommerceAnatomy />}
+      {isEcommerce && <EcommerceStack />}
       <SitesWebPricing data={data.pricing} />
       <ContextualHelpCTA />
       {data.guarantees && <SubPageGuarantees items={data.guarantees} />}
       <SitesWebMethod steps={data.process} />
+      {isEcommerce && <EcommerceShowcase />}
       {data.comparison && (
         <SubPageComparison
           title={data.comparison.title}
