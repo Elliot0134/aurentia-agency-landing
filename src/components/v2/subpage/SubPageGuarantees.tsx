@@ -25,7 +25,16 @@ export function SubPageGuarantees({ items }: SubPageGuaranteesProps) {
       title="Vous ne signez rien à l'aveugle."
       subtitle="Trois garanties concrètes pour enlever toutes les raisons d'hésiter."
     >
-      <div className="grid gap-5 md:grid-cols-3">
+      <div
+        className={cn(
+          "grid gap-5",
+          items.length === 4
+            ? "mx-auto md:max-w-5xl md:grid-cols-2"
+            : items.length === 2
+              ? "mx-auto md:max-w-4xl md:grid-cols-2"
+              : "md:grid-cols-3",
+        )}
+      >
         {items.map((item, idx) => {
           const Icon = item.icon;
           return (
