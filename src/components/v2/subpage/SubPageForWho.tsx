@@ -19,7 +19,14 @@ export function SubPageForWho({ profiles }: SubPageForWhoProps) {
       title="Vous êtes au bon endroit si…"
       surface
     >
-      <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+      <div
+        className={cn(
+          "grid gap-5 md:gap-6",
+          profiles.length === 2
+            ? "mx-auto md:max-w-4xl md:grid-cols-2"
+            : "md:grid-cols-3",
+        )}
+      >
         {profiles.map((profile, idx) => {
           const Icon = profile.icon;
           const num = String(idx + 1).padStart(2, "0");
