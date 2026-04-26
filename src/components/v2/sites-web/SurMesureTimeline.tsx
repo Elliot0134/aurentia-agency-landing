@@ -94,17 +94,17 @@ export function SurMesureTimeline({
                     <BlurReveal delay={idx * 0.05}>
                       <div
                         className={cn(
-                          "group relative ml-14 overflow-hidden rounded-3xl border border-foreground/10 bg-background p-6 md:ml-0 md:p-8",
-                          "transition-all duration-700 ease-in-out hover:-translate-y-1 hover:border-accent-primary/40 hover:shadow-[0_0_60px_rgba(228,85,18,0.06)]",
+                          "group relative ml-14 overflow-hidden rounded-3xl border border-transparent bg-background-surface p-6 dark:border-foreground/10 dark:bg-foreground/[0.04] md:ml-0 md:p-8",
+                          "transition-all duration-700 ease-in-out hover:-translate-y-1 hover:shadow-[0_0_60px_rgba(228,85,18,0.06)] dark:hover:border-accent-primary/40",
                           isLeft ? "md:mr-4 md:text-right" : "md:ml-4 md:text-left",
                         )}
                       >
-                        {/* Big translucent step number — sits inside the card */}
+                        {/* Big translucent step number — opposite side from card position */}
                         <span
                           aria-hidden
                           className={cn(
                             "pointer-events-none absolute top-2 select-none font-mono text-7xl font-black leading-none text-accent-primary/[0.08] transition-colors duration-700 ease-in-out group-hover:text-accent-primary/20 md:top-3 md:text-8xl",
-                            isLeft ? "right-4 md:right-6" : "left-4 md:left-6",
+                            isLeft ? "left-4 md:left-6" : "right-4 md:right-6",
                           )}
                         >
                           {step.number}
