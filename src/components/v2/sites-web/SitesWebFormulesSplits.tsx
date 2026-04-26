@@ -7,6 +7,7 @@ import { WipAwareLink } from "@/components/shared/WipModal";
 import { ArrowRight, Calendar, Check } from "lucide-react";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { sitesWebFormules } from "@/data/v2/sites-web-formules";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { cn } from "@/lib/utils";
 
 export function SitesWebFormulesSplits() {
@@ -80,7 +81,7 @@ export function SitesWebFormulesSplits() {
               <BlurReveal delay={0.1} className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent-primary">
-                    À partir de {firstPrice}
+                    À partir de <PriceHT value={firstPrice} />
                   </p>
                   <h2 className="font-heading text-3xl tracking-tight text-foreground md:text-4xl lg:text-5xl">
                     {formule.name}

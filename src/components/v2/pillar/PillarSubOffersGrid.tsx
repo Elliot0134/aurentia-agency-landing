@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { CommercialPillarData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card, cardClasses, cardInteractiveClasses } from "@/components/v2/shared/Card";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { cn } from "@/lib/utils";
 
 type PillarSubOffersGridProps = {
@@ -34,7 +35,7 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
                   <p className="flex-1 text-base text-foreground/70">{item.pitch}</p>
                   {item.priceFrom && (
                     <p className="text-sm text-foreground/55">
-                      À partir de <span className="font-semibold text-foreground">{item.priceFrom}</span>
+                      À partir de <span className="font-semibold text-foreground"><PriceHT value={item.priceFrom} /></span>
                     </p>
                   )}
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-primary transition-transform duration-500 ease-in-out group-hover:translate-x-1">

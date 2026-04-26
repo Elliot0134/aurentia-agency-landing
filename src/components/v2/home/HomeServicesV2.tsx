@@ -15,6 +15,7 @@ import gsap from "gsap";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card } from "@/components/v2/shared/Card";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import {
   AIIntegrationMockup,
   AuditMockup,
@@ -654,7 +655,7 @@ function OfferCard({
                 À partir de
               </span>
               <span className="font-mono text-base font-bold text-[var(--orange-600)]">
-                {priceFrom}
+                <PriceHT value={priceFrom} />
               </span>
             </div>
             <span className="group/cta inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent-primary px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-500 ease-in-out group-hover:opacity-90">

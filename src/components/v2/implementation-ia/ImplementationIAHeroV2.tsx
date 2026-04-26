@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { solutionsIaImplementationData } from "@/data/v2/solutions-ia-implementation";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 
 const CLIENT_LOGOS = [
   "Comparateur IA Facile",
@@ -101,7 +102,7 @@ export function ImplementationIAHeroV2() {
           {hero.priceFrom && (
             <p className="text-base text-foreground/65">
               À partir de{" "}
-              <span className="font-bold text-foreground">{hero.priceFrom}</span>
+              <span className="font-bold text-foreground"><PriceHT value={hero.priceFrom} /></span>
             </p>
           )}
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { CommercialPillarData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 
 type SitesWebSubOffersProps = {
@@ -33,7 +34,7 @@ export function SitesWebSubOffers({ subOffers }: SitesWebSubOffersProps) {
                   </div>
                   {item.priceFrom && (
                     <span className="rounded-full border border-foreground/10 bg-background px-3 py-1 font-mono text-sm text-foreground/70">
-                      dès {item.priceFrom}
+                      dès <PriceHT value={item.priceFrom} />
                     </span>
                   )}
                 </div>

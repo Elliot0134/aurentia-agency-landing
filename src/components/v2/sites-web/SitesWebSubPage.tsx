@@ -12,7 +12,7 @@ import { SitesWebHero } from "./SitesWebHero";
 import { EcommerceAnatomy } from "./ecommerce/EcommerceAnatomy";
 import { EcommerceStack } from "./ecommerce/EcommerceStack";
 import { EcommerceShowcase } from "./ecommerce/EcommerceShowcase";
-import { LandingBuilder } from "./landing/LandingBuilder";
+import { LandingHookCraft } from "./landing/LandingHookCraft";
 import { SitesWebWhatYouGet } from "./SitesWebWhatYouGet";
 import { SitesWebPricing } from "./SitesWebPricing";
 import { SitesWebMethod } from "./SitesWebMethod";
@@ -52,7 +52,7 @@ const DEFAULT_SUB_NAV = [
 
 const LANDING_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
-  { label: "Construction", sectionId: "builder" },
+  { label: "Le hook", sectionId: "hook-craft" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Inclus", sectionId: "what-you-get" },
   { label: "Tarifs", sectionId: "pricing" },
@@ -115,7 +115,7 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       {data.trustStats && <SubPageTrustBand stats={data.trustStats} />}
       {data.forWho.length > 0 && <SubPageForWho profiles={data.forWho} />}
       {isEcommerce && <EcommerceAnatomy />}
-      {isLanding && <LandingBuilder />}
+      {isLanding && <LandingHookCraft />}
       {!isEcommerce && <SitesWebExamples data={data.examples} />}
       <SitesWebTestimonials items={data.testimonials} />
       <HomeBookingCTA />

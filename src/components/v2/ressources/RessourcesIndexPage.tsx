@@ -3,7 +3,7 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Check, Mail, Sparkles, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Check, Mail, Sparkles, Wand2, type LucideIcon } from "lucide-react";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,15 @@ type ResourceCard = {
 };
 
 const RESOURCES: ResourceCard[] = [
+  {
+    href: "/ressources/implementer-claude",
+    eyebrow: "Kit",
+    title: "Implémenter Claude dans ton business",
+    description:
+      "Les prompts, skills, configs et templates qu'on déploie chez nos clients. CLAUDE.md, Memory, MCP, context7, skill creator, séquence 14 jours. Copie, colle, c'est branché.",
+    readTime: "Setup ~2 weekends",
+    icon: Wand2,
+  },
   {
     href: "/ressources/vibe-coding",
     eyebrow: "Guide",

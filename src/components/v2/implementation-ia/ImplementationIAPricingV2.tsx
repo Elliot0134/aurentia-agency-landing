@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { solutionsIaImplementationData } from "@/data/v2/solutions-ia-implementation";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { cn } from "@/lib/utils";
 
 /**
@@ -47,7 +48,7 @@ export function ImplementationIAPricingV2() {
                 {pack.name}
               </h3>
               <p className="font-heading text-3xl font-bold text-foreground">
-                {pack.price}
+                <PriceHT value={pack.price} />
                 {pack.priceSuffix && (
                   <span className="text-base font-medium text-foreground/55">
                     {" "}

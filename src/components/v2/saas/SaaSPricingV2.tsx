@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check, ArrowRight, Sparkles } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 
 const mainPack = {
@@ -62,7 +63,7 @@ export function SaaSPricingV2() {
               </h3>
               <div className="flex flex-wrap items-baseline gap-3">
                 <span className="font-heading text-5xl font-bold text-accent-primary md:text-6xl">
-                  {mainPack.price}
+                  <PriceHT value={mainPack.price} />
                 </span>
                 <span className="text-base text-foreground/55">
                   {mainPack.priceNote}

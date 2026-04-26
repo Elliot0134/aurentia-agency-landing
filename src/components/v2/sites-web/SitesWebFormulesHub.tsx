@@ -7,6 +7,7 @@ import { WipAwareLink } from "@/components/shared/WipModal";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { Card } from "@/components/v2/shared/Card";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { sitesWebFormules } from "@/data/v2/sites-web-formules";
 
 export function SitesWebFormulesHub() {
@@ -44,7 +45,7 @@ export function SitesWebFormulesHub() {
                       À partir de
                     </span>
                     <span className="font-mono text-base font-bold text-[var(--orange-600)]">
-                      {formule.priceRange.split("–")[0]?.trim() || formule.priceRange}
+                      <PriceHT value={formule.priceRange.split("–")[0]?.trim() || formule.priceRange} />
                     </span>
                   </div>
                   <span className="group/cta inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent-primary px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-500 ease-in-out group-hover:opacity-90">

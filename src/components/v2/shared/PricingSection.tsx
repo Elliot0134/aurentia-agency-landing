@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import type { SubPageData } from "@/data/v2/types";
 import { SectionContainer } from "./SectionContainer";
+import { PriceHT } from "./PriceHT";
 import { cn } from "@/lib/utils";
 
 type PricingSectionProps = {
@@ -44,7 +45,7 @@ export function PricingSection({ data, id = "pricing", className }: PricingSecti
             <div className="flex flex-col gap-1">
               <h3 className="font-heading text-xl font-bold text-foreground">{pack.name}</h3>
               <p className="font-heading text-3xl font-bold text-foreground">
-                {pack.price}
+                <PriceHT value={pack.price} />
                 {pack.priceSuffix && (
                   <span className="text-base font-medium text-foreground/55"> {pack.priceSuffix}</span>
                 )}
@@ -72,7 +73,7 @@ export function PricingSection({ data, id = "pricing", className }: PricingSecti
           </div>
         ))}
       </div>
-      {data.note && <p className="mt-8 text-center text-base text-foreground/55">{data.note}</p>}
+      {data.note && <p className="mt-8 text-center text-base text-foreground/55"><PriceHT value={data.note} /></p>}
     </SectionContainer>
   );
 }

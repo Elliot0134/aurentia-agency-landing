@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Badge, DualCTA as DualCTAType } from "@/data/v2/types";
 import { ServiceBadge } from "./ServiceBadge";
+import { PriceHT } from "./PriceHT";
 
 type PageHeroCenteredProps = {
   eyebrow: string;
@@ -78,7 +79,7 @@ export function PageHeroCentered({
           {/* priceFrom — for subpages */}
           {priceFrom && (
             <p className="text-base text-foreground/65">
-              À partir de <span className="font-bold text-foreground">{priceFrom}</span>
+              À partir de <span className="font-bold text-foreground"><PriceHT value={priceFrom} /></span>
             </p>
           )}
 

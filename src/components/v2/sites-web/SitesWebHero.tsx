@@ -2,8 +2,32 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { Fragment } from "react";
 import { ArrowRight } from "lucide-react";
 import type { CommercialPillarData, SubPageData } from "@/data/v2/types";
+
+function renderHeadline(headline: string) {
+  if (!headline.includes("Shopify")) return headline;
+  const parts = headline.split("Shopify");
+  return parts.map((part, i) => (
+    <Fragment key={i}>
+      {part}
+      {i < parts.length - 1 && (
+        <>
+          <Image
+            src="/images/shopify_logo.webp"
+            alt=""
+            width={256}
+            height={292}
+            className="inline-block h-[0.95em] w-auto -translate-y-[0.06em] align-middle mx-[0.18em]"
+          />
+          Shopify
+        </>
+      )}
+    </Fragment>
+  ));
+}
 
 type HeroData =
   | CommercialPillarData["hero"]
@@ -58,7 +82,7 @@ export function SitesWebHero({ hero, stats }: SitesWebHeroProps) {
 
           {/* H1 */}
           <h1 className="max-w-4xl whitespace-pre-line text-foreground">
-            {hero.headline}
+            {renderHeadline(hero.headline)}
           </h1>
 
           {/* Subhead */}

@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ArrowUpRight } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card } from "@/components/v2/shared/Card";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import {
   VitrineMockup,
   LandingMockup,
@@ -165,7 +166,7 @@ function OfferCard({
                 À partir de
               </span>
               <span className="font-mono text-base font-bold text-[var(--orange-600)]">
-                {priceFrom}
+                <PriceHT value={priceFrom} />
               </span>
             </div>
             <Link

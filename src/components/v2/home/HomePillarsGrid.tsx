@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { homeData } from "@/data/v2/home";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { cardClasses } from "@/components/v2/shared/Card";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { cn } from "@/lib/utils";
 
 export function HomePillarsGrid() {
@@ -29,7 +30,7 @@ export function HomePillarsGrid() {
               <p className="flex-1 text-base text-foreground/70">{p.pitch}</p>
               {p.priceFrom && (
                 <p className="text-sm text-foreground/55">
-                  À partir de <span className="font-semibold text-foreground">{p.priceFrom}</span>
+                  À partir de <span className="font-semibold text-foreground"><PriceHT value={p.priceFrom} /></span>
                 </p>
               )}
               <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-primary transition-transform duration-500 ease-in-out group-hover:translate-x-1">

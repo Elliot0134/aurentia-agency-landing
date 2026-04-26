@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { CommercialPillarData } from "@/data/v2/types";
 import { SectionContainer } from "./SectionContainer";
+import { PriceHT } from "./PriceHT";
 import { cn } from "@/lib/utils";
 
 type SubOffersSectionProps = {
@@ -54,7 +55,7 @@ export function SubOffersSection({
                   <p className="flex-1 text-base text-foreground/70">{item.pitch}</p>
                   {item.priceFrom && !item.comingSoon && (
                     <p className="text-sm text-foreground/55">
-                      À partir de <span className="font-semibold text-foreground">{item.priceFrom}</span>
+                      À partir de <span className="font-semibold text-foreground"><PriceHT value={item.priceFrom} /></span>
                     </p>
                   )}
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-primary transition-transform duration-500 ease-in-out group-hover:translate-x-1">

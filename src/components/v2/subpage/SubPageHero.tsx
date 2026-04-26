@@ -2,6 +2,7 @@
 import type { SubPageData } from "@/data/v2/types";
 import { ServiceBadge } from "@/components/v2/shared/ServiceBadge";
 import { DualCTA } from "@/components/v2/shared/DualCTA";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 
 type SubPageHeroProps = {
   hero: SubPageData["hero"];
@@ -28,7 +29,7 @@ export function SubPageHero({ hero }: SubPageHeroProps) {
           <p className="max-w-xl text-base text-foreground/70 md:text-lg">{hero.subHeadline}</p>
           {hero.priceFrom && (
             <p className="text-base text-foreground/65">
-              À partir de <span className="font-bold text-foreground">{hero.priceFrom}</span>
+              À partir de <span className="font-bold text-foreground"><PriceHT value={hero.priceFrom} /></span>
             </p>
           )}
           <DualCTA primary={hero.cta.primary} secondary={hero.cta.secondary} size="lg" />

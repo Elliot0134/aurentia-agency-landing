@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { Check, Gift, CreditCard } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
+import { PriceHT } from "@/components/v2/shared/PriceHT";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { sitesWebExtra } from "@/data/v2/sites-web";
 import { cn } from "@/lib/utils";
@@ -16,7 +17,6 @@ export function SitesWebPricingV2() {
       id="pricing"
       title={pricing.title}
       subtitle={pricing.subtitle}
-      className="bg-background-surface"
     >
       <div className="grid gap-6 md:grid-cols-3">
         {pricing.packs.map((pack, idx) => (
@@ -42,7 +42,7 @@ export function SitesWebPricingV2() {
                   {pack.name}
                 </h3>
                 <span className="whitespace-nowrap font-heading text-3xl font-bold text-accent-primary md:text-4xl">
-                  {pack.price}
+                  <PriceHT value={pack.price} />
                 </span>
                 {pack.priceSuffix && (
                   <span className="text-sm text-foreground/55">
@@ -103,7 +103,7 @@ export function SitesWebPricingV2() {
                 <div className="flex items-center gap-2">
                   <CreditCard className="size-4 text-foreground/50" />
                   <span className="text-sm font-semibold text-foreground">
-                    {pack.subscription}
+                    <PriceHT value={pack.subscription} />
                   </span>
                 </div>
                 <p className="text-sm text-foreground/55">
