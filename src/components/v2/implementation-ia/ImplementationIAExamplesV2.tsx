@@ -50,13 +50,17 @@ export function ImplementationIAExamplesV2() {
                   "relative aspect-[4/3] overflow-hidden rounded-3xl border border-foreground/10 bg-background transition-colors duration-500 ease-in-out group-hover:border-foreground/25",
                 )}
               >
-                <Image
-                  src={item.imageUrl}
-                  alt={item.title}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
+                {item.imageUrl ? (
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.10]" />
+                )}
               </div>
               <p className="mt-3 text-base font-medium text-foreground/80">
                 {item.title}

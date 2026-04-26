@@ -60,7 +60,6 @@ export const sitesWebFormules: SitesWebFormule[] = [
     proof: "12+ landings livrées cette année",
     href: "/sites-web/landing-page",
     rdvHref: "/contact",
-    comingSoon: true,
   },
   {
     slug: "e-commerce",

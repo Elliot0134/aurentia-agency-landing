@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 type Cell = "yes" | "no" | "partial" | string;
 
 const columns = [
-  { key: "freelance", label: "Freelance", sub: "Solo, fragile" },
-  { key: "agence", label: "Agence classique", sub: "30k+, 6 mois" },
-  { key: "nocode", label: "No-code", sub: "Bubble, Webflow" },
+  { key: "freelance", label: "Freelance", sub: "Solo, fragile", highlight: false },
+  { key: "agence", label: "Agence classique", sub: "30k+, 6 mois", highlight: false },
+  { key: "nocode", label: "No-code", sub: "Bubble, Webflow", highlight: false },
   { key: "aurentia", label: "Aurentia", sub: "Notre approche", highlight: true },
 ] as const;
 

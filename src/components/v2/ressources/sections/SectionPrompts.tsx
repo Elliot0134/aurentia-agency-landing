@@ -33,7 +33,6 @@ export function SectionPrompts() {
           resourceId="vibe-coding-skill"
           resourceLabel="le skill brainstorm + PRD plateforme"
           description="On l'envoie par email, et il s'affiche aussi tout de suite ci-dessous."
-          ctaLabel="Recevoir le skill"
         >
           <CopyableBlock language={brainstormSkill.language} content={brainstormSkill.content} />
         </EmailGate>
