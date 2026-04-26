@@ -20,7 +20,6 @@ import { X } from "lucide-react";
  */
 const WIP_PATHS = new Set<string>([
   "/sites-web/e-commerce",
-  "/sites-web/sur-mesure",
   "/blog",
   "/cgv",
   "/mentions-legales",
