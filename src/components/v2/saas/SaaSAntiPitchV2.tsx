@@ -44,7 +44,7 @@ export function SaaSAntiPitchV2() {
                 ✕
               </span>
               <h3 className="font-heading text-xl font-bold text-foreground/70 md:text-2xl">
-                Ce qu'on ne fait pas
+                Ce qu&apos;on ne fait pas
               </h3>
             </div>
             <ul className="flex flex-col gap-3">
@@ -68,7 +68,7 @@ export function SaaSAntiPitchV2() {
                 ✓
               </span>
               <h3 className="font-heading text-xl font-bold text-accent-primary md:text-2xl">
-                Ce qu'on fait, vraiment
+                Ce qu&apos;on fait, vraiment
               </h3>
             </div>
             <ul className="flex flex-col gap-3">

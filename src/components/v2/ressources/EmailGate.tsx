@@ -57,6 +57,7 @@ export function EmailGate({
 
   useEffect(() => {
     const auth = readAuth();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStep(auth ? "unlocked" : "form");
   }, []);
 

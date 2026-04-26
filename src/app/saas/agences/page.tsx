@@ -261,7 +261,7 @@ export default function SaasAgencesPage() {
                   href="/contact"
                   className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-base font-medium text-background transition-all duration-500 ease-in-out hover:gap-3"
                 >
-                  Discuter d'un partenariat
+                  Discuter d&apos;un partenariat
                   <ArrowRight
                     className="size-4 transition-transform duration-500 group-hover:translate-x-1"
                     strokeWidth={2}
@@ -271,7 +271,7 @@ export default function SaasAgencesPage() {
                   href="#economics"
                   className="inline-flex items-center gap-2 rounded-full border border-foreground/25 px-6 py-3.5 text-base font-medium text-foreground transition-colors duration-500 hover:border-foreground"
                 >
-                  Voir l'économie du modèle
+                  Voir l&apos;économie du modèle
                 </Link>
               </div>
             </div>
@@ -302,7 +302,7 @@ export default function SaasAgencesPage() {
                       </span>
                     </div>
                     <p className="mt-2 font-heading text-lg font-bold text-foreground">
-                      "Vous nous livrez un super outil 👌"
+                      &quot;Vous nous livrez un super outil 👌&quot;
                     </p>
                   </div>
 
