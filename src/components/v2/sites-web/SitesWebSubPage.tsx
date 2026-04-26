@@ -12,9 +12,11 @@ import { SitesWebHero } from "./SitesWebHero";
 import { EcommerceAnatomy } from "./ecommerce/EcommerceAnatomy";
 import { EcommerceStack } from "./ecommerce/EcommerceStack";
 import { EcommerceShowcase } from "./ecommerce/EcommerceShowcase";
+import { LandingBuilder } from "./landing/LandingBuilder";
 import { SitesWebWhatYouGet } from "./SitesWebWhatYouGet";
 import { SitesWebPricing } from "./SitesWebPricing";
 import { SitesWebMethod } from "./SitesWebMethod";
+import { SurMesureTimeline } from "./SurMesureTimeline";
 import { SitesWebExamples } from "./SitesWebExamples";
 import { SitesWebTestimonials } from "./SitesWebTestimonials";
 import { SitesWebFAQ } from "./SitesWebFAQ";
@@ -48,11 +50,23 @@ const DEFAULT_SUB_NAV = [
   { label: "Contact", sectionId: "contact" },
 ];
 
-const ECOMMERCE_SUB_NAV = [
+const LANDING_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
+  { label: "Construction", sectionId: "builder" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Garanties", sectionId: "guarantees" },
+  { label: "Méthode", sectionId: "method" },
+  { label: "Comparatif", sectionId: "comparison" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "Contact", sectionId: "contact" },
+];
+
+const ECOMMERCE_SUB_NAV = [
+  { label: "Pour qui", sectionId: "for-who" },
   { label: "Anatomie", sectionId: "anatomy" },
+  { label: "Inclus", sectionId: "what-you-get" },
   { label: "Outils", sectionId: "stack" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Méthode", sectionId: "method" },
@@ -85,7 +99,13 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
   if (!data) return null;
 
   const isEcommerce = slug === "ecommerce";
-  const subNav = isEcommerce ? ECOMMERCE_SUB_NAV : DEFAULT_SUB_NAV;
+  const isLanding = slug === "landing-page";
+  const isSurMesure = slug === "sur-mesure";
+  const subNav = isEcommerce
+    ? ECOMMERCE_SUB_NAV
+    : isLanding
+      ? LANDING_SUB_NAV
+      : DEFAULT_SUB_NAV;
 
   return (
     <>
@@ -94,16 +114,21 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       <SitesWebHero hero={data.hero} />
       {data.trustStats && <SubPageTrustBand stats={data.trustStats} />}
       {data.forWho.length > 0 && <SubPageForWho profiles={data.forWho} />}
-      <SitesWebExamples data={data.examples} />
+      {isEcommerce && <EcommerceAnatomy />}
+      {isLanding && <LandingBuilder />}
+      {!isEcommerce && <SitesWebExamples data={data.examples} />}
       <SitesWebTestimonials items={data.testimonials} />
       <HomeBookingCTA />
       <SitesWebWhatYouGet data={data.whatYouGet} />
-      {isEcommerce && <EcommerceAnatomy />}
       {isEcommerce && <EcommerceStack />}
       <SitesWebPricing data={data.pricing} />
       <ContextualHelpCTA />
       {data.guarantees && <SubPageGuarantees items={data.guarantees} />}
-      <SitesWebMethod steps={data.process} />
+      {isSurMesure ? (
+        <SurMesureTimeline steps={data.process} />
+      ) : (
+        <SitesWebMethod steps={data.process} />
+      )}
       {isEcommerce && <EcommerceShowcase />}
       {data.comparison && (
         <SubPageComparison
