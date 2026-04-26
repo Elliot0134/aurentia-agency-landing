@@ -45,8 +45,10 @@ Headline orienté "projets qui sortent du cadre" : marketplace, app web, SaaS su
 
 > ⚠️ **Asset manquant** : si l'image `highlove-1.webp` n'est pas fournie au moment du dev, utiliser temporairement `friendiz-1.webp` ou un placeholder neutre. À remplacer impérativement avant mise en prod.
 
-### Sections livrées (séquence identique vitrine/landing)
-Hero → TrustBand → ForWho → Examples → Testimonials → BookingCTA → WhatYouGet → Pricing → ContextualHelpCTA → Guarantees → Method → Comparison → FAQ → BookingEmbed.
+### Sections livrées (séquence identique vitrine/landing, **sans testimonials**)
+Hero → TrustBand → ForWho → Examples → BookingCTA → WhatYouGet → Pricing → ContextualHelpCTA → Guarantees → Method → Comparison → FAQ → BookingEmbed.
+
+> ⚠️ **Section Testimonials retirée pour cette sub-page** (décision Elliot : pas de témoignages réels disponibles, on n'invente pas). Si `SitesWebSubPage.tsx` ne gère pas déjà un tableau `testimonials` vide proprement, le rendre conditionnel : `{data.testimonials.length > 0 && <SitesWebTestimonials items={data.testimonials} />}`. Le champ `testimonials: []` reste présent dans la data (typé requis), juste vide.
 
 ### Contenu rédactionnel par section
 
@@ -73,9 +75,9 @@ Hero → TrustBand → ForWho → Examples → Testimonials → BookingCTA → W
 
 ## 5. Pré-requis externes (Elliot)
 
-- Fournir `public/images/portfolio/highlove-1.webp` (screenshot site highlove.fr, format webp, ratio cohérent avec les autres cards portfolio)
+- À fournir plus tard : `public/images/portfolio/highlove-1.webp` (screenshot highlove.fr). Le path est référencé en dur dans la data dès maintenant — Next/Image cassera tant que le fichier n'est pas déposé. **Assumé temporairement par Elliot.**
 - Optionnel : fournir une image hero dédiée `public/images/sites-web/sur-mesure-hero.jpg` — sinon réutiliser un visuel existant
-- Optionnel : fournir 1-2 témoignages clients réels pour cette page (Friendiz / HighLove ou neutre)
+- Témoignages : aucun fourni pour le moment, section retirée (cf. §3)
 
 ## 6. Critères d'acceptation
 
