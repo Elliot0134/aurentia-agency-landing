@@ -11,8 +11,6 @@ import { sitesWebSurMesureData } from "@/data/v2/sites-web-sur-mesure";
 import { SitesWebHero } from "./SitesWebHero";
 import { EcommerceAnatomy } from "./ecommerce/EcommerceAnatomy";
 import { EcommerceStack } from "./ecommerce/EcommerceStack";
-import { EcommerceShowcase } from "./ecommerce/EcommerceShowcase";
-import { LandingHookCraft } from "./landing/LandingHookCraft";
 import { SitesWebWhatYouGet } from "./SitesWebWhatYouGet";
 import { SitesWebPricing } from "./SitesWebPricing";
 import { SitesWebMethod } from "./SitesWebMethod";
@@ -27,6 +25,7 @@ import { SubPageComparison } from "@/components/v2/subpage/SubPageComparison";
 import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
+import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
@@ -50,19 +49,6 @@ const DEFAULT_SUB_NAV = [
   { label: "Contact", sectionId: "contact" },
 ];
 
-const LANDING_SUB_NAV = [
-  { label: "Pour qui", sectionId: "for-who" },
-  { label: "Le hook", sectionId: "hook-craft" },
-  { label: "Exemples", sectionId: "examples" },
-  { label: "Inclus", sectionId: "what-you-get" },
-  { label: "Tarifs", sectionId: "pricing" },
-  { label: "Garanties", sectionId: "guarantees" },
-  { label: "Méthode", sectionId: "method" },
-  { label: "Comparatif", sectionId: "comparison" },
-  { label: "FAQ", sectionId: "faq" },
-  { label: "Contact", sectionId: "contact" },
-];
-
 const ECOMMERCE_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Anatomie", sectionId: "anatomy" },
@@ -70,7 +56,6 @@ const ECOMMERCE_SUB_NAV = [
   { label: "Outils", sectionId: "stack" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Méthode", sectionId: "method" },
-  { label: "Showcase", sectionId: "showcase" },
   { label: "FAQ", sectionId: "faq" },
   { label: "Contact", sectionId: "contact" },
 ];
@@ -99,13 +84,9 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
   if (!data) return null;
 
   const isEcommerce = slug === "ecommerce";
-  const isLanding = slug === "landing-page";
   const isSurMesure = slug === "sur-mesure";
-  const subNav = isEcommerce
-    ? ECOMMERCE_SUB_NAV
-    : isLanding
-      ? LANDING_SUB_NAV
-      : DEFAULT_SUB_NAV;
+  const showTeam = slug !== "site-vitrine";
+  const subNav = isEcommerce ? ECOMMERCE_SUB_NAV : DEFAULT_SUB_NAV;
 
   return (
     <>
@@ -115,7 +96,6 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       {data.trustStats && <SubPageTrustBand stats={data.trustStats} />}
       {data.forWho.length > 0 && <SubPageForWho profiles={data.forWho} />}
       {isEcommerce && <EcommerceAnatomy />}
-      {isLanding && <LandingHookCraft />}
       {!isEcommerce && <SitesWebExamples data={data.examples} />}
       <SitesWebTestimonials items={data.testimonials} />
       <HomeBookingCTA />
@@ -129,7 +109,6 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       ) : (
         <SitesWebMethod steps={data.process} />
       )}
-      {isEcommerce && <EcommerceShowcase />}
       {data.comparison && (
         <SubPageComparison
           title={data.comparison.title}
@@ -138,6 +117,7 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
           rows={data.comparison.rows}
         />
       )}
+      {showTeam && <HomeTeamV2 />}
       <SitesWebFAQ items={data.faq} />
       <HomeBookingEmbed />
     </>
