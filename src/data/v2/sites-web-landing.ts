@@ -19,16 +19,16 @@ export const sitesWebLandingData: SubPageData = {
   slug: "landing-page",
   hero: {
     eyebrow: "Sites Web · Landing page",
-    headline: "La landing page qui fait passer à l'action.",
+    headline: "Une landing page qui transforme vos visiteurs en clients.",
     subHeadline:
-      "Copywriting soigné, design qui convertit, performance au top. Livrée en 3 à 7 jours, à partir de 1 500 €.",
+      "Une page unique, écrite pour vendre, livrée en 5 jours. À partir de 1 500 €. Pas de template, pas de blabla — juste ce qui convertit.",
     priceFrom: "1 500 €",
     badges: [
-      { label: "Livrée en 3 à 7 jours", icon: Clock },
-      { label: "Optimisée pour la conversion", icon: Target },
+      { label: "Livrée en 5 jours", icon: Clock },
+      { label: "Pensée pour vendre", icon: Target },
     ],
     cta: {
-      primary: { label: "Discutons de ma landing", href: "/contact" },
+      primary: { label: "Réserver mon appel — 15 min", href: "/contact" },
       secondary: { label: "Voir les tarifs", href: "#pricing" },
     },
     visual: {
@@ -40,88 +40,89 @@ export const sitesWebLandingData: SubPageData = {
   forWho: [
     {
       icon: Rocket,
-      title: "Founders & porteurs de projet",
+      title: "Vous lancez un produit ou un service",
       description:
-        "Vous lancez un produit, un service ou une waitlist et vous avez besoin d'une page unique qui capte les bons leads dès la première visite.",
+        "Vous mettez de l'argent en pub ou vous activez votre réseau, mais le trafic atterrit sur une page bricolée qui ne ressemble à rien. Résultat : 95% des visiteurs partent sans rien faire.",
     },
     {
       icon: TrendingUp,
-      title: "Indépendants & consultants",
+      title: "Vous vendez vos services",
       description:
-        "Vous voulez une page claire qui présente votre offre, votre méthode, et qui pousse les visiteurs à réserver un appel sans tergiverser.",
+        "Vous voulez que les bons clients vous contactent, pas qu'ils tournent autour pendant 3 semaines. Il vous faut une page qui présente votre offre clairement et pousse à l'action.",
     },
     {
       icon: Briefcase,
-      title: "TPE & équipes marketing",
+      title: "Vous avez une campagne à lancer",
       description:
-        "Vous avez besoin d'une page dédiée pour un événement, une campagne ou un produit phare — sans toucher à votre site principal.",
+        "Événement, lancement produit, campagne pub, opération spéciale — il vous faut une page dédiée, vite, sans toucher au site principal et sans payer 6 000 € pour un travail qu'on peut livrer en 5 jours.",
     },
   ],
   whatYouGet: {
-    title: "Ce qui est inclus",
+    title: "Tout pour vendre. Rien pour faire joli.",
+    subtitle:
+      "Chaque section est là pour une raison : convaincre, rassurer, faire passer à l'action. Pas de remplissage.",
     items: [
-      "Design one-pager sur-mesure (hero, preuves sociales, features, pricing, FAQ, CTA)",
-      "Copywriting orienté conversion (fait avec vous)",
-      "Intégration responsive parfaite mobile/desktop",
-      "Formulaire de capture de leads ou waitlist",
-      "Référencement Google de base configuré",
-      "Performance au top (Core Web Vitals au vert)",
-      "Affichage clair en mode clair et sombre",
-      "30 jours de support et d'itérations mineures",
+      "Une page sur-mesure pensée pour votre offre, pas un template recyclé",
+      "Des textes écrits avec vous pour vraiment parler à vos clients",
+      "Un design qui guide le visiteur vers le bouton, sans distraction",
+      "Un formulaire de prise de contact ou d'inscription qui marche",
+      "Une page rapide, propre sur mobile, bien notée par Google",
+      "L'affichage clair en mode clair et sombre",
+      "30 jours de support après la mise en ligne, ajustements inclus",
     ],
   },
   process: [
     {
       number: "01",
-      title: "Brief & stratégie",
+      title: "On cadre l'objectif",
       description:
-        "On challenge votre positionnement, votre promesse et votre cible. On aligne sur l'objectif de la page (leads, RDV, inscriptions).",
+        "30 minutes au téléphone : votre offre, votre cible, votre objectif (leads, RDV, ventes). On part de l'action qu'on veut déclencher, pas du design.",
       icon: MessageSquare,
     },
     {
       number: "02",
-      title: "Copy & design",
+      title: "On écrit, on dessine",
       description:
-        "On rédige le copywriting orienté conversion et on conçoit un design qui ne ressemble à aucune autre landing du marché.",
+        "On rédige les textes avec vous (atelier copy de 60 min) puis on dessine la page autour. Vous validez avant qu'une ligne de code soit écrite.",
       icon: Pencil,
     },
     {
       number: "03",
-      title: "Intégration",
+      title: "On code, on teste",
       description:
-        "Développement responsive, animations fluides, performance soignée, tests sur tous les appareils.",
+        "Mise en page propre, animations fluides, performance verte sur mobile et desktop. Testée sur les vrais appareils, pas dans un simulateur.",
       icon: Code2,
     },
     {
       number: "04",
-      title: "Lancement & itérations",
+      title: "On met en ligne",
       description:
-        "Mise en ligne, suivi des premiers retours, petits ajustements inclus pendant 30 jours.",
+        "Mise en ligne sur votre nom de domaine, formulaires connectés à votre CRM, suivi des premiers retours, ajustements inclus pendant 30 jours.",
       icon: Rocket,
     },
   ],
   pricing: {
-    title: "Un investissement clair, sans surprise.",
-    subtitle: "Chaque page est sur-mesure. Le prix aussi.",
+    title: "Un prix clair. Une page qui se rentabilise vite.",
+    subtitle: "Sur-mesure, pas de template. Devis précis après l'appel de cadrage.",
     packs: [
       {
-        name: "Landing page haute conversion",
+        name: "Landing page sur-mesure",
         price: "1 500 €",
-        priceNote: "À partir de — sur devis selon la complexité et les animations",
-        description: "Livraison en 1 à 2 semaines.",
+        priceNote: "À partir de — sur devis selon le volume de contenu et les animations",
+        description: "Livrée en 5 à 10 jours, prête à recevoir vos premières conversions.",
         features: [
-          "Design sur-mesure",
-          "Textes rédigés pour convaincre vos visiteurs",
-          "Animations fluides et premium",
-          "Parfait sur mobile, tablette et ordinateur",
-          "Référencement Google optimisé",
-          "Affichage clair en mode clair et sombre",
-          "Mise en ligne clé en main",
+          "Design sur-mesure pensé pour votre offre",
+          "Textes écrits avec vous lors d'un atelier copy",
+          "Animations fluides — discrètes mais premium",
+          "Parfait sur mobile, tablette, ordinateur",
+          "SEO de base + intégration analytics",
+          "Affichage propre en mode clair et sombre",
+          "Mise en ligne clé en main + 30 j de support",
         ],
-        cta: { label: "Discuter de votre projet", href: "/contact" },
+        cta: { label: "Réserver mon créneau", href: "/contact" },
       },
     ],
-    note: "Le prix dépend du nombre de sections, de la complexité des animations, et du volume de contenu. On vous fait un devis précis après le brief créatif.",
+    note: "Le prix final dépend du nombre de sections, des animations et du volume de contenu. Devis chiffré sous 24h après l'appel de cadrage. Paiement en 3× possible.",
   },
   examples: {
     title: "Quelques lancements récents",
@@ -151,77 +152,77 @@ export const sitesWebLandingData: SubPageData = {
   testimonials: [],
   faq: [
     {
-      question: "Qu'est-ce qui différencie une landing Aurentia ?",
-      answer:
-        "Le copywriting est fait avec vous en atelier, pas recraché par une IA. Le design est unique et pensé pour votre audience. Et la perf est au top — ça paraît simple mais peu d'agences le font vraiment.",
-    },
-    {
-      question: "Je n'ai pas de copywriting prêt, vous pouvez m'aider ?",
-      answer:
-        "Oui, c'est même recommandé. On organise un atelier copy de 60 minutes où on travaille ensemble votre promesse, vos objections et votre narratif. C'est inclus dans l'offre.",
-    },
-    {
-      question: "Vous pouvez connecter à notre CRM ?",
-      answer:
-        "Oui. On intègre HubSpot, Pipedrive, Airtable, Notion, Supabase, ou votre stack custom. On en parle pendant le brief pour ajuster le devis si besoin.",
-    },
-    {
-      question: "Est-ce que je suis propriétaire de la page ?",
-      answer:
-        "Oui, entièrement. Nom de domaine, code, hébergement : tout est à votre nom. Vous pouvez partir quand vous voulez avec votre landing.",
-    },
-    {
-      question: "Vous gérez l'hébergement ?",
-      answer:
-        "Oui. On configure l'hébergement Vercel à votre nom, avec déploiement automatique. Vous gardez le contrôle complet.",
-    },
-    {
-      question: "Et après le lancement ?",
-      answer:
-        "Vous bénéficiez de 30 jours de support inclus pour les ajustements post-lancement (bugs, optimisations mineures, modifications de copy). Au-delà, on peut intervenir à la demande.",
-    },
-    {
       question: "Combien de temps pour être en ligne ?",
       answer:
-        "Entre 3 et 7 jours ouvrés selon la complexité et la réactivité sur le copywriting. En urgence, on a déjà livré en 72h — mais on ne promet pas ce délai par défaut.",
+        "5 jours ouvrés en moyenne, 7 à 10 si la copy demande plus d'allers-retours. En urgence, on a déjà livré en 72h — pas garanti, mais on en parle pendant l'appel de cadrage.",
+    },
+    {
+      question: "Qu'est-ce qui rend une landing Aurentia plus performante ?",
+      answer:
+        "Trois trucs concrets : la copy est écrite avec vous (pas recrachée par une IA), le design est dessiné pour votre cible (pas un template), et la performance technique est au vert (Core Web Vitals 100/100). Peu d'agences font les trois.",
+    },
+    {
+      question: "Je n'ai pas les textes, c'est un problème ?",
+      answer:
+        "Non, c'est même mieux. On organise un atelier copy de 60 min où on travaille ensemble votre promesse, vos objections et votre narratif. Inclus dans l'offre, pas en supplément.",
+    },
+    {
+      question: "Vous connectez à mon CRM ou mes outils ?",
+      answer:
+        "Oui. HubSpot, Pipedrive, Airtable, Notion, Supabase, n8n, votre stack custom — on connecte. On en parle pendant le brief, ça reste compris dans le prix sauf intégration vraiment exotique.",
+    },
+    {
+      question: "Je reste propriétaire de la page et du code ?",
+      answer:
+        "Entièrement. Nom de domaine, code, hébergement, accès analytics : tout est à votre nom. Vous pouvez partir quand vous voulez sans rien perdre.",
+    },
+    {
+      question: "Et si je veux des modifs après les 30 jours ?",
+      answer:
+        "Pas de forfait obligatoire. On intervient à la demande à 80 €/h, ou on propose un pack maintenance à partir de 90 €/mois si vous voulez du suivi régulier.",
+    },
+    {
+      question: "Pourquoi 1 500 € quand je trouve des landings à 300 € en ligne ?",
+      answer:
+        "Parce qu'à 300 € vous achetez un template configuré en 2h. Ça peut suffire si vous testez une idée. Si vous mettez du budget pub derrière, chaque pourcent de conversion gagné rentabilise largement la différence.",
     },
   ],
   finalCta: {
-    title: "Votre landing live la semaine prochaine ?",
+    title: "Votre landing en ligne la semaine prochaine ?",
     subtitle:
-      "Un appel de 15 minutes et on vous dit si on peut livrer dans vos délais.",
-    cta: { label: "Réserver un créneau", href: "/contact" },
+      "15 minutes au téléphone et vous savez ce qu'on peut faire, quand, et combien. Devis chiffré sous 24h, sans relance.",
+    cta: { label: "Réserver mon créneau — 15 min", href: "/contact" },
   },
   trustStats: [
-    { value: "3-7 j", label: "délai moyen" },
-    { value: "100/100", label: "Core Web Vitals" },
+    { value: "5 j", label: "délai moyen" },
+    { value: "100/100", label: "performance Google" },
     { value: "1", label: "interlocuteur dédié" },
-    { value: "100%", label: "propriétaire du code" },
+    { value: "30 j", label: "support après livraison" },
   ],
   guarantees: [
     {
       icon: Eye,
-      title: "Copy & maquette validés avant intégration",
+      title: "Vous validez avant qu'on code",
       description:
-        "Vous voyez le copywriting et le design avant qu'une seule ligne de code ne soit écrite. On n'avance que si vous êtes 100% aligné.",
+        "Textes finalisés et maquette validée avant qu'une seule ligne de code soit écrite. Si ça ne vous va pas, on s'arrête là — zéro euro engagé.",
     },
     {
       icon: RefreshCw,
-      title: "3 tours de révision inclus",
+      title: "3 tours de révision compris",
       description:
-        "On ajuste ensemble jusqu'à ce que la page vous ressemble. Sans surcoût caché, sans limite floue.",
+        "On ajuste ensemble jusqu'à ce que la page vous corresponde. Sans surcoût caché, sans devis qui s'allonge en cours de route.",
     },
     {
       icon: LifeBuoy,
-      title: "30 jours de support post-live",
+      title: "30 jours de support inclus",
       description:
-        "Bugs, ajustements de copy, micro-changements de design : on reste dispo 30 jours après la mise en ligne. Vous n'êtes jamais lâché.",
+        "Bugs, ajustements de textes, micro-changements de design : on reste joignable 30 jours après la mise en ligne. Vous n'êtes pas lâché à la livraison.",
     },
   ],
   comparison: {
-    title: "Aurentia vs. le reste",
+    title: "Aurentia vs. les autres options",
     subtitle:
-      "Ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
+      "Vous avez le choix. Voilà ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
     columns: [
       { label: "Aurentia", highlight: true },
       { label: "Template no-code" },
@@ -234,30 +235,30 @@ export const sitesWebLandingData: SubPageData = {
       },
       {
         label: "Délai de livraison",
-        values: ["3 – 7 jours", "Immédiat", "2 – 5 semaines"],
+        values: ["5 – 10 jours", "Immédiat", "2 – 5 semaines"],
       },
       {
-        label: "Design 100% sur-mesure",
+        label: "Design unique pour votre offre",
         values: [true, false, true],
       },
       {
-        label: "Copywriting orienté conversion",
-        values: [true, false, "Au cas par cas"],
+        label: "Textes écrits avec vous",
+        values: [true, false, "Selon le profil"],
       },
       {
-        label: "Maquette validée avant intégration",
-        values: [true, false, "Au cas par cas"],
+        label: "Maquette validée avant le code",
+        values: [true, false, "Pas toujours"],
       },
       {
-        label: "Support post-live",
+        label: "Support après la mise en ligne",
         values: ["30 j inclus", "Aucun", "Au cas par cas"],
       },
       {
-        label: "Performance Core Web Vitals",
+        label: "Performance Google (vitesse)",
         values: ["100/100", "Variable", "Variable"],
       },
       {
-        label: "Propriété du code",
+        label: "Vous êtes propriétaire du code",
         values: [true, false, true],
       },
     ],

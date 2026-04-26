@@ -35,10 +35,10 @@ export function SitesWebPricing({ data }: SitesWebPricingProps) {
           <BlurReveal key={pack.name} delay={idx * 0.1}>
             <div
               className={cn(
-                "relative flex h-full flex-col gap-6 rounded-3xl border bg-background p-8 transition-colors duration-500 ease-in-out",
+                "relative flex h-full flex-col gap-6 rounded-3xl p-8 transition-colors duration-500 ease-in-out",
                 pack.recommended
-                  ? "border-accent-primary/60 hover:border-accent-primary"
-                  : "border-foreground/10 hover:border-foreground/25",
+                  ? "bg-accent-primary/[0.06] hover:bg-accent-primary/[0.09]"
+                  : "bg-background-surface hover:bg-foreground/[0.04] dark:bg-foreground/[0.03] dark:hover:bg-foreground/[0.05]",
               )}
             >
               {pack.recommended && (

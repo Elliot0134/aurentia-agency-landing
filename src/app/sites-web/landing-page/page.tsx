@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { SitesWebSubPage } from "@/components/v2/sites-web/SitesWebSubPage";
 
 export const metadata: Metadata = {
-  title: "Landing pages haute conversion dès 1 500 €",
+  title: "Landing page sur-mesure dès 1 500 € — livrée en 5 jours",
   description:
-    "Landing pages design spectaculaire, optimisées conversion. Pour startups et SaaS.",
+    "Une landing page écrite pour vendre, livrée en 5 jours. Design sur-mesure, copy faite avec vous, performance 100/100 sur Google. À partir de 1 500 €.",
 };
 
 export default function LandingPageSubpage() {
