@@ -215,6 +215,8 @@ export type PricingPack = {
   name: string;
   price: string;
   priceSuffix?: string;
+  /** Small label rendered above the price (e.g. "À partir de"). */
+  pricePrefix?: string;
   priceNote?: string;
   description?: string;
   recommended?: boolean;

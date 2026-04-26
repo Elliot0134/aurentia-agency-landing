@@ -50,6 +50,11 @@ export function SitesWebPricing({ data }: SitesWebPricingProps) {
                 <h3 className="font-heading text-xl font-bold text-foreground">
                   {pack.name}
                 </h3>
+                {pack.pricePrefix && (
+                  <p className="text-sm font-medium text-foreground/55">
+                    {pack.pricePrefix}
+                  </p>
+                )}
                 <p className="font-heading text-3xl font-bold text-foreground md:text-4xl">
                   <PriceHT value={pack.price} />
                   {pack.priceSuffix && (

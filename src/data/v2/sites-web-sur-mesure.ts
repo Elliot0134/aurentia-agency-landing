@@ -148,11 +148,11 @@ export const sitesWebSurMesureData: SubPageData = {
   ],
   pricing: {
     title: "Un budget clair. Un projet livré.",
-    subtitle: "Pas de pack figé sur du sur-mesure. Un floor à 6 000 €, un devis ferme sous 5 jours.",
     packs: [
       {
         name: "Projet sur-mesure",
-        price: "À partir de 6 000 €",
+        pricePrefix: "À partir de",
+        price: "6 000 €",
         priceNote: "Sur devis selon scope — chiffrage ferme sous 5 jours",
         description:
           "App web, plateforme, marketplace, expérience de marque. Construit pour grandir, livré clé en main, et 100% à vous.",
