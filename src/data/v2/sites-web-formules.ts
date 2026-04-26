@@ -79,9 +79,8 @@ export const sitesWebFormules: SitesWebFormule[] = [
       alt: "Boutique en ligne AlloRestau",
     },
     proof: "Intégration Stripe, Shopify, Supabase",
-    href: "/sites-web/e-commerce",
+    href: "/sites-web/ecommerce",
     rdvHref: "/contact",
-    comingSoon: true,
   },
   {
     slug: "sur-mesure",
@@ -103,6 +102,5 @@ export const sitesWebFormules: SitesWebFormule[] = [
     proof: "SaaS, marketplaces, apps internes",
     href: "/sites-web/sur-mesure",
     rdvHref: "/contact",
-    comingSoon: true,
   },
 ];
