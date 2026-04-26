@@ -48,10 +48,10 @@ export function SitesWebExamples({ data }: SitesWebExamplesProps) {
             <Wrapper href={item.href}>
               <div
                 className={cn(
-                  "relative aspect-video overflow-hidden",
+                  "relative aspect-video",
                   isBare
                     ? ""
-                    : "aspect-[4/3] rounded-3xl border border-foreground/10 bg-background transition-all duration-500 ease-in-out group-hover:border-foreground/25",
+                    : "aspect-[4/3] overflow-hidden rounded-3xl border border-foreground/10 bg-background transition-all duration-500 ease-in-out group-hover:border-foreground/25",
                 )}
               >
                 {item.imageUrl ? (
