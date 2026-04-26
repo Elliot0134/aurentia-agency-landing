@@ -18,6 +18,16 @@ export const navbarConfig: NavbarConfig = {
           href: "/sites-web/landing-page",
           description: "Pages haute conversion pour startups et SaaS",
         },
+        {
+          label: "E-commerce",
+          href: "/sites-web/ecommerce",
+          description: "Boutique Shopify sur-mesure dès 2 500 €",
+        },
+        {
+          label: "Site sur-mesure",
+          href: "/sites-web/sur-mesure",
+          description: "App, marketplace, plateforme — dès 6 000 €",
+        },
       ],
     },
     {

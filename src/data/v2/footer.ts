@@ -14,6 +14,8 @@ export const footerConfig: FooterConfig = {
         { label: "Sites Web", href: "/sites-web" },
         { label: "Site vitrine", href: "/sites-web/site-vitrine" },
         { label: "Landing page", href: "/sites-web/landing-page" },
+        { label: "E-commerce", href: "/sites-web/ecommerce" },
+        { label: "Site sur-mesure", href: "/sites-web/sur-mesure" },
         { label: "SaaS sur-mesure", href: "/saas" },
         { label: "Audit IA", href: "/solutions-ia/audit" },
         { label: "Implémentation IA", href: "/solutions-ia/implementation-ia" },
