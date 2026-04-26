@@ -24,7 +24,7 @@ export const sitesWebSurMesureData: SubPageData = {
     eyebrow: "Sites Web · Sur-mesure",
     headline: "Le projet web qui sort du cadre. Conçu, codé, livré.",
     subHeadline:
-      "App, marketplace, plateforme, expérience brand-strong. Quand un template ne suffit pas, on architecture, on développe et on vous remet le code. À partir de 6 000 €.",
+      "App, plateforme, marketplace, site sur-mesure pensé pour vendre. On part de votre besoin, on conçoit, on développe — et on vous remet un projet qui vous appartient à 100% et qui rapporte. À partir de 6 000 €.",
     priceFrom: "6 000 €",
     badges: [],
     cta: {
@@ -40,15 +40,15 @@ export const sitesWebSurMesureData: SubPageData = {
   forWho: [
     {
       icon: Rocket,
-      title: "Founder SaaS, marketplace ou app web",
+      title: "Vous lancez un projet ambitieux",
       description:
-        "Vous avez un MVP en tête, une plateforme à scaler, ou un back-office à repenser. Vous cherchez un partenaire tech qui code propre, livre vite et reste sur la durée — pas une agence qui sous-traite à l'autre bout du monde.",
+        "Une première version de votre app, une plateforme qui doit grandir vite, un espace de gestion à repenser. Vous voulez un partenaire qui livre vraiment, qui reste joignable et qui pense à long terme — pas une agence qui sous-traite à l'autre bout du monde.",
     },
     {
       icon: Sparkles,
-      title: "Marque ou projet expérientiel",
+      title: "Vous avez une marque ou une expérience à incarner",
       description:
-        "Votre site doit raconter une vraie histoire. Parcours sur-mesure, animations, intégrations métier, contenus interactifs. Un template Wix ou un thème Webflow ne tiendra pas la promesse — il vous faut du custom, conçu sur-mesure pour votre marque.",
+        "Votre site doit raconter une histoire et marquer vos visiteurs. Animations, parcours sur-mesure, contenus interactifs, connexions à vos outils internes. Un template Wix ne tiendra pas la promesse — il vous faut quelque chose de vraiment unique.",
     },
   ],
   whatYouGet: {
@@ -56,55 +56,55 @@ export const sitesWebSurMesureData: SubPageData = {
     subtitle:
       "Pas de ticket caché, pas d'option qui apparaît au bout de 3 mois. Le scope est verrouillé en début, le devis est ferme.",
     items: [
-      "Architecture Next.js + Supabase + Stripe (ou stack adaptée à votre besoin)",
-      "Design 100% sur-mesure pensé pour votre marque et votre parcours",
-      "Back-office admin pour gérer votre contenu, vos utilisateurs, vos données",
-      "Intégrations API (Stripe, Resend, Google, CRM, outils internes…)",
-      "Authentification, rôles, RLS — sécurisé dès le premier commit",
-      "Responsive mobile, tablette, desktop",
-      "SEO technique complet + analytics",
-      "Code remis 100% (GitHub) + documentation technique",
+      "Une base technique moderne, fiable, qui tiendra 5 ans sans devoir tout refaire",
+      "Un design 100% sur-mesure, pensé pour vos clients et votre image",
+      "Un espace d'administration privé pour piloter votre projet sans nous appeler",
+      "Connexions à vos outils existants (paiement, emails, CRM, calendrier…)",
+      "Comptes utilisateurs sécurisés avec différents niveaux d'accès",
+      "Parfait sur mobile, tablette, desktop — sans compromis",
+      "Optimisé pour Google + suivi des performances",
+      "Le code, les bases de données et les domaines : tout est à votre nom",
       "30 jours de support post-livraison inclus",
     ],
     groups: [
       {
         icon: Layers,
-        title: "Architecture solide",
-        pitch: "Next.js + Supabase + Stripe. La stack qu'on connaît par cœur, qui scale, qui dure.",
+        title: "Une base solide pour durer",
+        pitch: "Construit sur les technologies que les grosses boîtes utilisent. Votre projet ne sera pas obsolète dans 2 ans.",
         items: [
-          "Next.js 14+ App Router, TypeScript strict",
-          "Supabase Postgres + Auth + Storage + Realtime",
-          "Déploiement Vercel — instantané, scalable",
+          "Pensé pour absorber 100× plus de trafic sans devoir tout refaire",
+          "Performant, rapide à charger — vos clients ne décrochent pas",
+          "Hébergement haut de gamme, disponible partout dans le monde",
         ],
       },
       {
         icon: Plug,
-        title: "Intégrations métier",
-        pitch: "On connecte ce qu'il faut connecter. Stripe, Resend, Google, votre CRM, vos outils internes.",
+        title: "Connecté à vos outils",
+        pitch: "On branche votre projet à ce qui le rend efficace : paiement, emails, CRM, agendas, vos process métier.",
         items: [
-          "Paiements Stripe (subscription, one-shot, marketplace)",
-          "Emails transactionnels Resend / SendGrid",
-          "Webhooks et APIs custom selon votre besoin",
+          "Paiements en ligne (abonnements, achats, marketplace)",
+          "Emails automatiques (confirmations, relances, notifications)",
+          "Connexion à vos outils internes ou tiers — au cas par cas",
         ],
       },
       {
         icon: Shield,
-        title: "Sécurité & propriété",
-        pitch: "Code à votre nom, RLS sur toutes les tables, secrets jamais exposés.",
+        title: "Sécurisé et 100% à vous",
+        pitch: "Vos données sont protégées. Le projet vous appartient — on ne vous tient jamais en otage.",
         items: [
-          "Code remis 100% sur votre GitHub",
-          "Row Level Security obligatoire sur toute table",
-          "Variables d'environnement chiffrées, jamais de secret en dur",
+          "Le code, la base de données et les domaines sont à votre nom",
+          "Données protégées par utilisateur, accès contrôlés",
+          "Vous pouvez partir avec tout, à tout moment",
         ],
       },
       {
         icon: Database,
-        title: "Scalable dès le jour 1",
-        pitch: "Pensé pour tenir x100 sans réécriture. Pas de raccourci, pas de dette cachée.",
+        title: "Construit pour rapporter",
+        pitch: "On code propre dès le premier jour pour que votre projet reste rentable à faire évoluer — pas un fardeau qu'il faut tout refaire dans 18 mois.",
         items: [
-          "Schéma DB normalisé, indexé, prêt à scaler",
-          "Composants réutilisables, code typé strict",
-          "Migrations versionnées, déploiements reproductibles",
+          "Pas de dette cachée — on ne prend pas de raccourcis qui coûtent cher après",
+          "Évolutions futures faciles à ajouter (par nous ou un autre dev)",
+          "Documentation claire pour reprendre la main sans friction",
         ],
       },
     ],
@@ -133,16 +133,16 @@ export const sitesWebSurMesureData: SubPageData = {
     },
     {
       number: "04",
-      title: "Développement itératif",
+      title: "Développement par paliers",
       description:
-        "Sprints d'une à deux semaines avec démo systématique. Vous voyez le projet avancer en temps réel sur une URL de staging.",
+        "On avance par étapes d'une à deux semaines, avec une démo à chaque fois. Vous suivez le projet en direct sur un lien privé — pas d'effet tunnel.",
       icon: Code2,
     },
     {
       number: "05",
-      title: "Livraison & handover",
+      title: "Mise en ligne & remise des clés",
       description:
-        "Mise en prod, transfert du code et des accès, formation au back-office, documentation technique. 30 jours de support inclus.",
+        "Mise en production, transfert de tout (code, accès, domaine), formation pour gérer votre projet en autonomie. 30 jours de support inclus.",
       icon: Rocket,
     },
   ],
@@ -155,17 +155,17 @@ export const sitesWebSurMesureData: SubPageData = {
         price: "À partir de 6 000 €",
         priceNote: "Sur devis selon scope — chiffrage ferme sous 5 jours",
         description:
-          "App web, marketplace, plateforme, expérience brand. Architecture pensée pour scaler, code remis, support inclus.",
+          "App web, plateforme, marketplace, expérience de marque. Construit pour grandir, livré clé en main, et 100% à vous.",
         recommended: true,
         highlightLabel: "SUR DEVIS",
         features: [
-          "Cadrage gratuit + cahier des charges chiffré",
-          "Architecture Next.js + Supabase + Stripe",
-          "Design 100% sur-mesure",
-          "Back-office admin sur-mesure",
-          "Intégrations API (Stripe, Resend, CRM…)",
-          "Authentification + rôles + RLS",
-          "Code remis 100% sur votre GitHub",
+          "Cadrage gratuit + devis ferme avant de signer",
+          "Une base technique moderne, prête à grandir",
+          "Design 100% sur-mesure pensé pour vos clients",
+          "Espace d'administration privé pour piloter en autonomie",
+          "Connexions à vos outils (paiement, emails, CRM…)",
+          "Comptes utilisateurs sécurisés, multi-rôles",
+          "Code, base de données, domaines : tout à votre nom",
           "30 jours de support post-livraison",
         ],
         cta: { label: "Cadrer mon projet", href: "/contact" },
@@ -199,27 +199,27 @@ export const sitesWebSurMesureData: SubPageData = {
     {
       question: "Quel est le délai réel pour un projet sur-mesure ?",
       answer:
-        "Entre 4 et 12 semaines selon la complexité. Un MVP SaaS simple : 4 à 6 semaines. Une marketplace ou plateforme complète : 8 à 12 semaines. Le planning est fixé dans le cahier des charges, pas après — vous savez exactement quoi attendre quand.",
+        "Entre 4 et 12 semaines selon la complexité. Une première version simple : 4 à 6 semaines. Une plateforme complète avec plein de fonctionnalités : 8 à 12 semaines. Le planning est fixé dans le devis, pas après — vous savez exactement quoi attendre, et quand.",
     },
     {
-      question: "Suis-je propriétaire du code à 100% ?",
+      question: "Suis-je vraiment propriétaire du projet à 100% ?",
       answer:
-        "Oui, entièrement. Le code est poussé sur votre GitHub dès le premier commit, les bases de données sont à votre nom, les domaines sont à votre nom. Vous pouvez partir avec votre projet à tout moment — c'est non négociable de notre côté.",
+        "Oui, entièrement. Le code, la base de données et les domaines sont à votre nom dès le premier jour. Vous pouvez partir avec votre projet à tout moment — c'est non négociable de notre côté. Aucun lock-in, aucune dépendance à nous.",
     },
     {
-      question: "Que se passe-t-il si on veut ajouter des fonctionnalités en cours de route ?",
+      question: "Que se passe-t-il si je veux ajouter des fonctionnalités en cours de route ?",
       answer:
-        "Le scope initial est verrouillé pour éviter le « projet qui dérape ». Toute demande hors scope est chiffrée séparément et validée par vous avant d'être lancée. Pas de mauvaise surprise sur la facture finale.",
+        "Le périmètre initial est verrouillé pour éviter le « projet qui dérape ». Toute nouvelle demande est chiffrée séparément et validée par vous avant d'être lancée. Vous gardez le contrôle, pas de mauvaise surprise sur la facture finale.",
     },
     {
       question: "Quelle stack technique vous utilisez ?",
       answer:
-        "Par défaut : Next.js 14+ (TypeScript strict), Supabase (Postgres + Auth + Storage), Stripe pour le paiement, Vercel pour le déploiement. C'est la stack qu'on connaît par cœur, qui scale et qui durera 5 ans sans réécriture. On adapte si votre besoin l'exige (ex : Shopify pour l'e-commerce, Python pour du traitement IA).",
+        "Question pour les curieux : par défaut on travaille avec Next.js (le framework qu'utilisent Netflix, TikTok ou Notion), Supabase (base de données + comptes utilisateurs), Stripe (paiement) et Vercel (hébergement). C'est la stack qu'on maîtrise par cœur, qui tient la charge et qui durera 5 ans sans réécriture. On l'adapte si votre besoin l'exige.",
     },
     {
       question: "Vous proposez de la maintenance après les 30 jours ?",
       answer:
-        "Oui, en option. Forfaits maintenance à partir de 350 €/mois (mises à jour sécurité, monitoring, petites évolutions). Sinon vous pouvez gérer vous-même — le code est propre, documenté, vous (ou votre dev) pouvez reprendre la main sans friction.",
+        "Oui, en option. Forfaits maintenance à partir de 350 €/mois : mises à jour de sécurité, surveillance, petites évolutions. Sinon vous pouvez gérer vous-même — le code est propre et bien documenté, vous (ou votre dev) pouvez reprendre la main sans friction.",
     },
     {
       question: "Est-ce que vous sous-traitez le développement ?",
@@ -227,9 +227,9 @@ export const sitesWebSurMesureData: SubPageData = {
         "Non. Tout est codé en interne par notre équipe basée à Avignon. C'est ce qui nous permet de tenir les délais, garantir la qualité et rester proches du projet. Pas de dilution offshore.",
     },
     {
-      question: "Pourquoi le floor est à 6 000 € ?",
+      question: "Pourquoi le tarif démarre à 6 000 € ?",
       answer:
-        "Parce qu'en dessous, ce n'est plus du sur-mesure — c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 200 € et 1 500 €). 6 000 €, c'est le minimum pour un projet custom avec architecture sérieuse, back-office et code remis. En dessous, vous avez intérêt à regarder nos packs vitrine ou landing.",
+        "Parce qu'en dessous, ce n'est plus du sur-mesure — c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 200 € et 1 500 €). 6 000 €, c'est le minimum pour un projet construit sérieusement, avec un espace d'administration et un projet 100% à vous. En dessous, regardez plutôt nos packs vitrine ou landing.",
     },
   ],
   finalCta: {
@@ -240,7 +240,7 @@ export const sitesWebSurMesureData: SubPageData = {
   },
   trustStats: [
     { value: "6 000 €", label: "à partir de" },
-    { value: "100%", label: "code remis" },
+    { value: "100%", label: "projet à vous" },
     { value: "5 jours", label: "devis ferme" },
     { value: "Avignon", label: "équipe interne" },
   ],
@@ -253,9 +253,9 @@ export const sitesWebSurMesureData: SubPageData = {
     },
     {
       icon: Shield,
-      title: "Code remis 100% sur votre GitHub",
+      title: "Votre projet vous appartient à 100%",
       description:
-        "Vous êtes propriétaire de tout : code, base de données, domaines, secrets. Vous pouvez partir avec votre projet quand vous voulez — c'est non négociable.",
+        "Code, base de données, domaines : tout est à votre nom dès le premier jour. Vous pouvez partir avec votre projet quand vous voulez — aucun lock-in, aucune dépendance à nous.",
     },
     {
       icon: RefreshCw,
@@ -288,15 +288,15 @@ export const sitesWebSurMesureData: SubPageData = {
         values: ["4 – 12 semaines", "2 – 8 semaines", "4 – 9 mois"],
       },
       {
-        label: "Code remis 100%",
+        label: "Projet 100% à vous",
         values: [true, false, "Selon contrat"],
       },
       {
-        label: "Scalabilité long terme",
-        values: ["Native (Next + Supabase)", "Limitée (lock-in)", "Native"],
+        label: "Pensé pour grandir",
+        values: ["Sans limite", "Limité (lock-in plateforme)", "Sans limite"],
       },
       {
-        label: "Intégrations API custom",
+        label: "Connexions à vos outils",
         values: [true, "Limitées", true],
       },
       {
