@@ -1,13 +1,13 @@
 // src/components/v2/sites-web/SitesWebExamples.tsx
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import type { SubPageData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { WipAwareLink } from "@/components/shared/WipModal";
 
 type SitesWebExamplesProps = {
   data: SubPageData["examples"];
@@ -16,9 +16,9 @@ type SitesWebExamplesProps = {
 function Wrapper({ href, children }: { href?: string; children: ReactNode }) {
   if (href) {
     return (
-      <Link href={href} className="group block h-full">
+      <WipAwareLink href={href} className="group block h-full">
         {children}
-      </Link>
+      </WipAwareLink>
     );
   }
   return <div className="group block h-full">{children}</div>;

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { WipAwareLink } from "@/components/shared/WipModal";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import type { ProjectFrontmatter } from "@/data/realisations/schemas";
@@ -72,7 +72,7 @@ function ProjectCard({ proj }: { proj: CardProject }) {
   const isLarge = proj.layout.includes("row-span-2");
 
   return (
-    <Link href={`/realisations/${proj.slug}`} className="block w-full h-full">
+    <WipAwareLink href={`/realisations/${proj.slug}`} className="block w-full h-full">
       <SpotlightCard className="w-full h-full p-4 md:p-5 flex flex-col justify-between group overflow-hidden relative cursor-pointer" data-cursor="click">
         {/* Images (background) */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[inherit]">
@@ -173,7 +173,7 @@ function ProjectCard({ proj }: { proj: CardProject }) {
           )}
         </div>
       </SpotlightCard>
-    </Link>
+    </WipAwareLink>
   );
 }
 

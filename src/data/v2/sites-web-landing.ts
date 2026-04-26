@@ -1,5 +1,4 @@
 // src/data/sites-web-landing.ts
-// DRAFT_COPY — to refine before swap
 import {
   Rocket,
   TrendingUp,
@@ -9,6 +8,9 @@ import {
   MessageSquare,
   Pencil,
   Code2,
+  Eye,
+  RefreshCw,
+  LifeBuoy,
 } from "lucide-react";
 import type { SubPageData } from "./types";
 
@@ -17,7 +19,7 @@ export const sitesWebLandingData: SubPageData = {
   slug: "landing-page",
   hero: {
     eyebrow: "Sites Web · Landing page",
-    headline: "La landing page qui vend pendant que vous dormez.",
+    headline: "La landing page qui fait passer à l'action.",
     subHeadline:
       "Copywriting soigné, design qui convertit, performance au top. Livrée en 3 à 7 jours, à partir de 1 500 €.",
     priceFrom: "1 500 €",
@@ -38,21 +40,21 @@ export const sitesWebLandingData: SubPageData = {
   forWho: [
     {
       icon: Rocket,
-      title: "Founders SaaS",
+      title: "Founders & porteurs de projet",
       description:
-        "Vous lancez un produit et avez besoin d'une landing page de pré-lancement ou de waiting list qui convertit vraiment.",
+        "Vous lancez un produit, un service ou une waitlist et vous avez besoin d'une page unique qui capte les bons leads dès la première visite.",
     },
     {
       icon: TrendingUp,
-      title: "Growth marketers",
+      title: "Indépendants & consultants",
       description:
-        "Vous avez besoin de landing dédiées pour vos campagnes paid ou outbound, avec A/B test en tête.",
+        "Vous voulez une page claire qui présente votre offre, votre méthode, et qui pousse les visiteurs à réserver un appel sans tergiverser.",
     },
     {
       icon: Briefcase,
-      title: "Agences & consultants",
+      title: "TPE & équipes marketing",
       description:
-        "Vous voulez externaliser la production de landing clients avec une exigence de qualité élevée.",
+        "Vous avez besoin d'une page dédiée pour un événement, une campagne ou un produit phare — sans toucher à votre site principal.",
     },
   ],
   whatYouGet: {
@@ -61,10 +63,10 @@ export const sitesWebLandingData: SubPageData = {
       "Design one-pager sur-mesure (hero, preuves sociales, features, pricing, FAQ, CTA)",
       "Copywriting orienté conversion (fait avec vous)",
       "Intégration responsive parfaite mobile/desktop",
-      "Formulaire de capture de leads ou wait-list",
-      "Tracking complet (GA4, Meta Pixel, conversions)",
-      "Temps de chargement < 1s (Core Web Vitals au vert)",
-      "Préparation A/B test possible dès la livraison",
+      "Formulaire de capture de leads ou waitlist",
+      "Référencement Google de base configuré",
+      "Performance au top (Core Web Vitals au vert)",
+      "Affichage clair en mode clair et sombre",
       "30 jours de support et d'itérations mineures",
     ],
   },
@@ -73,7 +75,7 @@ export const sitesWebLandingData: SubPageData = {
       number: "01",
       title: "Brief & stratégie",
       description:
-        "On challenge votre positionnement, votre promesse et votre cible. On aligne sur l'objectif chiffré (leads, conversions, MRR).",
+        "On challenge votre positionnement, votre promesse et votre cible. On aligne sur l'objectif de la page (leads, RDV, inscriptions).",
       icon: MessageSquare,
     },
     {
@@ -85,21 +87,21 @@ export const sitesWebLandingData: SubPageData = {
     },
     {
       number: "03",
-      title: "Intégration & tracking",
+      title: "Intégration",
       description:
-        "Intégration rapide (<1s), tracking complet, tests sur tous les appareils.",
+        "Développement responsive, animations fluides, performance soignée, tests sur tous les appareils.",
       icon: Code2,
     },
     {
       number: "04",
       title: "Lancement & itérations",
       description:
-        "Mise en ligne, suivi des premiers résultats, petits ajustements inclus pendant 30 jours.",
+        "Mise en ligne, suivi des premiers retours, petits ajustements inclus pendant 30 jours.",
       icon: Rocket,
     },
   ],
   pricing: {
-    title: "Un investissement qui se mesure en conversions.",
+    title: "Un investissement clair, sans surprise.",
     subtitle: "Chaque page est sur-mesure. Le prix aussi.",
     packs: [
       {
@@ -125,47 +127,28 @@ export const sitesWebLandingData: SubPageData = {
     title: "Quelques lancements récents",
     items: [
       {
-        title: "Northlight — lancement seed round",
-        imageUrl: "/images/sites-web/landing-northlight.jpg",
-        href: "/agence",
+        title: "Allo Restau — landing livraison",
+        imageUrl: "/images/portfolio/allo-restau-1.webp",
+        href: "/realisations/allo-restau",
       },
       {
-        title: "Pulsio — waitlist produit",
-        imageUrl: "/images/sites-web/landing-pulsio.jpg",
-        href: "/agence",
+        title: "Comparateur IA Facile — landing produit",
+        imageUrl: "/realisations/comparateur-ia/hero.webp",
+        href: "/realisations/comparateur-ia-facile",
       },
       {
-        title: "Kairos Ops — campagne paid B2B",
-        imageUrl: "/images/sites-web/landing-kairos.jpg",
-        href: "/agence",
+        title: "Maison Enileh — site vitrine",
+        imageUrl: "/images/portfolio/maison-enileh-1.webp",
+        href: "/realisations/maison-enileh",
       },
       {
-        title: "Fable Studio — lancement formation",
-        imageUrl: "/images/sites-web/landing-fable.jpg",
-        href: "/agence",
+        title: "Friend'iz — landing application",
+        imageUrl: "/images/portfolio/friendiz-1.webp",
+        href: "/realisations/friendiz",
       },
     ],
   },
-  testimonials: [
-    {
-      quote:
-        "22% de conversion au lancement. Je n'y croyais pas. Les VCs ont trouvé la landing plus claire que notre deck.",
-      author: "Julien M.",
-      role: "Founder",
-      company: "Northlight",
-      pillar: "sites-web",
-      stat: "22% conversion",
-    },
-    {
-      quote:
-        "On a pu itérer trois fois en une semaine grâce à la préparation A/B test. CPA divisé par deux sur Meta Ads.",
-      author: "Sarah P.",
-      role: "Head of Growth",
-      company: "Kairos Ops",
-      pillar: "sites-web",
-      stat: "CPA ÷2",
-    },
-  ],
+  testimonials: [],
   faq: [
     {
       question: "Qu'est-ce qui différencie une landing Aurentia ?",
@@ -175,32 +158,32 @@ export const sitesWebLandingData: SubPageData = {
     {
       question: "Je n'ai pas de copywriting prêt, vous pouvez m'aider ?",
       answer:
-        "Oui, c'est même recommandé. On a un atelier copy de 60 minutes où on travaille ensemble votre promesse, vos objections et votre narratif. C'est inclus dans l'offre Standard.",
+        "Oui, c'est même recommandé. On organise un atelier copy de 60 minutes où on travaille ensemble votre promesse, vos objections et votre narratif. C'est inclus dans l'offre.",
     },
     {
       question: "Vous pouvez connecter à notre CRM ?",
       answer:
-        "Oui. On intègre HubSpot, Pipedrive, Airtable, Notion, Supabase, ou votre stack custom. C'est inclus dans le pack Premium, en option sur Standard.",
+        "Oui. On intègre HubSpot, Pipedrive, Airtable, Notion, Supabase, ou votre stack custom. On en parle pendant le brief pour ajuster le devis si besoin.",
     },
     {
-      question: "Est-ce qu'on peut faire des A/B tests ?",
+      question: "Est-ce que je suis propriétaire de la page ?",
       answer:
-        "Avec le pack Premium, on livre la landing déjà préparée pour l'A/B test (variants de hero, CTA, headline). On peut aussi vous aider à les lancer et les analyser.",
+        "Oui, entièrement. Nom de domaine, code, hébergement : tout est à votre nom. Vous pouvez partir quand vous voulez avec votre landing.",
     },
     {
       question: "Vous gérez l'hébergement ?",
       answer:
-        "Oui, hébergement Vercel offert pour toute landing. Domaine à votre nom, déploiement automatique à chaque édition de contenu.",
+        "Oui. On configure l'hébergement Vercel à votre nom, avec déploiement automatique. Vous gardez le contrôle complet.",
     },
     {
       question: "Et après le lancement ?",
       answer:
-        "Vous bénéficiez de 30 à 60 jours de support inclus pour les ajustements post-lancement (bugs, optimisations mineures, modifications de copy). Au-delà, on peut intervenir à la demande.",
+        "Vous bénéficiez de 30 jours de support inclus pour les ajustements post-lancement (bugs, optimisations mineures, modifications de copy). Au-delà, on peut intervenir à la demande.",
     },
     {
       question: "Combien de temps pour être en ligne ?",
       answer:
-        "Entre 3 et 7 jours ouvrés selon le pack et la réactivité sur le copywriting. En urgence, on a déjà livré en 72h — mais on ne promet pas ce délai par défaut.",
+        "Entre 3 et 7 jours ouvrés selon la complexité et la réactivité sur le copywriting. En urgence, on a déjà livré en 72h — mais on ne promet pas ce délai par défaut.",
     },
   ],
   finalCta: {
@@ -208,5 +191,75 @@ export const sitesWebLandingData: SubPageData = {
     subtitle:
       "Un appel de 15 minutes et on vous dit si on peut livrer dans vos délais.",
     cta: { label: "Réserver un créneau", href: "/contact" },
+  },
+  trustStats: [
+    { value: "3-7 j", label: "délai moyen" },
+    { value: "100/100", label: "Core Web Vitals" },
+    { value: "1", label: "interlocuteur dédié" },
+    { value: "100%", label: "propriétaire du code" },
+  ],
+  guarantees: [
+    {
+      icon: Eye,
+      title: "Copy & maquette validés avant intégration",
+      description:
+        "Vous voyez le copywriting et le design avant qu'une seule ligne de code ne soit écrite. On n'avance que si vous êtes 100% aligné.",
+    },
+    {
+      icon: RefreshCw,
+      title: "3 tours de révision inclus",
+      description:
+        "On ajuste ensemble jusqu'à ce que la page vous ressemble. Sans surcoût caché, sans limite floue.",
+    },
+    {
+      icon: LifeBuoy,
+      title: "30 jours de support post-live",
+      description:
+        "Bugs, ajustements de copy, micro-changements de design : on reste dispo 30 jours après la mise en ligne. Vous n'êtes jamais lâché.",
+    },
+  ],
+  comparison: {
+    title: "Aurentia vs. le reste",
+    subtitle:
+      "Ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
+    columns: [
+      { label: "Aurentia", highlight: true },
+      { label: "Template no-code" },
+      { label: "Freelance solo" },
+    ],
+    rows: [
+      {
+        label: "Prix landing sur-mesure",
+        values: ["1 500 – 4 000 €", "100 – 400 €", "2 000 – 6 000 €"],
+      },
+      {
+        label: "Délai de livraison",
+        values: ["3 – 7 jours", "Immédiat", "2 – 5 semaines"],
+      },
+      {
+        label: "Design 100% sur-mesure",
+        values: [true, false, true],
+      },
+      {
+        label: "Copywriting orienté conversion",
+        values: [true, false, "Au cas par cas"],
+      },
+      {
+        label: "Maquette validée avant intégration",
+        values: [true, false, "Au cas par cas"],
+      },
+      {
+        label: "Support post-live",
+        values: ["30 j inclus", "Aucun", "Au cas par cas"],
+      },
+      {
+        label: "Performance Core Web Vitals",
+        values: ["100/100", "Variable", "Variable"],
+      },
+      {
+        label: "Propriété du code",
+        values: [true, false, true],
+      },
+    ],
   },
 };

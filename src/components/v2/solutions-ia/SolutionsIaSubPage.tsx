@@ -16,6 +16,7 @@ import { FAQSection } from "@/components/v2/shared/FAQSection";
 import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
+import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const DATA_MAP: Record<string, SubPageData> = {
@@ -29,6 +30,16 @@ const BASE_SUB_NAV = [
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Méthode", sectionId: "method" },
   { label: "Exemples", sectionId: "examples" },
+  { label: "Témoignages", sectionId: "testimonials" },
+  { label: "FAQ", sectionId: "faq" },
+  { label: "RDV", sectionId: "rdv-embed" },
+];
+
+const AUDIT_SUB_NAV = [
+  { label: "Inclus", sectionId: "what-you-get" },
+  { label: "Tarifs", sectionId: "pricing" },
+  { label: "Équipe", sectionId: "equipe" },
+  { label: "Méthode", sectionId: "method" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
@@ -49,10 +60,16 @@ export function SolutionsIaSubPage({ slug }: { slug: string }) {
   const data = DATA_MAP[slug];
   if (!data) return null;
 
-  const subNav =
-    data.guarantees && data.guarantees.length > 0
+  const baseNav =
+    slug === "audit"
+      ? AUDIT_SUB_NAV
+      : data.guarantees && data.guarantees.length > 0
       ? SUB_NAV_WITH_GUARANTEES
       : BASE_SUB_NAV;
+  const subNav =
+    data.examples.items.length > 0
+      ? baseNav
+      : baseNav.filter((item) => item.sectionId !== "examples");
 
   return (
     <>
@@ -94,6 +111,13 @@ export function SolutionsIaSubPage({ slug }: { slug: string }) {
       <SectionDivider />
 
       <HomeBookingCTA />
+
+      {slug === "audit" && (
+        <>
+          <SectionDivider />
+          <HomeTeamV2 members={["Elliot", "Matthieu"]} title="L'équipe" />
+        </>
+      )}
 
       <SectionDivider />
 

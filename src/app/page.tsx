@@ -13,6 +13,7 @@ import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeMethodV2 } from "@/components/v2/home/HomeMethodV2";
 import { HomeFAQV2 } from "@/components/v2/home/HomeFAQV2";
+import { HomeRessourcesPreview } from "@/components/v2/home/HomeRessourcesPreview";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { HomeQuoteV2 } from "@/components/v2/home/HomeQuoteV2";
@@ -26,6 +27,7 @@ const subNavItems = [
   { label: "Équipe", sectionId: "equipe" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
+  { label: "Ressources", sectionId: "ressources" },
   { label: "FAQ", sectionId: "faq" },
 ];
 
@@ -79,6 +81,7 @@ export default function HomeV2() {
         <HomeTeamV2 />
         <HomeTestimonialsV2 />
         <HomeMethodV2 />
+        <HomeRessourcesPreview />
         <HomeFAQV2 />
         <HomeBookingEmbed />
       </div>

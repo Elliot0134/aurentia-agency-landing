@@ -1,8 +1,16 @@
 {
   "mcpServers": {
     "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=brfsrpbfqlydzhguqexj&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cstorage"
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--read-only",
+        "--project-ref=brfsrpbfqlydzhguqexj"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "sbp_ec5c8008df98640b0dd5d3232494dc60e15dd327"
+      }
     }
   }
 }

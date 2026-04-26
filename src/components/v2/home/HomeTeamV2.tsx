@@ -122,14 +122,26 @@ function TeamCard({ member, idx }: { member: Member; idx: number }) {
   );
 }
 
-export function HomeTeamV2() {
-  const firstRow = team.slice(0, 2);
-  const secondRow = team.slice(2);
+type HomeTeamV2Props = {
+  members?: string[];
+  title?: string;
+};
+
+export function HomeTeamV2({ members, title = "L'équipe fondatrice" }: HomeTeamV2Props = {}) {
+  const filtered = members
+    ? members
+        .map((name) => team.find((m) => m.name === name))
+        .filter((m): m is Member => Boolean(m))
+    : team;
+
+  const isCustom = Boolean(members);
+  const firstRow = isCustom ? filtered : filtered.slice(0, 2);
+  const secondRow = isCustom ? [] : filtered.slice(2);
 
   return (
-    <SectionContainer id="equipe" title="L'équipe fondatrice" className="relative">
+    <SectionContainer id="equipe" title={title} className="relative">
         <div className="flex flex-col gap-5">
-          {/* Row 1: 2 cards */}
+          {/* Row 1 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 auto-rows-[240px] md:auto-rows-[320px]">
             {firstRow.map((member, idx) => (
               <BlurReveal key={member.name} delay={idx * 0.2} className="h-full">
@@ -139,20 +151,22 @@ export function HomeTeamV2() {
           </div>
 
           {/* Row 2: 3 cards (third is an empty placeholder) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-[240px] md:auto-rows-[320px]">
-            {secondRow.map((member, idx) => (
-              <BlurReveal key={member.name} delay={(idx + 2) * 0.2} className="h-full">
-                <TeamCard member={member} idx={idx + 2} />
-              </BlurReveal>
-            ))}
-            {secondRow.length < 3 && (
-              <BlurReveal delay={(secondRow.length + 2) * 0.2} className="h-full">
-                <div className="h-full rounded-3xl border border-dashed border-foreground/15 bg-background-surface/50 dark:bg-foreground/[0.02] flex items-center justify-center text-foreground/40 text-sm font-medium transition-colors duration-500 hover:border-foreground/25 hover:text-foreground/60">
-                  Bientôt
-                </div>
-              </BlurReveal>
-            )}
-          </div>
+          {secondRow.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-[240px] md:auto-rows-[320px]">
+              {secondRow.map((member, idx) => (
+                <BlurReveal key={member.name} delay={(idx + 2) * 0.2} className="h-full">
+                  <TeamCard member={member} idx={idx + 2} />
+                </BlurReveal>
+              ))}
+              {secondRow.length < 3 && (
+                <BlurReveal delay={(secondRow.length + 2) * 0.2} className="h-full">
+                  <div className="h-full rounded-3xl border border-dashed border-foreground/15 bg-background-surface/50 dark:bg-foreground/[0.02] flex items-center justify-center text-foreground/40 text-sm font-medium transition-colors duration-500 hover:border-foreground/25 hover:text-foreground/60">
+                    Bientôt
+                  </div>
+                </BlurReveal>
+              )}
+            </div>
+          )}
         </div>
 
         <BlurReveal delay={0.4}>

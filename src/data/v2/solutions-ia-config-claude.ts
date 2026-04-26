@@ -160,28 +160,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
   },
   examples: {
     title: "Quelques setups récents",
-    items: [
-      {
-        title: "Cabinet d'avocats — Claude pour rédaction & recherche juridique",
-        imageUrl: "/images/solutions-ia/config-cabinet.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Freelance growth — Claude assistant perso connecté Notion + Gmail",
-        imageUrl: "/images/solutions-ia/config-freelance.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Studio créatif — Claude pour brief, recherche, copywriting",
-        imageUrl: "/images/solutions-ia/config-studio.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Agence dev — Claude Code complet (CLAUDE.md, hooks, skills, MCP)",
-        imageUrl: "/images/solutions-ia/config-agence.jpg",
-        href: "/agence",
-      },
-    ],
+    items: [],
   },
   testimonials: [
     {

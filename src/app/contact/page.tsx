@@ -4,6 +4,7 @@ import type { ReactElement } from "react";
 import Link from "next/link";
 import { Clock, Mail, MapPin } from "lucide-react";
 import { ContactSplitForm } from "@/components/v2/contact/ContactSplitForm";
+import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -58,6 +59,7 @@ const COORDONNEES: {
 
 export default function ContactPage() {
   return (
+    <>
     <section
       id="hero"
       className="relative overflow-hidden lg:flex lg:min-h-screen lg:items-center"
@@ -147,5 +149,7 @@ export default function ContactPage() {
         </div>
       </div>
     </section>
+    <HomeBookingEmbed />
+    </>
   );
 }

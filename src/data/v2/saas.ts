@@ -21,7 +21,7 @@ export const saasData: CommercialPillarData = {
   hero: {
     eyebrow: "Pilier SaaS sur-mesure",
     headline:
-      "Votre SaaS en production, deux semaines après le premier appel.",
+      "Votre SaaS en production,\n2 semaines après le premier appel.",
     subHeadline:
       "MVP, refontes, intégrations IA, outils métier : on conçoit et on livre des SaaS pro avec une qualité de code irréprochable — pas de bricolage low-code.",
     badges: [
@@ -52,25 +52,33 @@ export const saasData: CommercialPillarData = {
         icon: Rocket,
         title: "MVP from scratch",
         description:
-          "Vous avez une idée ou une première traction ? On construit votre MVP complet en 1 à 2 semaines — auth, DB, paiements, dashboard, le tout en production.",
+          "Votre idée en production en 1 à 2 semaines : auth, DB, paiements, dashboard.",
+        eyebrow: "Pour les founders",
+        meta: "1-2 semaines",
       },
       {
         icon: Settings,
         title: "Refonte SaaS existant",
         description:
-          "Votre produit est en place mais la dette technique vous ralentit. On refactor, on modernise la stack et on relance la vélocité produit.",
+          "Refactor, stack modernisée, vélocité produit retrouvée.",
+        eyebrow: "Pour les CTOs",
+        meta: "3-6 semaines",
       },
       {
         icon: BrainCircuit,
-        title: "Intégration IA dans SaaS existant",
+        title: "SaaS sur-mesure",
         description:
-          "Vous voulez ajouter des features IA utiles (et pas gadget) à votre produit : co-pilot, génération, automatisation, analyse. On intègre proprement dans votre codebase.",
+          "Un produit pensé pour votre marché, vos users, votre process. De zéro, sans compromis.",
+        eyebrow: "Pour les besoins spécifiques",
+        meta: "4-8 semaines",
       },
       {
         icon: Building2,
         title: "Outils internes métier",
         description:
-          "Un outil interne qui remplace 5 tableurs et 3 Notions. Sur-mesure pour votre process, intégré à votre stack, utilisé dès le premier jour.",
+          "L'outil custom qui remplace 5 tableurs et 3 Notions. Adopté dès le jour 1.",
+        eyebrow: "Pour les PME",
+        meta: "2-3 semaines",
       },
     ],
     stack: [

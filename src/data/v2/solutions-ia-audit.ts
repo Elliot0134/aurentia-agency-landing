@@ -1,11 +1,9 @@
 // src/data/solutions-ia-audit.ts
 // DRAFT_COPY — to refine before swap
 import {
-  Target,
   Building2,
   Briefcase,
   Users,
-  Clock,
   MessageSquare,
   Search,
   BarChart3,
@@ -21,11 +19,8 @@ export const solutionsIaAuditData: SubPageData = {
     headline: "L'audit IA qui sort une vraie roadmap, pas un PowerPoint.",
     subHeadline:
       "On cartographie vos process, on identifie les chantiers IA à fort ROI, et on vous livre une roadmap 90 jours chiffrée et priorisée.",
-    priceFrom: "990 €",
-    badges: [
-      { label: "Livrable en 3 à 7 jours", icon: Clock },
-      { label: "Roadmap chiffrée", icon: Target },
-    ],
+    priceFrom: "800 €",
+    badges: [],
     cta: {
       primary: { label: "Demander l'audit", href: "/contact" },
       secondary: { label: "Voir les formats", href: "#pricing" },
@@ -138,28 +133,7 @@ export const solutionsIaAuditData: SubPageData = {
   },
   examples: {
     title: "Quelques audits récents",
-    items: [
-      {
-        title: "Groupe Meca — PME industrielle",
-        imageUrl: "/images/solutions-ia/audit-meca.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Cabinet Meridian — cabinet d'expertise",
-        imageUrl: "/images/solutions-ia/audit-meridian.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Fable Studio — agence contenu",
-        imageUrl: "/images/solutions-ia/audit-fable.jpg",
-        href: "/agence",
-      },
-      {
-        title: "Pulsio — équipe produit SaaS",
-        imageUrl: "/images/solutions-ia/audit-pulsio.jpg",
-        href: "/agence",
-      },
-    ],
+    items: [],
   },
   testimonials: [
     {

@@ -16,7 +16,6 @@ const SAAS_CLIENT_LOGOS = [
   "Golf Mentor",
 ];
 
-const STACK_TAGS = ["Next.js", "Supabase", "Stripe", "Vercel", "TypeScript"];
 
 export function SaaSHeroV2() {
   const { hero } = saasData;
@@ -48,7 +47,7 @@ export function SaaSHeroV2() {
 
       {/* Main centered hero */}
       <div className="relative z-10 pt-20 md:pt-24">
-        <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-7 px-6 py-12 text-center md:px-12 md:py-20">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-7 px-6 py-12 text-center md:px-12 md:py-20">
           {/* Eyebrow pill */}
           <span className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background px-3.5 py-1.5 text-sm uppercase tracking-[0.18em] text-muted-foreground">
             <span className="relative flex h-1.5 w-1.5">
@@ -59,28 +58,20 @@ export function SaaSHeroV2() {
           </span>
 
           {/* H1 — no bold, uses section title sizing */}
-          <h1 className="max-w-4xl whitespace-pre-line text-foreground">
-            {hero.headline}
+          <h1 className="max-w-6xl whitespace-pre-line text-foreground">
+            {hero.headline.split(/(2 semaines)/).map((chunk, i) =>
+              chunk === "2 semaines" ? (
+                <strong key={i} className="font-bold">{chunk}</strong>
+              ) : (
+                <span key={i}>{chunk}</span>
+              ),
+            )}
           </h1>
 
           {/* Subhead */}
           <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             {hero.subHeadline}
           </p>
-
-          {/* Stack tags — scroll to sub-offers */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {STACK_TAGS.map((tag) => (
-              <Link
-                key={tag}
-                href="#offers"
-                className="group inline-flex items-center gap-1.5 rounded-full border border-foreground/15 bg-background px-3 py-1 text-sm text-muted-foreground transition-all duration-500 ease-in-out hover:border-foreground/40 hover:text-foreground"
-              >
-                <span className="h-1 w-1 rounded-full bg-muted-foreground/50 transition-colors duration-500 ease-in-out group-hover:bg-[var(--orange-500)]" />
-                {tag}
-              </Link>
-            ))}
-          </div>
 
           {/* CTAs */}
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">

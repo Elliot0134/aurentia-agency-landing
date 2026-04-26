@@ -171,6 +171,8 @@ export type CommercialPillarSubOffersSingle = {
     icon: LucideIcon;
     title: string;
     description: string;
+    eyebrow?: string;
+    meta?: string;
   }[];
   stack?: { name: string; logo?: string }[];
 };
@@ -260,7 +262,7 @@ export type SubPageData = {
   };
   examples: {
     title: string;
-    items: { title: string; imageUrl: string; href?: string }[];
+    items: { title: string; imageUrl?: string; href?: string }[];
   };
   testimonials: Testimonial[];
   faq: FAQItem[];

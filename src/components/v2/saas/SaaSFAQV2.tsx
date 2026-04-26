@@ -8,7 +8,7 @@ export function SaaSFAQV2() {
     <SectionContainer
       id="faq"
       title="Vos questions, nos réponses"
-      className="bg-background-surface"
+      surface
       innerClassName="max-w-3xl"
     >
       <FAQAccordion items={saasData.faq} />

@@ -10,7 +10,7 @@ export function AgenceAudience() {
       id="pour-qui"
       title={agenceAudience.title}
       subtitle={agenceAudience.paragraph}
-      className="bg-background-surface"
+      surface
       innerClassName="max-w-3xl"
       alignHeader="left"
     >

@@ -23,13 +23,26 @@ export const navbarConfig: NavbarConfig = {
     {
       label: "SaaS",
       href: "/saas",
+      children: [
+        {
+          label: "SaaS sur-mesure",
+          href: "/saas",
+          description: "MVP, refonte, outils internes, intégration IA",
+        },
+        {
+          label: "Marque blanche pour agences",
+          href: "/saas/agences",
+          description: "Partenariat tech en marque blanche pour agences",
+        },
+      ],
     },
     {
       label: "Solutions IA",
       href: "/solutions-ia",
       children: [
         { label: "Audit IA", href: "/solutions-ia/audit", description: "Cartographie de vos process, roadmap 90 jours" },
-        { label: "Implémentation IA", href: "/solutions-ia/implementation-ia", description: "Agents, automatisations et configuration Claude" },
+        { label: "Implémentation IA", href: "/solutions-ia/implementation-ia", description: "Agents, automatisations sur-mesure" },
+        { label: "Configuration Claude", href: "/solutions-ia/configuration-claude", description: "Hooks, skills, MCP servers et CLAUDE.md sur-mesure" },
         { label: "Formation IA", href: "/solutions-ia/formation-ia", description: "Bientôt — formations équipes sur-mesure", comingSoon: true },
       ],
     },
@@ -38,10 +51,10 @@ export const navbarConfig: NavbarConfig = {
       href: "/agence",
       children: [
         { label: "À propos", href: "/a-propos", description: "Équipe, méthode, manifeste" },
-        { label: "Réalisations", href: "/realisations", description: "Bientôt — nos cas clients détaillés", comingSoon: true },
         { label: "Contact", href: "/contact", description: "Parlons de votre projet" },
-        { label: "Le blog", href: "/agence", description: "Bientôt — articles et tendances", comingSoon: true },
-        { label: "Ressources", href: "/agence", description: "Bientôt — guides, templates, outils", comingSoon: true },
+        { label: "Ressources", href: "/ressources", description: "Guides, templates, outils" },
+        { label: "Réalisations", href: "/realisations", description: "Bientôt — nos cas clients détaillés", comingSoon: true },
+        { label: "Le blog", href: "/blog", description: "Bientôt — articles et tendances", comingSoon: true },
         { label: "Affiliation", href: "/agence", description: "Bientôt — 10% sur chaque projet recommandé", comingSoon: true },
       ],
     },

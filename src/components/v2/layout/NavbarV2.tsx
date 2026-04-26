@@ -30,7 +30,7 @@ export function NavbarV2() {
     const offset = navbarBottom + 24;
     const rect = el.getBoundingClientRect();
     const y = rect.top + window.scrollY - offset;
-    window.scrollTo({ top: y, behavior: "instant" });
+    window.scrollTo({ top: y, behavior: "smooth" });
   }, []);
 
   return (

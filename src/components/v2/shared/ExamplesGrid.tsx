@@ -50,15 +50,33 @@ export function ExamplesGrid({
             <ItemWrapper href={item.href}>
               <div
                 className={cn(
-                  "aspect-[4/3] overflow-hidden rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] transition-colors duration-500 ease-in-out dark:group-hover:border-foreground/25"
+                  "relative aspect-[4/3] overflow-hidden rounded-3xl border border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] transition-colors duration-500 ease-in-out group-hover:border-foreground/25"
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                />
+                {item.imageUrl ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                    />
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                    <div
+                      aria-hidden
+                      className="absolute -top-1/3 -left-1/4 h-[140%] w-[80%] rounded-full bg-accent/15 blur-3xl opacity-70 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute -bottom-1/3 -right-1/4 h-[120%] w-[70%] rounded-full bg-foreground/[0.06] blur-3xl"
+                    />
+                    <span className="relative px-6 text-center font-serif text-2xl leading-tight tracking-tight text-foreground/85 transition-transform duration-700 ease-in-out group-hover:scale-[1.02]">
+                      {item.title.split(" — ")[0]}
+                    </span>
+                  </div>
+                )}
               </div>
               <p className="mt-3 text-base font-medium text-foreground/80">{item.title}</p>
             </ItemWrapper>

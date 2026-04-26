@@ -135,22 +135,18 @@ export const solutionsIaImplementationData: SubPageData = {
     items: [
       {
         title: "Cabinet Conseil — agent service client",
-        imageUrl: "/images/solutions-ia/impl-cabinet.jpg",
         href: "/agence",
       },
       {
         title: "Groupe Meca — assistant commercial",
-        imageUrl: "/images/solutions-ia/impl-meca.jpg",
         href: "/agence",
       },
       {
         title: "Cabinet Meridian — analyse documents",
-        imageUrl: "/images/solutions-ia/impl-meridian.jpg",
         href: "/agence",
       },
       {
         title: "Fable Studio — assistant rédaction",
-        imageUrl: "/images/solutions-ia/impl-fable.jpg",
         href: "/agence",
       },
     ],

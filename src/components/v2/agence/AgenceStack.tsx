@@ -37,7 +37,7 @@ export function AgenceStack() {
       eyebrow={agenceStackSection.eyebrow}
       title={agenceStackSection.title}
       subtitle={agenceStackSection.subtitle}
-      className="bg-background-surface"
+      surface
     >
       <BlurReveal>
         <div className="mx-auto max-w-6xl">

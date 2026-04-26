@@ -91,7 +91,7 @@ export function NavbarV2Mobile() {
                         {section.children!.map((child) => {
                           const wip = isWipHref(child.href) || child.comingSoon === true;
                           return (
-                            <li key={child.href}>
+                            <li key={`${child.label}-${child.href}`}>
                               <Link
                                 href={child.href}
                                 onClick={() => setOpen(false)}

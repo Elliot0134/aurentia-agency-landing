@@ -12,7 +12,7 @@ export function AgenceStats() {
       id="stats"
       title={agenceStatsSection.title}
       subtitle={agenceStatsSection.subtitle}
-      className="bg-background-surface"
+      surface
     >
       <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
         {agenceStats.map((stat, index) => (

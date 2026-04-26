@@ -1,12 +1,12 @@
 // src/components/sites-web/SitesWebRealisations.tsx
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { Realisation } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { WipAwareLink } from "@/components/shared/WipModal";
 
 type SitesWebRealisationsProps = {
   items: Realisation[];
@@ -20,7 +20,7 @@ function RealisationCardBento({
   large?: boolean;
 }) {
   return (
-    <Link
+    <WipAwareLink
       href={realisation.href}
       className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-3xl border border-foreground/10 bg-background transition-all duration-500 ease-in-out hover:border-foreground/25"
     >
@@ -58,7 +58,7 @@ function RealisationCardBento({
           <ArrowUpRight className="size-4" />
         </span>
       </div>
-    </Link>
+    </WipAwareLink>
   );
 }
 
@@ -99,13 +99,13 @@ export function SitesWebRealisations({ items }: SitesWebRealisationsProps) {
 
       <BlurReveal delay={0.3}>
         <div className="mt-12 flex justify-center">
-          <Link
+          <WipAwareLink
             href="/realisations"
             className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:gap-3 hover:bg-foreground/90"
           >
             Voir toutes nos réalisations
             <ArrowUpRight className="size-4 transition-transform duration-500 ease-in-out" />
-          </Link>
+          </WipAwareLink>
         </div>
       </BlurReveal>
     </SectionContainer>

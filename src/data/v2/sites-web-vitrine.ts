@@ -171,6 +171,7 @@ export const sitesWebVitrineData: SubPageData = {
         highlightLabel: "POPULAIRE",
         features: [
           "Tout le pack Essentiel",
+          "5 pages",
           "Blog + 4 articles par mois optimisés Google",
           "Référencement Google avancé",
           "Site en français et en anglais",
@@ -187,8 +188,8 @@ export const sitesWebVitrineData: SubPageData = {
         description: "L'offre complète, stratégie incluse.",
         features: [
           "Tout le pack Croissance",
-          "Assistant virtuel personnalisé pour votre site",
-          "Nombre de pages illimité",
+          "Chatbot personnalisé pour votre site",
+          "+5 pages",
           "Affichage des avis clients",
           "Formation en visio (1h) pour prendre la main",
         ],

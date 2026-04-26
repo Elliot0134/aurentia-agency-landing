@@ -19,10 +19,8 @@ import { X } from "lucide-react";
  * Keep this list as the single source of truth for the WIP gate.
  */
 const WIP_PATHS = new Set<string>([
-  "/sites-web/landing-page",
   "/sites-web/e-commerce",
   "/sites-web/sur-mesure",
-  "/saas",
   "/blog",
   "/cgv",
   "/mentions-legales",

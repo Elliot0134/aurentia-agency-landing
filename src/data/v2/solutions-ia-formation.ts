@@ -141,22 +141,18 @@ export const solutionsIaFormationData: SubPageData = {
     items: [
       {
         title: "Groupe Meca — PME industrielle",
-        imageUrl: "/images/solutions-ia/formation-meca.jpg",
         href: "/agence",
       },
       {
         title: "Cabinet Conseil — 12 consultants",
-        imageUrl: "/images/solutions-ia/formation-cabinet.jpg",
         href: "/agence",
       },
       {
         title: "Studio Nord — agence créative",
-        imageUrl: "/images/solutions-ia/formation-studio.jpg",
         href: "/agence",
       },
       {
         title: "Freelances collective — 8 solopreneurs",
-        imageUrl: "/images/solutions-ia/formation-freelances.jpg",
         href: "/agence",
       },
     ],
