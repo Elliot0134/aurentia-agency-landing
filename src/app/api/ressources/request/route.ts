@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
