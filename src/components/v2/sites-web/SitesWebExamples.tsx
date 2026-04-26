@@ -8,6 +8,7 @@ import type { SubPageData } from "@/data/v2/types";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { WipAwareLink } from "@/components/shared/WipModal";
+import { cn } from "@/lib/utils";
 
 type SitesWebExamplesProps = {
   data: SubPageData["examples"];
@@ -33,7 +34,14 @@ export function SitesWebExamples({ data }: SitesWebExamplesProps) {
       title={data.title}
       subtitle="Quelques projets livrés récemment — cliquez pour voir le détail."
     >
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div
+        className={cn(
+          "grid gap-6 md:grid-cols-2",
+          data.items.length === 2
+            ? "mx-auto md:max-w-3xl"
+            : "lg:grid-cols-4",
+        )}
+      >
         {data.items.map((item, idx) => (
           <BlurReveal key={`${item.title}-${idx}`} delay={idx * 0.1}>
             <Wrapper href={item.href}>

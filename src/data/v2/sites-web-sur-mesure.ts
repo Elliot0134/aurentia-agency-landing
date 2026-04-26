@@ -184,9 +184,9 @@ export const sitesWebSurMesureData: SubPageData = {
     title: "Deux projets sur-mesure récents",
     items: [
       {
-        title: "Friendiz — marketplace sociale",
-        imageUrl: "/images/portfolio/friendiz-1.webp",
-        href: "/realisations/friendiz",
+        title: "Comparateur IA Facile — comparateur SaaS",
+        imageUrl: "/realisations/comparateur-ia/hero.webp",
+        href: "/realisations/comparateur-ia-facile",
       },
       {
         title: "HighLove — marque expérientielle",
