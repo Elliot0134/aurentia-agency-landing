@@ -4,6 +4,7 @@
 import { WipAwareLink as Link, isWipHref } from "@/components/shared/WipModal";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import type { NavLink } from "@/data/v2/types";
 
 type MegaMenuProps = {
@@ -45,6 +46,33 @@ export function MegaMenu({ items, open, top, left, onMouseEnter, onMouseLeave }:
     >
       {items.map((item) => {
         const wip = isWipHref(item.href) || item.comingSoon === true;
+        if (item.comingSoon === true) {
+          return (
+            <div
+              key={item.href + item.label}
+              className="flex cursor-not-allowed items-center justify-between gap-2 px-4 py-2.5 text-sm text-foreground/40 select-none"
+              aria-disabled="true"
+              role="menuitem"
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                {item.iconUrl && (
+                  <Image
+                    src={item.iconUrl}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="shrink-0 opacity-60"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="truncate">{item.label}</span>
+              </span>
+              <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-sm font-medium text-foreground/50">
+                En cours
+              </span>
+            </div>
+          );
+        }
         return (
           <Link
             key={item.href + item.label}
@@ -52,7 +80,19 @@ export function MegaMenu({ items, open, top, left, onMouseEnter, onMouseLeave }:
             className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-foreground/70 transition-colors duration-500 ease-in-out hover:bg-foreground/5 hover:text-foreground"
             role="menuitem"
           >
-            <span>{item.label}</span>
+            <span className="flex items-center gap-2 min-w-0">
+              {item.iconUrl && (
+                <Image
+                  src={item.iconUrl}
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="shrink-0"
+                  aria-hidden="true"
+                />
+              )}
+              <span className="truncate">{item.label}</span>
+            </span>
             {wip && (
               <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-sm font-medium text-foreground/60">
                 Bientôt

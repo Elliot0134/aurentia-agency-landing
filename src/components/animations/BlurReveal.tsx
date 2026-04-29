@@ -23,7 +23,7 @@ export function BlurReveal({
   children,
   className,
   delay = 0,
-  stagger = 0.15,
+  stagger = 0.08,
   style,
 }: BlurRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export function BlurReveal({
       filter: "blur(0px)",
       scale: 1,
       y: 0,
-      duration: 0.8,
+      duration: 0.5,
       stagger: stagger,
       ease: "power3.out",
     };
@@ -69,7 +69,7 @@ export function BlurReveal({
         delay: delay,
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 88%",
+          start: "top 95%",
           toggleActions: "play none none none",
         },
       });

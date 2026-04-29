@@ -30,7 +30,7 @@ export const footerConfig: FooterConfig = {
         { label: "Réalisations", href: "/realisations" },
         { label: "Blog", href: "/agence" },
         { label: "Ressources", href: "/agence" },
-        { label: "Affiliation", href: "/agence" },
+        { label: "Apport d'affaires", href: "/apport-affaires" },
         { label: "Contact", href: "/contact" },
       ],
     },

@@ -367,6 +367,7 @@ export type NavLink = {
   href: string;
   description?: string;
   comingSoon?: boolean;
+  iconUrl?: string;
 };
 
 export type NavSection = {

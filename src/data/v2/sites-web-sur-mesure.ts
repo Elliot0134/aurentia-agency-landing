@@ -147,12 +147,13 @@ export const sitesWebSurMesureData: SubPageData = {
     },
   ],
   pricing: {
-    title: "Un budget clair. Un projet livré.",
+    title: "Un cadrage clair. Un projet livré.",
+    subtitle:
+      "Chaque projet sur-mesure est unique — on chiffre précisément après cadrage. Pas de facturation cachée, pas de frais mensuels obligatoires.",
     packs: [
       {
         name: "Projet sur-mesure",
-        pricePrefix: "À partir de",
-        price: "6 000 €",
+        price: "",
         priceNote: "Sur devis selon scope — chiffrage ferme sous 5 jours",
         description:
           "App web, plateforme, marketplace, expérience de marque. Construit pour grandir, livré clé en main, et 100% à vous.",

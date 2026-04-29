@@ -55,15 +55,17 @@ export function SitesWebPricing({ data }: SitesWebPricingProps) {
                     {pack.pricePrefix}
                   </p>
                 )}
-                <p className="font-heading text-3xl font-bold text-foreground md:text-4xl">
-                  <PriceHT value={pack.price} />
-                  {pack.priceSuffix && (
-                    <span className="text-base font-medium text-foreground/55">
-                      {" "}
-                      {pack.priceSuffix}
-                    </span>
-                  )}
-                </p>
+                {pack.price && (
+                  <p className="font-heading text-3xl font-bold text-foreground md:text-4xl">
+                    <PriceHT value={pack.price} />
+                    {pack.priceSuffix && (
+                      <span className="text-base font-medium text-foreground/55">
+                        {" "}
+                        {pack.priceSuffix}
+                      </span>
+                    )}
+                  </p>
+                )}
                 {pack.priceNote && (
                   <p className="text-sm text-foreground/50">{pack.priceNote}</p>
                 )}

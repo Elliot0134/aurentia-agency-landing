@@ -84,7 +84,7 @@ export function HomeHeroV2() {
           </span>
 
           {/* H1 */}
-          <h1 className="max-w-4xl whitespace-pre-line text-foreground">
+          <h1 className="max-w-5xl whitespace-pre-line text-foreground !text-[2.75rem] sm:!text-[3.25rem] md:!text-[4rem] lg:!text-[5rem] xl:!text-[5.5rem]">
             {hero.headline}
           </h1>
 

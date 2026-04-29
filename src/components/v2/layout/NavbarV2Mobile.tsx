@@ -4,6 +4,7 @@
 import { useCallback, useState } from "react";
 import { WipAwareLink as Link, isWipHref } from "@/components/shared/WipModal";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
 import { cn } from "@/lib/utils";
@@ -90,6 +91,33 @@ export function NavbarV2Mobile() {
                       <ul className="flex flex-col gap-1 pb-4 pl-4">
                         {section.children!.map((child) => {
                           const wip = isWipHref(child.href) || child.comingSoon === true;
+                          if (child.comingSoon === true) {
+                            return (
+                              <li key={`${child.label}-${child.href}`}>
+                                <div
+                                  aria-disabled="true"
+                                  className="flex cursor-not-allowed select-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-base text-foreground/40"
+                                >
+                                  <span className="flex min-w-0 items-center gap-2">
+                                    {child.iconUrl && (
+                                      <Image
+                                        src={child.iconUrl}
+                                        alt=""
+                                        width={18}
+                                        height={18}
+                                        className="shrink-0 opacity-60"
+                                        aria-hidden="true"
+                                      />
+                                    )}
+                                    <span className="truncate">{child.label}</span>
+                                  </span>
+                                  <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-sm font-medium text-foreground/50">
+                                    En cours
+                                  </span>
+                                </div>
+                              </li>
+                            );
+                          }
                           return (
                             <li key={`${child.label}-${child.href}`}>
                               <Link
@@ -97,7 +125,19 @@ export function NavbarV2Mobile() {
                                 onClick={() => setOpen(false)}
                                 className="flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-base text-foreground/75 transition-colors duration-500 ease-in-out hover:bg-foreground/5"
                               >
-                                <span>{child.label}</span>
+                                <span className="flex min-w-0 items-center gap-2">
+                                  {child.iconUrl && (
+                                    <Image
+                                      src={child.iconUrl}
+                                      alt=""
+                                      width={18}
+                                      height={18}
+                                      className="shrink-0"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                  <span className="truncate">{child.label}</span>
+                                </span>
                                 {wip && (
                                   <span className="shrink-0 rounded-full bg-foreground/10 px-2 py-0.5 text-sm font-medium text-foreground/60">
                                     Bientôt

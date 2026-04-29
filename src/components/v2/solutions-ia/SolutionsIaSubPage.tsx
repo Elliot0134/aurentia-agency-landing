@@ -3,7 +3,6 @@
 
 import type { SubPageData } from "@/data/v2/types";
 import { solutionsIaConfigClaudeData } from "@/data/v2/solutions-ia-config-claude";
-import { solutionsIaFormationData } from "@/data/v2/solutions-ia-formation";
 import { solutionsIaAuditData } from "@/data/v2/solutions-ia-audit";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
 import { WhatYouGetSection } from "@/components/v2/shared/WhatYouGetSection";
@@ -21,7 +20,6 @@ import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const DATA_MAP: Record<string, SubPageData> = {
   "configuration-claude": solutionsIaConfigClaudeData,
-  "formation-ia": solutionsIaFormationData,
   audit: solutionsIaAuditData,
 };
 

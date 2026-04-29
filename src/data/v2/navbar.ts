@@ -22,6 +22,7 @@ export const navbarConfig: NavbarConfig = {
           label: "E-commerce",
           href: "/sites-web/ecommerce",
           description: "Boutique Shopify sur-mesure dès 2 500 €",
+          iconUrl: "/images/shopify_logo.webp",
         },
         {
           label: "Site sur-mesure",
@@ -52,8 +53,8 @@ export const navbarConfig: NavbarConfig = {
       children: [
         { label: "Audit IA", href: "/solutions-ia/audit", description: "Cartographie de vos process, roadmap 90 jours" },
         { label: "Implémentation IA", href: "/solutions-ia/implementation-ia", description: "Agents, automatisations sur-mesure" },
-        { label: "Configuration Claude", href: "/solutions-ia/configuration-claude", description: "Hooks, skills, MCP servers et CLAUDE.md sur-mesure" },
-        { label: "Formation IA", href: "/solutions-ia/formation-ia", description: "Bientôt — formations équipes sur-mesure", comingSoon: true },
+        { label: "Configuration Claude", href: "/solutions-ia/configuration-claude", description: "Hooks, skills, MCP servers et CLAUDE.md sur-mesure", iconUrl: "/images/icons/claude-icon.webp" },
+        { label: "Formation IA", href: "/solutions-ia/formation-ia", description: "En cours — formations équipes sur-mesure", comingSoon: true },
       ],
     },
     {
@@ -65,7 +66,7 @@ export const navbarConfig: NavbarConfig = {
         { label: "Ressources", href: "/ressources", description: "Guides, templates, outils" },
         { label: "Réalisations", href: "/realisations", description: "Bientôt — nos cas clients détaillés", comingSoon: true },
         { label: "Le blog", href: "/blog", description: "Bientôt — articles et tendances", comingSoon: true },
-        { label: "Affiliation", href: "/agence", description: "Bientôt — 10% sur chaque projet recommandé", comingSoon: true },
+        { label: "Apport d'affaires", href: "/apport-affaires", description: "10% de commission sur chaque projet recommandé" },
       ],
     },
   ],

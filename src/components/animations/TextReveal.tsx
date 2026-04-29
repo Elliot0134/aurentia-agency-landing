@@ -45,8 +45,8 @@ export function TextReveal({
         {
           y: "0%",
           opacity: 1,
-          duration: 0.7,
-          stagger: 0.04,
+          duration: 0.45,
+          stagger: 0.025,
           delay: delay || 0.2,
           ease: "power3.out",
           onComplete: () => setHasAnimated(true),
@@ -59,12 +59,12 @@ export function TextReveal({
         {
           y: "0%",
           opacity: 1,
-          duration: 0.7,
-          stagger: 0.04,
+          duration: 0.45,
+          stagger: 0.025,
           ease: "power3.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 85%",
+            start: "top 95%",
             toggleActions: "play none none none",
           },
           onComplete: () => setHasAnimated(true),
