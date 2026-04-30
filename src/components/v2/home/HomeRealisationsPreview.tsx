@@ -153,6 +153,7 @@ export function HomeRealisationsPreview() {
 
   // Clamp index when visible count changes (resize).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIndex((i) => Math.min(i, maxIndex));
   }, [maxIndex]);
 

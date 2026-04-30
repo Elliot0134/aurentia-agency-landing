@@ -13,7 +13,7 @@ export function Footer() {
               Aurentia <span className="text-accent-primary">Agency</span>
             </Link>
             <p className="text-foreground-muted text-sm mb-6 max-w-xs">
-              On crée des expériences digitales uniques — propulsées par l'IA et 20 ans d'expertise web.
+              On crée des expériences digitales uniques — propulsées par l&apos;IA et 20 ans d&apos;expertise web.
             </p>
             <div className="flex flex-col gap-2 text-sm font-medium">
               <a href="mailto:contact@aurentia.agency" className="text-foreground hover:text-accent-primary transition-colors">

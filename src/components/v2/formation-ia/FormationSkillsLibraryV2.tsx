@@ -29,7 +29,7 @@ export function FormationSkillsLibraryV2() {
             </span>
           </div>
           <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground">
-            Classés par métier · prêts à l'emploi
+            Classés par métier · prêts à l&apos;emploi
           </p>
         </div>
       </BlurReveal>
