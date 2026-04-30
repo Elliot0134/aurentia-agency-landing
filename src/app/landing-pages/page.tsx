@@ -4,7 +4,7 @@ import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { LandingPagesHero } from "@/components/landing-pages/LandingPagesHero";
 import { LandingPagesFeatures } from "@/components/landing-pages/LandingPagesFeatures";
 import { LandingPagesVitrine } from "@/components/landing-pages/LandingPagesVitrine";
-import { LandingPagesExemples } from "@/components/landing-pages/LandingPagesExemples";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { LandingPagesProcess } from "@/components/landing-pages/LandingPagesProcess";
 import { LandingPagesPricing } from "@/components/landing-pages/LandingPagesPricing";
 import { LandingPagesFAQ } from "@/components/landing-pages/LandingPagesFAQ";
@@ -14,7 +14,7 @@ import { SubNavSetter } from "@/components/shared/SubNavContext";
 const subNavItems = [
   { label: "Vitrine", sectionId: "vitrine" },
   { label: "Avantages", sectionId: "features" },
-  { label: "Exemples", sectionId: "exemples" },
+  { label: "Exemples", sectionId: "realisations" },
   { label: "Processus", sectionId: "process" },
   { label: "Tarifs", sectionId: "tarifs" },
   { label: "FAQ", sectionId: "faq" },
@@ -94,7 +94,7 @@ export default function LandingPagesPage() {
         <LandingPagesHero />
         <LandingPagesVitrine />
         <LandingPagesFeatures />
-        <LandingPagesExemples />
+        <HomeRealisationsPreview filterTags={["Landing Page"]} title="Nos dernières landing pages" subtitle="Des pages écrites pour convertir — cliquez pour voir le détail." />
         <LandingPagesProcess />
         <LandingPagesPricing />
         <LandingPagesFAQ />

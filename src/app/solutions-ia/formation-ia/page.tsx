@@ -17,6 +17,7 @@ import { FormationFinalCtaV2 } from "@/components/v2/formation-ia/FormationFinal
 import { MethodSection } from "@/components/v2/shared/MethodSection";
 import { FAQSection } from "@/components/v2/shared/FAQSection";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
@@ -30,6 +31,7 @@ const subNavItems = [
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Méthode", sectionId: "method" },
   { label: "Cas d'usage", sectionId: "use-cases" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv" },
@@ -81,6 +83,7 @@ export default function FormationIaPage() {
           steps={solutionsIaFormationData.method.steps}
         />
         <FormationUseCasesV2 />
+        <HomeRealisationsPreview title="Des projets nés de cette expertise" subtitle="Ce qu'on enseigne, on l'a déjà déployé en production." />
         <HomeTestimonialsV2 />
         <FormationPricingV2 />
         <FAQSection

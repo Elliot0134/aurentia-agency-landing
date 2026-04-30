@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -8,7 +8,7 @@ import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { WipAwareLink } from "@/components/shared/WipModal";
 
-type ItemTag = "SaaS" | "Site Vitrine" | "E-commerce" | "Landing Page";
+export type ItemTag = "SaaS" | "Site Vitrine" | "E-commerce" | "Landing Page";
 
 type Item = {
   title: string;
@@ -146,10 +146,23 @@ function useVisibleCount() {
   return count;
 }
 
-export function HomeRealisationsPreview() {
+type Props = {
+  filterTags?: ItemTag[];
+  title?: string;
+  subtitle?: string;
+};
+
+export function HomeRealisationsPreview({
+  filterTags,
+  title = "Nos dernières réalisations",
+  subtitle = "Quelques projets livrés récemment — cliquez pour voir le détail.",
+}: Props = {}) {
+  const items = filterTags && filterTags.length > 0
+    ? ITEMS.filter((it) => filterTags.includes(it.tag))
+    : ITEMS;
   const visible = useVisibleCount();
   const [index, setIndex] = useState(0);
-  const maxIndex = Math.max(0, ITEMS.length - visible);
+  const maxIndex = Math.max(0, items.length - visible);
 
   // Clamp index when visible count changes (resize).
   useEffect(() => {
@@ -157,12 +170,12 @@ export function HomeRealisationsPreview() {
     setIndex((i) => Math.min(i, maxIndex));
   }, [maxIndex]);
 
-  const prev = useCallback(() => {
+  const prev = () => {
     setIndex((i) => Math.max(0, i - 1));
-  }, []);
-  const next = useCallback(() => {
+  };
+  const next = () => {
     setIndex((i) => Math.min(maxIndex, i + 1));
-  }, [maxIndex]);
+  };
 
   const canPrev = index > 0;
   const canNext = index < maxIndex;
@@ -171,8 +184,8 @@ export function HomeRealisationsPreview() {
   return (
     <SectionContainer
       id="realisations"
-      title="Nos dernières réalisations"
-      subtitle="Quelques projets livrés récemment — cliquez pour voir le détail."
+      title={title}
+      subtitle={subtitle}
     >
       <div className="relative">
         {/* Track viewport */}
@@ -181,7 +194,7 @@ export function HomeRealisationsPreview() {
             className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{ transform: `translateX(-${index * slideWidth}%)` }}
           >
-            {ITEMS.map((item) => (
+            {items.map((item) => (
               <div
                 key={item.title}
                 className="flex-shrink-0 px-4 md:px-6"

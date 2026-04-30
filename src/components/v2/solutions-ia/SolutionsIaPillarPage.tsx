@@ -11,6 +11,7 @@ import { TestimonialsMarquee } from "@/components/v2/shared/TestimonialsMarquee"
 import { PerksGrid, type Perk } from "@/components/v2/shared/PerksGrid";
 import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
@@ -18,6 +19,7 @@ const SOLUTIONS_IA_SUB_NAV = [
   { label: "Offres", sectionId: "offers" },
   { label: "Pourquoi", sectionId: "perks" },
   { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Méthode", sectionId: "method" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
@@ -107,6 +109,10 @@ export function SolutionsIaPillarPage() {
           <SectionDivider />
         </>
       )}
+
+      <HomeRealisationsPreview title="Quelques projets IA livrés" subtitle="Plateformes IA, automatisations, agents — cliquez pour voir le détail." />
+
+      <SectionDivider />
 
       <MethodSection
         title={data.method.title}

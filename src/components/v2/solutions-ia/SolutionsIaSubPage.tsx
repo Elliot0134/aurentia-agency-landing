@@ -16,6 +16,7 @@ import { SectionDivider } from "@/components/v2/shared/SectionDivider";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 const DATA_MAP: Record<string, SubPageData> = {
@@ -29,6 +30,7 @@ const BASE_SUB_NAV = [
   { label: "Méthode", sectionId: "method" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
 ];
@@ -39,6 +41,7 @@ const AUDIT_SUB_NAV = [
   { label: "Équipe", sectionId: "equipe" },
   { label: "Méthode", sectionId: "method" },
   { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
 ];
@@ -50,6 +53,7 @@ const SUB_NAV_WITH_GUARANTEES = [
   { label: "Méthode", sectionId: "method" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
 ];
@@ -145,6 +149,10 @@ export function SolutionsIaSubPage({ slug }: { slug: string }) {
           />
         </>
       )}
+
+      <SectionDivider />
+
+      <HomeRealisationsPreview title="Quelques projets IA livrés" subtitle="Plateformes IA, automatisations, agents — cliquez pour voir le détail." />
 
       <SectionDivider />
 

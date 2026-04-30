@@ -26,6 +26,7 @@ import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 
 const subNavItems = [
   { label: "Le constat", sectionId: "problem" },
@@ -33,6 +34,7 @@ const subNavItems = [
   { label: "L'économie", sectionId: "economics" },
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Engagements", sectionId: "engagements" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Équipe", sectionId: "equipe" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv" },
@@ -610,6 +612,8 @@ export default function SaasAgencesPage() {
           })}
         </div>
       </SectionContainer>
+
+      <HomeRealisationsPreview filterTags={["SaaS"]} title="Des SaaS livrés en marque blanche" subtitle="Quelques projets — vos clients, notre code, votre nom." />
 
       {/* TEAM (réutilise le composant home) */}
       <HomeTeamV2 />

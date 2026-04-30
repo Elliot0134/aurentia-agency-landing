@@ -5,7 +5,7 @@ import { ConciergerieProblem } from "@/components/conciergerie/ConciergerieProbl
 import { ConciergerieSolution } from "@/components/conciergerie/ConciergerieSolution";
 import { ConciergerieInnovation } from "@/components/conciergerie/ConciergerieInnovation";
 import { HomeProcess as ConciergerieProcess } from "@/components/home/HomeProcess";
-import { HomePortfolio as ConciergeriePortfolio } from "@/components/home/HomePortfolio";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { ConciergeriePricing } from "@/components/conciergerie/ConciergeriePricing";
 import { ConciergerieComparison } from "@/components/conciergerie/ConciergerieComparison";
 import { ConciergerieFAQ } from "@/components/conciergerie/ConciergerieFAQ";
@@ -22,7 +22,7 @@ export default function ConciergeriesPage() {
         <ConciergerieSolution />
         <ConciergerieInnovation />
         <ConciergerieProcess />
-        <ConciergeriePortfolio />
+        <HomeRealisationsPreview filterTags={["Site Vitrine"]} title="Nos derniers sites livrés" subtitle="Des sites pensés pour convertir — cliquez pour voir le détail." />
         <ConciergeriePricing />
         <ConciergerieComparison />
         <ConciergerieFAQ />

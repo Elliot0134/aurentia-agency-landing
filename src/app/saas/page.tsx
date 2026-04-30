@@ -16,6 +16,7 @@ import { SaaSWhyV2 } from "@/components/v2/saas/SaaSWhyV2";
 import { SaaSMethodV2 } from "@/components/v2/saas/SaaSMethodV2";
 import { SaaSFAQV2 } from "@/components/v2/saas/SaaSFAQV2";
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
+import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
@@ -31,6 +32,7 @@ const subNavItems = [
   { label: "Comparaison", sectionId: "comparison" },
   { label: "Livrable", sectionId: "deliverable" },
   { label: "Cas concrets", sectionId: "use-cases" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Méthode", sectionId: "method" },
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv" },
@@ -77,6 +79,7 @@ export default function HomeSaaS() {
         <SaaSComparisonV2 />
         <SaaSDeliverableV2 />
         <SaaSUseCasesV2 />
+        <HomeRealisationsPreview filterTags={["SaaS"]} title="Nos derniers SaaS livrés" subtitle="Des plateformes pensées pour scaler — cliquez pour voir le détail." />
         <HomeBookingCTA />
         <HomeTeamV2 />
         <SaaSWhyV2 />

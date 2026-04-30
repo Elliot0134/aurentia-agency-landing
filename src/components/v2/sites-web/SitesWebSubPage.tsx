@@ -26,6 +26,7 @@ import { HomeContactV2 } from "@/components/v2/home/HomeContactV2";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
+import { HomeRealisationsPreview, type ItemTag } from "@/components/v2/home/HomeRealisationsPreview";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
@@ -40,6 +41,7 @@ const DEFAULT_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Exemples", sectionId: "examples" },
   { label: "Témoignages", sectionId: "testimonials" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Inclus", sectionId: "what-you-get" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Garanties", sectionId: "guarantees" },
@@ -52,6 +54,7 @@ const DEFAULT_SUB_NAV = [
 const ECOMMERCE_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
   { label: "Anatomie", sectionId: "anatomy" },
+  { label: "Réalisations", sectionId: "realisations" },
   { label: "Inclus", sectionId: "what-you-get" },
   { label: "Outils", sectionId: "stack" },
   { label: "Tarifs", sectionId: "pricing" },
@@ -88,6 +91,30 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
   const showTeam = slug !== "site-vitrine";
   const subNav = isEcommerce ? ECOMMERCE_SUB_NAV : DEFAULT_SUB_NAV;
 
+  const REALISATIONS_BY_SLUG: Record<string, { tags: ItemTag[]; title: string; subtitle: string }> = {
+    "landing-page": {
+      tags: ["Landing Page"],
+      title: "Nos dernières landing pages",
+      subtitle: "Des pages écrites pour convertir — cliquez pour voir le détail.",
+    },
+    "site-vitrine": {
+      tags: ["Site Vitrine"],
+      title: "Nos derniers sites vitrines",
+      subtitle: "Des sites pensés pour vendre votre marque — cliquez pour voir le détail.",
+    },
+    ecommerce: {
+      tags: ["E-commerce", "Site Vitrine"],
+      title: "Nos dernières boutiques & sites premium",
+      subtitle: "Quelques projets livrés récemment — cliquez pour voir le détail.",
+    },
+    "sur-mesure": {
+      tags: ["SaaS", "Site Vitrine"],
+      title: "Nos derniers projets sur-mesure",
+      subtitle: "Plateformes, marketplaces, expériences brand — cliquez pour voir le détail.",
+    },
+  };
+  const realisationsConfig = REALISATIONS_BY_SLUG[slug];
+
   return (
     <>
       <SubNavSetter items={subNav} />
@@ -98,6 +125,13 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       {isEcommerce && <EcommerceAnatomy />}
       {!isEcommerce && <SitesWebExamples data={data.examples} />}
       <SitesWebTestimonials items={data.testimonials} />
+      {realisationsConfig && (
+        <HomeRealisationsPreview
+          filterTags={realisationsConfig.tags}
+          title={realisationsConfig.title}
+          subtitle={realisationsConfig.subtitle}
+        />
+      )}
       <HomeBookingCTA />
       <SitesWebWhatYouGet data={data.whatYouGet} />
       {isEcommerce && <EcommerceStack />}
