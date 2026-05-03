@@ -21,13 +21,14 @@ const subNavItems = [
 ];
 
 export const metadata: Metadata = {
-  title: "Landing Pages Haute Conversion pour SaaS | Aurentia Agency",
+  title: "Landing Pages Haute Conversion pour SaaS",
   description:
-    "Design spectaculaire, animations premium, optimisees conversion. Landing pages SaaS sur-mesure des 1 500\u20AC. Ce site est notre carte de visite.",
+    "Design spectaculaire, animations premium, optimisées conversion. Landing pages SaaS sur-mesure dès 1 500\u20AC. Ce site est notre carte de visite.",
+  alternates: { canonical: "/landing-pages" },
   openGraph: {
-    title: "Landing Pages Haute Conversion — Aurentia Agency",
+    title: "Landing Pages Haute Conversion pour SaaS",
     description:
-      "Design spectaculaire, animations premium, optimisees conversion. Des 1 500\u20AC. Ce site est notre carte de visite.",
+      "Design spectaculaire, animations premium, optimisées conversion. Dès 1 500\u20AC.",
     url: "https://aurentia.agency/landing-pages",
     type: "website",
     images: ["/images/opengraph/opengraph.png"],

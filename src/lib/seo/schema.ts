@@ -68,6 +68,50 @@ export function collectionPage(
   };
 }
 
+const BASE_URL_CONST = "https://aurentia.agency";
+
+export function serviceSchema({
+  name,
+  description,
+  url,
+  areaServed = ["Avignon", "Vaucluse", "PACA", "France"],
+}: {
+  name: string;
+  description: string;
+  url: string;
+  areaServed?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    provider: ORGANIZATION,
+    url: `${BASE_URL_CONST}${url}`,
+    areaServed: areaServed.map((a) => ({ "@type": "Place", name: a })),
+  };
+}
+
+export function localBusiness() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${BASE_URL_CONST}/#localbusiness`,
+    name: "Aurentia Agency",
+    url: BASE_URL_CONST,
+    image: `${BASE_URL_CONST}/images/opengraph/opengraph.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Avignon",
+      addressRegion: "Vaucluse",
+      addressCountry: "FR",
+    },
+    areaServed: ["France", "PACA", "Vaucluse", "Avignon"].map((a) => ({ "@type": "Place", name: a })),
+    priceRange: "€€€",
+    sameAs: ORGANIZATION.sameAs,
+  };
+}
+
 export function faqPage(faq: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",

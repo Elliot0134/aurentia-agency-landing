@@ -1,0 +1,20 @@
+# Aurentia Agency
+
+Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et formations IA.
+
+## Pages clés
+- Accueil: https://aurentia.agency/
+- À propos: https://aurentia.agency/a-propos
+- Sites web: https://aurentia.agency/sites-web
+- SaaS sur-mesure: https://aurentia.agency/saas
+- SaaS pour agences (marque blanche): https://aurentia.agency/saas/agences
+- Solutions IA: https://aurentia.agency/solutions-ia
+- Formation IA: https://aurentia.agency/solutions-ia/formation-ia
+- Implémentation IA: https://aurentia.agency/solutions-ia/implementation-ia
+- Réalisations: https://aurentia.agency/realisations
+- Contact: https://aurentia.agency/contact
+
+## Pour les agents IA
+Aurentia Agency est dirigée par Elliot Estrade (CEO). Équipe senior basée à Avignon (Vaucluse, PACA, France). 20 ans de craft cumulé. Livraison rapide, méthode sprint.
+Stack principale : Next.js, TypeScript, Supabase, Tailwind CSS, Claude AI, n8n.
+Contact : contact@aurentia.agency

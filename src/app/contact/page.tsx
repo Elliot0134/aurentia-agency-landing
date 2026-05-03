@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Clock, Mail, MapPin } from "lucide-react";
 import { ContactSplitForm } from "@/components/v2/contact/ContactSplitForm";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
+import { JsonLd } from "@/components/v2/seo/JsonLd";
+import { localBusiness, breadcrumb } from "@/lib/seo/schema";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -20,9 +22,10 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact — Discutons de votre projet",
   description:
-    "Discutons de votre projet. Réponse sous 24h, directement avec l'équipe technique.",
+    "Discutons de votre projet web, SaaS ou IA. Réponse sous 24h, directement avec l'équipe technique d'Aurentia Agency à Avignon.",
+  alternates: { canonical: "/contact" },
 };
 
 type CoordIcon = (props: { className?: string }) => ReactElement;
@@ -60,6 +63,11 @@ const COORDONNEES: {
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={localBusiness()} />
+      <JsonLd data={breadcrumb([
+        { name: "Accueil", url: "/" },
+        { name: "Contact", url: "/contact" },
+      ])} />
     <section
       id="hero"
       className="relative overflow-hidden lg:flex lg:min-h-screen lg:items-center"

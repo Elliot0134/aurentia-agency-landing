@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import { RessourcesIndexPage } from "@/components/v2/ressources/RessourcesIndexPage";
 
 export const metadata: Metadata = {
-  title: "Ressources — Aurentia Agency",
+  title: "Ressources web, IA & vibe coding",
   description:
     "Guides, méthodes et retours d'expérience sur le web, l'IA et le vibe coding. Direct, sans bullshit.",
+  alternates: { canonical: "/ressources" },
   openGraph: {
-    title: "Ressources — Aurentia Agency",
+    title: "Ressources — Guides web, IA & vibe coding",
     description:
       "Guides, méthodes et retours d'expérience sur le web, l'IA et le vibe coding.",
     type: "website",

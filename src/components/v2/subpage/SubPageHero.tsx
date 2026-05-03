@@ -1,4 +1,5 @@
 // src/components/v2/subpage/SubPageHero.tsx
+import Image from "next/image";
 import type { SubPageData } from "@/data/v2/types";
 import { ServiceBadge } from "@/components/v2/shared/ServiceBadge";
 import { DualCTA } from "@/components/v2/shared/DualCTA";
@@ -35,8 +36,7 @@ export function SubPageHero({ hero }: SubPageHeroProps) {
           <DualCTA primary={hero.cta.primary} secondary={hero.cta.secondary} size="lg" />
         </div>
         <div className="relative aspect-[4/3.6] overflow-hidden rounded-3xl bg-foreground/5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={hero.visual.src} alt={hero.visual.alt} className="h-full w-full object-cover" />
+          <Image src={hero.visual.src} alt={hero.visual.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
         </div>
       </div>
     </section>

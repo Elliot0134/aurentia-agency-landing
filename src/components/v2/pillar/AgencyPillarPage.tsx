@@ -1,4 +1,5 @@
 // src/components/v2/pillar/AgencyPillarPage.tsx
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
@@ -105,8 +106,7 @@ export function AgencyPillarPage({ data }: AgencyPillarPageProps) {
           {data.teamPreview.members.map((m) => (
             <div key={m.name} className="flex flex-col items-center gap-3 text-center">
               {m.avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={m.avatarUrl} alt={m.name} className="size-24 rounded-full object-cover" />
+                <Image src={m.avatarUrl} alt={m.name} width={96} height={96} className="size-24 rounded-full object-cover" />
               ) : (
                 <div className="size-24 rounded-full bg-foreground/10" aria-hidden />
               )}

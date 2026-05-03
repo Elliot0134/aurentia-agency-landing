@@ -2,8 +2,10 @@ import { Metadata } from "next";
 import { ComingSoon } from "@/components/shared/ComingSoon";
 
 export const metadata: Metadata = {
-  title: "Blog — Aurentia Agency",
+  title: "Blog",
   description: "Articles et conseils sur le développement web, l'IA et le digital.",
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {

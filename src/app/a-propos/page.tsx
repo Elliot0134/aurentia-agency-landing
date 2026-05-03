@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/v2/seo/JsonLd";
+import { breadcrumb } from "@/lib/seo/schema";
 import { AgenceHero } from "@/components/v2/agence/AgenceHero";
 import { AgenceStoryV2 } from "@/components/v2/agence/AgenceStoryV2";
 import { AgenceStats } from "@/components/v2/agence/AgenceStats";
@@ -13,9 +15,10 @@ import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
 export const metadata: Metadata = {
-  title: "À propos — Aurentia",
+  title: "À propos — Équipe, histoire & méthode",
   description:
-    "Aurentia : 20 ans d'expertise web, l'IA comme superpouvoir. L'équipe, l'histoire, la méthode.",
+    "Aurentia Agency : 20 ans d'expertise web, l'IA comme superpouvoir. L'équipe, l'histoire, la méthode. Basée à Avignon.",
+  alternates: { canonical: "/a-propos" },
 };
 
 const subNavItems = [
@@ -33,6 +36,10 @@ const subNavItems = [
 export default function AProposPage() {
   return (
     <>
+      <JsonLd data={breadcrumb([
+        { name: "Accueil", url: "/" },
+        { name: "À propos", url: "/a-propos" },
+      ])} />
       <SubNavSetter items={subNavItems} />
       <ScrollToTop />
       <AgenceHero />
