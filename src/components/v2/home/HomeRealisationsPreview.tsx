@@ -23,14 +23,14 @@ const ITEMS: Item[] = [
     title: "Comparateur IA Facile",
     subtitle: "Trouver l'outil IA parfait",
     tag: "SaaS",
-    imageUrl: "/images/portfolio/comparateur-ia-facile.png",
+    imageUrl: "/images/portfolio/comparateur-ia-facile.webp",
     href: "/realisations/comparateur-ia-facile",
   },
   {
     title: "Aurentia",
     subtitle: "Création d'entreprise IA",
     tag: "SaaS",
-    imageUrl: "/images/portfolio/aurentia-saas.png",
+    imageUrl: "/images/portfolio/aurentia-saas.webp",
     href: "/realisations",
   },
   {
@@ -44,14 +44,14 @@ const ITEMS: Item[] = [
     title: "Aurentia for Entrepreneurs",
     subtitle: "Espace client",
     tag: "SaaS",
-    imageUrl: "/images/portfolio/aurentia-for-entrepreneurs.png",
+    imageUrl: "/images/portfolio/aurentia-for-entrepreneurs.webp",
     href: "/realisations",
   },
   {
     title: "Maison Enileh",
     subtitle: "Site vitrine premium",
     tag: "Site Vitrine",
-    imageUrl: "/images/portfolio/maison-enileh.png",
+    imageUrl: "/images/portfolio/maison-enileh.webp",
     href: "/realisations/maison-enileh",
   },
   {
