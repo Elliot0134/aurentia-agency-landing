@@ -7,6 +7,7 @@ import { AgenceStats } from "@/components/v2/agence/AgenceStats";
 import { AgenceTeamFull } from "@/components/v2/agence/AgenceTeamFull";
 import { AgenceValuesV2 } from "@/components/v2/agence/AgenceValuesV2";
 import { AgenceHackathons } from "@/components/v2/agence/AgenceHackathons";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AgenceStack } from "@/components/v2/agence/AgenceStack";
 import { AgenceApproach } from "@/components/v2/agence/AgenceApproach";
 import { AgenceAudience } from "@/components/v2/agence/AgenceAudience";
@@ -27,7 +28,7 @@ const subNavItems = [
   { label: "Équipe", sectionId: "equipe" },
   { label: "Valeurs", sectionId: "valeurs" },
   { label: "Hackathons", sectionId: "hackathons" },
-  { label: "Stack", sectionId: "stack" },
+  // { label: "Stack", sectionId: "stack" },
   { label: "Approche", sectionId: "approche" },
   { label: "Pour qui", sectionId: "pour-qui" },
   { label: "Contact", sectionId: "contact" },
@@ -48,7 +49,7 @@ export default function AProposPage() {
       <AgenceTeamFull />
       <AgenceValuesV2 />
       <AgenceHackathons />
-      <AgenceStack />
+      {/* <AgenceStack /> */}
       <AgenceApproach />
       <AgenceAudience />
       <AgenceFinalCTA />

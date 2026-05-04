@@ -81,7 +81,7 @@ export function SubOffersSection({
             })}
       </div>
 
-      {subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
+      {false && subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
         <div className="mt-16 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8">
           <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/55">
             Notre stack
