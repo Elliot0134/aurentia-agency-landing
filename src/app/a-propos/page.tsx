@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import { JsonLd } from "@/components/v2/seo/JsonLd";
 import { breadcrumb } from "@/lib/seo/schema";
+import { pageMeta } from "@/lib/seo/metadata";
 import { AgenceHero } from "@/components/v2/agence/AgenceHero";
 import { AgenceStoryV2 } from "@/components/v2/agence/AgenceStoryV2";
 import { AgenceStats } from "@/components/v2/agence/AgenceStats";
@@ -15,12 +15,12 @@ import { AgenceFinalCTA } from "@/components/v2/agence/AgenceFinalCTA";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { SubNavSetter } from "@/components/shared/SubNavContext";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "À propos — Équipe, histoire & méthode",
   description:
     "Aurentia Agency : 20 ans d'expertise web, l'IA comme superpouvoir. L'équipe, l'histoire, la méthode. Basée à Avignon.",
-  alternates: { canonical: "/a-propos" },
-};
+  path: "/a-propos",
+});
 
 const subNavItems = [
   { label: "Histoire", sectionId: "histoire" },

@@ -493,8 +493,8 @@ export function HomeContact() {
                         <option value="" disabled hidden>
                           Sélectionner une fourchette
                         </option>
-                        <option value="1200-3000" className="bg-background text-foreground">
-                          1 200€ – 3 000€
+                        <option value="1500-3000" className="bg-background text-foreground">
+                          1 500€ – 3 000€
                         </option>
                         <option value="3000-10000" className="bg-background text-foreground">
                           3 000€ – 10 000€

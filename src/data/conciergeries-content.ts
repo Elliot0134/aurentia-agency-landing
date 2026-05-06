@@ -102,11 +102,11 @@ export const conciergeriesSiteConfig = {
 export const conciergeriesSeo = {
   title: "Site Vitrine Conciergerie Airbnb — Livré en 72h | Aurentia",
   description:
-    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 200€. On vous montre votre site AVANT le paiement.",
+    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 500€. On vous montre votre site AVANT le paiement.",
   openGraph: {
     title: "Site vitrine pour conciergerie — Livré en 72h | Aurentia",
     description:
-      "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 200€.",
+      "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 500€.",
     image: "/images/opengraph/opengraph.png",
   },
 };
@@ -120,13 +120,13 @@ export const conciergeriesHeroContent = {
   headline:
     "Vos commissions Airbnb financent vos concurrents. Votre site les supprime.",
   subtitle:
-    "Un site sur-mesure pour votre conciergerie. Design unique, SEO local, réservations directes. Livré en 72h, à partir de 1 200€. Et on vous le montre AVANT que vous payiez.",
+    "Un site sur-mesure pour votre conciergerie. Design unique, SEO local, réservations directes. Livré en 72h, à partir de 1 500€. Et on vous le montre AVANT que vous payiez.",
   ctaPrimary: "Voir mon futur site gratuitement",
   ctaSecondary: "Découvrir les tarifs ↓",
   stats: [
     { value: 10000, suffix: "€", label: "économisés en commissions/an" },
     { value: 48, suffix: "h", label: "pour votre V1" },
-    { value: 1200, suffix: "€", label: "le pack Essentiel" },
+    { value: 1500, suffix: "€", label: "le pack Essentiel" },
   ],
 };
 
@@ -414,7 +414,7 @@ export const conciergeriesComparisonContent = {
   rows: [
     {
       label: "Prix",
-      values: ["3 000 - 8 000€", "1 500 - 3 000€", "0 - 200€", "1 200 - 1 990€"],
+      values: ["3 000 - 8 000€", "1 500 - 3 000€", "0 - 200€", "1 500 - 1 990€"],
     },
     {
       label: "Délai",
@@ -458,7 +458,7 @@ export const conciergeriesFaqContent = {
     {
       question: "Combien coûte un site pour ma conciergerie ?",
       answer:
-        "À partir de 1 200€ HT pour le pack Essentiel. Le pack Croissance à 1 990€ ajoute le blog SEO, le chatbot IA et le bilingue. Le pack Premium est sur devis pour un écosystème complet avec réservation en ligne.",
+        "À partir de 1 500€ HT pour le pack Essentiel. Le pack Croissance à 1 990€ ajoute le blog SEO, le chatbot IA et le bilingue. Le pack Premium est sur devis pour un écosystème complet avec réservation en ligne.",
     },
     {
       question: "72h, vraiment ? Pas bâclé ?",

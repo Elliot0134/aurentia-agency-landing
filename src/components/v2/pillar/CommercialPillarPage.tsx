@@ -50,7 +50,7 @@ export function CommercialPillarPage({ data }: CommercialPillarPageProps) {
         <SectionContainer
           id="testimonials"
           eyebrow="Témoignages"
-          title="Ils nous font confiance"
+          title="Vos témoignages"
           className="bg-background-surface"
         >
           <div className="grid gap-6 md:grid-cols-2">

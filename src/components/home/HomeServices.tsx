@@ -409,7 +409,7 @@ export function HomeServices() {
             <ServiceDetails
               desc="Un beau site, fait pour vous. Visible sur Google, parfait sur mobile, prêt à recevoir vos clients."
               tags={["SEO", "Animations", "Sur-mesure", "Responsive"]}
-              price="1 200€"
+              price="1 500€"
               priceLabel="À partir de"
               href="/sites-vitrines"
             />

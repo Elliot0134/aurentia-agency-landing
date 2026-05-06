@@ -1,6 +1,15 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ConciergerieHero } from "@/components/conciergerie/ConciergerieHero";
+import { pageMeta } from "@/lib/seo/metadata";
+
+export const metadata = pageMeta({
+  title: "Site Vitrine Conciergerie Airbnb — Livré en 72h",
+  description:
+    "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 500€. On vous montre votre site AVANT le paiement.",
+  path: "/conciergeries",
+});
+
 import { ConciergerieProblem } from "@/components/conciergerie/ConciergerieProblem";
 import { ConciergerieSolution } from "@/components/conciergerie/ConciergerieSolution";
 import { ConciergerieInnovation } from "@/components/conciergerie/ConciergerieInnovation";

@@ -128,7 +128,7 @@ function MarqueeCard({ testimonial }: { testimonial: Testimonial }) {
 
 export function TestimonialsMarquee({
   testimonials,
-  title = "Ce que nos clients disent",
+  title = "Vos témoignages",
   subtitle,
   id = "testimonials",
   className,

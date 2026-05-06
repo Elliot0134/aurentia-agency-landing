@@ -27,7 +27,7 @@ const OFFERS: Offer[] = [
     title: "Site vitrine",
     desc: "Présence pro pour TPE, artisans, commerces. SEO, responsive, rapide.",
     tags: ["SEO", "Responsive", "Animations", "Sur-mesure"],
-    priceFrom: "1 200 €",
+    priceFrom: "1 500 €",
     href: "/sites-web/site-vitrine",
     Visual: VitrineMockup,
   },

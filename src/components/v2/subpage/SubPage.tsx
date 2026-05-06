@@ -39,7 +39,7 @@ export function SubPage({ data }: SubPageProps) {
       <SubPageExamples data={data.examples} />
 
       {data.testimonials.length > 0 && (
-        <SectionContainer id="testimonials" eyebrow="Témoignages" title="Ils en parlent mieux que nous">
+        <SectionContainer id="testimonials" eyebrow="Témoignages" title="Vos témoignages">
           <div className="grid gap-6 md:grid-cols-2">
             {data.testimonials.map((t, i) => (
               <TestimonialCard key={i} testimonial={t} />

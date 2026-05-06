@@ -8,11 +8,11 @@ import {
   useRef,
   useState,
   type ComponentType,
-  type ReactNode,
 } from "react";
 import { WipAwareLink as Link } from "@/components/shared/WipModal";
 import gsap from "gsap";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight, Play } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card } from "@/components/v2/shared/Card";
 import { PriceHT } from "@/components/v2/shared/PriceHT";
@@ -48,7 +48,9 @@ type TabDef = {
 type PillarEntry = {
   key: TabKey;
   title: string;
-  desc: string;
+  services: string[];
+  Mockup: ComponentType;
+  accent: { from: string; to: string };
 };
 
 const TABS: TabDef[] = [
@@ -171,10 +173,34 @@ const TABS: TabDef[] = [
 ];
 
 const PILLARS: PillarEntry[] = [
-  { key: "sites-web", title: "Site Web", desc: "Visibilité & Conversion" },
-  { key: "saas", title: "SaaS", desc: "Application sur-mesure" },
-  { key: "formation-ia", title: "Formation IA", desc: "Bootcamp & Workshops" },
-  { key: "systeme-ia", title: "Système IA", desc: "Audit & Automatisation" },
+  {
+    key: "sites-web",
+    title: "Site Web",
+    services: ["Site vitrine", "Landing page", "E-commerce", "Sur-mesure"],
+    Mockup: WebsiteMini,
+    accent: { from: "#3B82F6", to: "#06B6D4" },
+  },
+  {
+    key: "saas",
+    title: "SaaS",
+    services: ["MVP SaaS", "Refonte SaaS", "Sur-mesure"],
+    Mockup: SaasMini,
+    accent: { from: "#8B5CF6", to: "#EC4899" },
+  },
+  {
+    key: "formation-ia",
+    title: "Formation IA",
+    services: ["Formation équipes", "Skills & Cours", "Accompagnement"],
+    Mockup: YoutubeMini,
+    accent: { from: "#EF4444", to: "#F97316" },
+  },
+  {
+    key: "systeme-ia",
+    title: "Système IA",
+    services: ["Audit IA", "Implémentation", "Configuration Claude"],
+    Mockup: OrgChartMini,
+    accent: { from: "#F97316", to: "#EAB308" },
+  },
 ];
 
 type HomeServicesV2Props = {
@@ -189,14 +215,26 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
   const [view, setView] = useState<View>(lockedTab ? "tabs" : "cards");
   const activeTab = TABS.find((t) => t.key === active)!;
 
+  // ── Sliding pill tabs (measured) ──
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const tabButtonRefs = useRef<Map<TabKey, HTMLButtonElement | null>>(new Map());
+  const [activePill, setActivePill] = useState({ x: 0, width: 0, ready: false });
+  const [hoverPill, setHoverPill] = useState({ x: 0, width: 0, opacity: 0 });
+  const hoverKeyRef = useRef<TabKey | null>(null);
+  // Blocks measureActive while the cards→tabs morph is animating —
+  // bounding rects mid-animation give wrong (transformed) coords.
+  const morphCompleteRef = useRef(true);
+
   // Listen for external tab-set events (from HomeHeroV2 service tags)
   useEffect(() => {
     if (lockedTab) return; // locked mode — ignore external events
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail as TabKey | undefined;
       if (detail && TABS.some((t) => t.key === detail)) {
+        morphCompleteRef.current = false;
         setActive(detail);
         setView("tabs");
+        setActivePill((p) => ({ ...p, ready: false }));
       }
     };
     window.addEventListener("aurentia-set-service-tab", handler);
@@ -204,22 +242,14 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
   }, [lockedTab]);
 
   const handlePillarClick = useCallback((key: TabKey) => {
+    morphCompleteRef.current = false;
     setActive(key);
     setView("tabs");
+    setActivePill((p) => ({ ...p, ready: false }));
   }, []);
-
-  const handleBackToCards = useCallback(() => {
-    setView("cards");
-  }, []);
-
-  // ── Sliding pill tabs (measured) ──
-  const tabsListRef = useRef<HTMLDivElement>(null);
-  const tabButtonRefs = useRef<Map<TabKey, HTMLButtonElement | null>>(new Map());
-  const [activePill, setActivePill] = useState({ x: 0, width: 0, ready: false });
-  const [hoverPill, setHoverPill] = useState({ x: 0, width: 0, opacity: 0 });
-  const hoverKeyRef = useRef<TabKey | null>(null);
 
   const measureActive = useCallback(() => {
+    if (!morphCompleteRef.current) return;
     const list = tabsListRef.current;
     const btn = tabButtonRefs.current.get(active);
     if (!list || !btn) return;
@@ -232,11 +262,13 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
     });
   }, [active]);
 
-  // Initial + on active change — runs before paint
+  // Re-measure on active tab change. measureActive() is internally gated by
+  // morphCompleteRef → no-op while the cards→tabs morph is animating.
+  // Initial measurement after a morph is triggered by onLayoutAnimationComplete.
   useLayoutEffect(() => {
     if (view !== "tabs") return;
     measureActive();
-  }, [measureActive, view]);
+  }, [active, measureActive, view]);
 
   // Re-measure once fonts have loaded (prevents pill misalignment during font swap)
   useEffect(() => {
@@ -405,6 +437,14 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
 
   const showPillarGrid = view === "cards" && !lockedTab;
 
+  const handleShowAllDetails = useCallback(() => {
+    morphCompleteRef.current = false;
+    setActive("sites-web");
+    setView("tabs");
+    // Hide active pill until the morph completes — it will be re-measured by onLayoutAnimationComplete
+    setActivePill((p) => ({ ...p, ready: false }));
+  }, []);
+
   return (
     <SectionContainer
       id="pillars"
@@ -415,48 +455,28 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
       titleClassName="text-4xl md:text-5xl lg:text-6xl mb-4 font-normal"
       headerClassName="!mb-8 md:!mb-10"
     >
-      {showPillarGrid ? (
-        <div key="cards" className="animate-fade-in">
-          <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-            {PILLARS.map((pillar) => (
-              <PillarEntryCard
-                key={pillar.key}
-                pillar={pillar}
-                onClick={() => handlePillarClick(pillar.key)}
-              />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div key="tabs" className="relative flex flex-col animate-fade-in">
-          {/* ── Back link — only when not locked ── */}
-          {!lockedTab && (
-            <div className="mb-5 flex justify-center md:mb-6">
-              <button
-                type="button"
-                onClick={handleBackToCards}
-                className="group inline-flex items-center gap-1.5 text-sm text-foreground/50 transition-colors duration-500 ease-in-out hover:text-foreground/90"
-              >
-                <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-500 ease-in-out group-hover:-translate-x-0.5" />
-                Toutes les catégories
-              </button>
-            </div>
-          )}
-
-          {/* ── Centered segmented-control tabs (bordered container) ── */}
-          {!lockedTab && (
-            <div className="flex justify-center">
-              <div
-                ref={tabsListRef}
-                onPointerMove={handleTabsPointerMove}
-                onPointerLeave={handleTabsPointerLeave}
-                onKeyDown={handleTabsKeyDown}
-                role="tablist"
-                aria-orientation="horizontal"
-                aria-label="Catégories de services"
-                className="relative inline-flex items-center gap-1 rounded-full border border-foreground/15 p-1"
-              >
-                {/* Hover indicator — GPU-composited, subtle */}
+      {/* ── Tab bar — always rendered, morphs from "Détail des services" pill to 4 tabs ── */}
+      {!lockedTab && (
+        <div className="mb-7 flex justify-center md:mb-9">
+          <motion.div
+            layout
+            transition={{ type: "spring", stiffness: 220, damping: 30, mass: 1 }}
+            onLayoutAnimationComplete={() => {
+              morphCompleteRef.current = true;
+              if (view === "tabs") measureActive();
+            }}
+            ref={tabsListRef}
+            onPointerMove={!showPillarGrid ? handleTabsPointerMove : undefined}
+            onPointerLeave={!showPillarGrid ? handleTabsPointerLeave : undefined}
+            onKeyDown={!showPillarGrid ? handleTabsKeyDown : undefined}
+            role={!showPillarGrid ? "tablist" : undefined}
+            aria-orientation={!showPillarGrid ? "horizontal" : undefined}
+            aria-label={!showPillarGrid ? "Catégories de services" : undefined}
+            className="relative inline-flex items-center gap-1 rounded-full border border-foreground/15 p-1"
+          >
+            {/* Sliding pills — only relevant in tabs view */}
+            {!showPillarGrid && (
+              <>
                 <div
                   className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-foreground/[0.04] will-change-transform"
                   style={{
@@ -467,7 +487,6 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                       "transform 450ms cubic-bezier(0.32, 0.72, 0, 1), width 450ms cubic-bezier(0.32, 0.72, 0, 1), opacity 300ms ease-out",
                   }}
                 />
-                {/* Active pill — card-like lift, clearly selected */}
                 <div
                   className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-background-surface shadow-[0_2px_10px_-2px_rgba(0,0,0,0.08)] ring-1 ring-foreground/[0.08] will-change-transform"
                   style={{
@@ -479,11 +498,31 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                       : "none",
                   }}
                 />
-                {TABS.map((tab) => {
+              </>
+            )}
+
+            <AnimatePresence mode="popLayout" initial={false}>
+              {showPillarGrid ? (
+                <motion.button
+                  key="cta"
+                  layout
+                  type="button"
+                  onClick={handleShowAllDetails}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="relative z-10 cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium whitespace-nowrap text-foreground/70 transition-colors duration-500 ease-out hover:text-foreground"
+                >
+                  Détail des services
+                </motion.button>
+              ) : (
+                TABS.map((tab) => {
                   const isActive = active === tab.key;
                   return (
-                    <button
+                    <motion.button
                       key={tab.key}
+                      layout
                       id={`tab-${tab.key}`}
                       ref={(el) => {
                         tabButtonRefs.current.set(tab.key, el);
@@ -496,24 +535,59 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                       aria-controls={`tabpanel-${tab.key}`}
                       tabIndex={isActive ? 0 : -1}
                       onClick={() => setActive(tab.key)}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
                       className={`relative z-10 cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium whitespace-nowrap outline-none transition-colors duration-500 ease-out focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                         isActive ? "text-foreground" : "text-foreground/55 hover:text-foreground/90"
                       }`}
                     >
                       {tab.label}
-                    </button>
+                    </motion.button>
                   );
-                })}
-              </div>
-            </div>
-          )}
+                })
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      )}
 
-          {/* ── Body — only active tab rendered so height = content, footer stays close ── */}
-          <div className="mt-5 md:mt-7">
-            <TabPanel
+      {/* ── Body — pillar grid OR offer cards (smooth fade swap, mode=wait) ── */}
+      <AnimatePresence mode="wait" initial={false}>
+        {showPillarGrid ? (
+          <motion.div
+            key="cards-pillars"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <div className="mx-auto grid w-full grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-6">
+              {PILLARS.map((pillar) => (
+                <PillarEntryCard
+                  key={pillar.key}
+                  pillar={pillar}
+                  onClick={() => handlePillarClick(pillar.key)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="cards-offers"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+            className="relative flex flex-col"
+          >
+            <div
               key={active}
               id={`tabpanel-${active}`}
-              labelledBy={`tab-${active}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${active}`}
+              className="animate-fade-in"
             >
               <div className="flex flex-wrap items-stretch justify-center gap-5 md:gap-6">
                 {activeTab.offers.map((offer) => (
@@ -529,49 +603,25 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                   </div>
                 ))}
               </div>
-            </TabPanel>
-          </div>
+            </div>
 
-          {/* ── Footer — editorial text link ── */}
-          <div className="mt-4 flex items-center justify-center md:mt-6">
-            <Link
-              href={activeTab.href}
-              className="group inline-flex items-center gap-2 text-sm font-medium text-foreground transition-all duration-500 ease-in-out hover:gap-3"
-            >
-              Voir toutes les offres{" "}
-              <span className="font-bold text-[var(--orange-600)] transition-colors duration-500 ease-in-out">
-                {activeTab.label}
-              </span>
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-        </div>
-      )}
+            {/* Footer link */}
+            <div className="mt-6 flex items-center justify-center md:mt-7">
+              <Link
+                href={activeTab.href}
+                className="group inline-flex items-center gap-2 text-sm font-medium text-foreground transition-all duration-500 ease-in-out hover:gap-3"
+              >
+                Voir toutes les offres{" "}
+                <span className="font-bold text-[var(--orange-600)] transition-colors duration-500 ease-in-out">
+                  {activeTab.label}
+                </span>
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </SectionContainer>
-  );
-}
-
-/* ──────────────────────────────────────────────
-   Tab panel — fades in when the active tab changes
-   ────────────────────────────────────────────── */
-function TabPanel({
-  id,
-  labelledBy,
-  children,
-}: {
-  id: string;
-  labelledBy: string;
-  children: ReactNode;
-}) {
-  return (
-    <div
-      id={id}
-      role="tabpanel"
-      aria-labelledby={labelledBy}
-      className="animate-fade-in"
-    >
-      {children}
-    </div>
   );
 }
 
@@ -585,20 +635,211 @@ function PillarEntryCard({
   pillar: PillarEntry;
   onClick: () => void;
 }) {
-  const { title, desc } = pillar;
+  const { title, services, Mockup, accent } = pillar;
   return (
-    <Card className="group relative flex w-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:border-foreground/25 hover:shadow-[0_0_40px_rgba(228,85,18,0.06)]">
-      <button
-        type="button"
-        onClick={onClick}
-        className="flex w-full cursor-pointer flex-col items-center justify-center gap-2 p-8 text-center md:gap-3 md:p-10"
+    <div className="group relative h-full w-full">
+      <Card className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl">
+        <button
+          type="button"
+          onClick={onClick}
+          aria-label={`Voir les offres ${title}`}
+          className="flex h-full w-full cursor-pointer flex-col text-left"
+        >
+          {/* Viewport — bg layer only, mockup is rendered as a sibling of Card so it can overflow */}
+          <div className="relative aspect-[16/10] w-full shrink-0">
+            {/* Background layer — strictly clipped by the Card (overflow-hidden), never moves, never scales */}
+            <div
+              className="absolute inset-0 rounded-t-3xl"
+              style={{
+                background: `linear-gradient(135deg, ${accent.from}18 0%, ${accent.to}18 100%)`,
+              }}
+            >
+              <div
+                className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full opacity-45 blur-3xl"
+                style={{ background: accent.from }}
+              />
+              <div
+                className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full opacity-35 blur-3xl"
+                style={{ background: accent.to }}
+              />
+            </div>
+          </div>
+
+          {/* Bottom — title + services list. Whole block lifts on hover; services line is blurred at rest, sharpens on hover. */}
+          <div className="flex flex-1 flex-col gap-2 p-6 transition-transform duration-700 ease-in-out group-hover:-translate-y-2 md:p-7">
+            <h3 className="font-heading text-2xl font-bold leading-tight tracking-tight text-foreground whitespace-nowrap">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-foreground/60 transition-colors duration-700 ease-in-out group-hover:text-foreground/85">
+              {services.join(" · ")}
+            </p>
+          </div>
+        </button>
+      </Card>
+      {/* Mockup overlay — rendered OUTSIDE the Card so it can overflow freely on hover.
+          pointer-events-none lets clicks pass through to the Card's button below. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex aspect-[16/10] items-center justify-center p-4 transition-transform duration-700 ease-in-out group-hover:-translate-y-6 group-hover:scale-[1.06]">
+        <Mockup />
+      </div>
+      {/* Arrow — rendered OUTSIDE the Card too, with the highest z-index so it always sits above the mockup */}
+      <span
+        className="pointer-events-none absolute right-3 top-3 z-30 flex size-7 items-center justify-center rounded-full bg-background-surface/85 text-foreground/70 backdrop-blur-sm"
+        aria-hidden
       >
-        <h3 className="font-heading text-xl leading-tight text-foreground md:text-2xl">
-          {title}
-        </h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
-      </button>
-    </Card>
+        <ArrowUpRight
+          className="size-3.5 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          strokeWidth={2.25}
+        />
+      </span>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   Mini-mockups — colored, simple, distinct per pillar
+   ────────────────────────────────────────────── */
+
+function WebsiteMini() {
+  return (
+    <div className="relative aspect-[16/10] w-full max-w-[220px] overflow-hidden rounded-lg bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
+      {/* Browser chrome */}
+      <div className="flex items-center gap-1 bg-slate-100 px-2 py-1.5">
+        <span className="size-1.5 rounded-full bg-red-400" />
+        <span className="size-1.5 rounded-full bg-yellow-400" />
+        <span className="size-1.5 rounded-full bg-green-400" />
+        <div className="ml-2 h-2 flex-1 rounded-full bg-slate-200" />
+      </div>
+      {/* Hero with gradient bg */}
+      <div className="relative flex flex-col gap-1.5 bg-gradient-to-br from-blue-500 to-cyan-400 px-3 py-3">
+        <div className="h-1.5 w-3/4 rounded-full bg-white/90" />
+        <div className="h-1.5 w-1/2 rounded-full bg-white/70" />
+        <div className="mt-1 h-3 w-14 rounded-md bg-white/95" />
+      </div>
+      {/* Content blocks */}
+      <div className="flex gap-1.5 px-3 py-2">
+        <div className="h-6 flex-1 rounded bg-slate-100" />
+        <div className="h-6 flex-1 rounded bg-slate-100" />
+      </div>
+    </div>
+  );
+}
+
+function SaasMini() {
+  return (
+    <div className="relative flex aspect-[16/10] w-full max-w-[220px] overflow-hidden rounded-lg bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
+      {/* Sidebar */}
+      <div className="flex w-9 flex-col gap-1.5 bg-slate-900 px-1.5 py-2">
+        <div className="h-1.5 rounded-full bg-violet-400" />
+        <div className="h-1.5 rounded-full bg-white/30" />
+        <div className="h-1.5 rounded-full bg-white/30" />
+        <div className="h-1.5 rounded-full bg-white/30" />
+      </div>
+      {/* Main */}
+      <div className="flex flex-1 flex-col gap-1.5 p-2">
+        {/* Top stats */}
+        <div className="flex gap-1">
+          <div className="flex-1 rounded bg-violet-100 px-1 py-1">
+            <div className="h-1 w-3/4 rounded bg-violet-400" />
+            <div className="mt-0.5 h-1.5 w-1/2 rounded bg-violet-600" />
+          </div>
+          <div className="flex-1 rounded bg-pink-100 px-1 py-1">
+            <div className="h-1 w-3/4 rounded bg-pink-400" />
+            <div className="mt-0.5 h-1.5 w-1/2 rounded bg-pink-600" />
+          </div>
+        </div>
+        {/* Chart */}
+        <div className="flex flex-1 items-end justify-around gap-0.5 rounded bg-slate-50 p-1">
+          {[40, 65, 50, 80, 60, 95, 75].map((h, i) => (
+            <div
+              key={i}
+              className="w-1.5 rounded-sm"
+              style={{
+                height: `${h}%`,
+                background: `linear-gradient(180deg, #8B5CF6 0%, #EC4899 100%)`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function YoutubeMini() {
+  return (
+    <div className="relative aspect-[16/10] w-full max-w-[220px] overflow-hidden rounded-lg bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
+      {/* Video thumbnail */}
+      <div className="relative aspect-video w-full bg-gradient-to-br from-slate-900 via-slate-800 to-red-900">
+        {/* Decorative pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(239,68,68,0.3),transparent_50%)]" />
+        {/* Play button */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex size-9 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-red-600/40">
+            <Play className="size-4 fill-white text-white" />
+          </div>
+        </div>
+        {/* Duration badge */}
+        <span className="absolute bottom-1.5 right-1.5 flex h-3 w-9 items-center justify-center rounded-sm bg-black/80">
+          <span className="h-0.5 w-5 rounded-full bg-white" />
+        </span>
+        {/* Progress bar */}
+        <div className="absolute inset-x-0 bottom-0 h-0.5 bg-white/20">
+          <div className="h-full w-1/3 bg-red-600" />
+        </div>
+      </div>
+      {/* Title bar */}
+      <div className="flex flex-col gap-1 px-2 py-2">
+        <div className="h-1.5 w-full rounded-full bg-slate-300" />
+        <div className="h-1.5 w-2/3 rounded-full bg-slate-200" />
+      </div>
+    </div>
+  );
+}
+
+function OrgChartMini() {
+  const ceoColor = "#F97316";
+  const childColor = "#EAB308";
+  return (
+    <div className="relative flex aspect-[16/10] w-full max-w-[220px] flex-col items-center justify-center gap-1.5 rounded-lg bg-white p-2 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
+      {/* CEO node */}
+      <div
+        className="relative z-10 flex items-center gap-1.5 rounded-md px-2.5 py-1.5 shadow-md"
+        style={{ background: `linear-gradient(135deg, ${ceoColor} 0%, #EA580C 100%)` }}
+      >
+        <span className="flex size-3 items-center justify-center rounded-full bg-white/30">
+          <span className="size-1.5 rounded-full bg-white" />
+        </span>
+        <span className="h-1 w-10 rounded-full bg-white" />
+      </div>
+      {/* Connector lines */}
+      <svg
+        viewBox="0 0 200 32"
+        className="h-6 w-full"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        <path
+          d="M100 0 L100 12 M30 32 L30 20 L170 20 L170 32 M100 12 L100 20"
+          stroke={ceoColor}
+          strokeWidth="1.5"
+          fill="none"
+          opacity="0.4"
+        />
+      </svg>
+      {/* Children */}
+      <div className="flex w-full justify-between gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="flex flex-1 items-center justify-center gap-0.5 rounded-md px-1 py-1.5 shadow-sm"
+            style={{ background: `linear-gradient(135deg, ${childColor} 0%, #CA8A04 100%)` }}
+          >
+            <span className="size-1.5 rounded-full bg-white/80" />
+            <span className="h-1 w-6 rounded-full bg-white/90" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

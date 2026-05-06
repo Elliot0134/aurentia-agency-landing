@@ -1,12 +1,12 @@
-import { Metadata } from "next";
 import { ComingSoon } from "@/components/shared/ComingSoon";
+import { pageMeta } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMeta({
   title: "Blog",
   description: "Articles et conseils sur le développement web, l'IA et le digital.",
-  robots: { index: false, follow: true },
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+  noindex: true,
+});
 
 export default function BlogPage() {
   return (

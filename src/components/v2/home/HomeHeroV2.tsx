@@ -16,28 +16,8 @@ const CLIENT_LOGOS = [
   "Golf Mentor",
 ];
 
-type ServiceTabKey = "sites-web" | "saas" | "formation-ia" | "systeme-ia";
-
-const SERVICE_TAGS: { key: ServiceTabKey; label: string }[] = [
-  { key: "sites-web", label: "Sites Web" },
-  { key: "saas", label: "SaaS" },
-  { key: "formation-ia", label: "Formation IA" },
-  { key: "systeme-ia", label: "Système IA" },
-];
-
 export function HomeHeroV2() {
   const { hero } = homeData;
-
-  const handleServiceClick = (key: ServiceTabKey) => {
-    // Notify HomeServicesV2 to switch to this tab
-    window.dispatchEvent(
-      new CustomEvent("aurentia-set-service-tab", { detail: key }),
-    );
-    // Smooth-scroll to the services section
-    document
-      .getElementById("pillars")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <section id="hero" className="relative overflow-hidden">
@@ -92,21 +72,6 @@ export function HomeHeroV2() {
           <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             {hero.subHeadline}
           </p>
-
-          {/* Service tags — click scrolls to #pillars + sets tab */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {SERVICE_TAGS.map((tag) => (
-              <button
-                key={tag.key}
-                type="button"
-                onClick={() => handleServiceClick(tag.key)}
-                className="group inline-flex items-center gap-1.5 rounded-full border border-foreground/15 bg-background px-3 py-1 text-sm text-muted-foreground transition-all duration-500 ease-in-out hover:border-foreground/40 hover:text-foreground"
-              >
-                <span className="h-1 w-1 rounded-full bg-muted-foreground/50 transition-colors duration-500 ease-in-out group-hover:bg-[var(--orange-500)]" />
-                {tag.label}
-              </button>
-            ))}
-          </div>
 
           {/* CTAs — primary = same bg-accent-primary as navbar "Prendre RDV" */}
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">

@@ -87,6 +87,12 @@ export function NavbarV2Desktop() {
           {navbarConfig.sections.map((section) => {
             const hasMenu = !!section.children?.length;
             const isOpen = openSection === section.label;
+            const hrefs = [section.href, ...(section.children?.map((c) => c.href) ?? [])].filter(
+              (h): h is string => Boolean(h && h !== "#")
+            );
+            const isActive = hrefs.some(
+              (h) => pathname === h || pathname.startsWith(`${h}/`)
+            );
             return (
               <li
                 key={section.label}
@@ -99,9 +105,11 @@ export function NavbarV2Desktop() {
               >
                 <Link
                   href={section.href ?? "#"}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-sm font-medium text-foreground/70 transition-colors duration-500 ease-in-out hover:bg-foreground/5 hover:text-foreground",
-                    isOpen && "bg-foreground/5 text-foreground"
+                    isOpen && "bg-foreground/5 text-foreground",
+                    isActive && "bg-accent-primary/10 text-accent-primary font-semibold hover:bg-accent-primary/10 hover:text-accent-primary"
                   )}
                 >
                   {section.label}

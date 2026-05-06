@@ -231,7 +231,7 @@ export const sitesWebSurMesureData: SubPageData = {
     {
       question: "Pourquoi le tarif démarre à 6 000 € ?",
       answer:
-        "Parce qu'en dessous, ce n'est plus du sur-mesure — c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 200 € et 1 500 €). 6 000 €, c'est le minimum pour un projet construit sérieusement, avec un espace d'administration et un projet 100% à vous. En dessous, regardez plutôt nos packs vitrine ou landing.",
+        "Parce qu'en dessous, ce n'est plus du sur-mesure — c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 500 €). 6 000 €, c'est le minimum pour un projet construit sérieusement, avec un espace d'administration et un projet 100% à vous. En dessous, regardez plutôt nos packs vitrine ou landing.",
     },
   ],
   finalCta: {

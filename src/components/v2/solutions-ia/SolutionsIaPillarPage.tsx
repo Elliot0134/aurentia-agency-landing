@@ -103,7 +103,7 @@ export function SolutionsIaPillarPage() {
         <>
           <TestimonialsMarquee
             testimonials={data.testimonialsFiltered}
-            title="Ce que disent les équipes qu'on a accompagnées"
+            title="Vos témoignages"
             subtitle="Des dirigeants, des leads tech et des opérationnels qui utilisent l'IA tous les jours."
           />
           <SectionDivider />

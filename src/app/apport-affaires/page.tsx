@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo/metadata";
 import { ApportHero } from "@/components/v2/apport-affaires/ApportHero";
 import { ApportSteps } from "@/components/v2/apport-affaires/ApportSteps";
 import { ApportAudience } from "@/components/v2/apport-affaires/ApportAudience";
@@ -14,11 +14,12 @@ const subNavItems = [
   { label: "Inscription", sectionId: "cta" },
 ];
 
-export const metadata: Metadata = {
-  title: "Apport d'affaires — 10% de commission | Aurentia",
+export const metadata = pageMeta({
+  title: "Apport d'affaires — 10% de commission",
   description:
     "Recommandez Aurentia, touchez 10% de commission sur chaque projet signé. Inscription gratuite, paiement sous 30 jours, sans plafond.",
-};
+  path: "/apport-affaires",
+});
 
 export default function ApportAffairesPage() {
   return (

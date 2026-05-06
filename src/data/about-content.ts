@@ -82,7 +82,7 @@ export const aboutStoryContent = {
     },
     {
       label: "La mission",
-      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 72h, à partir de 1 200€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
+      text: "Aurentia est née de cette conviction : l'IA comme accélérateur, 20 ans d'expertise comme garde-fou, et une exigence technique sans compromis. Le résultat : des sites professionnels livrés en 72h, à partir de 1 500€. Pas parce qu'on bâcle. Parce que le process est redoutablement efficace.",
     },
   ],
 };

@@ -50,7 +50,7 @@ export const homeData: HomeData = {
         title: "Sites Web",
         pitch:
           "Sites vitrines et landing pages livrés en jours grâce à l'IA",
-        priceFrom: "1 200 €",
+        priceFrom: "1 500 €",
         href: "/sites-web",
       },
       {
@@ -252,7 +252,7 @@ export const homeData: HomeData = {
     {
       question: "Quel est votre tarif moyen ?",
       answer:
-        "Sites vitrines à partir de 1 200 €, landing pages à partir de 1 500 €, MVP SaaS à partir de 5 000 €. Les solutions IA et l'implémentation sont sur devis selon le périmètre. Tous nos prix sont affichés clairement sur les pages dédiées.",
+        "Sites vitrines et landing pages à partir de 1 500 €, MVP SaaS à partir de 5 000 €. Les solutions IA et l'implémentation sont sur devis selon le périmètre. Tous nos prix sont affichés clairement sur les pages dédiées.",
     },
     {
       question:

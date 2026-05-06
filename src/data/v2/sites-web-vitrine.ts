@@ -22,7 +22,7 @@ export const sitesWebVitrineData: SubPageData = {
     headline: "Un site vitrine qui donne envie d'appeler, à partir de 1 500 €.",
     subHeadline:
       "Un site qui inspire confiance, remonte sur Google et vous ramène des clients — sans attendre 3 mois.",
-    priceFrom: "1 200 €",
+    priceFrom: "1 500 €",
     badges: [],
     cta: {
       primary: { label: "Discutons de mon site", href: "/contact" },

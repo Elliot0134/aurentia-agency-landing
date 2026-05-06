@@ -112,7 +112,7 @@ function Card({ testimonial }: { testimonial: Testimonial }) {
 
 export function SitesWebTestimonials({
   items,
-  title = "Ce que nos clients disent",
+  title = "Vos témoignages",
   subtitle = "Des résultats concrets. Des livraisons rapides. Des clients qui reviennent.",
 }: SitesWebTestimonialsProps) {
   if (items.length === 0) return null;

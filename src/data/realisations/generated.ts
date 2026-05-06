@@ -151,6 +151,88 @@ export const realisationsStatic: ProjectFrontmatter[] = [
     ]
   },
   {
+    "slug": "allo-restau",
+    "name": "Allo Restau",
+    "tagline": "La livraison qui remet les restaurateurs au centre du jeu.",
+    "type": "Landing page",
+    "secteur": "restauration",
+    "city": "France",
+    "year": 2025,
+    "duration": "72h",
+    "status": "Livre",
+    "featured": false,
+    "tags": [
+      "Charte graphique",
+      "Design UI",
+      "Developpement",
+      "SEO"
+    ],
+    "technos": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vercel",
+      "Claude AI"
+    ],
+    "coverImage": "/images/portfolio/allo-restau-1.webp",
+    "images": [
+      "/images/portfolio/allo-restau-1.webp",
+      "/images/portfolio/allo-restau-2.webp",
+      "/images/portfolio/allo-restau-3.webp"
+    ],
+    "metrics": [
+      {
+        "value": "72h",
+        "label": "Livraison",
+        "context": "Du brief au site en ligne"
+      },
+      {
+        "value": "Optimise",
+        "label": "SEO",
+        "context": "Referencement local configure et performant"
+      }
+    ]
+  },
+  {
+    "slug": "friendiz",
+    "name": "Friend'iz",
+    "tagline": "La plateforme sociale qui connecte autrement.",
+    "type": "Site vitrine",
+    "secteur": "tech-ia",
+    "city": "France",
+    "year": 2025,
+    "duration": "2 semaines",
+    "status": "Livre",
+    "featured": false,
+    "tags": [
+      "Charte graphique",
+      "Design UI",
+      "Developpement"
+    ],
+    "technos": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vercel",
+      "Claude AI"
+    ],
+    "coverImage": "/images/portfolio/friendiz-1.webp",
+    "images": [
+      "/images/portfolio/friendiz-1.webp"
+    ],
+    "metrics": [
+      {
+        "value": "2 semaines",
+        "label": "Livraison",
+        "context": "Charte graphique + site complet"
+      }
+    ]
+  },
+  {
     "slug": "friendiz",
     "name": "Friend'iz",
     "tagline": "La plateforme sociale qui connecte autrement.",
@@ -227,6 +309,92 @@ export const realisationsStatic: ProjectFrontmatter[] = [
         "value": "Premium",
         "label": "Design",
         "context": "Interface moderne et professionnelle"
+      }
+    ]
+  },
+  {
+    "slug": "golf-mentor",
+    "name": "Golf Mentor",
+    "tagline": "Le coach de golf IA qui débloque votre jeu en 5 minutes.",
+    "type": "SaaS",
+    "secteur": "coaching",
+    "city": "France",
+    "year": 2025,
+    "duration": "72h",
+    "status": "Livre",
+    "featured": false,
+    "tags": [
+      "Charte graphique",
+      "Design UI",
+      "Developpement",
+      "SEO"
+    ],
+    "technos": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vercel",
+      "Claude AI"
+    ],
+    "coverImage": "/images/portfolio/golf-mentor-1.webp",
+    "images": [
+      "/images/portfolio/golf-mentor-1.webp"
+    ],
+    "metrics": [
+      {
+        "value": "72h",
+        "label": "Livraison",
+        "context": "Du brief au site en ligne"
+      },
+      {
+        "value": "Premium",
+        "label": "Design",
+        "context": "Interface moderne et professionnelle"
+      }
+    ]
+  },
+  {
+    "slug": "savistas",
+    "name": "Savistas",
+    "tagline": "Le SaaS qui réinvente la façon de travailler avec la donnée.",
+    "type": "SaaS",
+    "secteur": "tech-ia",
+    "city": "France",
+    "year": 2025,
+    "duration": "72h",
+    "status": "Livre",
+    "featured": false,
+    "tags": [
+      "Charte graphique",
+      "Design UI",
+      "Developpement",
+      "Landing page"
+    ],
+    "technos": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vercel",
+      "Claude AI"
+    ],
+    "coverImage": "/images/portfolio/savistas-1.webp",
+    "images": [
+      "/images/portfolio/savistas-1.webp"
+    ],
+    "metrics": [
+      {
+        "value": "72h",
+        "label": "Livraison",
+        "context": "Du brief au site en ligne"
+      },
+      {
+        "value": "Amelioree",
+        "label": "Conversion",
+        "context": "Landing page optimisee pour le funnel d'acquisition"
       }
     ]
   },

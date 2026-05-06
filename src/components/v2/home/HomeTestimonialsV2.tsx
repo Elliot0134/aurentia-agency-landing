@@ -142,7 +142,7 @@ export function HomeTestimonialsV2() {
   return (
     <SectionContainer
       id="testimonials"
-      title="Ce que nos clients disent"
+      title="Vos témoignages"
       subtitle="Des résultats concrets. Des livraisons rapides. Des partenaires qui reviennent."
       surface
       innerClassName="!max-w-none"
