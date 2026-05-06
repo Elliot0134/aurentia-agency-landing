@@ -80,21 +80,6 @@ export function SubOffersSection({
               );
             })}
       </div>
-
-      {false && subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
-        <div className="mt-16 flex flex-col gap-4 rounded-3xl border border-transparent dark:border-foreground/10 bg-background-surface dark:bg-foreground/[0.04] p-8">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/55">
-            Notre stack
-          </h3>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {subOffers.stack.map((tech) => (
-              <span key={tech.name} className="text-base font-medium text-foreground/70">
-                {tech.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
     </SectionContainer>
   );
 }

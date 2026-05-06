@@ -60,21 +60,6 @@ export function PillarSubOffersGrid({ subOffers }: PillarSubOffersGridProps) {
               );
             })}
       </div>
-
-      {false && subOffers.variant === "single" && subOffers.stack && subOffers.stack.length > 0 && (
-        <Card className="mt-16 flex flex-col gap-4 p-8">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/55">
-            Notre stack
-          </h3>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {subOffers.stack.map((tech) => (
-              <span key={tech.name} className="text-base font-medium text-foreground/70">
-                {tech.name}
-              </span>
-            ))}
-          </div>
-        </Card>
-      )}
     </SectionContainer>
   );
 }
