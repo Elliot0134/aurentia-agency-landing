@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { aProposData } from "@/data/v2/agence-a-propos";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 
 const SECTION_TAGS: { key: string; label: string; sectionId: string }[] = [
   { key: "equipe", label: "L'équipe", sectionId: "equipe" },
@@ -86,10 +87,11 @@ export function AProposHero() {
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
             >
-              Travailler avec nous
-              <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+              <LowPolyCoralBg />
+              <span className="relative">Travailler avec nous</span>
+              <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-in-out" />
             </Link>
             <Link
               href="#equipe"

@@ -40,7 +40,7 @@ const team = [
     name: "Olivier",
     role: "Stratégie & Business",
     desc: "L'entrepreneur visionnaire. Stratégie, croissance et développement business.",
-    details: "Cofondateur d'achat-vip.com (millions de membres), ex-DG de Smily France (centaines de M€ de volume). Serial entrepreneur e-commerce et SaaS — de vente-privee à la location saisonnière.",
+    details: "Cofondateur d'achat-vip.com (millions de membres), DG de Smily France (centaines de M€ de volume). Serial entrepreneur e-commerce et SaaS — de vente-privee à la location saisonnière.",
     imageRight: "/images/team/olivier-droite.webp",
     imageLeft: "/images/team/olivier-gauche.webp",
     linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",

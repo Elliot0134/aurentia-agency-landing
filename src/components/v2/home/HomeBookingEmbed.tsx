@@ -6,6 +6,7 @@ import Link from "next/link";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { LowPolyCoralSurface } from "@/components/v2/shared/LowPolyCoralSurface";
 
 const CAL_LINK = "elliot-estrade-ixfuya/appel-decouverte";
 const CAL_NAMESPACE = "appel-decouverte-home";
@@ -43,7 +44,10 @@ export function HomeBookingEmbed() {
       className="w-full px-4 py-6 md:px-6 md:py-8"
       style={{ scrollMarginTop: "96px" }}
     >
-      <div className="mx-auto w-full max-w-[1400px] rounded-[2.5rem] bg-accent-primary px-4 pt-16 pb-8 sm:px-6 md:px-12 md:pt-24 md:pb-0">
+      <LowPolyCoralSurface
+        className="mx-auto w-full max-w-[1400px]"
+        innerClassName="px-4 pt-16 pb-8 sm:px-6 md:px-12 md:pt-24 md:pb-0"
+      >
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
           <BlurReveal>
             <h2 className="font-heading text-4xl tracking-tight text-white md:text-5xl lg:text-6xl">
@@ -75,7 +79,7 @@ export function HomeBookingEmbed() {
             />
           </div>
         </div>
-      </div>
+      </LowPolyCoralSurface>
     </section>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { solutionsIaFormationData } from "@/data/v2/solutions-ia-formation";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 
 const SOLUTION_TAGS = [
   { label: "Audit IA", href: "/solutions-ia/audit" },
@@ -109,10 +110,11 @@ export function FormationHeroV2() {
               <div className="mt-2 flex flex-wrap items-center gap-3">
                 <Link
                   href={hero.cta.primary.href}
-                  className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
                 >
-                  {hero.cta.primary.label}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+                  <LowPolyCoralBg />
+                  <span className="relative">{hero.cta.primary.label}</span>
+                  <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-in-out" />
                 </Link>
                 <Link
                   href={hero.cta.secondary.href}

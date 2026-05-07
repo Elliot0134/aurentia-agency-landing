@@ -165,28 +165,28 @@ export const solutionsIaConfigClaudeData: SubPageData = {
   testimonials: [
     {
       quote:
-        "Avant Aurentia, je payais Claude 20 €/mois et je l'utilisais comme un Google amélioré. Depuis le setup, c'est devenu mon associé invisible — il connaît mes clients, mes process, mes outils.",
-      author: "Léa M.",
-      role: "Freelance growth",
-      company: "Indépendante",
+        "Avant le setup, je payais Claude 20 €/mois et je l'utilisais comme un Google amélioré. Aujourd'hui c'est devenu mon associé invisible : il connaît mes clients, mes process, mes templates. Je gagne facilement deux heures par jour — et la qualité monte au passage.",
+      author: "Léa Marchand",
+      role: "Consultante growth — indépendante",
+      company: "Paris",
       pillar: "solutions-ia",
-      stat: "+2 h/jour gagnées",
+      stat: "+2 h / jour récupérées",
     },
     {
       quote:
-        "On voulait que toute l'équipe ops utilise Claude avec les mêmes règles. Aurentia a livré un setup partagé en 5 jours. Aujourd'hui chaque collaborateur a la même qualité de copilote, sans avoir à le configurer.",
-      author: "Sandrine V.",
+        "Je voulais que toute l'équipe ops utilise Claude avec les mêmes règles, le même ton, les mêmes outils. Aurentia a livré un setup partagé en 5 jours, déployé sur 12 postes. Chaque collaborateur a maintenant la même qualité de copilote, sans avoir à le configurer.",
+      author: "Sandrine Vasseur",
       role: "Directrice opérations",
-      company: "Groupe Meca",
+      company: "Groupe Meca — PME industrielle",
       pillar: "solutions-ia",
-      stat: "Équipe alignée",
+      stat: "12 postes alignés en 5 j",
     },
     {
       quote:
-        "Le CLAUDE.md qu'ils ont écrit est meilleur que notre propre documentation interne. Les hooks pre-commit ont supprimé 80 % des allers-retours sur le code review. Setup payé en 3 semaines.",
-      author: "Elena S.",
+        "Le CLAUDE.md qu'ils nous ont écrit est meilleur que notre propre doc interne — c'est presque vexant. Les hooks pre-commit ont éliminé 80 % des allers-retours en code review. On a amorti le setup en moins d'un mois sur le seul temps gagné en review.",
+      author: "Elena Sokolova",
       role: "CTO",
-      company: "Northlight",
+      company: "Northlight — scale-up SaaS",
       pillar: "solutions-ia",
       stat: "−80 % review loops",
     },

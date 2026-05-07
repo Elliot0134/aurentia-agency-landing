@@ -15,7 +15,6 @@ import { SitesWebWhatYouGet } from "./SitesWebWhatYouGet";
 import { SitesWebPricing } from "./SitesWebPricing";
 import { SitesWebMethod } from "./SitesWebMethod";
 import { SurMesureTimeline } from "./SurMesureTimeline";
-import { SitesWebExamples } from "./SitesWebExamples";
 import { SitesWebTestimonials } from "./SitesWebTestimonials";
 import { SitesWebFAQ } from "./SitesWebFAQ";
 import { SubPageForWho } from "@/components/v2/subpage/SubPageForWho";
@@ -39,9 +38,8 @@ const DATA_MAP: Record<string, SubPageData> = {
 
 const DEFAULT_SUB_NAV = [
   { label: "Pour qui", sectionId: "for-who" },
-  { label: "Exemples", sectionId: "examples" },
-  { label: "Témoignages", sectionId: "testimonials" },
   { label: "Réalisations", sectionId: "realisations" },
+  { label: "Témoignages", sectionId: "testimonials" },
   { label: "Inclus", sectionId: "what-you-get" },
   { label: "Tarifs", sectionId: "pricing" },
   { label: "Garanties", sectionId: "guarantees" },
@@ -123,8 +121,6 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
       {data.trustStats && <SubPageTrustBand stats={data.trustStats} />}
       {data.forWho.length > 0 && <SubPageForWho profiles={data.forWho} />}
       {isEcommerce && <EcommerceAnatomy />}
-      {!isEcommerce && <SitesWebExamples data={data.examples} />}
-      <SitesWebTestimonials items={data.testimonials} />
       {realisationsConfig && (
         <HomeRealisationsPreview
           filterTags={realisationsConfig.tags}
@@ -132,6 +128,7 @@ export function SitesWebSubPage({ slug }: { slug: string }) {
           subtitle={realisationsConfig.subtitle}
         />
       )}
+      <SitesWebTestimonials items={data.testimonials} />
       <HomeBookingCTA />
       <SitesWebWhatYouGet data={data.whatYouGet} />
       {isEcommerce && <EcommerceStack />}

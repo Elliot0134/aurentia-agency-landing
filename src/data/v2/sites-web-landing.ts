@@ -129,7 +129,7 @@ export const sitesWebLandingData: SubPageData = {
     items: [
       {
         title: "Allo Restau — landing livraison",
-        imageUrl: "/images/portfolio/allo-restau-1.webp",
+        imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
@@ -139,12 +139,12 @@ export const sitesWebLandingData: SubPageData = {
       },
       {
         title: "Maison Enileh — site vitrine",
-        imageUrl: "/images/portfolio/maison-enileh-1.webp",
+        imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
         title: "Friend'iz — landing application",
-        imageUrl: "/images/portfolio/friendiz-1.webp",
+        imageUrl: "/images/portfolio/friendiz.png",
         href: "/realisations/friendiz",
       },
     ],

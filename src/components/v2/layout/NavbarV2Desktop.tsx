@@ -8,6 +8,7 @@ import { ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
 import { siteConfig } from "@/data/content";
 import { ThemeSwitch } from "@/components/v2/shared/theme-switch";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 import { MegaMenu } from "./MegaMenu";
 import { cn } from "@/lib/utils";
 
@@ -160,9 +161,10 @@ export function NavbarV2Desktop() {
 
           <Link
             href={navbarConfig.cta.href}
-            className="inline-flex items-center gap-2 rounded-xl bg-accent-primary px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:opacity-90"
+            className="relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-opacity duration-500 ease-in-out hover:opacity-90"
           >
-            {navbarConfig.cta.label}
+            <LowPolyCoralBg />
+            <span className="relative">{navbarConfig.cta.label}</span>
           </Link>
         </div>
       </div>

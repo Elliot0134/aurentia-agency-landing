@@ -3,59 +3,34 @@
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { Card } from "@/components/v2/shared/Card";
+import { homeData } from "@/data/v2/home";
+import type { Testimonial } from "@/data/v2/types";
+import { cn } from "@/lib/utils";
 
-type Testimonial = {
-  name: string;
-  role: string;
-  company: string;
-  quote: string;
-  stat: string;
-  avatarGradient: string;
-  initials: string;
-};
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    name: "Sophie Martin",
-    role: "CEO",
-    company: "La Belle Époque",
-    quote:
-      "Aurentia a transformé notre présence en ligne. Le site est magnifique et nos réservations ont littéralement explosé depuis le lancement.",
-    stat: "Trafic ×3",
-    avatarGradient: "from-violet-500 via-purple-500 to-indigo-600",
-    initials: "SM",
-  },
-  {
-    name: "Thomas Durand",
-    role: "Fondateur",
-    company: "Savistas",
-    quote:
-      "Du concept au lancement en 72h. L'équipe est incroyablement réactive et le résultat dépasse largement nos attentes initiales.",
-    stat: "Livré en 72h",
-    avatarGradient: "from-sky-500 via-blue-500 to-cyan-600",
-    initials: "TD",
-  },
-  {
-    name: "Marie Lefèvre",
-    role: "CMO",
-    company: "DataFlow",
-    quote:
-      "Notre landing page convertit 4× mieux qu'avant. Le design et l'UX sont au niveau des plus grandes startups de la tech.",
-    stat: "+340% conversions",
-    avatarGradient: "from-emerald-500 via-teal-500 to-green-600",
-    initials: "ML",
-  },
-  {
-    name: "Lucas Bernard",
-    role: "CTO",
-    company: "GreenTech",
-    quote:
-      "Architecture solide, code propre, déploiement sans accroc. Exactement ce qu'on attendait d'une équipe vraiment senior.",
-    stat: "0 bug en prod",
-    avatarGradient: "from-amber-500 via-orange-500 to-yellow-600",
-    initials: "LB",
-  },
+const AVATAR_GRADIENTS = [
+  "from-violet-500 via-purple-500 to-indigo-600",
+  "from-sky-500 via-blue-500 to-cyan-600",
+  "from-emerald-500 via-teal-500 to-green-600",
+  "from-amber-500 via-orange-500 to-yellow-600",
+  "from-rose-500 via-pink-500 to-fuchsia-600",
 ];
+
+function pickGradient(seed: string) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+  }
+  return AVATAR_GRADIENTS[Math.abs(hash) % AVATAR_GRADIENTS.length];
+}
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? "")
+    .join("");
+}
 
 function StarRating() {
   return (
@@ -88,10 +63,25 @@ function StatBadge({ label }: { label: string }) {
   );
 }
 
-function Avatar({ gradient, initials }: { gradient: string; initials: string }) {
+function Avatar({ author, avatarUrl }: { author: string; avatarUrl?: string }) {
+  if (avatarUrl) {
+    return (
+      /* eslint-disable-next-line @next/next/no-img-element */
+      <img
+        src={avatarUrl}
+        alt={author}
+        className="h-12 w-12 flex-shrink-0 rounded-full object-cover shadow-lg"
+      />
+    );
+  }
+  const gradient = pickGradient(author);
+  const initials = getInitials(author);
   return (
     <div
-      className={`relative w-12 h-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}
+      className={cn(
+        "relative w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center flex-shrink-0 shadow-lg",
+        gradient
+      )}
       aria-hidden="true"
     >
       <span className="text-white font-bold text-base select-none">{initials}</span>
@@ -100,16 +90,14 @@ function Avatar({ gradient, initials }: { gradient: string; initials: string }) 
 }
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
-  const { name, role, company, quote, stat, avatarGradient, initials } = testimonial;
+  const { author, role, company, quote, stat, avatarUrl } = testimonial;
   return (
     <Card className="relative z-10 flex flex-col gap-6 p-8 h-full !bg-background border-foreground/10">
-      {/* Top row: stars + stat badge */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <StarRating />
-        <StatBadge label={stat} />
+        {stat && <StatBadge label={stat} />}
       </div>
 
-      {/* Quote */}
       <blockquote className="relative flex-1">
         <span
           className="absolute -top-2 -left-1 text-5xl leading-none text-accent-primary/25 font-heading select-none pointer-events-none"
@@ -122,15 +110,15 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         </p>
       </blockquote>
 
-      {/* Author */}
       <div className="flex items-center gap-4 pt-4 border-t border-foreground/10">
-        <Avatar gradient={avatarGradient} initials={initials} />
+        <Avatar author={author} avatarUrl={avatarUrl} />
         <div className="flex flex-col gap-0.5 min-w-0">
           <span className="font-semibold text-base text-foreground leading-tight truncate">
-            {name}
+            {author}
           </span>
           <span className="text-sm text-foreground/55 leading-tight truncate">
-            {role} — {company}
+            {role}
+            {company ? ` — ${company}` : ""}
           </span>
         </div>
       </div>
@@ -139,6 +127,15 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 }
 
 export function HomeTestimonialsV2() {
+  const testimonials = homeData.testimonials;
+  if (testimonials.length === 0) return null;
+
+  // At least 8 cards in the marquee for a smooth seamless loop
+  const items =
+    testimonials.length < 4
+      ? [...testimonials, ...testimonials, ...testimonials, ...testimonials]
+      : [...testimonials, ...testimonials];
+
   return (
     <SectionContainer
       id="testimonials"
@@ -147,19 +144,15 @@ export function HomeTestimonialsV2() {
       surface
       innerClassName="!max-w-none"
     >
-      {/* Marquee — break out of container */}
       <BlurReveal>
         <div className="relative overflow-hidden">
-          {/* Left fade */}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-40 bg-gradient-to-r from-background-surface to-transparent" />
-          {/* Right fade */}
           <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 md:w-40 bg-gradient-to-l from-background-surface to-transparent" />
 
           <div className="flex w-max animate-marquee gap-6 py-2">
-            {/* Double the items for seamless loop */}
-            {[...TESTIMONIALS, ...TESTIMONIALS].map((testimonial, i) => (
+            {items.map((testimonial, i) => (
               <div
-                key={`${testimonial.name}-${i}`}
+                key={`${testimonial.author}-${i}`}
                 className="w-[340px] md:w-[420px] flex-shrink-0"
               >
                 <TestimonialCard testimonial={testimonial} />

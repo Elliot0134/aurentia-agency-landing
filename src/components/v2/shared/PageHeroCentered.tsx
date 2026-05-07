@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import type { Badge, DualCTA as DualCTAType } from "@/data/v2/types";
 import { ServiceBadge } from "./ServiceBadge";
 import { PriceHT } from "./PriceHT";
+import { LowPolyCoralBg } from "./LowPolyCoralBg";
 
 type PageHeroCenteredProps = {
   eyebrow: string;
@@ -96,10 +97,11 @@ export function PageHeroCentered({
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={cta.primary.href}
-              className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
             >
-              {cta.primary.label}
-              <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+              <LowPolyCoralBg />
+              <span className="relative">{cta.primary.label}</span>
+              <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-in-out" />
             </Link>
             <Link
               href={cta.secondary.href}

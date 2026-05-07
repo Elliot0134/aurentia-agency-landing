@@ -217,7 +217,7 @@ export const sitesWebData: CommercialPillarData = {
       client: "Maison Enileh",
       pillar: "sites-web",
       resultKpi: "Livré en 72h",
-      imageUrl: "/images/portfolio/maison-enileh-1.webp",
+      imageUrl: "/images/portfolio/maison-enileh.webp",
       href: "/realisations/maison-enileh",
     },
     {
@@ -226,7 +226,7 @@ export const sitesWebData: CommercialPillarData = {
       client: "Savistas",
       pillar: "sites-web",
       resultKpi: "Livré en 72h",
-      imageUrl: "/images/portfolio/savistas-1.webp",
+      imageUrl: "/images/portfolio/savistas.png",
       href: "/realisations/savistas",
     },
   ],

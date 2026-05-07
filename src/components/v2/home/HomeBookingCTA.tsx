@@ -4,13 +4,17 @@
 import { ArrowRight } from "lucide-react";
 import { homeData } from "@/data/v2/home";
 import { BlurReveal } from "@/components/animations/BlurReveal";
+import { LowPolyCoralSurface } from "@/components/v2/shared/LowPolyCoralSurface";
 
 export function HomeBookingCTA() {
   const { bookingCta } = homeData;
 
   return (
     <section id="rdv" className="w-full px-4 py-6 md:px-6 md:py-8">
-      <div className="mx-auto w-full max-w-[1400px] rounded-[2.5rem] bg-accent-primary px-6 py-20 md:px-12 md:py-24">
+      <LowPolyCoralSurface
+        className="mx-auto w-full max-w-[1400px]"
+        innerClassName="px-6 py-20 md:px-12 md:py-24"
+      >
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
         <BlurReveal>
           <h2 className="font-heading text-4xl tracking-tight text-white md:text-5xl lg:text-6xl">
@@ -51,7 +55,7 @@ export function HomeBookingCTA() {
           </a>
         </BlurReveal>
         </div>
-      </div>
+      </LowPolyCoralSurface>
     </section>
   );
 }

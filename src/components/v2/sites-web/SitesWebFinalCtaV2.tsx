@@ -6,6 +6,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { sitesWebExtra } from "@/data/v2/sites-web";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 
 export function SitesWebFinalCtaV2() {
   const { finalCta } = sitesWebExtra;
@@ -23,10 +24,11 @@ export function SitesWebFinalCtaV2() {
 
           <Link
             href={finalCta.cta.href}
-            className="group mt-2 inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+            className="group relative mt-2 inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
           >
-            {finalCta.cta.label}
-            <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+            <LowPolyCoralBg />
+            <span className="relative">{finalCta.cta.label}</span>
+            <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-in-out" />
           </Link>
 
           <div className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

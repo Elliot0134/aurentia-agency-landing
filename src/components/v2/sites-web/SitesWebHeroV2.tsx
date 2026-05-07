@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { sitesWebData } from "@/data/v2/sites-web";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 
 const CLIENT_LOGOS = [
   "Comparateur IA Facile",
@@ -70,10 +71,11 @@ export function SitesWebHeroV2() {
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={hero.cta.primary.href}
-              className="group inline-flex items-center gap-2 rounded-full bg-accent-primary px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-500 ease-in-out hover:gap-3 hover:opacity-90"
             >
-              {hero.cta.primary.label}
-              <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-in-out" />
+              <LowPolyCoralBg />
+              <span className="relative">{hero.cta.primary.label}</span>
+              <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-in-out" />
             </Link>
             <Link
               href={hero.cta.secondary.href}

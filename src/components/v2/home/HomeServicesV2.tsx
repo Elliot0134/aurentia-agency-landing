@@ -16,6 +16,7 @@ import { ArrowUpRight, Play } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { Card } from "@/components/v2/shared/Card";
 import { PriceHT } from "@/components/v2/shared/PriceHT";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 import {
   AIIntegrationMockup,
   AuditMockup,
@@ -891,9 +892,10 @@ function OfferCard({
                 <PriceHT value={priceFrom} />
               </span>
             </div>
-            <span className="group/cta inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent-primary px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-500 ease-in-out group-hover:opacity-90">
-              Découvrir
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <span className="group/cta relative inline-flex shrink-0 items-center gap-2 overflow-hidden rounded-lg px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-500 ease-in-out group-hover:opacity-90">
+              <LowPolyCoralBg />
+              <span className="relative">Découvrir</span>
+              <ArrowUpRight className="relative h-3.5 w-3.5 transition-transform duration-500 ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </span>
           </div>
         </div>

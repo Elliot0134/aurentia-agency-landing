@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, type LucideIcon } from "lucide-react";
+import { ArrowRight, Sparkles, Wand2, type LucideIcon } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { BlurReveal } from "@/components/animations/BlurReveal";
@@ -17,6 +17,15 @@ type ResourceCardData = {
 };
 
 const RESOURCES: ResourceCardData[] = [
+  {
+    href: "/ressources/implementer-claude",
+    category: "Kit",
+    title: "Implémenter Claude dans ton business",
+    excerpt:
+      "Les prompts, skills, configs et templates qu'on déploie chez nos clients. CLAUDE.md, Memory, MCP, context7, skill creator, séquence 14 jours. Copie, colle, c'est branché.",
+    readingTime: "Setup ~2 weekends",
+    icon: Wand2,
+  },
   {
     href: "/ressources/vibe-coding",
     category: "Guide",
@@ -37,7 +46,7 @@ export function HomeRessourcesPreview() {
       subtitle="Guides, méthodes et retours d'expérience sur tout ce qu'on fait au quotidien chez Aurentia. Direct, gratuit, sans détour."
       alignHeader="center"
     >
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-5">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-5">
         {RESOURCES.map((r, idx) => (
           <BlurReveal key={r.href} delay={idx * 0.1} className="h-full">
             <ResourceCard resource={r} />

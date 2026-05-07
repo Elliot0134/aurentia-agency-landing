@@ -33,7 +33,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
       "Livré en 72h, 100% responsive",
     ],
     image: {
-      src: "/images/portfolio/maison-enileh-1.webp",
+      src: "/images/portfolio/maison-enileh.webp",
       alt: "Site vitrine Maison Enileh",
     },
     proof: "200+ sites livrés depuis 2019",
@@ -54,7 +54,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
       "Livrée en 72h",
     ],
     image: {
-      src: "/images/portfolio/comparateur-ia-1.webp",
+      src: "/images/portfolio/comparateur-ia-facile.webp",
       alt: "Landing page Comparateur IA Facile",
     },
     proof: "12+ landings livrées cette année",
@@ -75,7 +75,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
       "Développé sur Shopify — robuste, scalable, éprouvé",
     ],
     image: {
-      src: "/images/portfolio/allo-restau-1.webp",
+      src: "/images/portfolio/allo-restau-site.png",
       alt: "Boutique en ligne AlloRestau",
     },
     proof: "Intégration Stripe, Shopify, Supabase",
@@ -96,7 +96,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
       "Scalable, sécurisé, code remis 100%",
     ],
     image: {
-      src: "/images/portfolio/friendiz-1.webp",
+      src: "/images/portfolio/friendiz.png",
       alt: "Projet sur-mesure Friendiz",
     },
     proof: "SaaS, marketplaces, apps internes",

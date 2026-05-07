@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { navbarConfig } from "@/data/v2/navbar";
+import { LowPolyCoralBg } from "@/components/v2/shared/LowPolyCoralBg";
 import { cn } from "@/lib/utils";
 
 export function NavbarV2Mobile() {
@@ -170,9 +171,10 @@ export function NavbarV2Mobile() {
           <Link
             href={navbarConfig.cta.href}
             onClick={() => setOpen(false)}
-            className="mt-4 flex w-full items-center justify-center rounded-full bg-accent-primary px-5 py-3 text-sm font-semibold text-white transition-all duration-500 ease-in-out hover:opacity-90"
+            className="relative mt-4 flex w-full items-center justify-center overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white transition-opacity duration-500 ease-in-out hover:opacity-90"
           >
-            {navbarConfig.cta.label}
+            <LowPolyCoralBg />
+            <span className="relative">{navbarConfig.cta.label}</span>
           </Link>
         </div>
       </div>

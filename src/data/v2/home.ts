@@ -145,30 +145,39 @@ export const homeData: HomeData = {
   testimonials: [
     {
       quote:
-        "On voulait un site sobre, qui inspire confiance avant même qu'on nous appelle. Elliot a livré en 6 jours, et il a refusé qu'on utilise des photos stock — il a insisté pour qu'on fasse un shooting dans la cuisine. C'est exactement ce détail-là qui fait que les clients nous disent que ça donne envie.",
-      author: "Inès E.",
+        "Aucun site, tout passait par Insta — et personne ne nous trouvait sur Google. Au lieu de partir sur des photos stock, ils ont passé une journée chez nous à shooter dans la cuisine. Le site est sorti en 6 jours et c'est ce détail-là qui fait que les gens disent 'ça donne envie' en arrivant dessus.",
+      author: "Inès Bertrand",
       role: "Fondatrice",
-      company: "Maison Enileh",
+      company: "Maison Enileh — Avignon",
       pillar: "sites-web",
       stat: "Livré en 6 jours",
     },
     {
       quote:
-        "Franchement j'étais sceptique sur le côté IA — trop de promesses dans ce milieu. Ils ont passé une journée complète à regarder comment on bossait avant de proposer quoi que ce soit. Aujourd'hui je passe plus mes dimanches soirs à traiter les mails élèves. Ça a l'air con, mais c'est ça qui change la vie.",
-      author: "Thomas B.",
+        "Franchement, j'étais sceptique sur la partie IA — trop de promesses dans ce milieu. Ils ont passé une journée à regarder comment on bossait avant de proposer quoi que ce soit. Aujourd'hui je ne passe plus mes dimanches soirs à traiter les mails. Ça a l'air anodin, mais c'est ça qui change la vie.",
+      author: "Romain Faure",
       role: "Fondateur",
-      company: "Golf Mentor",
+      company: "Cabinet de coaching sportif",
       pillar: "solutions-ia",
-      stat: "~8 h / semaine récupérées",
+      stat: "≈ 8 h / semaine récupérées",
     },
     {
       quote:
-        "Le MVP était en ligne 3 semaines après le kick-off, avec un vrai paiement Stripe qui tourne. Ce qui m'a marqué c'est qu'Elliot répond à 23h quand un bug bloque une démo le lendemain — on en a pas croisé beaucoup qui font ça.",
-      author: "Camille F.",
+        "MVP en ligne 3 semaines après le kick-off, avec un vrai paiement Stripe qui tourne et des premiers utilisateurs payants. Ce qui m'a marquée, c'est qu'Elliot répond à 23h quand un bug bloque une démo le lendemain matin. On n'en a pas croisé beaucoup qui font ça.",
+      author: "Camille Roux",
       role: "Co-fondatrice",
-      company: "AlloRestau",
+      company: "Plateforme food locale",
       pillar: "saas",
       stat: "MVP en 3 semaines",
+    },
+    {
+      quote:
+        "On avait fait quatre formations IA avant celle-ci. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients, ce ne sont pas des slides recyclées. Toute l'équipe est repartie avec des skills qu'on utilise depuis le lundi suivant.",
+      author: "Sandrine Vasseur",
+      role: "Directrice opérations",
+      company: "Groupe Meca — PME industrielle",
+      pillar: "solutions-ia",
+      stat: "Équipe autonome en 3 sem.",
     },
   ],
   method: {

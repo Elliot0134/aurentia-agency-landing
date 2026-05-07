@@ -542,30 +542,30 @@ export const solutionsIaFormationData: FormationIaData = {
   testimonials: [
     {
       quote:
-        "On a fait 4 formations IA avant celle-là. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients. On a appris des choses qu'aucun MOOC ne montre — et on a repris la main sur notre stack.",
-      author: "Sandrine V.",
+        "On avait fait quatre formations IA avant celle-ci. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients tous les jours, ce ne sont pas des slides recyclées. On a appris des choses qu'aucun MOOC ne montre — et on a repris la main sur notre stack en trois semaines.",
+      author: "Sandrine Vasseur",
       role: "Directrice opérations",
-      company: "Groupe Meca (PME industrielle)",
+      company: "Groupe Meca — PME industrielle",
       pillar: "solutions-ia",
-      stat: "Équipe autonome en 3 semaines",
+      stat: "Équipe autonome en 3 sem.",
     },
     {
       quote:
-        "Le fait que la formation soit construite sur nos vrais dossiers a tout changé. On est ressorti avec 8 skills custom utilisables le lundi suivant. Le ROI a été immédiat.",
-      author: "Hugo F.",
+        "Le fait que la formation soit construite sur nos vrais dossiers a tout changé. Pendant l'atelier, on a co-écrit 8 skills directement utilisables le lundi suivant. Pas une slide de théorie sans application — c'était la première fois.",
+      author: "Hugo Lambert",
       role: "Consultant senior",
-      company: "Cabinet Conseil",
+      company: "Cabinet Solveris — courtage",
       pillar: "solutions-ia",
-      stat: "Skills custom utilisés dès J+1",
+      stat: "8 skills custom dès J+1",
     },
     {
       quote:
-        "J'avais peur que ce soit trop technique pour mon équipe. Au contraire — chaque membre, du commercial à la compta, a trouvé son angle. La bibliothèque de skills classée par métier, c'est ce qui a tout débloqué.",
-      author: "Marie L.",
+        "J'avais peur que ce soit trop technique pour une équipe créa qui n'a jamais touché à du prompt avancé. Au contraire — chacun a trouvé son angle, du commercial à la compta. La bibliothèque de skills classée par métier, c'est ce qui a tout débloqué.",
+      author: "Marie Lacroix",
       role: "CEO",
-      company: "Studio créatif (12 pers.)",
+      company: "Studio Polaris — agence créative (12 pers.)",
       pillar: "solutions-ia",
-      stat: "100% de l'équipe utilise Claude au quotidien",
+      stat: "100 % de l'équipe sur Claude",
     },
   ],
 

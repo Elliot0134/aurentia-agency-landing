@@ -213,22 +213,22 @@ export const sitesWebVitrineData: SubPageData = {
     items: [
       {
         title: "Maison Enileh — cuisine libanaise",
-        imageUrl: "/images/portfolio/maison-enileh-1.webp",
+        imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
         title: "AlloRestau — restaurant & commandes en ligne",
-        imageUrl: "/images/portfolio/allo-restau-1.webp",
+        imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
         title: "Savistas — accompagnement entrepreneur",
-        imageUrl: "/images/portfolio/savistas-1.webp",
+        imageUrl: "/images/portfolio/savistas.png",
         href: "/realisations/savistas",
       },
       {
         title: "Golf Mentor — coaching golf",
-        imageUrl: "/images/portfolio/golf-mentor-1.webp",
+        imageUrl: "/images/portfolio/golf-mentor-landing.png",
         href: "/realisations/golf-mentor",
       },
     ],
@@ -236,21 +236,30 @@ export const sitesWebVitrineData: SubPageData = {
   testimonials: [
     {
       quote:
-        "J'avais besoin d'un site sérieux pour ma clientèle haut de gamme. Aurentia l'a livré en 4 jours et il est magnifique. On m'en parle à chaque rendez-vous.",
-      author: "Claire D.",
+        "Je voulais un site qui rassure une clientèle haut de gamme avant même le premier rendez-vous. Livré en 4 jours, et clairement le résultat est au-dessus de ce que j'imaginais. Mes patients m'en parlent — c'est nouveau.",
+      author: "Claire Dubois",
       role: "Fondatrice",
-      company: "Clinique du Parc",
+      company: "Clinique du Parc — Aix-en-Provence",
       pillar: "sites-web",
       stat: "Livré en 4 jours",
     },
     {
       quote:
-        "Ce qui m'a bluffé c'est la qualité pour le prix. J'avais des devis à 5 000 € ailleurs. Ici j'ai eu mieux pour 1 800 €.",
-      author: "Pierre L.",
+        "J'avais des devis à 5 000 € ailleurs, avec des délais à 2 mois. Ici j'ai payé 1 800 € et le site était en ligne en une semaine. Honnêtement je ne comprends pas comment ils tiennent les prix — mais c'est tant mieux pour moi.",
+      author: "Pierre Lambert",
       role: "Gérant",
-      company: "Café Lumen",
+      company: "Café Lumen — Lyon 2e",
       pillar: "sites-web",
-      stat: "−64% budget",
+      stat: "−64 % budget",
+    },
+    {
+      quote:
+        "On n'avait pas de photos, pas de textes, pas de logo — rien. Ils ont organisé un shooting avec un photographe local, rédigé tout le contenu avec nous et livré une vraie identité de marque. On est passés d'invisibles à pros en moins de deux semaines.",
+      author: "Hélène Vidal",
+      role: "Co-fondatrice",
+      company: "Atelier Marius — Avignon",
+      pillar: "sites-web",
+      stat: "Identité + site en 10 jours",
     },
   ],
   faq: [

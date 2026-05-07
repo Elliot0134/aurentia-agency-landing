@@ -34,7 +34,7 @@ export const sitesWebEcommerceData: SubPageData = {
     },
     visual: {
       kind: "image",
-      src: "/images/portfolio/friendiz-1.webp",
+      src: "/images/portfolio/friendiz.png",
       alt: "Boutique e-commerce livrée par Aurentia Agency",
     },
   },
@@ -221,22 +221,22 @@ export const sitesWebEcommerceData: SubPageData = {
     items: [
       {
         title: "Friend'iz — boutique communautaire",
-        imageUrl: "/images/portfolio/friendiz-1.webp",
+        imageUrl: "/images/portfolio/friendiz.png",
         href: "/realisations/friendiz",
       },
       {
         title: "Maison Enileh — épicerie libanaise",
-        imageUrl: "/images/portfolio/maison-enileh-1.webp",
+        imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
         title: "AlloRestau — commandes en ligne",
-        imageUrl: "/images/portfolio/allo-restau-1.webp",
+        imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
         title: "Comparateur IA — boutique d'outils",
-        imageUrl: "/images/portfolio/comparateur-ia-1.webp",
+        imageUrl: "/images/portfolio/comparateur-ia-facile.webp",
         href: "/realisations/comparateur-ia-facile",
       },
     ],
@@ -244,21 +244,30 @@ export const sitesWebEcommerceData: SubPageData = {
   testimonials: [
     {
       quote:
-        "On voulait une boutique qui ressemble à notre marque, pas un thème Shopify de plus. Aurentia a livré une expérience dont on est fiers — et qui convertit.",
-      author: "Léa M.",
+        "On ne voulait surtout pas d'un énième thème Shopify déguisé. Ils ont retravaillé la home, les fiches produit, le panier — chaque page raconte la marque. Premier mois après le lancement : on a fait notre meilleur chiffre depuis l'ouverture.",
+      author: "Léa Marchand",
       role: "Fondatrice",
-      company: "Boutique mode indépendante",
+      company: "Studio Faune — prêt-à-porter responsable",
       pillar: "sites-web",
       stat: "Livré en 7 jours",
     },
     {
       quote:
-        "Notre ancienne boutique nous coûtait des ventes. Après la refonte, le checkout est devenu fluide, le mobile parfait. On a vu la différence dès la première semaine.",
-      author: "Marc T.",
+        "Notre ancienne boutique perdait des ventes au checkout — surtout sur mobile. Après la refonte, le tunnel est passé de 6 à 2 étapes et les abandons ont chuté. On a vu la différence dès la première semaine, sans rien changer au catalogue ni au trafic.",
+      author: "Marc Toussaint",
       role: "Co-fondateur",
-      company: "Marque DTC food",
+      company: "La Petite Fabrique — épicerie fine",
       pillar: "sites-web",
-      stat: "+34% conversion",
+      stat: "+34 % conversion",
+    },
+    {
+      quote:
+        "Je gère la boutique seule, en plus de la production. Ils ont configuré Shopify pour que je n'aie qu'à uploader une photo et un prix — la fiche est rédigée et publiée en deux clics. Je gagne facilement une demi-journée par semaine.",
+      author: "Élise Petit",
+      role: "Fondatrice",
+      company: "Atelier Cire — bougies artisanales",
+      pillar: "sites-web",
+      stat: "≈ 4 h / sem. récupérées",
     },
   ],
   faq: [

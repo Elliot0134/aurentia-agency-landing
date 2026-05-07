@@ -138,21 +138,30 @@ export const solutionsIaAuditData: SubPageData = {
   testimonials: [
     {
       quote:
-        "On s'attendait à un rapport vague. Ils nous ont sorti 27 chantiers IA priorisés avec du chiffrage. On a pu lancer les 5 premiers immédiatement.",
-      author: "Alexandre D.",
-      role: "Directeur",
-      company: "Cabinet Meridian",
+        "Je m'attendais à un PowerPoint vague avec trois recos consensuelles. On est ressorti avec 27 chantiers IA priorisés, chiffrés et reliés à un vrai gain métier. On a lancé les 5 premiers la semaine suivante — sans avoir à les revendre en interne.",
+      author: "Alexandre Delaunay",
+      role: "Directeur associé",
+      company: "Cabinet Meridian — conseil RH",
       pillar: "solutions-ia",
-      stat: "27 chantiers IA",
+      stat: "27 chantiers priorisés",
     },
     {
       quote:
-        "Le plus utile n'a pas été le rapport, mais l'atelier. Toute l'équipe est ressortie alignée sur la roadmap — c'est ça qui a débloqué les choses.",
-      author: "Camille R.",
+        "Le rapport est utile, mais le vrai déclic c'est l'atelier de restitution. Pour la première fois en deux ans, toute l'équipe est sortie alignée sur la même roadmap IA. C'est ça qui a débloqué les budgets, pas le PDF.",
+      author: "Camille Rouvier",
       role: "Head of Ops",
-      company: "Fable Studio",
+      company: "Fable Studio — production audio",
       pillar: "solutions-ia",
-      stat: "Équipe alignée",
+      stat: "Équipe alignée en 2 j",
+    },
+    {
+      quote:
+        "On hésitait depuis des mois sur où mettre nos billes IA. L'audit nous a évité d'investir 40 k€ sur un projet voué à l'échec, et nous a redirigés sur une automatisation à 80 k€ d'impact annuel. Payé largement avec un seul chantier évité.",
+      author: "Yannis Belhadj",
+      role: "COO",
+      company: "Northbridge — agence média",
+      pillar: "solutions-ia",
+      stat: "+80 k€ / an d'impact",
     },
   ],
   faq: [

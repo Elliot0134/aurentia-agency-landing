@@ -154,21 +154,30 @@ export const solutionsIaImplementationData: SubPageData = {
   testimonials: [
     {
       quote:
-        "On voulait un assistant pour notre service client. Aurentia l'a livré, intégré à HubSpot et formé l'équipe. Temps de première réponse divisé par trois, satisfaction en hausse.",
-      author: "Thomas R.",
-      role: "Directeur",
-      company: "Cabinet Conseil",
+        "On voulait un assistant capable de prendre la première ligne du SAV sans casser la qualité de réponse. Ils l'ont construit, branché à HubSpot et formé l'équipe en deux semaines. Le temps de première réponse est passé de 6h à 1h45 — et la satisfaction client a grimpé de 12 points.",
+      author: "Thomas Renard",
+      role: "Directeur de la relation client",
+      company: "Cabinet Solveris — courtage",
       pillar: "solutions-ia",
-      stat: "Réponse ÷3",
+      stat: "Première réponse ÷ 3",
     },
     {
       quote:
-        "Ils ont construit un agent qui analyse nos dossiers en 30 secondes là où on mettait 20 minutes. Le ROI était atteint en 3 semaines d'usage.",
-      author: "Alexandre D.",
-      role: "Directeur",
-      company: "Cabinet Meridian",
+        "Nos consultants passaient 20 minutes à éplucher chaque dossier client. Ils ont livré un agent qui sort la même synthèse en 30 secondes, avec les sources soulignées. ROI atteint en 3 semaines — et l'équipe ne veut plus revenir en arrière.",
+      author: "Alexandre Delaunay",
+      role: "Directeur associé",
+      company: "Cabinet Meridian — conseil RH",
       pillar: "solutions-ia",
       stat: "20 min → 30 s",
+    },
+    {
+      quote:
+        "Ce qui m'a marqué, c'est qu'ils ont passé deux jours à observer comment on bossait avant d'écrire une seule ligne de prompt. Au final l'agent ressemble à notre meilleure analyste — il a pris ses tics, sa méthode, jusqu'à sa façon de structurer un mail.",
+      author: "Marc Cassagne",
+      role: "Head of Data",
+      company: "Veolia régional — branche eau",
+      pillar: "solutions-ia",
+      stat: "Adoption 100 %",
     },
   ],
   faq: [

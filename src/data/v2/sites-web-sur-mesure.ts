@@ -33,7 +33,7 @@ export const sitesWebSurMesureData: SubPageData = {
     },
     visual: {
       kind: "image",
-      src: "/images/portfolio/friendiz-1.webp",
+      src: "/images/portfolio/friendiz.png",
       alt: "Projet sur-mesure Friendiz — marketplace livrée par Aurentia",
     },
   },
@@ -192,7 +192,7 @@ export const sitesWebSurMesureData: SubPageData = {
       },
       {
         title: "HighLove — marque expérientielle",
-        imageUrl: "/images/portfolio/highlove-1.webp",
+        imageUrl: "/images/portfolio/highlove.png",
       },
     ],
   },
