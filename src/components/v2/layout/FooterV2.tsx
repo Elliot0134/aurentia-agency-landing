@@ -55,7 +55,7 @@ export function FooterV2() {
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-foreground/10 pt-8 md:flex-row md:items-center">
           <p className="text-sm text-foreground/55">{footerConfig.legalLine}</p>
           <p className="text-sm text-foreground/55">
-            Construit avec amour par l'équipe Aurentia ✦ {new Date().getFullYear()}
+            Construit avec amour par l&apos;équipe Aurentia ✦ {new Date().getFullYear()}
           </p>
         </div>
       </div>

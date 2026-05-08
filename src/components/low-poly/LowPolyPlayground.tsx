@@ -31,7 +31,7 @@ export function LowPolyPlayground() {
           </h1>
           <p className="mt-6 max-w-2xl text-base text-foreground/65 md:text-lg">
             Cartes et containers où chaque facette est un triangle ombré. Direction
-            lumineuse cohérente, palette brand alignée sur l'orange du bouton
+            lumineuse cohérente, palette brand alignée sur l&apos;orange du bouton
             « Prendre RDV », interactions au hover qui simulent un basculement de la lumière.
           </p>
         </header>
