@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Send } from "lucide-react";
 import { cardClasses } from "@/components/v2/shared/Card";
 import { cn } from "@/lib/utils";
 
@@ -73,18 +74,64 @@ export function ContactSplitForm() {
     "w-full rounded-2xl border border-foreground/10 bg-background/60 px-4 py-2.5 text-base text-foreground placeholder:text-foreground/35 focus:border-foreground/30 focus:outline-none transition-colors duration-500 ease-in-out";
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={cn(cardClasses, "flex flex-col gap-4 p-5 md:p-7")}
-    >
-      <div className="flex flex-col gap-1.5">
-        <h2 className="!text-xl font-bold text-foreground md:!text-2xl">
-          Envoyez-nous un message
-        </h2>
-        <p className="text-sm text-foreground/60">
-          Réponse sous 24h ouvrées, directement avec l&apos;équipe.
-        </p>
-      </div>
+    <div className={cn(cardClasses, "relative overflow-hidden p-5 md:p-7")}>
+      <AnimatePresence mode="wait" initial={false}>
+        {status === "success" ? (
+          <motion.div
+            key="success"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-center gap-5 py-10 text-center md:py-14"
+          >
+            <motion.span
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                delay: 0.1,
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="flex size-16 items-center justify-center rounded-full bg-accent-primary/10 text-accent-primary"
+            >
+              <Check className="size-8" strokeWidth={2.5} />
+            </motion.span>
+            <div className="flex flex-col gap-2">
+              <h2 className="!text-xl font-bold text-foreground md:!text-2xl">
+                Message envoyé !
+              </h2>
+              <p className="max-w-sm text-base text-foreground/65">
+                On revient vers vous sous 24h ouvrées, directement avec
+                l&apos;équipe technique.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setStatus("idle")}
+              className="mt-2 text-sm font-medium text-foreground/60 underline-offset-4 transition-colors duration-500 ease-in-out hover:text-foreground hover:underline"
+            >
+              Envoyer un autre message
+            </button>
+          </motion.div>
+        ) : (
+          <motion.form
+            key="form"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-4"
+          >
+            <div className="flex flex-col gap-1.5">
+              <h2 className="!text-xl font-bold text-foreground md:!text-2xl">
+                Envoyez-nous un message
+              </h2>
+              <p className="text-sm text-foreground/60">
+                Réponse sous 24h ouvrées, directement avec l&apos;équipe.
+              </p>
+            </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         <div className="flex flex-col gap-1.5">
@@ -187,25 +234,23 @@ export function ContactSplitForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:opacity-90 disabled:opacity-50"
-        >
-          {status === "submitting" ? "Envoi…" : "Envoyer le message"}
-          <Send className="size-4" strokeWidth={2} />
-        </button>
+            <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-all duration-500 ease-in-out hover:opacity-90 disabled:opacity-50"
+              >
+                {status === "submitting" ? "Envoi…" : "Envoyer le message"}
+                <Send className="size-4" strokeWidth={2} />
+              </button>
 
-        {status === "success" && (
-          <p className="text-sm text-accent-primary">
-            Message reçu, on revient vers vous sous 24h.
-          </p>
+              {status === "error" && errorMessage && (
+                <p className="text-sm text-destructive">{errorMessage}</p>
+              )}
+            </div>
+          </motion.form>
         )}
-        {status === "error" && errorMessage && (
-          <p className="text-sm text-destructive">{errorMessage}</p>
-        )}
-      </div>
-    </form>
+      </AnimatePresence>
+    </div>
   );
 }
