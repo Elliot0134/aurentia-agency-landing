@@ -69,7 +69,7 @@ export const vibeCodingToc: TocEntry[] = [
   { id: "decision", label: "Quel outil pour quel profil ?" },
   { id: "methode", label: "La méthode pro en 6 étapes" },
   { id: "prompts", label: "Prompts & templates copiables" },
-  { id: "stack", label: "La stack d'Aurentia" },
+  { id: "stack", label: "Les outils qu'on conseille" },
   { id: "risques", label: "Risques & vibe engineering" },
 ];
 
