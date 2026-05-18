@@ -135,7 +135,7 @@ export const agenceTeam: AgenceTeamMember[] = [
   },
   {
     name: "Olivier Le Floch",
-    role: "Stratégie & Business",
+    role: "Co-fondateur",
     badge: "Serial entrepreneur",
     bio: "Cofondateur d'achat-vip.com (millions de membres, dizaines de M€ de CA). Créateur de LePass / vente-privee LEPASS, rachetée par le groupe. Cofondateur d'Holirenting, puis Directeur Général de Smily France (centaines de M€ de volume). Du e-commerce à la location saisonnière, il a scalé des boîtes à chaque étape. Chez Aurentia, il apporte la vision stratégique et le sens business.",
     tags: [
@@ -150,7 +150,7 @@ export const agenceTeam: AgenceTeamMember[] = [
   },
   {
     name: "Stéphane Guillemot",
-    role: "E-commerce & Scale",
+    role: "Co-fondateur",
     badge: "Serial entrepreneur e-commerce",
     bio: "Serial entrepreneur, 4 sociétés créées et cédées en 25 ans. CEO d'Achatvip (45 M€ de CA, 2,7M membres, 3 500 expéditions/jour) et co-fondateur d'Inshop chez Veepee — Trophée de l'Innovation E-commerce 2013. Ex-Country Manager de 3COM France (120 M€) et d'Efficient Networks (groupe Siemens). Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien. Chez Aurentia, il apporte la vision e-commerce et la culture du scale-up.",
     tags: [

@@ -65,7 +65,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     slug: "e-commerce",
     icon: ShoppingBag,
     name: "Site E-commerce",
-    priceRange: "3 500 € – 15 000 €",
+    priceRange: "2 500 € – 15 000 €",
     pitch: "Vendez vos produits en ligne, sans friction.",
     subtitle:
       "Boutique complète avec paiement, gestion de stock, livraison et analytics. Shopify pour démarrer vite, Next.js + Stripe pour du sur-mesure total.",

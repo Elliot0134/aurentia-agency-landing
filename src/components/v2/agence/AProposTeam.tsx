@@ -50,7 +50,7 @@ const team: Member[] = [
   },
   {
     name: "Olivier",
-    role: "Stratégie & Business",
+    role: "Co-fondateur",
     desc: "L'entrepreneur visionnaire. Stratégie, croissance et développement business.",
     details:
       "Cofondateur d'achat-vip.com (millions de membres), DG de Smily France (centaines de M€ de volume). Serial entrepreneur e-commerce et SaaS — de vente-privee à la location saisonnière.",
@@ -60,7 +60,7 @@ const team: Member[] = [
   },
   {
     name: "Stéphane",
-    role: "E-commerce & Scale",
+    role: "Co-fondateur",
     desc: "La culture du scale-up. 25 ans de serial entrepreneur, vision e-commerce et IA.",
     details:
       "Serial entrepreneur, 4 sociétés créées et cédées. CEO d'Achatvip (45 M€ de CA, 2,7M membres) et co-fondateur d'Inshop chez Veepee — Trophée de l'Innovation E-commerce 2013. Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien.",

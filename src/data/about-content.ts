@@ -166,7 +166,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     name: "Olivier Le Floch",
-    role: "Stratégie & Business",
+    role: "Co-fondateur",
     badge: "Serial entrepreneur",
     bio: "Cofondateur d'achat-vip.com (millions de membres, dizaines de M€ de CA). Créateur de LePass / vente-privee LEPASS, rachetée par le groupe. Cofondateur d'Holirenting, puis Directeur Général de Smily France (centaines de M€ de volume). Du e-commerce à la location saisonnière, il a scalé des boîtes à chaque étape. Chez Aurentia, il apporte la vision stratégique et le sens business.",
     tags: [

@@ -50,7 +50,7 @@ const TRAINERS: Trainer[] = [
   },
   {
     name: "Olivier",
-    role: "Stratégie · Serial entrepreneur",
+    role: "Co-fondateur",
     pitch:
       "Cofondateur d'achat-vip.com (millions de membres), DG de Smily France. Apporte la vision business sur chaque mission.",
     recent:

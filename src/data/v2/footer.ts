@@ -1,6 +1,6 @@
 // src/data/footer.ts
 import type { FooterConfig } from "./types";
-import { Linkedin, Instagram, Twitter, Github } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 export const footerConfig: FooterConfig = {
   logo: {
@@ -45,9 +45,6 @@ export const footerConfig: FooterConfig = {
   ],
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/company/aurentia", icon: Linkedin },
-    { label: "Instagram", href: "https://instagram.com/aurentia", icon: Instagram },
-    { label: "Twitter", href: "https://twitter.com/aurentia", icon: Twitter },
-    { label: "GitHub", href: "https://github.com/aurentia", icon: Github },
   ],
   legalLine: "© Aurentia Agency — Tous droits réservés",
 };
