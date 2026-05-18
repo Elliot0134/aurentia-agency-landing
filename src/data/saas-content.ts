@@ -319,14 +319,6 @@ export const saasProjects: SaasProject[] = [
     link: "#",
   },
   {
-    screenshots: ["/images/portfolio/savistas-1.webp"],
-    title: "Savistas",
-    description:
-      "Application de gestion pour entreprises de services. Planification, facturation automatisée, reporting.",
-    tags: ["Logiciel métier", "Design", "Développement"],
-    link: "#",
-  },
-  {
     screenshots: [
       "/images/portfolio/allo-restau-1.webp",
       "/images/portfolio/allo-restau-2.webp",

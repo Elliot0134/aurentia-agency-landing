@@ -229,48 +229,5 @@ export const realisationsStatic: ProjectFrontmatter[] = [
         "context": "Interface moderne et professionnelle"
       }
     ]
-  },
-  {
-    "slug": "savistas",
-    "name": "Savistas",
-    "tagline": "Le SaaS qui réinvente la façon de travailler avec la donnée.",
-    "type": "SaaS",
-    "secteur": "tech-ia",
-    "city": "France",
-    "year": 2025,
-    "duration": "72h",
-    "status": "Livre",
-    "featured": false,
-    "tags": [
-      "Charte graphique",
-      "Design UI",
-      "Developpement",
-      "Landing page"
-    ],
-    "technos": [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Vercel",
-      "Claude AI"
-    ],
-    "coverImage": "/images/portfolio/savistas.png",
-    "images": [
-      "/images/portfolio/savistas.png"
-    ],
-    "metrics": [
-      {
-        "value": "72h",
-        "label": "Livraison",
-        "context": "Du brief au site en ligne"
-      },
-      {
-        "value": "Amelioree",
-        "label": "Conversion",
-        "context": "Landing page optimisee pour le funnel d'acquisition"
-      }
-    ]
   }
 ];

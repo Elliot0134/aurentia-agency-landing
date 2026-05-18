@@ -20,16 +20,6 @@ const TESTIMONIALS = [
     initials: "SM",
   },
   {
-    name: "Thomas Durand",
-    role: "Fondateur",
-    company: "Savistas",
-    quote:
-      "Du concept au lancement en 72h. L'équipe est incroyablement réactive et le résultat dépasse largement nos attentes initiales.",
-    stat: "Livré en 72h",
-    avatarGradient: "from-sky-500 via-blue-500 to-cyan-600",
-    initials: "TD",
-  },
-  {
     name: "Marie Lefèvre",
     role: "CMO",
     company: "DataFlow",

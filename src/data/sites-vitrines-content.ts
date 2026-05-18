@@ -395,14 +395,6 @@ export const portfolioItems: PortfolioItem[] = [
     ],
   },
   {
-    screenshot: "/images/portfolio/savistas-1.webp",
-    clientName: "Savistas",
-    niche: "SaaS + Landing",
-    tag: "SaaS + Landing",
-    duration: "72h",
-    images: ["/images/portfolio/savistas-1.webp"],
-  },
-  {
     screenshot: "/images/portfolio/friendiz-1.webp",
     clientName: "Friend\u2019iz",
     niche: "E-commerce",

@@ -94,7 +94,7 @@ export const vitrineContent = {
   badge: "NOTRE VITRINE",
   title: "Ce qu'on livre, concrètement.",
   subtitle:
-    "Savistas — une landing page conçue et livrée par Aurentia. Design sur-mesure, animations fluides, optimisée conversion. Naviguez, cliquez, jugez par vous-même.",
+    "Maison Enileh — un site conçu et livré par Aurentia. Design sur-mesure, animations fluides, optimisé conversion. Naviguez, cliquez, jugez par vous-même.",
   callouts: [
     { label: "Avatar IA", position: { x: "5%", y: "20%" } },
     { label: "Landing Page", position: { x: "75%", y: "15%" } },

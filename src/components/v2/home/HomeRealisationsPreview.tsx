@@ -55,13 +55,6 @@ const ITEMS: Item[] = [
     href: "/realisations/maison-enileh",
   },
   {
-    title: "Savistas",
-    subtitle: "Plateforme de gestion",
-    tag: "SaaS",
-    imageUrl: "/images/portfolio/savistas.png",
-    href: "/realisations/savistas",
-  },
-  {
     title: "Friend'iz",
     subtitle: "Boutique en ligne",
     tag: "E-commerce",

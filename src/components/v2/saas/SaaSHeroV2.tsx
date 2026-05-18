@@ -13,7 +13,6 @@ const SAAS_CLIENT_LOGOS = [
   "Friend'iz",
   "HiLove",
   "Maison Enileh",
-  "Savistas",
   "Golf Mentor",
 ];
 

@@ -139,13 +139,6 @@ export const portfolioItems: IdentitePortfolioItem[] = [
     credit: "Direction cr\u00E9ative : Fabien Estrade",
   },
   {
-    image: "/images/identite-visuelle/portfolio/placeholder-2.webp",
-    brandName: "Savistas",
-    sector: "SaaS / Tech",
-    description: "Un univers visuel moderne et percutant pour une plateforme innovante.",
-    credit: "Direction cr\u00E9ative : Fabien Estrade",
-  },
-  {
     image: "/images/identite-visuelle/portfolio/placeholder-3.webp",
     brandName: "Allo Restau",
     sector: "Restauration",

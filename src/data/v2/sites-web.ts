@@ -220,15 +220,6 @@ export const sitesWebData: CommercialPillarData = {
       imageUrl: "/images/portfolio/maison-enileh.webp",
       href: "/realisations/maison-enileh",
     },
-    {
-      slug: "savistas",
-      title: "SaaS + Landing page en 72h",
-      client: "Savistas",
-      pillar: "sites-web",
-      resultKpi: "Livré en 72h",
-      imageUrl: "/images/portfolio/savistas.png",
-      href: "/realisations/savistas",
-    },
   ],
   testimonialsFiltered: [
     {

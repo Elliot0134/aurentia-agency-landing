@@ -222,11 +222,6 @@ export const sitesWebVitrineData: SubPageData = {
         href: "/realisations/allo-restau",
       },
       {
-        title: "Savistas — accompagnement entrepreneur",
-        imageUrl: "/images/portfolio/savistas.png",
-        href: "/realisations/savistas",
-      },
-      {
         title: "Golf Mentor — coaching golf",
         imageUrl: "/images/portfolio/golf-mentor-landing.png",
         href: "/realisations/golf-mentor",

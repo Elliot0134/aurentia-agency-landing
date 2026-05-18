@@ -21,7 +21,7 @@ function BrowserMockup({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex-1 flex justify-center">
           <span className="text-sm text-foreground/30 font-mono px-5 py-1.5 rounded-lg bg-foreground/[0.03] border border-foreground/5">
-            savistas.fr
+            aurentia.fr
           </span>
         </div>
         <div className="w-[62px]" /> {/* Spacer to balance dots */}
@@ -69,8 +69,8 @@ export function LandingPagesVitrine() {
               style={{ paddingBottom: `${(900 / 1440) * 100}%` }}
             >
               <iframe
-                src="https://www.savistas.fr/"
-                title="Savistas — Notre vitrine"
+                src="https://www.maison-enileh.com/"
+                title="Maison Enileh — Notre vitrine"
                 className="absolute top-0 left-0 border-0 origin-top-left [&]:cursor-none"
                 width={1440}
                 height={900}

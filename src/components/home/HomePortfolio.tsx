@@ -14,7 +14,7 @@ import { BlurReveal } from "@/components/animations/BlurReveal";
 // │Compar-IA │Compar-IA │  Maison  │
 // │  (2col   │  2row)   │  Enileh  │
 // ├──────────┼──────────┼──────────┤
-// │ Savistas │ Friend'iz│  Allo    │
+// │ Friend'iz│ Friend'iz│  Allo    │
 // │          │          │  Restau  │
 // ├──────────┼──────────┼──────────┤
 // │          │          │  Golf    │
@@ -40,15 +40,6 @@ const projects = [
     duration: "72h",
     services: ["Charte graphique", "Design UI", "Développement", "SEO"],
     images: ["/images/portfolio/maison-enileh-1.webp"],
-    layout: "md:col-span-1",
-  },
-  {
-    slug: "savistas",
-    name: "Savistas",
-    tag: "SaaS + Landing",
-    duration: "72h",
-    services: ["Charte graphique", "Design UI", "Développement", "Landing page"],
-    images: ["/images/portfolio/savistas-1.webp"],
     layout: "md:col-span-1",
   },
   {
