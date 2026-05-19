@@ -88,7 +88,7 @@ export const agenceStatsSection = {
 export const agenceTeam: AgenceTeamMember[] = [
   {
     name: "Elliot Estrade",
-    role: "CEO, Vision & IA",
+    role: "Co-fondateur, CEO & Vision IA",
     badge: "Entrepreneur & Architecte IA",
     bio: "À l'origine d'Aurentia. Entrepreneur multi-projets et architecte IA. Fondateur d'ESST Solutions (consulting IA & dev) et de Friend'iz (CBD pour animaux). Co-créateur de Comparateur-IA-Facile.com avec Matthieu et Olivier. Formateur IA en entreprise. Chez Aurentia, il porte la vision, la stratégie business et la direction produit — design, IA et positionnement, c'est lui qui orchestre, avec l'équipe.",
     tags: [
@@ -104,7 +104,7 @@ export const agenceTeam: AgenceTeamMember[] = [
   },
   {
     name: "Matthieu Bousquet",
-    role: "CTO, Lead Technique",
+    role: "Co-fondateur, CTO & Lead Technique",
     badge: "Dev Senior & Formateur Epitech",
     bio: "Développeur full-stack et formateur à Epitech Marseille. Pionnier Claude Code au sein de l'équipe — il a été le premier à intégrer l'IA dans son workflow de développement quotidien. Architecte technique, il conçoit les fondations de chaque projet. Chaque site est sécurisé, rapide, et techniquement irréprochable. Code review, performance, scalabilité — rien ne lui échappe. Avec Elliot, il a remporté 2 hackathons. Le craft technique, c'est son terrain.",
     tags: [
