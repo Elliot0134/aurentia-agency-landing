@@ -1,8 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const N8N_WEBHOOK =
+  "https://aurentia-agency.app.n8n.cloud/webhook/lead-magnet-aurentia-agency-landing";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,17 +19,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "invalid_email" }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.rpc("agency_register_lead", {
-      p_email: email.trim().toLowerCase(),
-      p_resource: resource ?? null,
-      p_source: source ?? null,
-      p_newsletter: newsletter ?? true,
+    await fetch(N8N_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email.trim().toLowerCase(),
+        resource: resource ?? null,
+        source: source ?? null,
+        newsletter: newsletter ?? true,
+      }),
     });
-
-    if (error) {
-      console.error("[agency_register_lead]", error);
-      return NextResponse.json({ error: "db_error" }, { status: 500 });
-    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
