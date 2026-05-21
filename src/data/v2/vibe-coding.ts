@@ -51,7 +51,7 @@ export const vibeCodingHero = {
   eyebrow: "Ressources",
   headline: "Le guide complet du vibe coding",
   subHeadline:
-    "Construire du logiciel en parlant à une IA. Les outils, la méthode, les pièges — tout ce que nous avons appris en bossant en vibe coding chez Aurentia.",
+    "Construire du logiciel en parlant à une IA. Les outils, la méthode, les pièges, tout ce que nous avons appris en bossant en vibe coding chez Aurentia.",
   cta: {
     primary: { label: "Demander un accompagnement", href: "/contact" },
     secondary: { label: "Voir nos formations IA", href: "/solutions-ia/formation-ia" },
@@ -73,11 +73,11 @@ export const vibeCodingToc: TocEntry[] = [
   { id: "risques", label: "Risques & vibe engineering" },
 ];
 
-/* ───────────── Section 1 — Concepts ───────────── */
+/* ───────────── Section 1, Concepts ───────────── */
 
 export const karpathyQuote = {
   source: "Andrej Karpathy",
-  date: "2 février 2025 — sur X",
+  date: "2 février 2025, sur X",
   vo: "There's a new kind of coding I call vibe coding, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists.",
   fr: "Il y a un nouveau type de coding que j'appelle vibe coding : on se laisse porter par le feeling, on parie sur l'exponentielle, et on oublie même que le code existe.",
 };
@@ -99,7 +99,7 @@ export const vibeCodingPillars: { icon: LucideIcon; title: string; description: 
     icon: Eye,
     title: "Forget the code exists",
     description:
-      "On ne lit pas ce que l'IA écrit — on voit le résultat, on juge l'usage, on reprompt. C'est le point qui fait le plus débat.",
+      "On ne lit pas ce que l'IA écrit, on voit le résultat, on juge l'usage, on reprompt. C'est le point qui fait le plus débat.",
   },
 ];
 
@@ -120,7 +120,7 @@ export const willisonDistinction = {
       "Le coding reste assisté, mais la rigueur d'ingénieur reprend le volant.",
     ],
   },
-  source: "Simon Willison — co-créateur de Django, voix #1 sur l'usage des LLMs",
+  source: "Simon Willison, co-créateur de Django, voix #1 sur l'usage des LLMs",
 };
 
 export const vibeCodingStats: { value: string; label: string; suffix?: string }[] = [
@@ -131,7 +131,7 @@ export const vibeCodingStats: { value: string; label: string; suffix?: string }[
   { value: "1", suffix: "M$", label: "ARR en 17 jours (record Pieter Levels)" },
 ];
 
-/* ───────────── Section 2 — Paradigmes ───────────── */
+/* ───────────── Section 2, Paradigmes ───────────── */
 
 export type Paradigm = {
   icon: LucideIcon;
@@ -165,7 +165,7 @@ export const paradigms: Paradigm[] = [
   },
 ];
 
-/* ───────────── Section 3 — Outils ───────────── */
+/* ───────────── Section 3, Outils ───────────── */
 
 export type ToolCategory = "chat-web" | "ide" | "cli" | "design";
 
@@ -301,7 +301,7 @@ export const tools: Tool[] = [
   },
 ];
 
-/* ───────────── Section 4 — Decision tree ───────────── */
+/* ───────────── Section 4, Decision tree ───────────── */
 
 export type DecisionNode =
   | {
@@ -409,7 +409,7 @@ export const decisionTree: DecisionNode[] = [
   },
 ];
 
-/* ───────────── Section 5 — Méthode ───────────── */
+/* ───────────── Section 5, Méthode ───────────── */
 
 export type MethodStep = {
   number: string;
@@ -423,12 +423,12 @@ export const methodSteps: MethodStep[] = [
   {
     number: "01",
     icon: Lightbulb,
-    title: "Skill brainstorming — clarifier l'intention",
+    title: "Skill brainstorming, clarifier l'intention",
     description: "5 questions à se poser AVANT d'ouvrir un outil.",
     details: [
       "C'est quoi exactement le résultat que je veux obtenir ?",
       "Pour qui c'est ? (utilisateur cible, contexte d'usage)",
-      "Quelles sont les 3 features prioritaires ? (pas 10 — 3)",
+      "Quelles sont les 3 features prioritaires ? (pas 10, 3)",
       "Stack imposée ou pas ?",
       "C'est un proto jetable ou un truc à maintenir ?",
     ],
@@ -477,14 +477,14 @@ export const methodSteps: MethodStep[] = [
     title: "Review & règle Willison",
     description: "Pour passer du prototype au code prod, une seule règle universelle.",
     details: [
-      "« Si on ne peut pas expliquer exactement ce que ce code fait à quelqu'un d'autre, ne pas le commit. » — Simon Willison",
+      "« Si on ne peut pas expliquer exactement ce que ce code fait à quelqu'un d'autre, ne pas le commit. », Simon Willison",
       "Test pratique avant chaque commit : expliquer mentalement à un collègue.",
       "Si on hésite → c'est du vibe coding, pas du vibe engineering. Relire, comprendre, ou jeter.",
     ],
   },
 ];
 
-/* ───────────── Section 6 — Prompts copiables ───────────── */
+/* ───────────── Section 6, Prompts copiables ───────────── */
 
 export type CopyableSnippet = {
   id: string;
@@ -499,7 +499,7 @@ export const prdTemplate: CopyableSnippet = {
   title: "Template PRD minimal",
   description: "À coller en frontmatter de prompt ou dans un .md à la racine du repo.",
   language: "markdown",
-  content: `# PRD — Nom du projet
+  content: `# PRD, Nom du projet
 
 ## Objectif (1 phrase)
 [Ce que l'app doit accomplir, du point de vue user]
@@ -543,7 +543,7 @@ P2 (plus tard) : [optionnel]
 export const magicPrompt: CopyableSnippet = {
   id: "magic-prompt",
   title: "Le prompt magique (à ajouter à chaque demande majeure)",
-  description: "La phrase la plus rentable de Claude Code — et de tous les LLMs.",
+  description: "La phrase la plus rentable de Claude Code, et de tous les LLMs.",
   language: "text",
   content: `Before you write code, make a plan and run it by me.
 Identify the unclear zones, propose 3 clarification questions if needed.
@@ -552,17 +552,17 @@ Wait for my validation before starting to code.`,
 
 export const brainstormSkill: CopyableSnippet = {
   id: "brainstorm-skill",
-  title: "Skill — Vibe coding co-pilote (custom instruction)",
+  title: "Skill, Vibe coding co-pilote (custom instruction)",
   description:
     "À coller comme system prompt / custom instruction dans Claude, ChatGPT ou Cursor. Brainstorme l'idée, va lire les docs officielles de la plateforme cible (via Exa MCP si dispo, sinon web search), et génère un PRD calibré à coller direct.",
   language: "markdown",
   content: `# Vibe coding co-pilote
 
-Tu es mon co-pilote de vibe coding. Ton job : transformer une idée brouillon en un PRD prêt à coller sur la plateforme de vibe coding que je vais te dire. Tu ne codes JAMAIS — tu produis un PRD.
+Tu es mon co-pilote de vibe coding. Ton job : transformer une idée brouillon en un PRD prêt à coller sur la plateforme de vibe coding que je vais te dire. Tu ne codes JAMAIS, tu produis un PRD.
 
 ## Workflow strict (ne saute aucune étape)
 
-### 1. Brainstorm — clarifie l'intention
+### 1. Brainstorm, clarifie l'intention
 Pose-moi des questions courtes, une par une si tu sens que je suis flou, sinon en bloc, regroupées en 2 axes :
 
 **Produit**
@@ -616,12 +616,12 @@ Si une URL est cassée, cherche \`<plateforme> prompting best practices 2026\` e
 
 Une fois que tu as : (a) la confirmation du brief par l'user, (b) la plateforme cible, (c) la doc plateforme lue → produis le PRD.
 
-Sors **un seul bloc markdown** prêt à coller sur la plateforme. Adapte la structure et le vocabulaire à la plateforme cible (vibe Lovable, blocs What/Who/Flows/Data/Pages/Auth pour Bolt, Product Surface + Context + Constraints pour v0, purpose+audience+vibe Stitch, rules Cursor, CLAUDE.md Claude Code), MAIS le contenu doit toujours couvrir les sections suivantes — n'en saute aucune, surtout pas la section Design.
+Sors **un seul bloc markdown** prêt à coller sur la plateforme. Adapte la structure et le vocabulaire à la plateforme cible (vibe Lovable, blocs What/Who/Flows/Data/Pages/Auth pour Bolt, Product Surface + Context + Constraints pour v0, purpose+audience+vibe Stitch, rules Cursor, CLAUDE.md Claude Code), MAIS le contenu doit toujours couvrir les sections suivantes, n'en saute aucune, surtout pas la section Design.
 
 #### Template PRD à suivre (à adapter à la plateforme cible)
 
 \`\`\`markdown
-# PRD — [Nom du projet]
+# PRD, [Nom du projet]
 
 ## Objectif (1 phrase)
 [Ce que l'app doit accomplir, du point de vue user]
@@ -644,17 +644,17 @@ P2 (plus tard) : [optionnel]
 - Déploiement : [Vercel / autre]
 
 ## Design
-- **Vibe / mood** : [2-3 mots-clés — ex : « minimal premium », « playful bold », « calm editorial »]
-- **Références visuelles** : [concurrents / sites cités par l'user — Linear, Stripe, Notion, Vercel…]
+- **Vibe / mood** : [2-3 mots-clés, ex : « minimal premium », « playful bold », « calm editorial »]
+- **Références visuelles** : [concurrents / sites cités par l'user, Linear, Stripe, Notion, Vercel…]
 - **Palette** :
   - Primaire : [hex ou direction émotionnelle]
   - Accent : [hex ou direction]
   - Fond : [light / dark / les deux]
-- **Typographie** : [famille + hiérarchie — ex : « Geist sans, hierarchy bold-3xl-headings + sm-body »]
+- **Typographie** : [famille + hiérarchie, ex : « Geist sans, hierarchy bold-3xl-headings + sm-body »]
 - **Densité & spacing** : [aéré / compact, padding gutter typique]
 - **Motion** : [statique / micro-interactions 500ms / animations généreuses]
 - **Layout & responsive** : [mobile-first ou desktop-first, breakpoints critiques]
-- **États visuels** : loading (skeleton), empty, error, populated — à coder pour TOUTES les vues data
+- **États visuels** : loading (skeleton), empty, error, populated, à coder pour TOUTES les vues data
 
 ## Non-négos
 - Mobile-first
@@ -692,13 +692,13 @@ Une fois le PRD livré, propose-moi 3 axes d'itération possibles (ajout d'une f
 
 ## Règles
 - Tu ne codes pas. Tu produis un PRD prêt à être collé.
-- Tu ne sautes pas la recherche docs même si tu penses connaître la plateforme — les conventions changent vite.
+- Tu ne sautes pas la recherche docs même si tu penses connaître la plateforme, les conventions changent vite.
 - Si l'user ne fournit pas assez d'info pour le brainstorm, repose des questions au lieu d'inventer.
 - Cite tes sources à la fin (URLs).
 - Reste direct, cash, pas de blabla IA.`,
 };
 
-/* ───────────── Section 7 — Tips pros ───────────── */
+/* ───────────── Section 7, Tips pros ───────────── */
 
 export type Tip = {
   number: string;
@@ -724,7 +724,7 @@ export const claudeMdHierarchy = {
 export const keyBindings: { key: string; action: string }[] = [
   { key: "shift + tab", action: "Toggle auto-accept edits mode" },
   { key: "#", action: "Add to memory (CLAUDE.md) à la volée" },
-  { key: "!", action: "Bash mode — output partagé avec Claude" },
+  { key: "!", action: "Bash mode, output partagé avec Claude" },
   { key: "@", action: "Mention file/folder (ex: @app/Header.tsx)" },
   { key: "escape", action: "Stop ce que Claude fait, sans corruption" },
   { key: "escape × 2", action: "Jump back dans l'historique" },
@@ -781,7 +781,7 @@ export const tips: Tip[] = [
   {
     number: "02",
     icon: Layers,
-    title: "CLAUDE.md hierarchy — la mémoire de Claude",
+    title: "CLAUDE.md hierarchy, la mémoire de Claude",
     body: "Claude Code lit plusieurs fichiers de mémoire en hiérarchie. Règle de Boris Cherny : « Try to keep it pretty short. If it gets too long, it just uses up context. »",
     extra: { kind: "table", headers: claudeMdHierarchy.headers, rows: claudeMdHierarchy.rows },
   },
@@ -795,7 +795,7 @@ export const tips: Tip[] = [
     number: "04",
     icon: Workflow,
     title: "Iteration loop avec feedback tool",
-    body: "Donner à Claude un moyen de vérifier son travail = il itère seul. « If you give it some way to check its work, it will iterate by itself, and you're going to get a much better result. » — Boris Cherny",
+    body: "Donner à Claude un moyen de vérifier son travail = il itère seul. « If you give it some way to check its work, it will iterate by itself, and you're going to get a much better result. », Boris Cherny",
   },
   {
     number: "05",
@@ -836,7 +836,7 @@ export const tips: Tip[] = [
   },
 ];
 
-/* ───────────── Section 8 — Stack perso ───────────── */
+/* ───────────── Section 8, Stack perso ───────────── */
 
 export type StackCategory = {
   icon: LucideIcon;
@@ -879,7 +879,7 @@ export const stackCategories: StackCategory[] = [
   },
 ];
 
-/* ───────────── Section 9 — Risques ───────────── */
+/* ───────────── Section 9, Risques ───────────── */
 
 export const securityStats: { value: string; label: string }[] = [
   { value: "40-62 %", label: "du code IA-généré contient des failles de sécurité" },

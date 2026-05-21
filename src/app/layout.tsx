@@ -10,6 +10,7 @@ import { SubNavProvider } from "@/components/shared/SubNavContext";
 import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
 import { FooterV2 } from "@/components/v2/layout/FooterV2";
 import { WipModalProvider } from "@/components/shared/WipModal";
+import { ChatbotWidget } from "@/components/v2/chatbot/ChatbotWidget";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-inter",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     default: "Aurentia Agency — Sites web, SaaS & IA · Avignon",
     template: "%s | Aurentia Agency",
   },
-  description: "Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et formations IA. 20 ans de craft, livraison rapide.",
+  description: "Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et formations IA. 25 ans de craft, livraison rapide.",
   applicationName: "Aurentia Agency",
   authors: [{ name: "Aurentia Agency" }],
   openGraph: {
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <NavbarV2 />
               <main className="flex flex-col">{children}</main>
               <FooterV2 />
+              <ChatbotWidget />
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>

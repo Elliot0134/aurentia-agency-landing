@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA AGENCY — Contenu page /conciergeries
+// AURENTIA AGENCY, Contenu page /conciergeries
 // Structured content for the conciergeries landing page
 // ============================================
 
@@ -100,11 +100,11 @@ export const conciergeriesSiteConfig = {
 // ---------------------
 
 export const conciergeriesSeo = {
-  title: "Site Vitrine Conciergerie Airbnb — Livré en 72h | Aurentia",
+  title: "Site Vitrine Conciergerie Airbnb, Livré en 72h | Aurentia",
   description:
     "Site professionnel sur-mesure pour votre conciergerie. Réservations directes, SEO local, livré en 72h. À partir de 1 500€. On vous montre votre site AVANT le paiement.",
   openGraph: {
-    title: "Site vitrine pour conciergerie — Livré en 72h | Aurentia",
+    title: "Site vitrine pour conciergerie, Livré en 72h | Aurentia",
     description:
       "On vous montre votre site AVANT que vous payiez. Design sur-mesure, SEO local, réservations directes. À partir de 1 500€.",
     image: "/images/opengraph/opengraph.png",
@@ -112,7 +112,7 @@ export const conciergeriesSeo = {
 };
 
 // ---------------------
-// Section 1 — Hero
+// Section 1, Hero
 // ---------------------
 
 export const conciergeriesHeroContent = {
@@ -131,7 +131,7 @@ export const conciergeriesHeroContent = {
 };
 
 // ---------------------
-// Section 2 — Le Problème (3 douleurs)
+// Section 2, Le Problème (3 douleurs)
 // ---------------------
 
 export const conciergeriesProblemContent = {
@@ -177,7 +177,7 @@ export const conciergeriesProblemContent = {
 };
 
 // ---------------------
-// Section 3 — La Solution
+// Section 3, La Solution
 // ---------------------
 
 export const conciergeriesSolutionContent = {
@@ -186,7 +186,7 @@ export const conciergeriesSolutionContent = {
   subtitle:
     "On forge des sites vitrines sur-mesure pour les conciergeries. Pas des templates. Des machines à clients.",
   paragraphs: [
-    "Chaque site est unique. Conçu pour VOTRE conciergerie, VOTRE zone géographique, VOS services. L'IA accélère la création — 20 ans d'expertise humaine garantissent la qualité.",
+    "Chaque site est unique. Conçu pour VOTRE conciergerie, VOTRE zone géographique, VOS services. L'IA accélère la création, 25 ans d'expertise humaine garantissent la qualité.",
     "Le résultat : un site professionnel qui positionne votre conciergerie sur Google, inspire confiance aux propriétaires, et génère des réservations directes. Sans verser un centime à Airbnb ou Booking.",
   ],
   features: [
@@ -216,7 +216,7 @@ export const conciergeriesSolutionContent = {
 };
 
 // ---------------------
-// Section 4 — L'Innovation ("On vous montre AVANT")
+// Section 4, L'Innovation ("On vous montre AVANT")
 // ---------------------
 
 export const conciergeriesInnovationContent = {
@@ -228,7 +228,7 @@ export const conciergeriesInnovationContent = {
       icon: "Monitor",
       title: "Votre futur site",
       description:
-        "Un site fonctionnel, avec votre contenu, vos couleurs, votre identité. Pas un mockup Figma — un vrai site navigable.",
+        "Un site fonctionnel, avec votre contenu, vos couleurs, votre identité. Pas un mockup Figma, un vrai site navigable.",
     },
     {
       icon: "BarChart3",
@@ -248,7 +248,7 @@ export const conciergeriesInnovationContent = {
 };
 
 // ---------------------
-// Section 5 — Le Process (3 étapes)
+// Section 5, Le Process (3 étapes)
 // ---------------------
 
 export const conciergeriesProcessContent = {
@@ -286,7 +286,7 @@ export const conciergeriesProcessContent = {
 };
 
 // ---------------------
-// Section 6 — Social Proof
+// Section 6, Social Proof
 // ---------------------
 
 export const conciergeriesSocialProofContent = {
@@ -299,7 +299,7 @@ export const conciergeriesSocialProofContent = {
     url: "#",
     testimonial: {
       quote:
-        "[Témoignage réel de la cliente — à rédiger après obtention]",
+        "[Témoignage réel de la cliente, à rédiger après obtention]",
       author: "[Prénom + initiale]",
       role: "Gérante de conciergerie",
       city: "[Ville]",
@@ -315,7 +315,7 @@ export const conciergeriesSocialProofContent = {
 };
 
 // ---------------------
-// Section 7 — Pricing (3 packs)
+// Section 7, Pricing (3 packs)
 // ---------------------
 
 export const conciergeriesPricingContent = {
@@ -339,7 +339,7 @@ export const conciergeriesPricingPlans: PricingPlan[] = [
     description: "Votre vitrine professionnelle, prête en 72h.",
     features: [
       "Site vitrine 3 pages",
-      "Design sur-mesure — zéro template",
+      "Design sur-mesure, zéro template",
       "Responsive + animations",
       "Formulaire de contact",
       "Réservation simple",
@@ -381,7 +381,7 @@ export const conciergeriesPricingPlans: PricingPlan[] = [
   {
     name: "Premium",
     price: "2\u202F200\u202F\u20AC",
-    priceNote: "À partir de — sur devis",
+    priceNote: "À partir de, sur devis",
     description: "L\u2019offre complète, stratégie incluse.",
     features: [
       "Tout le pack Croissance",
@@ -403,7 +403,7 @@ export const conciergeriesPricingPlans: PricingPlan[] = [
 ];
 
 // ---------------------
-// Section 8 — Comparaison (Aurentia vs alternatives)
+// Section 8, Comparaison (Aurentia vs alternatives)
 // ---------------------
 
 export const conciergeriesComparisonContent = {
@@ -449,7 +449,7 @@ export const conciergeriesComparisonContent = {
 };
 
 // ---------------------
-// Section 9 — FAQ (10 questions)
+// Section 9, FAQ (10 questions)
 // ---------------------
 
 export const conciergeriesFaqContent = {
@@ -463,7 +463,7 @@ export const conciergeriesFaqContent = {
     {
       question: "72h, vraiment ? Pas bâclé ?",
       answer:
-        "La V1 est livrée en 24-72h. C'est rapide parce que notre process est efficace, pas parce qu'on coupe des coins. 20 ans d'expertise valident chaque détail. La version finale avec vos retours : 7 jours max.",
+        "La V1 est livrée en 24-72h. C'est rapide parce que notre process est efficace, pas parce qu'on coupe des coins. 25 ans d'expertise valident chaque détail. La version finale avec vos retours : 7 jours max.",
     },
     {
       question: "C'est quoi l'IA ? Mon site va ressembler à du généré ?",
@@ -493,7 +493,7 @@ export const conciergeriesFaqContent = {
     {
       question: "C'est quoi l'abonnement mensuel ?",
       answer:
-        "Hébergement, maintenance, sauvegardes, mises à jour de sécurité, support. À partir de 19€/mois. Premier mois offert. Sans engagement longue durée — vous pouvez arrêter quand vous voulez.",
+        "Hébergement, maintenance, sauvegardes, mises à jour de sécurité, support. À partir de 19€/mois. Premier mois offert. Sans engagement longue durée, vous pouvez arrêter quand vous voulez.",
     },
     {
       question: "Je peux payer en plusieurs fois ?",
@@ -509,7 +509,7 @@ export const conciergeriesFaqContent = {
 };
 
 // ---------------------
-// Section 10 — Lead Magnet
+// Section 10, Lead Magnet
 // ---------------------
 
 export const conciergeriesLeadMagnetContent: LeadMagnetContent = {
@@ -527,7 +527,7 @@ export const conciergeriesLeadMagnetContent: LeadMagnetContent = {
 };
 
 // ---------------------
-// Section 11 — CTA Final
+// Section 11, CTA Final
 // ---------------------
 
 export const conciergeriesCtaContent = {

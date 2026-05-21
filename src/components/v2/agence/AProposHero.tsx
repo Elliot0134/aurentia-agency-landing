@@ -55,7 +55,7 @@ export function AProposHero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--orange-500)] opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--orange-500)]" />
             </span>
-            {hero.eyebrow} · Avignon
+            {hero.eyebrow}
           </span>
 
           {/* H1 */}

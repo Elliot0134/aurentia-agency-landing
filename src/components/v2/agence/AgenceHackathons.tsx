@@ -5,10 +5,10 @@ import { Trophy, Zap, Users } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { BlurReveal } from "@/components/animations/BlurReveal";
 import { LinkedInEmbed } from "@/components/shared/LinkedInEmbed";
+import { HackathonCardContent } from "@/components/v2/agence/HackathonCardContent";
 import {
   agenceHackathons,
   agenceHackathonsSection,
-  type AgenceHackathonCard,
   type AgenceHackathonTeammate,
 } from "@/data/v2/agence-content";
 
@@ -48,30 +48,6 @@ function DescriptionWithTeammates({
       {teammateLinks}
       {parts[1]}
     </>
-  );
-}
-
-function HackathonCardContent({ card }: { card: AgenceHackathonCard }) {
-  return (
-    <div className="flex flex-col gap-5">
-      <LinkedInEmbed url={card.linkedinEmbedUrl} />
-      <div className="flex items-center gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-primary/10 px-3 py-1 text-sm font-semibold text-accent-primary">
-          <Trophy className="h-4 w-4" />
-          {card.result}
-        </span>
-        <span className="text-sm text-foreground/50">{card.date}</span>
-      </div>
-      <h4 className="text-lg font-bold text-foreground md:text-xl">
-        {card.title}
-      </h4>
-      <p className="text-base leading-relaxed text-foreground/65">
-        <DescriptionWithTeammates
-          description={card.description}
-          teammates={card.teammates}
-        />
-      </p>
-    </div>
   );
 }
 

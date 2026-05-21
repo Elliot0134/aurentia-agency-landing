@@ -40,7 +40,7 @@ export function HomeInnovation() {
           <span className="text-accent-primary">différencie.</span>
         </TextReveal>
         <p className="text-xl lg:text-2xl text-foreground-muted font-medium max-w-2xl">
-          L&apos;IA comme instrument de précision. 20 ans d&apos;expertise comme garantie.
+          L&apos;IA comme instrument de précision. 25 ans d&apos;expertise comme garantie.
         </p>
       </div>
 

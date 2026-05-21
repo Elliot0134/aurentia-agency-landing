@@ -3,7 +3,15 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Check, Mail, Sparkles, Wand2, type LucideIcon } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Check,
+  Mail,
+  Sparkles,
+  Wand2,
+  type LucideIcon,
+} from "lucide-react";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { cn } from "@/lib/utils";
@@ -37,6 +45,11 @@ const RESOURCES: ResourceCard[] = [
     icon: Sparkles,
   },
 ];
+
+// La page d'index ressources n'a plus de gate : la navigation vers les pages
+// ressources est libre. Le gate (email) s'applique à l'intérieur de chaque
+// page ressource via `ResourceContentGate`, autour du contenu central (le
+// hero et la TOC restent visibles).
 
 export function RessourcesIndexPage() {
   return (
@@ -110,7 +123,6 @@ function NewsletterCTA() {
       setStatus("success");
       setEmail("");
     } catch {
-      // Fallback : on accepte quand même côté UX, le backend sera branché plus tard
       setStatus("success");
       setEmail("");
     }
@@ -119,7 +131,6 @@ function NewsletterCTA() {
   return (
     <section className="w-full px-4 pb-12 pt-6 md:px-6 md:pb-16">
       <div className="relative mx-auto w-full max-w-[1400px] overflow-hidden rounded-[2.5rem] bg-background-surface px-6 py-16 md:px-12 md:py-20">
-        {/* Decorative orange halo */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-72"
           aria-hidden
@@ -150,7 +161,7 @@ function NewsletterCTA() {
           {status === "success" ? (
             <div className="inline-flex items-center gap-2 rounded-full border border-accent-primary/40 bg-accent-primary/[0.08] px-5 py-3 text-base font-semibold text-accent-primary">
               <Check className="size-5" strokeWidth={2.5} aria-hidden />
-              Inscription validée — à très vite.
+              Inscription validée, à très vite.
             </div>
           ) : (
             <form

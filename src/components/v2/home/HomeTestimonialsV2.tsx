@@ -118,7 +118,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           </span>
           <span className="text-sm text-foreground/55 leading-tight truncate">
             {role}
-            {company ? ` — ${company}` : ""}
+            {company ? `, ${company}` : ""}
           </span>
         </div>
       </div>

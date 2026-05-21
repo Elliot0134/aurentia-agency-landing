@@ -1,5 +1,5 @@
 // src/data/saas.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 // NOTE: realisation KPIs and stats are plausible placeholders.
 import {
   Rocket,
@@ -23,7 +23,7 @@ export const saasData: CommercialPillarData = {
     headline:
       "Votre SaaS en production,\n2 semaines après le premier appel.",
     subHeadline:
-      "MVP, refontes, intégrations IA, outils métier : on conçoit et on livre des SaaS pro avec une qualité de code irréprochable — pas de bricolage low-code.",
+      "MVP, refontes, intégrations IA, outils métier : on conçoit et on livre des SaaS pro avec une qualité de code irréprochable, pas de bricolage low-code.",
     badges: [
       { label: "MVP en 1 à 2 semaines", icon: Clock },
       { label: "Architecture production", icon: ShieldCheck },
@@ -213,7 +213,7 @@ export const saasData: CommercialPillarData = {
     {
       question: "Vous pouvez ajouter de l'IA à notre SaaS existant ?",
       answer:
-        "C'est même une de nos spécialités. On commence par un audit de votre codebase (1 à 2 jours) puis on définit ensemble les features IA qui ont du sens pour votre produit — pas du gadget.",
+        "C'est même une de nos spécialités. On commence par un audit de votre codebase (1 à 2 jours) puis on définit ensemble les features IA qui ont du sens pour votre produit, pas du gadget.",
     },
     {
       question: "Et la maintenance après ?",

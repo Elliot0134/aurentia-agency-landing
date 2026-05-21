@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA FORMATION — Content data
+// AURENTIA FORMATION, Content data
 // ============================================
 
 export interface FormationModule {

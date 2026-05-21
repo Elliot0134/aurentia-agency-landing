@@ -43,7 +43,7 @@ export const sitesWebEcommerceData: SubPageData = {
       icon: Rocket,
       title: "Vous lancez votre première boutique",
       description:
-        "Une marque, un produit, une vision — mais pas encore de boutique en ligne. Vous voulez vendre dès la première semaine, pas dans 3 mois.",
+        "Une marque, un produit, une vision, mais pas encore de boutique en ligne. Vous voulez vendre dès la première semaine, pas dans 3 mois.",
     },
     {
       icon: RefreshCw,
@@ -190,7 +190,7 @@ export const sitesWebEcommerceData: SubPageData = {
       {
         name: "Premium",
         price: "à partir de 6 500 €",
-        priceNote: "Sur devis — Shopify Plus ou sur-mesure Next.js + Stripe",
+        priceNote: "Sur devis, Shopify Plus ou sur-mesure Next.js + Stripe",
         description: "Volume, complexité, ambition internationale.",
         features: [
           "Tout le pack Croissance",
@@ -220,22 +220,22 @@ export const sitesWebEcommerceData: SubPageData = {
     title: "Quelques boutiques récentes",
     items: [
       {
-        title: "Friend'iz — boutique communautaire",
+        title: "Friend'iz, boutique communautaire",
         imageUrl: "/images/portfolio/friendiz.png",
         href: "/realisations/friendiz",
       },
       {
-        title: "Maison Enileh — épicerie libanaise",
+        title: "Maison Enileh, épicerie libanaise",
         imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
-        title: "AlloRestau — commandes en ligne",
+        title: "AlloRestau, commandes en ligne",
         imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
-        title: "Comparateur IA — boutique d'outils",
+        title: "Comparateur IA, boutique d'outils",
         imageUrl: "/images/portfolio/comparateur-ia-facile.webp",
         href: "/realisations/comparateur-ia-facile",
       },
@@ -244,28 +244,28 @@ export const sitesWebEcommerceData: SubPageData = {
   testimonials: [
     {
       quote:
-        "On ne voulait surtout pas d'un énième thème Shopify déguisé. Ils ont retravaillé la home, les fiches produit, le panier — chaque page raconte la marque. Premier mois après le lancement : on a fait notre meilleur chiffre depuis l'ouverture.",
+        "On ne voulait surtout pas d'un énième thème Shopify déguisé. Ils ont retravaillé la home, les fiches produit, le panier, chaque page raconte la marque. Premier mois après le lancement : on a fait notre meilleur chiffre depuis l'ouverture.",
       author: "Léa Marchand",
       role: "Fondatrice",
-      company: "Studio Faune — prêt-à-porter responsable",
+      company: "Studio Faune, prêt-à-porter responsable",
       pillar: "sites-web",
       stat: "Livré en 7 jours",
     },
     {
       quote:
-        "Notre ancienne boutique perdait des ventes au checkout — surtout sur mobile. Après la refonte, le tunnel est passé de 6 à 2 étapes et les abandons ont chuté. On a vu la différence dès la première semaine, sans rien changer au catalogue ni au trafic.",
+        "Notre ancienne boutique perdait des ventes au checkout, surtout sur mobile. Après la refonte, le tunnel est passé de 6 à 2 étapes et les abandons ont chuté. On a vu la différence dès la première semaine, sans rien changer au catalogue ni au trafic.",
       author: "Marc Toussaint",
       role: "Co-fondateur",
-      company: "La Petite Fabrique — épicerie fine",
+      company: "La Petite Fabrique, épicerie fine",
       pillar: "sites-web",
       stat: "+34 % conversion",
     },
     {
       quote:
-        "Je gère la boutique seule, en plus de la production. Ils ont configuré Shopify pour que je n'aie qu'à uploader une photo et un prix — la fiche est rédigée et publiée en deux clics. Je gagne facilement une demi-journée par semaine.",
+        "Je gère la boutique seule, en plus de la production. Ils ont configuré Shopify pour que je n'aie qu'à uploader une photo et un prix, la fiche est rédigée et publiée en deux clics. Je gagne facilement une demi-journée par semaine.",
       author: "Élise Petit",
       role: "Fondatrice",
-      company: "Atelier Cire — bougies artisanales",
+      company: "Atelier Cire, bougies artisanales",
       pillar: "sites-web",
       stat: "≈ 4 h / sem. récupérées",
     },
@@ -294,7 +294,7 @@ export const sitesWebEcommerceData: SubPageData = {
     {
       question: "Quels transporteurs sont supportés ?",
       answer:
-        "Mondial Relay, Colissimo, Chronopost, UPS, DHL — tout ce qu'il faut pour livrer en France et en Europe. Sur le pack Premium, on connecte directement les API pour automatiser bordereaux et suivi.",
+        "Mondial Relay, Colissimo, Chronopost, UPS, DHL, tout ce qu'il faut pour livrer en France et en Europe. Sur le pack Premium, on connecte directement les API pour automatiser bordereaux et suivi.",
     },
     {
       question: "Et pour vendre à l'international (multi-langues, multi-devises) ?",
@@ -342,7 +342,7 @@ export const sitesWebEcommerceData: SubPageData = {
   comparison: {
     title: "Aurentia vs. le reste",
     subtitle:
-      "Ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
+      "Ce qu'on fait mieux, et ce qu'on ne prétend pas faire mieux.",
     columns: [
       { label: "Aurentia", highlight: true },
       { label: "Freelance Shopify" },

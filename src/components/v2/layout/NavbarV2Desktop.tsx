@@ -2,6 +2,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { WipAwareLink as Link } from "@/components/shared/WipModal";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
@@ -130,13 +131,28 @@ export function NavbarV2Desktop() {
 
         {/* Center — Logo */}
         <div className="shrink-0">
-          <Link href="/" onClick={handleLogoClick} className="flex items-baseline group shrink-0">
-            <span className="font-heading text-[1.3rem] leading-none text-foreground font-bold group-hover:opacity-80 transition-opacity duration-500">
-              Aurentia
-            </span>
-            <span className="font-heading text-[1.3rem] leading-none text-foreground font-normal group-hover:opacity-80 transition-opacity duration-500">
-              .agency
-            </span>
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            className="group flex shrink-0 items-center transition-opacity duration-500 ease-in-out hover:opacity-80"
+            aria-label="Aurentia Agency"
+          >
+            <Image
+              src="/images/logo-aurentia-light.svg"
+              alt="Aurentia Agency"
+              width={220}
+              height={40}
+              priority
+              className="block h-10 w-auto dark:hidden"
+            />
+            <Image
+              src="/images/logo-aurentia-dark.svg"
+              alt="Aurentia Agency"
+              width={220}
+              height={40}
+              priority
+              className="hidden h-10 w-auto dark:block"
+            />
           </Link>
         </div>
 

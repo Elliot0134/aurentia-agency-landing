@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, Wand2, type LucideIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SectionContainer } from "@/components/v2/shared/SectionContainer";
 import { SpotlightCard } from "@/components/animations/SpotlightCard";
 import { BlurReveal } from "@/components/animations/BlurReveal";
@@ -13,7 +13,6 @@ type ResourceCardData = {
   title: string;
   excerpt: string;
   readingTime: string;
-  icon: LucideIcon;
 };
 
 const RESOURCES: ResourceCardData[] = [
@@ -24,7 +23,6 @@ const RESOURCES: ResourceCardData[] = [
     excerpt:
       "Les prompts, skills, configs et templates qu'on déploie chez nos clients. CLAUDE.md, Memory, MCP, context7, skill creator, séquence 14 jours. Copie, colle, c'est branché.",
     readingTime: "Setup ~2 weekends",
-    icon: Wand2,
   },
   {
     href: "/ressources/vibe-coding",
@@ -33,7 +31,6 @@ const RESOURCES: ResourceCardData[] = [
     excerpt:
       "Construire du logiciel en parlant à une IA : 11 outils benchmarkés, méthode pro en 5 étapes, prompts copiables, zones rouges. Sans bullshit.",
     readingTime: "Lecture ~25 min",
-    icon: Sparkles,
   },
 ];
 
@@ -70,54 +67,23 @@ export function HomeRessourcesPreview() {
 }
 
 function ResourceCard({ resource }: { resource: ResourceCardData }) {
-  const Icon = resource.icon;
   return (
     <Link href={resource.href} className="block h-full" data-cursor="click">
-      <SpotlightCard className="group flex h-full flex-col overflow-hidden p-0 border-0 dark:border hover:translate-y-0">
-        {/* Cover — CSS-only illustration */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-foreground/10 bg-foreground/[0.04]">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 90% 90% at 80% 20%, color-mix(in srgb, var(--orange-500) 28%, transparent) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 10% 90%, color-mix(in srgb, var(--orange-500) 14%, transparent) 0%, transparent 65%)",
-            }}
-            aria-hidden
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex size-20 items-center justify-center rounded-3xl border border-foreground/10 bg-background/70 text-accent-primary backdrop-blur-sm transition-transform duration-700 ease-in-out group-hover:scale-110 md:size-24">
-              <Icon className="size-9 md:size-11" strokeWidth={1.4} aria-hidden />
-            </div>
-          </div>
-          {/* Subtle grid overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.05]"
-            aria-hidden
-            style={{
-              backgroundImage:
-                "linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)",
-              backgroundSize: "32px 32px",
-            }}
-          />
+      <SpotlightCard className="group flex h-full flex-col p-7 border-0 dark:border hover:translate-y-0 md:p-8">
+        <div className="flex items-center gap-3 font-mono text-sm uppercase tracking-widest text-foreground/60">
+          <span>{resource.category}</span>
+          <span className="text-foreground/30">·</span>
+          <span>{resource.readingTime}</span>
         </div>
-
-        {/* Content */}
-        <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
-          <div className="flex items-center gap-3 font-mono text-sm uppercase tracking-widest text-foreground/60">
-            <span>{resource.category}</span>
-            <span className="text-foreground/30">·</span>
-            <span>{resource.readingTime}</span>
-          </div>
-          <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-foreground md:text-xl">
-            {resource.title}
-          </h3>
-          <p className="line-clamp-3 text-sm text-foreground/70">{resource.excerpt}</p>
-          <div className="mt-auto flex items-center justify-end pt-2 font-mono text-sm">
-            <span className="flex items-center gap-1 text-foreground/60 transition-all duration-500 ease-in-out group-hover:translate-x-0.5 group-hover:text-accent-primary">
-              Lire le guide
-              <ArrowRight className="size-3.5" />
-            </span>
-          </div>
+        <h3 className="mt-4 text-lg font-semibold leading-snug text-foreground md:text-xl">
+          {resource.title}
+        </h3>
+        <p className="mt-3 text-sm text-foreground/70">{resource.excerpt}</p>
+        <div className="mt-auto flex items-center justify-end pt-6 font-mono text-sm">
+          <span className="flex items-center gap-1 text-foreground/60 transition-all duration-500 ease-in-out group-hover:translate-x-0.5 group-hover:text-accent-primary">
+            Lire le guide
+            <ArrowRight className="size-3.5" />
+          </span>
         </div>
       </SpotlightCard>
     </Link>

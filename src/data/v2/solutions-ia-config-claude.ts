@@ -1,6 +1,6 @@
 // src/data/solutions-ia-config-claude.ts
 //
-// Page "Configuration Claude" — spécialité phare de l'offre Implémentation IA.
+// Page "Configuration Claude", spécialité phare de l'offre Implémentation IA.
 // Cible primaire : dirigeants, freelances, équipes ops/marketing.
 // Cible secondaire : équipes tech (devs, agences, CTO).
 import {
@@ -28,7 +28,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
   hero: {
     eyebrow: "Solutions IA · Spécialité d'Implémentation IA",
     headline:
-      "Claude, configuré pour devenir un copilote business — pas un chatbot occasionnel.",
+      "Claude, configuré pour devenir un copilote business, pas un chatbot occasionnel.",
     subHeadline:
       "CLAUDE.md sur-mesure, skills métier, MCP servers connectés à vos outils, memory persistante. Que vous soyez dirigeant, freelance ou équipe tech, on transforme Claude en vrai membre de votre stack. Opérationnel en 3 à 7 jours.",
     priceFrom: "1 500 €",
@@ -51,13 +51,13 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       icon: Briefcase,
       title: "Dirigeants & freelances",
       description:
-        "Vous voulez travailler comme une équipe de cinq en étant seul. On transforme Claude en bras droit qui rédige, recherche, qualifie, analyse — connecté à votre Notion, Gmail, Drive, agenda.",
+        "Vous voulez travailler comme une équipe de cinq en étant seul. On transforme Claude en bras droit qui rédige, recherche, qualifie, analyse, connecté à votre Notion, Gmail, Drive, agenda.",
     },
     {
       icon: Users,
       title: "Équipes ops & marketing",
       description:
-        "Vous voulez que toute l'équipe utilise Claude avec les mêmes skills, les mêmes outils, les mêmes garde-fous. Setup partagé, versionné, reproductible — chacun gagne 1 à 2 h par jour.",
+        "Vous voulez que toute l'équipe utilise Claude avec les mêmes skills, les mêmes outils, les mêmes garde-fous. Setup partagé, versionné, reproductible, chacun gagne 1 à 2 h par jour.",
     },
     {
       icon: Code2,
@@ -69,14 +69,14 @@ export const solutionsIaConfigClaudeData: SubPageData = {
   whatYouGet: {
     title: "Ce qui est inclus",
     subtitle:
-      "Pas de surprise — voici exactement ce qu'on installe, configure et vous remet, prêt à l'emploi.",
+      "Pas de surprise, voici exactement ce qu'on installe, configure et vous remet, prêt à l'emploi.",
     items: [
       "CLAUDE.md sur-mesure adapté à votre métier, vos process et votre stack",
       "3 à 5 skills Claude custom pour vos tâches récurrentes (rédaction, recherche, analyse, ops, code…)",
       "MCP servers branchés à vos outils : Notion, Gmail, Drive, Calendar, Supabase, GitHub, Slack, Stripe…",
       "Memory persistante configurée pour des conversations contextuelles entre sessions",
       "Hooks et automatisations selon vos besoins (pre-commit, format, déclencheurs métier…)",
-      "Fichier de settings partageable à toute votre équipe — versionné, reproductible",
+      "Fichier de settings partageable à toute votre équipe, versionné, reproductible",
       "Documentation interne pour onboarder un nouveau collaborateur en 15 minutes",
       "Session de handover d'1 heure pour former vous et votre équipe",
       "30 jours de support post-livraison pour ajuster et faire évoluer",
@@ -156,7 +156,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
         cta: { label: "Choisir Équipe", href: "/contact" },
       },
     ],
-    note: "Pour les équipes de 10+ collaborateurs ou les stacks complexes, on adapte le périmètre — devis sous 48h après cadrage.",
+    note: "Pour les équipes de 10+ collaborateurs ou les stacks complexes, on adapte le périmètre, devis sous 48h après cadrage.",
   },
   examples: {
     title: "Quelques setups récents",
@@ -165,9 +165,9 @@ export const solutionsIaConfigClaudeData: SubPageData = {
   testimonials: [
     {
       quote:
-        "Avant le setup, je payais Claude 20 €/mois et je l'utilisais comme un Google amélioré. Aujourd'hui c'est devenu mon associé invisible : il connaît mes clients, mes process, mes templates. Je gagne facilement deux heures par jour — et la qualité monte au passage.",
+        "Avant le setup, je payais Claude 20 €/mois et je l'utilisais comme un Google amélioré. Aujourd'hui c'est devenu mon associé invisible : il connaît mes clients, mes process, mes templates. Je gagne facilement deux heures par jour, et la qualité monte au passage.",
       author: "Léa Marchand",
-      role: "Consultante growth — indépendante",
+      role: "Consultante growth, indépendante",
       company: "Paris",
       pillar: "solutions-ia",
       stat: "+2 h / jour récupérées",
@@ -177,16 +177,16 @@ export const solutionsIaConfigClaudeData: SubPageData = {
         "Je voulais que toute l'équipe ops utilise Claude avec les mêmes règles, le même ton, les mêmes outils. Aurentia a livré un setup partagé en 5 jours, déployé sur 12 postes. Chaque collaborateur a maintenant la même qualité de copilote, sans avoir à le configurer.",
       author: "Sandrine Vasseur",
       role: "Directrice opérations",
-      company: "Groupe Meca — PME industrielle",
+      company: "Groupe Meca, PME industrielle",
       pillar: "solutions-ia",
       stat: "12 postes alignés en 5 j",
     },
     {
       quote:
-        "Le CLAUDE.md qu'ils nous ont écrit est meilleur que notre propre doc interne — c'est presque vexant. Les hooks pre-commit ont éliminé 80 % des allers-retours en code review. On a amorti le setup en moins d'un mois sur le seul temps gagné en review.",
+        "Le CLAUDE.md qu'ils nous ont écrit est meilleur que notre propre doc interne, c'est presque vexant. Les hooks pre-commit ont éliminé 80 % des allers-retours en code review. On a amorti le setup en moins d'un mois sur le seul temps gagné en review.",
       author: "Elena Sokolova",
       role: "CTO",
-      company: "Northlight — scale-up SaaS",
+      company: "Northlight, scale-up SaaS",
       pillar: "solutions-ia",
       stat: "−80 % review loops",
     },
@@ -195,7 +195,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
     {
       question: "C'est différent du service Implémentation IA ?",
       answer:
-        "Configuration Claude est une spécialité d'Implémentation IA — la spécialité phare quand votre besoin est centré sur Claude (Desktop ou Code) plutôt que sur des agents/automatisations distribuées. Si votre besoin déborde (workflows n8n, agents conversationnels métier, intégrations larges), on bascule sur le pack Implémentation IA complet — c'est nous qui vous dirons si la Config Claude seule suffit ou pas.",
+        "Configuration Claude est une spécialité d'Implémentation IA, la spécialité phare quand votre besoin est centré sur Claude (Desktop ou Code) plutôt que sur des agents/automatisations distribuées. Si votre besoin déborde (workflows n8n, agents conversationnels métier, intégrations larges), on bascule sur le pack Implémentation IA complet, c'est nous qui vous dirons si la Config Claude seule suffit ou pas.",
     },
     {
       question: "C'est quoi un CLAUDE.md exactement ?",
@@ -220,7 +220,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
     {
       question: "Quelle différence entre Claude Desktop et Claude Code ?",
       answer:
-        "Claude Desktop, c'est l'app conversationnelle (rédaction, recherche, analyse, brainstorm). Claude Code, c'est l'outil pour développer (lire/écrire du code, exécuter des commandes). On configure les deux selon votre besoin — la majorité des dirigeants utilisent surtout Desktop, les équipes tech surtout Code, certains les deux.",
+        "Claude Desktop, c'est l'app conversationnelle (rédaction, recherche, analyse, brainstorm). Claude Code, c'est l'outil pour développer (lire/écrire du code, exécuter des commandes). On configure les deux selon votre besoin, la majorité des dirigeants utilisent surtout Desktop, les équipes tech surtout Code, certains les deux.",
     },
     {
       question: "Je peux modifier les skills après livraison ?",
@@ -230,13 +230,13 @@ export const solutionsIaConfigClaudeData: SubPageData = {
     {
       question: "Et si mes besoins changent dans 6 mois ?",
       answer:
-        "On propose des retainers mensuels pour les setups qui doivent évoluer en continu (≈ 600 à 1 800 € / mois selon le périmètre), ou des interventions à la demande si c'est plus ponctuel. Vous n'êtes jamais coincé — tout vous appartient, code source comme documentation.",
+        "On propose des retainers mensuels pour les setups qui doivent évoluer en continu (≈ 600 à 1 800 € / mois selon le périmètre), ou des interventions à la demande si c'est plus ponctuel. Vous n'êtes jamais coincé, tout vous appartient, code source comme documentation.",
     },
   ],
   finalCta: {
     title: "On configure votre Claude cette semaine ?",
     subtitle:
-      "30 minutes d'audit gratuit pour cadrer ce qui mérite vraiment d'être automatisé chez vous — et chiffrer le setup.",
+      "30 minutes d'audit gratuit pour cadrer ce qui mérite vraiment d'être automatisé chez vous, et chiffrer le setup.",
     cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
   guarantees: [
@@ -250,13 +250,13 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       icon: FileText,
       title: "Documentation interne complète",
       description:
-        "Doc d'onboarding lisible par n'importe qui — pas besoin d'être dev pour comprendre comment utiliser et faire évoluer le setup.",
+        "Doc d'onboarding lisible par n'importe qui, pas besoin d'être dev pour comprendre comment utiliser et faire évoluer le setup.",
     },
     {
       icon: Sliders,
       title: "Skills 100% sur-mesure",
       description:
-        "Chaque skill est calibré sur vos process, votre ton, vos données. Aucun template générique — du sur-mesure dès le premier euro.",
+        "Chaque skill est calibré sur vos process, votre ton, vos données. Aucun template générique, du sur-mesure dès le premier euro.",
     },
     {
       icon: Database,
@@ -274,7 +274,7 @@ export const solutionsIaConfigClaudeData: SubPageData = {
       icon: BrainCircuit,
       title: "Partenaires Anthropic",
       description:
-        "On utilise Claude depuis ses toutes premières versions et on fait partie du programme partenaires — accès avancé, remontées directes.",
+        "On utilise Claude depuis ses toutes premières versions et on fait partie du programme partenaires, accès avancé, remontées directes.",
     },
   ],
 };

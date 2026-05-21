@@ -1,5 +1,5 @@
 // src/data/sites-web-vitrine.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 import {
   Clock,
   MessageSquare,
@@ -21,7 +21,7 @@ export const sitesWebVitrineData: SubPageData = {
     eyebrow: "Sites Web · Site vitrine",
     headline: "Un site vitrine qui donne envie d'appeler, à partir de 1 500 €.",
     subHeadline:
-      "Un site qui inspire confiance, remonte sur Google et vous ramène des clients — sans attendre 3 mois.",
+      "Un site qui inspire confiance, remonte sur Google et vous ramène des clients, sans attendre 3 mois.",
     priceFrom: "1 500 €",
     badges: [],
     cta: {
@@ -39,7 +39,7 @@ export const sitesWebVitrineData: SubPageData = {
       icon: Rocket,
       title: "Vous n'avez pas encore de site pro",
       description:
-        "Vous bossez depuis des mois ou des années, et vous refilez encore votre Insta ou votre Google My Business quand on vous demande un site. Vous voulez exister sérieusement en ligne — et vite.",
+        "Vous bossez depuis des mois ou des années, et vous refilez encore votre Insta ou votre Google My Business quand on vous demande un site. Vous voulez exister sérieusement en ligne, et vite.",
     },
     {
       icon: RefreshCw,
@@ -151,7 +151,7 @@ export const sitesWebVitrineData: SubPageData = {
         description: "Un site vitrine complet et pro, prêt à convertir.",
         features: [
           "Site vitrine 3 pages",
-          "Design sur-mesure — zéro template",
+          "Design sur-mesure, zéro template",
           "Parfait sur mobile + animations",
           "Formulaire de contact",
           "Réservation simple",
@@ -184,7 +184,7 @@ export const sitesWebVitrineData: SubPageData = {
       {
         name: "Premium",
         price: "3 200 €",
-        priceNote: "À partir de — sur devis",
+        priceNote: "À partir de, sur devis",
         description: "L'offre complète, stratégie incluse.",
         features: [
           "Tout le pack Croissance",
@@ -212,17 +212,17 @@ export const sitesWebVitrineData: SubPageData = {
     title: "Quelques exemples récents",
     items: [
       {
-        title: "Maison Enileh — cuisine libanaise",
+        title: "Maison Enileh, cuisine libanaise",
         imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
-        title: "AlloRestau — restaurant & commandes en ligne",
+        title: "AlloRestau, restaurant & commandes en ligne",
         imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
-        title: "Golf Mentor — coaching golf",
+        title: "Golf Mentor, coaching golf",
         imageUrl: "/images/portfolio/golf-mentor-landing.png",
         href: "/realisations/golf-mentor",
       },
@@ -231,28 +231,28 @@ export const sitesWebVitrineData: SubPageData = {
   testimonials: [
     {
       quote:
-        "Je voulais un site qui rassure une clientèle haut de gamme avant même le premier rendez-vous. Livré en 4 jours, et clairement le résultat est au-dessus de ce que j'imaginais. Mes patients m'en parlent — c'est nouveau.",
+        "Je voulais un site qui rassure une clientèle haut de gamme avant même le premier rendez-vous. Livré en 4 jours, et clairement le résultat est au-dessus de ce que j'imaginais. Mes patients m'en parlent, c'est nouveau.",
       author: "Claire Dubois",
       role: "Fondatrice",
-      company: "Clinique du Parc — Aix-en-Provence",
+      company: "Clinique du Parc, Aix-en-Provence",
       pillar: "sites-web",
       stat: "Livré en 4 jours",
     },
     {
       quote:
-        "J'avais des devis à 5 000 € ailleurs, avec des délais à 2 mois. Ici j'ai payé 1 800 € et le site était en ligne en une semaine. Honnêtement je ne comprends pas comment ils tiennent les prix — mais c'est tant mieux pour moi.",
+        "J'avais des devis à 5 000 € ailleurs, avec des délais à 2 mois. Ici j'ai payé 1 800 € et le site était en ligne en une semaine. Honnêtement je ne comprends pas comment ils tiennent les prix, mais c'est tant mieux pour moi.",
       author: "Pierre Lambert",
       role: "Gérant",
-      company: "Café Lumen — Lyon 2e",
+      company: "Café Lumen, Lyon 2e",
       pillar: "sites-web",
       stat: "−64 % budget",
     },
     {
       quote:
-        "On n'avait pas de photos, pas de textes, pas de logo — rien. Ils ont organisé un shooting avec un photographe local, rédigé tout le contenu avec nous et livré une vraie identité de marque. On est passés d'invisibles à pros en moins de deux semaines.",
+        "On n'avait pas de photos, pas de textes, pas de logo, rien. Ils ont organisé un shooting avec un photographe local, rédigé tout le contenu avec nous et livré une vraie identité de marque. On est passés d'invisibles à pros en moins de deux semaines.",
       author: "Hélène Vidal",
       role: "Co-fondatrice",
-      company: "Atelier Marius — Avignon",
+      company: "Atelier Marius",
       pillar: "sites-web",
       stat: "Identité + site en 10 jours",
     },
@@ -302,7 +302,7 @@ export const sitesWebVitrineData: SubPageData = {
   },
   trustStats: [
     { value: "72h", label: "délai moyen" },
-    { value: "20 ans", label: "d'expertise cumulée" },
+    { value: "25 ans", label: "d'expertise cumulée" },
     { value: "1", label: "interlocuteur dédié" },
     { value: "100%", label: "propriétaire du code" },
   ],
@@ -329,7 +329,7 @@ export const sitesWebVitrineData: SubPageData = {
   comparison: {
     title: "Aurentia vs. le reste",
     subtitle:
-      "Ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
+      "Ce qu'on fait mieux, et ce qu'on ne prétend pas faire mieux.",
     columns: [
       { label: "Aurentia", highlight: true },
       { label: "Freelance" },

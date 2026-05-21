@@ -22,7 +22,7 @@ const usWe = [
   "Des Preview deploys à chaque push pour suivre en temps réel",
   "Un MVP livré en 2 semaines, pas 6 mois",
   "Un prix fixe annoncé, pas de dépassement caché",
-  "Une équipe basée en France (Avignon), accessible direct",
+  "Une équipe basée en France, accessible direct",
 ];
 
 export function SaaSAntiPitchV2() {

@@ -1,10 +1,15 @@
 // src/components/v2/ressources/ImplementerClaudePage.tsx
-"use client";
+//
+// Page /ressources/implementer-claude rendue en layout article-blog :
+// hero centré, cover image placeholder, sommaire sticky + contenu.
 
-import { useCallback, useEffect, useState, type ComponentType } from "react";
+import Link from "next/link";
+import { ArrowRight, MessageCircle, type LucideIcon } from "lucide-react";
 import { PageHeroCentered } from "@/components/v2/shared/PageHeroCentered";
-import { implementerClaudeHero, implementerClaudeToc } from "@/data/v2/implementer-claude";
-import { RichAccordion } from "./RichAccordion";
+import { ResourceArticleLayout } from "./ResourceArticleLayout";
+import { ResourceArticleToc } from "./ResourceArticleToc";
+import { ResourceCover } from "./ResourceCover";
+import { SectionCTAFinalClaude } from "./sections/claude/SectionCTAFinalClaude";
 import { SectionChoisirPlan } from "./sections/claude/SectionChoisirPlan";
 import { SectionProduits } from "./sections/claude/SectionProduits";
 import { SectionClaudeMd } from "./sections/claude/SectionClaudeMd";
@@ -16,99 +21,109 @@ import { SectionSkillCreator } from "./sections/claude/SectionSkillCreator";
 import { SectionPromptsBusiness } from "./sections/claude/SectionPromptsBusiness";
 import { Section14Jours } from "./sections/claude/Section14Jours";
 import { SectionRisquesClaude } from "./sections/claude/SectionRisquesClaude";
-import { SectionCTAFinalClaude } from "./sections/claude/SectionCTAFinalClaude";
+import {
+  implementerClaudeHero,
+  implementerClaudeToc,
+} from "@/data/v2/implementer-claude";
 
-const SECTION_RENDERERS: Record<string, ComponentType> = {
-  "choisir-plan": SectionChoisirPlan,
-  produits: SectionProduits,
-  "claude-md": SectionClaudeMd,
-  memory: SectionMemory,
-  mcp: SectionMcp,
-  context7: SectionContext7,
-  skills: SectionSkills,
-  "skill-creator": SectionSkillCreator,
-  prompts: SectionPromptsBusiness,
-  "14-jours": Section14Jours,
-  risques: SectionRisquesClaude,
+type ArticleSection = {
+  id: string;
+  label: string;
+  eyebrow: string;
+  Renderer: React.ComponentType;
 };
 
+const SECTIONS: ArticleSection[] = [
+  { id: "choisir-plan",  label: "Choisis ton plan en 2 min",                       eyebrow: "Chapitre 01", Renderer: SectionChoisirPlan },
+  { id: "produits",      label: "Les 6 produits Claude (et lequel ouvrir)",        eyebrow: "Chapitre 02", Renderer: SectionProduits },
+  { id: "claude-md",     label: "Ton premier CLAUDE.md",                           eyebrow: "Chapitre 03", Renderer: SectionClaudeMd },
+  { id: "memory",        label: "Activer Memory comme un pro",                     eyebrow: "Chapitre 04", Renderer: SectionMemory },
+  { id: "mcp",           label: "Les 10 MCP à brancher",                           eyebrow: "Chapitre 05", Renderer: SectionMcp },
+  { id: "context7",      label: "Context7, la doc à jour des libs",                eyebrow: "Chapitre 06", Renderer: SectionContext7 },
+  { id: "skills",        label: "5 Skills business prêts à copier",                eyebrow: "Chapitre 07", Renderer: SectionSkills },
+  { id: "skill-creator", label: "Crée tes propres Skills (méta)",                  eyebrow: "Chapitre 08", Renderer: SectionSkillCreator },
+  { id: "prompts",       label: "15 prompts business prêts",                       eyebrow: "Chapitre 09", Renderer: SectionPromptsBusiness },
+  { id: "14-jours",      label: "La séquence 14 jours",                            eyebrow: "Chapitre 10", Renderer: Section14Jours },
+  { id: "risques",       label: "Les 6 erreurs à ne JAMAIS faire",                 eyebrow: "Chapitre 11", Renderer: SectionRisquesClaude },
+];
+
 export function ImplementerClaudePage() {
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (!hash || !implementerClaudeToc.some((e) => e.id === hash)) return;
-    const id = window.requestAnimationFrame(() => {
-      setOpenIds((prev) => {
-        if (prev.has(hash)) return prev;
-        const next = new Set(prev);
-        next.add(hash);
-        return next;
-      });
-      window.setTimeout(() => {
-        const el = document.getElementById(hash);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 120);
-    });
-    return () => window.cancelAnimationFrame(id);
-  }, []);
-
-  const toggle = useCallback((id: string) => {
-    setOpenIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-    window.history.replaceState(null, "", `#${id}`);
-  }, []);
-
-  const allOpen = openIds.size === implementerClaudeToc.length;
-  const toggleAll = useCallback(() => {
-    setOpenIds(allOpen ? new Set() : new Set(implementerClaudeToc.map((e) => e.id)));
-  }, [allOpen]);
-
   return (
-    <>
-      <PageHeroCentered
-        eyebrow={implementerClaudeHero.eyebrow}
-        headline={implementerClaudeHero.headline}
-        subHeadline={implementerClaudeHero.subHeadline}
-        cta={implementerClaudeHero.cta}
-      />
+    <ResourceArticleLayout
+      gate={{
+        resourceId: "implementer-claude",
+        resourceLabel: "Le guide complet pour implémenter Claude dans ton entreprise.",
+      }}
+      hero={
+        <PageHeroCentered
+          eyebrow={implementerClaudeHero.eyebrow}
+          headline={implementerClaudeHero.headline}
+          subHeadline={implementerClaudeHero.subHeadline}
+          cta={implementerClaudeHero.cta}
+        />
+      }
+      cover={<ResourceCover label="Ressource · Le kit Claude" />}
+      toc={
+        <ResourceArticleToc entries={implementerClaudeToc}>
+          <SidebarMiniCta
+            icon={MessageCircle}
+            title="On déploie chez toi ?"
+            description="30 min avec Elliot pour cadrer ton setup Claude clé en main."
+            label="Demander un accompagnement"
+            href="/contact"
+          />
+        </ResourceArticleToc>
+      }
+      footer={<SectionCTAFinalClaude />}
+    >
+      {SECTIONS.map(({ id, label, eyebrow, Renderer }) => (
+        <section key={id} id={id} className="scroll-mt-28">
+          <header className="mb-8 flex flex-col gap-3 md:mb-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent-primary">
+              {eyebrow}
+            </p>
+            <h2 className="font-heading text-3xl tracking-tight text-foreground md:text-4xl lg:text-5xl">
+              {label}
+            </h2>
+          </header>
+          <Renderer />
+        </section>
+      ))}
+    </ResourceArticleLayout>
+  );
+}
 
-      <section className="w-full px-6 pb-12 pt-4 md:px-12 md:pb-16">
-        <div className="mx-auto w-full max-w-[1400px]">
-          <div className="mb-2 flex justify-end">
-            <button
-              type="button"
-              onClick={toggleAll}
-              className="text-sm font-medium text-foreground/60 underline-offset-4 transition-colors duration-500 ease-in-out hover:text-accent-primary hover:underline"
-            >
-              {allOpen ? "Tout fermer" : "Tout ouvrir"}
-            </button>
-          </div>
-          <div className="flex min-w-0 flex-col">
-            {implementerClaudeToc.map((entry) => {
-              const Renderer = SECTION_RENDERERS[entry.id];
-              if (!Renderer) return null;
-              return (
-                <RichAccordion
-                  key={entry.id}
-                  id={entry.id}
-                  title={entry.label}
-                  open={openIds.has(entry.id)}
-                  onToggle={() => toggle(entry.id)}
-                >
-                  <Renderer />
-                </RichAccordion>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <SectionCTAFinalClaude />
-    </>
+function SidebarMiniCta({
+  icon: Icon,
+  title,
+  description,
+  label,
+  href,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  label: string;
+  href: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-5">
+      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-inset ring-primary/30">
+        <Icon className="h-4 w-4" />
+      </div>
+      <h3 className="mt-3 font-display text-base font-semibold tracking-tight text-foreground">
+        {title}
+      </h3>
+      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      <Link
+        href={href}
+        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-all duration-500 ease-in-out hover:gap-3 hover:text-accent-primary"
+      >
+        {label}
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
   );
 }

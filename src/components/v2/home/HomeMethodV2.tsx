@@ -32,7 +32,7 @@ const STEPS: Step[] = [
   {
     num: "03",
     title: "On livre",
-    desc: "Votre projet est en ligne. On s'assure que tout fonctionne parfaitement — performance, mobile, SEO — avant de vous remettre les clés.",
+    desc: "Votre projet est en ligne. On s'assure que tout fonctionne parfaitement (performance, mobile, SEO) avant de vous remettre les clés.",
     icon: Paintbrush,
   },
   {

@@ -20,7 +20,7 @@ export const footerConfig: FooterConfig = {
         { label: "Audit IA", href: "/solutions-ia/audit" },
         { label: "Implémentation IA", href: "/solutions-ia/implementation-ia" },
         { label: "Configuration Claude", href: "/solutions-ia/configuration-claude" },
-        { label: "Formation IA — bientôt", href: "/solutions-ia/formation-ia" },
+        { label: "Formation IA, bientôt", href: "/solutions-ia/formation-ia" },
       ],
     },
     {
@@ -28,8 +28,8 @@ export const footerConfig: FooterConfig = {
       links: [
         { label: "À propos", href: "/a-propos" },
         { label: "Réalisations", href: "/realisations" },
-        { label: "Blog", href: "/agence" },
-        { label: "Ressources", href: "/agence" },
+        { label: "Blog", href: "/blog" },
+        { label: "Ressources", href: "/ressources" },
         { label: "Apport d'affaires", href: "/apport-affaires" },
         { label: "Contact", href: "/contact" },
       ],
@@ -46,5 +46,5 @@ export const footerConfig: FooterConfig = {
   socials: [
     { label: "LinkedIn", href: "https://linkedin.com/company/aurentia", icon: Linkedin },
   ],
-  legalLine: "© Aurentia Agency — Tous droits réservés",
+  legalLine: "© Aurentia, Tous droits réservés",
 };

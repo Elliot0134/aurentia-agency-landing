@@ -1,5 +1,5 @@
 // src/data/solutions-ia-implementation.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 // NOTE: price is "Sur devis" per scope.
 import {
   Headphones,
@@ -134,19 +134,19 @@ export const solutionsIaImplementationData: SubPageData = {
     title: "Quelques implémentations récentes",
     items: [
       {
-        title: "Cabinet Conseil — agent service client",
+        title: "Cabinet Conseil, agent service client",
         href: "/agence",
       },
       {
-        title: "Groupe Meca — assistant commercial",
+        title: "Groupe Meca, assistant commercial",
         href: "/agence",
       },
       {
-        title: "Cabinet Meridian — analyse documents",
+        title: "Cabinet Meridian, analyse documents",
         href: "/agence",
       },
       {
-        title: "Fable Studio — assistant rédaction",
+        title: "Fable Studio, assistant rédaction",
         href: "/agence",
       },
     ],
@@ -154,28 +154,28 @@ export const solutionsIaImplementationData: SubPageData = {
   testimonials: [
     {
       quote:
-        "On voulait un assistant capable de prendre la première ligne du SAV sans casser la qualité de réponse. Ils l'ont construit, branché à HubSpot et formé l'équipe en deux semaines. Le temps de première réponse est passé de 6h à 1h45 — et la satisfaction client a grimpé de 12 points.",
+        "On voulait un assistant capable de prendre la première ligne du SAV sans casser la qualité de réponse. Ils l'ont construit, branché à HubSpot et formé l'équipe en deux semaines. Le temps de première réponse est passé de 6h à 1h45, et la satisfaction client a grimpé de 12 points.",
       author: "Thomas Renard",
       role: "Directeur de la relation client",
-      company: "Cabinet Solveris — courtage",
+      company: "Cabinet Solveris, courtage",
       pillar: "solutions-ia",
       stat: "Première réponse ÷ 3",
     },
     {
       quote:
-        "Nos consultants passaient 20 minutes à éplucher chaque dossier client. Ils ont livré un agent qui sort la même synthèse en 30 secondes, avec les sources soulignées. ROI atteint en 3 semaines — et l'équipe ne veut plus revenir en arrière.",
+        "Nos consultants passaient 20 minutes à éplucher chaque dossier client. Ils ont livré un agent qui sort la même synthèse en 30 secondes, avec les sources soulignées. ROI atteint en 3 semaines, et l'équipe ne veut plus revenir en arrière.",
       author: "Alexandre Delaunay",
       role: "Directeur associé",
-      company: "Cabinet Meridian — conseil RH",
+      company: "Cabinet Meridian, conseil RH",
       pillar: "solutions-ia",
       stat: "20 min → 30 s",
     },
     {
       quote:
-        "Ce qui m'a marqué, c'est qu'ils ont passé deux jours à observer comment on bossait avant d'écrire une seule ligne de prompt. Au final l'agent ressemble à notre meilleure analyste — il a pris ses tics, sa méthode, jusqu'à sa façon de structurer un mail.",
+        "Ce qui m'a marqué, c'est qu'ils ont passé deux jours à observer comment on bossait avant d'écrire une seule ligne de prompt. Au final l'agent ressemble à notre meilleure analyste, il a pris ses tics, sa méthode, jusqu'à sa façon de structurer un mail.",
       author: "Marc Cassagne",
       role: "Head of Data",
-      company: "Veolia régional — branche eau",
+      company: "Veolia régional, branche eau",
       pillar: "solutions-ia",
       stat: "Adoption 100 %",
     },
@@ -184,12 +184,12 @@ export const solutionsIaImplementationData: SubPageData = {
     {
       question: "Configuration Claude, c'est inclus ou c'est en plus ?",
       answer:
-        "C'est inclus dans l'implémentation, comme spécialité technique. Selon votre cas d'usage, on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier sur-mesure — souvent les trois en même temps. Pas de surcharge, c'est une seule mission. Vous pouvez aussi consulter notre page dédiée Configuration Claude pour les setups les plus orientés Claude pur.",
+        "C'est inclus dans l'implémentation, comme spécialité technique. Selon votre cas d'usage, on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier sur-mesure, souvent les trois en même temps. Pas de surcharge, c'est une seule mission. Vous pouvez aussi consulter notre page dédiée Configuration Claude pour les setups les plus orientés Claude pur.",
     },
     {
       question: "C'est quoi un skill IA exactement ?",
       answer:
-        "Un skill, c'est un module (prompts, procédures, outils, intégrations) qui donne à Claude la capacité d'exécuter une tâche précise avec vos données et vos règles. C'est plus qu'un simple prompt — c'est un vrai agent métier.",
+        "Un skill, c'est un module (prompts, procédures, outils, intégrations) qui donne à Claude la capacité d'exécuter une tâche précise avec vos données et vos règles. C'est plus qu'un simple prompt, c'est un vrai agent métier.",
     },
     {
       question: "Mes données restent privées ?",

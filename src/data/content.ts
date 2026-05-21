@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA AGENCY — Contenu de la landing page
+// AURENTIA AGENCY, Contenu de la landing page
 // Édite ce fichier pour changer le contenu sans toucher aux composants
 // ============================================
 
@@ -18,7 +18,7 @@ export const heroContent = {
   headline: "Votre site professionnel en 72h.",
   headlineAccent: "Par l'IA. À partir de 1 500€.",
   subtitle:
-    "Un site unique pour votre conciergerie — pas un template. Design sur-mesure, SEO intégré, livré en 72h par notre alliance IA + 20 ans d'expertise web. Et on vous le montre AVANT que vous payiez.",
+    "Un site unique pour votre conciergerie, pas un template. Design sur-mesure, SEO intégré, livré en 72h par notre alliance IA + 25 ans d'expertise web. Et on vous le montre AVANT que vous payiez.",
   ctaPrimary: "Voir ce qu'on peut faire pour vous",
   ctaSecondary: "Découvrir nos réalisations",
   badges: ["Livré en 72h", "Satisfait ou on recommence", "Zéro template"],
@@ -45,7 +45,7 @@ export const problemContent = {
       icon: "👻",
       title: "L'invisibilité sur Google",
       text: 'Quand un touriste tape "conciergerie [votre ville]" sur Google, il ne vous trouve pas.',
-      detail: "Il trouve vos concurrents. Pas parce qu'ils sont meilleurs — juste parce qu'ils ont un site.",
+      detail: "Il trouve vos concurrents. Pas parce qu'ils sont meilleurs, juste parce qu'ils ont un site.",
     },
     {
       icon: "🏠",
@@ -63,7 +63,7 @@ export const solutionContent = {
   team: [
     {
       name: "Fabien",
-      role: "20 ans de création web",
+      role: "25 ans de création web",
       description: "Il a vu passer WordPress, les templates, les agences à 5 000€. Il sait ce qui fait un bon site.",
       image: "/images/team/fabien.jpg", // TODO: Add actual photo
     },
@@ -118,7 +118,7 @@ export const processContent = {
       number: "01",
       title: "On échange 20 minutes",
       description:
-        "Un call rapide pour comprendre votre activité. On vous montre un aperçu personnalisé de votre futur site — créé par notre IA avant même le call. Gratuit et sans engagement.",
+        "Un call rapide pour comprendre votre activité. On vous montre un aperçu personnalisé de votre futur site, créé par notre IA avant même le call. Gratuit et sans engagement.",
       icon: "☎️",
     },
     {
@@ -250,7 +250,7 @@ export const faqContent = {
     {
       question: "C'est quoi l'IA exactement ? Mon site va ressembler à un truc généré ?",
       answer:
-        "C'est tout le contraire. L'IA nous permet de créer un design unique pour VOUS, pas un template. Derrière chaque site, il y a 20 ans d'expertise humaine qui valide chaque détail.",
+        "C'est tout le contraire. L'IA nous permet de créer un design unique pour VOUS, pas un template. Derrière chaque site, il y a 25 ans d'expertise humaine qui valide chaque détail.",
     },
     {
       question: "72h c'est vraiment possible ?",
@@ -259,7 +259,7 @@ export const faqContent = {
     {
       question: "1 500€ c'est pas trop peu pour un bon site ?",
       answer:
-        "Un site équivalent en agence classique coûte 3 000 à 8 000€. Notre prix est bas parce que notre process est efficace — pas parce que la qualité est basse.",
+        "Un site équivalent en agence classique coûte 3 000 à 8 000€. Notre prix est bas parce que notre process est efficace, pas parce que la qualité est basse.",
     },
     {
       question: "Mon site Airbnb me suffit, pourquoi un site propre ?",

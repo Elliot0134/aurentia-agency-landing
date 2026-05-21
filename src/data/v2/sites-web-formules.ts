@@ -24,11 +24,11 @@ export const sitesWebFormules: SitesWebFormule[] = [
     icon: Globe,
     name: "Site Vitrine",
     priceRange: "1 500 € – 4 000 €",
-    pitch: "Crédibilité, image, SEO — votre activité en ligne.",
+    pitch: "Crédibilité, image, SEO, votre activité en ligne.",
     subtitle:
       "Un site pro, unique, qui inspire confiance et attire des leads locaux via le SEO. Idéal pour artisans, TPE, commerces et professions libérales.",
     bullets: [
-      "Design sur-mesure — zéro template",
+      "Design sur-mesure, zéro template",
       "SEO intégré : structure technique, balises, schema, maillage interne, contenu optimisé",
       "Livré en 72h, 100% responsive",
     ],
@@ -49,7 +49,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     subtitle:
       "Une page unique calibrée pour transformer vos visiteurs en leads qualifiés. Parfait pour un lancement, une levée, ou une campagne.",
     bullets: [
-      "1 CTA, 1 objectif — zéro distraction",
+      "1 CTA, 1 objectif, zéro distraction",
       "Copywriting orienté conversion + preuves sociales",
       "Livrée en 72h",
     ],
@@ -72,7 +72,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     bullets: [
       "Paiement Stripe, PayPal, Apple/Google Pay",
       "Gestion produits, stock, livraison, TVA",
-      "Développé sur Shopify — robuste, scalable, éprouvé",
+      "Développé sur Shopify, robuste, scalable, éprouvé",
     ],
     image: {
       src: "/images/portfolio/allo-restau-site.png",
@@ -89,7 +89,7 @@ export const sitesWebFormules: SitesWebFormule[] = [
     priceRange: "Sur devis",
     pitch: "Projet spécifique, app web, marketplace.",
     subtitle:
-      "Pour les projets qui sortent du cadre : marketplace, SaaS, app interne, plateforme B2B. On conçoit, on architecture, on livre — avec la même exigence.",
+      "Pour les projets qui sortent du cadre : marketplace, SaaS, app interne, plateforme B2B. On conçoit, on architecture, on livre, avec la même exigence.",
     bullets: [
       "Architecture Next.js + Supabase + Stripe",
       "Back-office admin + intégrations API",

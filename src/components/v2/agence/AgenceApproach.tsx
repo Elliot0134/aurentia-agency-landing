@@ -33,6 +33,7 @@ export function AgenceApproach() {
       id="approche"
       title={agenceApproachSection.title}
       subtitle={agenceApproachSection.subtitle}
+      titleClassName="whitespace-pre-line"
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         {agenceApproach.map((pillar, index) => {

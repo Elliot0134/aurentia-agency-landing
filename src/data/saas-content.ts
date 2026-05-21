@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA AGENCY — SaaS & Logiciels Métier page content
+// AURENTIA AGENCY, SaaS & Logiciels Métier page content
 // Edit this file to change content without touching components
 // ============================================
 
@@ -53,21 +53,21 @@ export const saasHeroContent = {
 export const saasServicesContent = {
   title: "Des applications qui propulsent votre business.",
   subtitle:
-    "SaaS, logiciels métier, portails, dashboards — on forge l'outil dont vous avez besoin.",
+    "SaaS, logiciels métier, portails, dashboards, on forge l'outil dont vous avez besoin.",
 };
 
 export const saasProducts: SaasProductCard[] = [
   {
     icon: "Rocket",
     title: "Applications SaaS",
-    text: "Votre produit, de l'idée au premier utilisateur. Authentification, billing, dashboard, API — tout est inclus. On construit des SaaS qui tiennent la charge et qui scalent.",
+    text: "Votre produit, de l'idée au premier utilisateur. Authentification, billing, dashboard, API, tout est inclus. On construit des SaaS qui tiennent la charge et qui scalent.",
     tags: ["Auth", "Billing", "API", "Dashboard", "Multi-tenant"],
     span: 2,
   },
   {
     icon: "Building2",
     title: "Logiciels métier",
-    text: "Votre activité mérite un outil taillé sur-mesure. Gestion de stocks, CRM interne, suivi de production — on digitalise vos process.",
+    text: "Votre activité mérite un outil taillé sur-mesure. Gestion de stocks, CRM interne, suivi de production, on digitalise vos process.",
     tags: ["Sur-mesure", "Process métier", "Intégrations"],
   },
   {
@@ -79,7 +79,7 @@ export const saasProducts: SaasProductCard[] = [
   {
     icon: "Users",
     title: "Portails clients",
-    text: "Offrez à vos clients un espace dédié. Suivi de commandes, facturation, support — une expérience pro qui renforce la confiance.",
+    text: "Offrez à vos clients un espace dédié. Suivi de commandes, facturation, support, une expérience pro qui renforce la confiance.",
     tags: ["Espace client", "Self-service", "Notifications"],
   },
 ];
@@ -213,7 +213,7 @@ export const saasPricingContent: SaasPricingContent = {
   card: {
     label: "MVP PRÉ-FONCTIONNEL",
     price: 5000,
-    mention: "Sur devis — selon la complexité du projet",
+    mention: "Sur devis, selon la complexité du projet",
     inclus: [
       "Charte graphique intégrée",
       "Architecture technique complète",
@@ -260,7 +260,7 @@ export const saasFAQItems: SaasFAQItem[] = [
   {
     question: "Pourquoi si rapide ? La qualité est-elle au rendez-vous ?",
     answer:
-      "L'IA accélère les tâches répétitives : scaffolding, composants, tests, documentation. L'expertise humaine — 20 ans de craft web + un CTO formateur Epitech — valide chaque décision. Rapide ne veut pas dire bâclé.",
+      "L'IA accélère les tâches répétitives : scaffolding, composants, tests, documentation. L'expertise humaine, 25 ans de craft web + un CTO formateur Epitech, valide chaque décision. Rapide ne veut pas dire bâclé.",
   },
   {
     question: "Quelles technologies utilisez-vous ?",

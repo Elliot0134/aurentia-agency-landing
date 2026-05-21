@@ -56,13 +56,13 @@ export function AgenceHero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--orange-500)] opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--orange-500)]" />
             </span>
-            {hero.eyebrow} · Avignon
+            {hero.eyebrow}
           </span>
 
           {/* H1 — inline JSX with gradient spans */}
           <h1 className="max-w-4xl font-heading text-4xl leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-6xl">
             <span className="bg-gradient-to-r from-accent-secondary to-accent-primary bg-clip-text text-transparent">
-              20 ans
+              25 ans
             </span>
             {" d'expertise."}
             <br />

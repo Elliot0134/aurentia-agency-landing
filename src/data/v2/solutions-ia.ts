@@ -1,5 +1,5 @@
 // src/data/solutions-ia.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 // NOTE: stats are plausible placeholders.
 import {
   BrainCircuit,
@@ -22,9 +22,9 @@ export const solutionsIaData: CommercialPillarData = {
   hero: {
     eyebrow: "Pilier Solutions IA",
     headline:
-      "L'IA qui travaille vraiment pour vous — pas à la place.",
+      "L'IA qui travaille vraiment pour vous, pas à la place.",
     subHeadline:
-      "Audit, implémentation, configuration Claude, agents et automatisations sur-mesure. On déploie l'IA dans votre équipe pour qu'elle devienne un vrai levier de productivité — pas un gadget.",
+      "Audit, implémentation, configuration Claude, agents et automatisations sur-mesure. On déploie l'IA dans votre équipe pour qu'elle devienne un vrai levier de productivité, pas un gadget.",
     badges: [
       { label: "Partenaire Anthropic Claude", icon: BrainCircuit },
       { label: "Déploiement en 1 semaine", icon: Clock },
@@ -50,7 +50,7 @@ export const solutionsIaData: CommercialPillarData = {
   ],
   subOffers: {
     variant: "grid",
-    title: "Trois portes d'entrée — un même objectif : déployer l'IA chez vous",
+    title: "Trois portes d'entrée, un même objectif : déployer l'IA chez vous",
     items: [
       {
         icon: Lightbulb,
@@ -64,7 +64,7 @@ export const solutionsIaData: CommercialPillarData = {
         icon: BrainCircuit,
         title: "Implémentation IA",
         pitch:
-          "Agents, automatisations, configuration Claude, skills métier sur-mesure. On conçoit, on développe, on déploie dans votre stack — formation et support inclus.",
+          "Agents, automatisations, configuration Claude, skills métier sur-mesure. On conçoit, on développe, on déploie dans votre stack, formation et support inclus.",
         priceFrom: "Sur devis",
         href: "/solutions-ia/implementation-ia",
       },
@@ -121,7 +121,7 @@ export const solutionsIaData: CommercialPillarData = {
         number: "02",
         title: "Plan d'action",
         description:
-          "On priorise les chantiers IA et on définit ensemble une roadmap sur 30 à 90 jours. Pas d'effet d'annonce — que du concret.",
+          "On priorise les chantiers IA et on définit ensemble une roadmap sur 30 à 90 jours. Pas d'effet d'annonce, que du concret.",
         icon: ClipboardList,
       },
       {
@@ -197,9 +197,9 @@ export const solutionsIaData: CommercialPillarData = {
         "On configure tout pour que vos données restent contrôlées : API keys privées, stockage local si besoin, respect RGPD. On peut aussi déployer sur Claude Enterprise pour les besoins les plus stricts.",
     },
     {
-      question: "Configuration Claude, Agents, Skills — c'est des services à part ?",
+      question: "Configuration Claude, Agents, Skills, c'est des services à part ?",
       answer:
-        "Non, ce sont des spécialités d'Implémentation IA. Quand on implémente l'IA chez vous, selon le besoin on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier — souvent les trois en même temps. Une seule mission, une seule équipe, un seul devis.",
+        "Non, ce sont des spécialités d'Implémentation IA. Quand on implémente l'IA chez vous, selon le besoin on configure Claude (CLAUDE.md, skills, MCP, memory), on construit des agents, on automatise des workflows ou on développe des skills métier, souvent les trois en même temps. Une seule mission, une seule équipe, un seul devis.",
     },
     {
       question: "C'est quoi un skill Claude custom exactement ?",

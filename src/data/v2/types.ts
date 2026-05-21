@@ -120,6 +120,7 @@ export type HomeData = {
       image?: string;
       title: string;
       description: string;
+      accent?: "orange" | "green";
     }[];
   };
   realisationsPreview: Realisation[];
@@ -368,6 +369,8 @@ export type NavLink = {
   description?: string;
   comingSoon?: boolean;
   iconUrl?: string;
+  /** Optional column header used by MegaMenu to group children visually. */
+  group?: string;
 };
 
 export type NavSection = {

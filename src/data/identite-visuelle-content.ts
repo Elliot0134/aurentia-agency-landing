@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA AGENCY — Contenu page /identite-visuelle
+// AURENTIA AGENCY, Contenu page /identite-visuelle
 // Structured content for the identite visuelle landing page
 // ============================================
 
@@ -25,7 +25,7 @@ export interface IdentitePortfolioItem {
   brandName: string;
   sector: string;
   description: string;
-  credit?: string; // ex: "Direction creative : Fabien Estrade — Le Prisme"
+  credit?: string; // ex: "Direction creative : Fabien Estrade, Le Prisme"
 }
 
 export interface IdentiteFAQItem {
@@ -40,7 +40,7 @@ export interface IdentiteFAQItem {
 
 export const heroContent = {
   badge: "IDENTIT\u00C9 VISUELLE & DIRECTION CR\u00C9ATIVE",
-  h1: "Votre identit\u00E9 visuelle. Forg\u00E9e par 20 ans de direction cr\u00E9ative.",
+  h1: "Votre identit\u00E9 visuelle. Forg\u00E9e par 25 ans de direction cr\u00E9ative.",
   subtitle:
     "Logo, charte graphique, univers de marque. On ne d\u00E9core pas \u2014 on r\u00E9v\u00E8le l\u2019essence de votre business. Chaque trait a une intention.",
   cta: "Discuter de mon projet",
@@ -105,7 +105,7 @@ export const processSteps: IdentiteProcessStep[] = [
   {
     number: "02",
     title: "Exploration cr\u00E9ative",
-    text: "Recherches, moodboards, pistes graphiques. On explore plusieurs directions. L\u2019IA acc\u00E9l\u00E8re l\u2019id\u00E9ation, l\u2019\u0153il de 20 ans de direction cr\u00E9ative s\u00E9lectionne. Vous choisissez la direction qui vous parle.",
+    text: "Recherches, moodboards, pistes graphiques. On explore plusieurs directions. L\u2019IA acc\u00E9l\u00E8re l\u2019id\u00E9ation, l\u2019\u0153il de 25 ans de direction cr\u00E9ative s\u00E9lectionne. Vous choisissez la direction qui vous parle.",
   },
   {
     number: "03",
@@ -173,11 +173,11 @@ export const portfolioItems: IdentitePortfolioItem[] = [
 // ---------------------
 
 export const pourquoiContent = {
-  title: "20 ans de direction cr\u00E9ative. L\u2019IA en plus.",
+  title: "25 ans de direction cr\u00E9ative. L\u2019IA en plus.",
   subtitle: "Ce qui fait la diff\u00E9rence entre un logo et une identit\u00E9.",
   expertise: {
     title: "L\u2019\u0153il qui forge",
-    text: "Fabien a dirig\u00E9 l\u2019agence Le Prisme pendant 20 ans. Des centaines de marques cr\u00E9\u00E9es, forg\u00E9es, accompagn\u00E9es. Il sait reconna\u00EEtre le trait qui fonctionne, la couleur qui convertit, l\u2019identit\u00E9 qui dure. Ce n\u2019est pas un algorithme qui valide \u2014 c\u2019est 20 ans de craft.",
+    text: "Fabien a dirig\u00E9 l\u2019agence Le Prisme pendant 25 ans. Des centaines de marques cr\u00E9\u00E9es, forg\u00E9es, accompagn\u00E9es. Il sait reconna\u00EEtre le trait qui fonctionne, la couleur qui convertit, l\u2019identit\u00E9 qui dure. Ce n\u2019est pas un algorithme qui valide \u2014 c\u2019est 25 ans de craft.",
   },
   ia: {
     title: "L\u2019IA qui acc\u00E9l\u00E8re l\u2019exploration",
@@ -185,7 +185,7 @@ export const pourquoiContent = {
   },
   quote:
     "\u00ABUne identit\u00E9 visuelle, c\u2019est pas un joli logo. C\u2019est le premier contact entre votre business et le monde. Il doit \u00EAtre parfait.\u00BB",
-  quoteAuthor: "Fabien Estrade, 20 ans de direction cr\u00E9ative",
+  quoteAuthor: "Fabien Estrade, 25 ans de direction cr\u00E9ative",
   teamLink: { text: "D\u00E9couvrir toute l\u2019\u00E9quipe \u2192", href: "/a-propos" },
 };
 
@@ -239,7 +239,7 @@ export const faqItems: IdentiteFAQItem[] = [
   {
     question: "Je n\u2019ai aucune id\u00E9e de ce que je veux. C\u2019est un probl\u00E8me\u202F?",
     answer:
-      "C\u2019est m\u00EAme mieux. La phase d\u2019immersion est faite pour \u00E7a. On explore votre march\u00E9, vos concurrents, vos valeurs. On vous propose des directions que vous n\u2019auriez pas imagin\u00E9es. C\u2019est notre m\u00E9tier depuis 20 ans.",
+      "C\u2019est m\u00EAme mieux. La phase d\u2019immersion est faite pour \u00E7a. On explore votre march\u00E9, vos concurrents, vos valeurs. On vous propose des directions que vous n\u2019auriez pas imagin\u00E9es. C\u2019est notre m\u00E9tier depuis 25 ans.",
   },
   {
     question: "Quels fichiers recevrai-je \u00E0 la fin\u202F?",
@@ -269,7 +269,7 @@ export const ctaContent = {
   ctaLink: "https://cal.com/elliot-estrade-ixfuya/appel-decouverte",
   proofs: [
     "Gratuit et sans engagement",
-    "20 ans de direction cr\u00E9ative",
+    "25 ans de direction cr\u00E9ative",
     "Retours illimit\u00E9s jusqu\u2019\u00E0 perfection",
   ],
 };

@@ -62,28 +62,28 @@ const ITEMS: Item[] = [
     href: "/realisations/friendiz",
   },
   {
-    title: "Allo Restau — SaaS",
+    title: "Allo Restau, SaaS",
     subtitle: "Agent vocal IA",
     tag: "SaaS",
     imageUrl: "/images/portfolio/allorestau-saas.png",
     href: "/realisations/allo-restau",
   },
   {
-    title: "Allo Restau — Site",
+    title: "Allo Restau, Site",
     subtitle: "Landing pizzéria",
     tag: "Landing Page",
     imageUrl: "/images/portfolio/allo-restau-site.png",
     href: "/realisations/allo-restau",
   },
   {
-    title: "Golf Mentor — SaaS",
+    title: "Golf Mentor, SaaS",
     subtitle: "Coaching golf assisté par IA",
     tag: "SaaS",
     imageUrl: "/images/portfolio/golf-mentor-saas.png",
     href: "/realisations/golf-mentor",
   },
   {
-    title: "Golf Mentor — Landing",
+    title: "Golf Mentor, Landing",
     subtitle: "Page de conversion premium",
     tag: "Landing Page",
     imageUrl: "/images/portfolio/golf-mentor-landing.png",
@@ -111,7 +111,7 @@ function Slide({ item }: { item: Item }) {
           src={item.imageUrl}
           alt={item.title}
           fill
-          className="object-contain transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.10] group-hover:-translate-y-1"
+          className="object-contain transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.04] group-hover:-translate-y-1"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
@@ -148,7 +148,7 @@ type Props = {
 export function HomeRealisationsPreview({
   filterTags,
   title = "Nos dernières réalisations",
-  subtitle = "Quelques projets livrés récemment — cliquez pour voir le détail.",
+  subtitle = "Quelques projets livrés récemment, cliquez pour voir le détail.",
 }: Props = {}) {
   const items = filterTags && filterTags.length > 0
     ? ITEMS.filter((it) => filterTags.includes(it.tag))
@@ -190,7 +190,7 @@ export function HomeRealisationsPreview({
             {items.map((item) => (
               <div
                 key={item.title}
-                className="flex-shrink-0 px-4 md:px-6"
+                className="flex-shrink-0 overflow-hidden px-4 md:px-6"
                 style={{ width: `${slideWidth}%` }}
               >
                 <Slide item={item} />

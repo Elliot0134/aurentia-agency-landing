@@ -18,7 +18,7 @@ import { SubNavSetter } from "@/components/shared/SubNavContext";
 export const metadata = pageMeta({
   title: "À propos — Équipe, histoire & méthode",
   description:
-    "Aurentia Agency : 20 ans d'expertise web, l'IA comme superpouvoir. L'équipe, l'histoire, la méthode. Basée à Avignon.",
+    "Aurentia Agency : 25 ans d'expertise web, l'IA comme superpouvoir. L'équipe, l'histoire, la méthode. Basée à Avignon.",
   path: "/a-propos",
 });
 

@@ -5,8 +5,8 @@ import { ORGANIZATION, faqPage } from "@/lib/seo/schema";
 import { homeData } from "@/data/v2/home";
 
 export const metadata: Metadata = {
-  title: "Agence web & IA à Avignon — Sites, SaaS, automatisations",
-  description: "Aurentia Agency conçoit des sites sur-mesure, SaaS et solutions IA depuis Avignon. 20 ans de craft, livraison rapide, équipe senior.",
+  title: "L'agence web & IA qui ne lance pas tant que ce n'est pas parfait",
+  description: "Aurentia Agency conçoit des sites sur-mesure, SaaS et solutions IA depuis Avignon. 25 ans de craft, livraison rapide, équipe senior.",
   alternates: { canonical: "/" },
 };
 

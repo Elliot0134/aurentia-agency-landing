@@ -21,14 +21,14 @@ export const sitesWebLandingData: SubPageData = {
     eyebrow: "Sites Web · Landing page",
     headline: "Une landing page qui transforme vos visiteurs en clients.",
     subHeadline:
-      "Une page unique, écrite pour vendre, livrée en 5 jours. À partir de 1 500 €. Pas de template, pas de blabla — juste ce qui convertit.",
+      "Une page unique, écrite pour vendre, livrée en 5 jours. À partir de 1 500 €. Pas de template, pas de blabla, juste ce qui convertit.",
     priceFrom: "1 500 €",
     badges: [
       { label: "Livrée en 5 jours", icon: Clock },
       { label: "Pensée pour vendre", icon: Target },
     ],
     cta: {
-      primary: { label: "Réserver mon appel — 15 min", href: "/contact" },
+      primary: { label: "Réserver mon appel, 15 min", href: "/contact" },
       secondary: { label: "Voir les tarifs", href: "#pricing" },
     },
     visual: {
@@ -54,7 +54,7 @@ export const sitesWebLandingData: SubPageData = {
       icon: Briefcase,
       title: "Vous avez une campagne à lancer",
       description:
-        "Événement, lancement produit, campagne pub, opération spéciale — il vous faut une page dédiée, vite, sans toucher au site principal et sans payer 6 000 € pour un travail qu'on peut livrer en 5 jours.",
+        "Événement, lancement produit, campagne pub, opération spéciale, il vous faut une page dédiée, vite, sans toucher au site principal et sans payer 6 000 € pour un travail qu'on peut livrer en 5 jours.",
     },
   ],
   whatYouGet: {
@@ -108,12 +108,12 @@ export const sitesWebLandingData: SubPageData = {
       {
         name: "Landing page sur-mesure",
         price: "1 500 €",
-        priceNote: "À partir de — sur devis selon le volume de contenu et les animations",
+        priceNote: "À partir de, sur devis selon le volume de contenu et les animations",
         description: "Livrée en 5 à 10 jours, prête à recevoir vos premières conversions.",
         features: [
           "Design sur-mesure pensé pour votre offre",
           "Textes écrits avec vous lors d'un atelier copy",
-          "Animations fluides — discrètes mais premium",
+          "Animations fluides, discrètes mais premium",
           "Parfait sur mobile, tablette, ordinateur",
           "SEO de base + intégration analytics",
           "Affichage propre en mode clair et sombre",
@@ -128,22 +128,22 @@ export const sitesWebLandingData: SubPageData = {
     title: "Quelques lancements récents",
     items: [
       {
-        title: "Allo Restau — landing livraison",
+        title: "Allo Restau, landing livraison",
         imageUrl: "/images/portfolio/allo-restau-site.png",
         href: "/realisations/allo-restau",
       },
       {
-        title: "Comparateur IA Facile — landing produit",
+        title: "Comparateur IA Facile, landing produit",
         imageUrl: "/realisations/comparateur-ia/hero.webp",
         href: "/realisations/comparateur-ia-facile",
       },
       {
-        title: "Maison Enileh — site vitrine",
+        title: "Maison Enileh, site vitrine",
         imageUrl: "/images/portfolio/maison-enileh.webp",
         href: "/realisations/maison-enileh",
       },
       {
-        title: "Friend'iz — landing application",
+        title: "Friend'iz, landing application",
         imageUrl: "/images/portfolio/friendiz.png",
         href: "/realisations/friendiz",
       },
@@ -154,7 +154,7 @@ export const sitesWebLandingData: SubPageData = {
     {
       question: "Combien de temps pour être en ligne ?",
       answer:
-        "5 jours ouvrés en moyenne, 7 à 10 si la copy demande plus d'allers-retours. En urgence, on a déjà livré en 72h — pas garanti, mais on en parle pendant l'appel de cadrage.",
+        "5 jours ouvrés en moyenne, 7 à 10 si la copy demande plus d'allers-retours. En urgence, on a déjà livré en 72h, pas garanti, mais on en parle pendant l'appel de cadrage.",
     },
     {
       question: "Qu'est-ce qui rend une landing Aurentia plus performante ?",
@@ -169,7 +169,7 @@ export const sitesWebLandingData: SubPageData = {
     {
       question: "Vous connectez à mon CRM ou mes outils ?",
       answer:
-        "Oui. HubSpot, Pipedrive, Airtable, Notion, Supabase, n8n, votre stack custom — on connecte. On en parle pendant le brief, ça reste compris dans le prix sauf intégration vraiment exotique.",
+        "Oui. HubSpot, Pipedrive, Airtable, Notion, Supabase, n8n, votre stack custom, on connecte. On en parle pendant le brief, ça reste compris dans le prix sauf intégration vraiment exotique.",
     },
     {
       question: "Je reste propriétaire de la page et du code ?",
@@ -191,7 +191,7 @@ export const sitesWebLandingData: SubPageData = {
     title: "Votre landing en ligne la semaine prochaine ?",
     subtitle:
       "15 minutes au téléphone et vous savez ce qu'on peut faire, quand, et combien. Devis chiffré sous 24h, sans relance.",
-    cta: { label: "Réserver mon créneau — 15 min", href: "/contact" },
+    cta: { label: "Réserver mon créneau, 15 min", href: "/contact" },
   },
   trustStats: [
     { value: "5 j", label: "délai moyen" },
@@ -204,7 +204,7 @@ export const sitesWebLandingData: SubPageData = {
       icon: Eye,
       title: "Vous validez avant qu'on code",
       description:
-        "Textes finalisés et maquette validée avant qu'une seule ligne de code soit écrite. Si ça ne vous va pas, on s'arrête là — zéro euro engagé.",
+        "Textes finalisés et maquette validée avant qu'une seule ligne de code soit écrite. Si ça ne vous va pas, on s'arrête là, zéro euro engagé.",
     },
     {
       icon: RefreshCw,
@@ -222,7 +222,7 @@ export const sitesWebLandingData: SubPageData = {
   comparison: {
     title: "Aurentia vs. les autres options",
     subtitle:
-      "Vous avez le choix. Voilà ce qu'on fait mieux — et ce qu'on ne prétend pas faire mieux.",
+      "Vous avez le choix. Voilà ce qu'on fait mieux, et ce qu'on ne prétend pas faire mieux.",
     columns: [
       { label: "Aurentia", highlight: true },
       { label: "Template no-code" },

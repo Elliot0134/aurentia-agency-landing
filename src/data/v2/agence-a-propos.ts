@@ -1,5 +1,5 @@
 // src/data/agence-a-propos.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 // NOTE: team members bios are fictional placeholders except for Elliot Estrade.
 import {
   ShieldCheck,
@@ -19,9 +19,9 @@ export const aProposData: AProposData = {
   manifesto: {
     title: "Notre manifeste",
     paragraphs: [
-      "On a monté Aurentia après avoir vu trop d'agences promettre l'IA sans vraiment s'en servir, et trop de clients payer cher pour des sites et des SaaS médiocres. L'IA a changé le métier en profondeur : on peut livrer plus vite, mieux, et pour moins cher qu'avant. Mais seulement si on sait s'en servir vraiment — pas seulement si on met « IA » sur sa page d'accueil.",
-      "On croit que l'IA est l'outil qui permet à une petite équipe d'exécuter comme une grande. Chez Aurentia, Claude, les skills et les agents font partie de notre boîte à outils quotidienne. Ils ne remplacent pas les gens — ils les rendent dix fois plus efficaces, à condition d'être correctement configurés, maîtrisés et intégrés dans des process rigoureux.",
-      "Ce qui nous rend différents, c'est qu'on ne fait pas que construire des produits avec l'IA : on aide aussi nos clients à intégrer l'IA dans leur quotidien. Sites web, SaaS, formation, configuration, audit, skills custom — tout l'écosystème IA d'une entreprise peut être pris en charge par une seule équipe. Ça simplifie la vie de nos clients, et ça nous permet d'avoir une vision complète de chaque projet.",
+      "On a monté Aurentia après avoir vu trop d'agences promettre l'IA sans vraiment s'en servir, et trop de clients payer cher pour des sites et des SaaS médiocres. L'IA a changé le métier en profondeur : on peut livrer plus vite, mieux, et pour moins cher qu'avant. Mais seulement si on sait s'en servir vraiment, pas seulement si on met « IA » sur sa page d'accueil.",
+      "On croit que l'IA est l'outil qui permet à une petite équipe d'exécuter comme une grande. Chez Aurentia, Claude, les skills et les agents font partie de notre boîte à outils quotidienne. Ils ne remplacent pas les gens, ils les rendent dix fois plus efficaces, à condition d'être correctement configurés, maîtrisés et intégrés dans des process rigoureux.",
+      "Ce qui nous rend différents, c'est qu'on ne fait pas que construire des produits avec l'IA : on aide aussi nos clients à intégrer l'IA dans leur quotidien. Sites web, SaaS, formation, configuration, audit, skills custom, tout l'écosystème IA d'une entreprise peut être pris en charge par une seule équipe. Ça simplifie la vie de nos clients, et ça nous permet d'avoir une vision complète de chaque projet.",
       "Enfin, on ne transige pas sur la qualité. La rapidité n'est pas une excuse pour livrer du code sale, des designs bâclés ou des features à moitié testées. On préfère décaler d'un jour que livrer quelque chose qu'on ne serait pas fier de montrer. C'est notre engagement et c'est pour ça que nos clients reviennent.",
     ],
   },

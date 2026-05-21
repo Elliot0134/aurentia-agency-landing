@@ -1,7 +1,7 @@
 // src/data/home.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 // NOTE: client counts, satisfaction scores and realisation KPIs are plausible
-// placeholders — to be replaced with real data before launch.
+// placeholders, to be replaced with real data before launch.
 import {
   Globe,
   Code2,
@@ -22,9 +22,9 @@ import type { HomeData } from "./types";
 
 export const homeData: HomeData = {
   hero: {
-    headline: "On construit vos sites,\nSaaS et outils IA.",
+    headline: "L'agence web / IA qui ne lance pas\ntant que ce n'est pas parfait.",
     subHeadline:
-      "Agence tech full-stack à Avignon. On conçoit, on code, on livre — du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
+      "Agence tech full-stack. On conçoit, on code, on livre, du site vitrine au SaaS complet, en passant par les solutions IA. En jours, pas en mois.",
     cta: {
       primary: { label: "Discutons de votre projet", href: "#rdv-embed" },
       secondary: { label: "Voir nos offres", href: "#pillars" },
@@ -79,10 +79,11 @@ export const homeData: HomeData = {
         icon: Code2,
         title: "Propriétaire de votre code",
         description:
-          "Votre projet, votre code source. Aucune dépendance, aucun lock-in — vous pouvez le faire évoluer avec n'importe quel développeur.",
+          "Votre projet, votre code source. Aucune dépendance, aucun lock-in, vous pouvez le faire évoluer avec n'importe quel développeur.",
       },
       {
-        image: "/images/icons/whatsapp-icon.webp",
+        icon: MessageSquare,
+        accent: "green",
         title: "Support sur WhatsApp",
         description:
           "Une question ? Un bug ? Écrivez-nous directement sur WhatsApp. Réponse en moins de 2h, pas de ticket sans réponse.",
@@ -103,13 +104,13 @@ export const homeData: HomeData = {
         icon: Layers,
         title: "Technologies modernes",
         description:
-          "Des technologies performantes, rapides et fiables. Pas de WordPress, pas de no-code — du vrai code sur-mesure, fait pour durer.",
+          "Des technologies performantes, rapides et fiables. Pas de WordPress, pas de no-code, du vrai code sur-mesure, fait pour durer.",
       },
       {
         icon: Headphones,
         title: "30 jours de support inclus",
         description:
-          "On ne disparaît pas après le lancement. Ajustements, corrections, questions — on reste à vos côtés pendant 30 jours.",
+          "On ne disparaît pas après le lancement. Ajustements, corrections, questions, on reste à vos côtés pendant 30 jours.",
       },
     ],
   },
@@ -145,16 +146,16 @@ export const homeData: HomeData = {
   testimonials: [
     {
       quote:
-        "Aucun site, tout passait par Insta — et personne ne nous trouvait sur Google. Au lieu de partir sur des photos stock, ils ont passé une journée chez nous à shooter dans la cuisine. Le site est sorti en 6 jours et c'est ce détail-là qui fait que les gens disent 'ça donne envie' en arrivant dessus.",
+        "Aucun site, tout passait par Insta, et personne ne nous trouvait sur Google. Au lieu de partir sur des photos stock, ils ont passé une journée chez nous à shooter dans la cuisine. Le site est sorti en 6 jours et c'est ce détail-là qui fait que les gens disent 'ça donne envie' en arrivant dessus.",
       author: "Inès Bertrand",
       role: "Fondatrice",
-      company: "Maison Enileh — Avignon",
+      company: "Maison Enileh",
       pillar: "sites-web",
       stat: "Livré en 6 jours",
     },
     {
       quote:
-        "Franchement, j'étais sceptique sur la partie IA — trop de promesses dans ce milieu. Ils ont passé une journée à regarder comment on bossait avant de proposer quoi que ce soit. Aujourd'hui je ne passe plus mes dimanches soirs à traiter les mails. Ça a l'air anodin, mais c'est ça qui change la vie.",
+        "Franchement, j'étais sceptique sur la partie IA, trop de promesses dans ce milieu. Ils ont passé une journée à regarder comment on bossait avant de proposer quoi que ce soit. Aujourd'hui je ne passe plus mes dimanches soirs à traiter les mails. Ça a l'air anodin, mais c'est ça qui change la vie.",
       author: "Romain Faure",
       role: "Fondateur",
       company: "Cabinet de coaching sportif",
@@ -175,7 +176,7 @@ export const homeData: HomeData = {
         "On avait fait quatre formations IA avant celle-ci. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients, ce ne sont pas des slides recyclées. Toute l'équipe est repartie avec des skills qu'on utilise depuis le lundi suivant.",
       author: "Sandrine Vasseur",
       role: "Directrice opérations",
-      company: "Groupe Meca — PME industrielle",
+      company: "Groupe Meca, PME industrielle",
       pillar: "solutions-ia",
       stat: "Équipe autonome en 3 sem.",
     },
@@ -232,7 +233,7 @@ export const homeData: HomeData = {
         category: "Sites Web",
         title: "Pourquoi votre site ne convertit pas (et comment corriger en 7 jours)",
         excerpt:
-          "Les 5 erreurs qu'on voit sur 8 sites sur 10 — et le plan concret pour les corriger sans tout refondre.",
+          "Les 5 erreurs qu'on voit sur 8 sites sur 10, et le plan concret pour les corriger sans tout refondre.",
         date: "2026-04-03",
         readingTime: "5 min",
         imageUrl: "/images/blog/blog-2.svg",
@@ -267,7 +268,7 @@ export const homeData: HomeData = {
       question:
         "Qu'est-ce qui vous rend différents des autres agences ?",
       answer:
-        "L'IA n'est pas un argument marketing chez nous, c'est notre mode de production quotidien. C'est ce qui nous permet d'être 5× plus rapides à qualité égale. Et nous savons aussi déployer l'IA dans votre entreprise — pas seulement en parler.",
+        "L'IA n'est pas un argument marketing chez nous, c'est notre mode de production quotidien. C'est ce qui nous permet d'être 5× plus rapides à qualité égale. Et nous savons aussi déployer l'IA dans votre entreprise, pas seulement en parler.",
     },
     {
       question: "Travaillez-vous avec des entreprises de toutes tailles ?",
@@ -303,7 +304,7 @@ export const homeData: HomeData = {
   contactCta: {
     title: "Discutons de votre projet",
     subtitle:
-      "Réponse en moins de 24h. Pas de SDR, pas de pitch — directement avec l'équipe technique.",
+      "Réponse en moins de 24h. Pas de SDR, pas de pitch, directement avec l'équipe technique.",
     cta: { label: "Prendre rendez-vous", href: "/contact" },
   },
 };

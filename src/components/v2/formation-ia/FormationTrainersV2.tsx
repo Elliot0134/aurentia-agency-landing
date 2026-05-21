@@ -40,9 +40,9 @@ const TRAINERS: Trainer[] = [
   },
   {
     name: "Fabien",
-    role: "Production Lead · 20 ans craft",
+    role: "Production Lead · 25 ans craft",
     pitch:
-      "Co-fondateur de l'agence Le Prisme à Avignon. 20 ans à livrer du web pour des marques — l'œil qui ne laisse rien passer.",
+      "Co-fondateur de l'agence Le Prisme. 25 ans à livrer du web pour des marques — l'œil qui ne laisse rien passer.",
     recent:
       "Direction créative et accompagnement client sur tous les projets sites web Aurentia.",
     image: "/images/team/fabien.webp",

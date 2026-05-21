@@ -105,7 +105,7 @@ export const sitesWebData: CommercialPillarData = {
     headline:
       "Votre site vitrine sur-mesure.\nLivré en 72h dès 1 500 €.",
     subHeadline:
-      "Design unique, SEO intégré, performance native. Propulsé par l'IA, forgé par 20 ans d'expertise web. On vous montre le résultat avant de facturer.",
+      "Design unique, SEO intégré, performance native. Propulsé par l'IA, forgé par 25 ans d'expertise web. On vous montre le résultat avant de facturer.",
     badges: [
       { label: "Livré en 72h", icon: Clock },
       { label: "Dès 1 500 €", icon: Sparkles },
@@ -142,7 +142,7 @@ export const sitesWebData: CommercialPillarData = {
         icon: FileText,
         title: "Landing page",
         pitch:
-          "Pour pousser une offre, un produit ou une levée — taux de conversion maximisé.",
+          "Pour pousser une offre, un produit ou une levée, taux de conversion maximisé.",
         priceFrom: "1 500 €",
         href: "/sites-web/landing-page",
       },
@@ -191,7 +191,7 @@ export const sitesWebData: CommercialPillarData = {
         number: "02",
         title: "La création",
         description:
-          "L'IA accélère le design et le code. L'expertise humaine valide chaque choix. On forge votre site sur-mesure — design, contenu, SEO, responsive. Tout.",
+          "L'IA accélère le design et le code. L'expertise humaine valide chaque choix. On forge votre site sur-mesure, design, contenu, SEO, responsive. Tout.",
         icon: Palette,
       },
       {
@@ -205,7 +205,7 @@ export const sitesWebData: CommercialPillarData = {
         number: "04",
         title: "Lancement + suivi",
         description:
-          "Mise en ligne sur votre domaine. Configuration email, analytics, Google Business. Et on reste là après — pour les ajustements, les questions, les évolutions.",
+          "Mise en ligne sur votre domaine. Configuration email, analytics, Google Business. Et on reste là après, pour les ajustements, les questions, les évolutions.",
         icon: Rocket,
       },
     ],
@@ -213,7 +213,7 @@ export const sitesWebData: CommercialPillarData = {
   realisationsFiltered: [
     {
       slug: "maison-enileh",
-      title: "Site vitrine conciergerie — livré en 72h",
+      title: "Site vitrine conciergerie, livré en 72h",
       client: "Maison Enileh",
       pillar: "sites-web",
       resultKpi: "Livré en 72h",
@@ -245,12 +245,12 @@ export const sitesWebData: CommercialPillarData = {
     {
       question: "Combien coûte un site vitrine chez Aurentia ?",
       answer:
-        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call — c'est gratuit et sans engagement.",
+        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call, c'est gratuit et sans engagement.",
     },
     {
       question: "Comment c'est possible de livrer en 72h ?",
       answer:
-        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 20 ans valide chaque choix. On ne bâcle rien — notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
+        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 25 ans valide chaque choix. On ne bâcle rien, notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
     },
     {
       question: "Est-ce que vous utilisez des templates ?",
@@ -271,7 +271,7 @@ export const sitesWebData: CommercialPillarData = {
     {
       question: "Que se passe-t-il après la livraison ?",
       answer:
-        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions — on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
+        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions, on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
     },
     {
       question: "Quelles technologies utilisez-vous ?",
@@ -282,7 +282,7 @@ export const sitesWebData: CommercialPillarData = {
       question:
         "Je veux aussi un logo / une identité visuelle. C'est possible ?",
       answer:
-        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 20 ans de direction créative derrière chaque projet.",
+        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 25 ans de direction créative derrière chaque projet.",
     },
   ],
   finalCta: {
@@ -294,7 +294,7 @@ export const sitesWebData: CommercialPillarData = {
 };
 
 /* ──────────────────────────────────────────────
-   Extended data — sections specific to /sites-web
+   Extended data, sections specific to /sites-web
    ────────────────────────────────────────────── */
 
 export const sitesWebExtra: SitesWebExtra = {
@@ -315,7 +315,7 @@ export const sitesWebExtra: SitesWebExtra = {
       icon: Smartphone,
       title: "Responsive natif",
       description:
-        "Votre site est parfait sur mobile, tablette et desktop. 60% de vos visiteurs arrivent sur téléphone — on le sait.",
+        "Votre site est parfait sur mobile, tablette et desktop. 60% de vos visiteurs arrivent sur téléphone, on le sait.",
     },
     {
       icon: Rocket,
@@ -333,7 +333,7 @@ export const sitesWebExtra: SitesWebExtra = {
       icon: Headphones,
       title: "Accompagnement après livraison",
       description:
-        "On ne disparaît pas après le lancement. Modifications mineures, questions, évolutions — on reste disponible.",
+        "On ne disparaît pas après le lancement. Modifications mineures, questions, évolutions, on reste disponible.",
     },
   ],
 
@@ -396,13 +396,13 @@ export const sitesWebExtra: SitesWebExtra = {
         tagline: "Un site vitrine complet et pro, prêt à convertir.",
         features: [
           "Site vitrine 3 pages",
-          "Design sur-mesure — zéro template",
+          "Design sur-mesure, zéro template",
           "Responsive + animations",
           "SEO de base",
           "Connexion domaine",
         ],
         bonuses: ["Charte graphique", "Étude concurrentielle IA"],
-        subscription: "19 €/mois — 1er mois offert",
+        subscription: "19 €/mois, 1er mois offert",
         subscriptionNote:
           "Hébergement, SSL, backups, monitoring, support 72h",
         cta: { label: "Choisir l'Essentiel", href: "/contact" },
@@ -423,7 +423,7 @@ export const sitesWebExtra: SitesWebExtra = {
           "Analyse de marché IA",
           "Étude concurrentielle IA",
         ],
-        subscription: "35 €/mois — 1er mois offert",
+        subscription: "35 €/mois, 1er mois offert",
         subscriptionNote:
           "Plan 19 € + maintenance, 1 modif/mois, support 24h, 4 articles/mois",
         cta: { label: "Choisir Croissance", href: "/contact" },
@@ -431,7 +431,7 @@ export const sitesWebExtra: SitesWebExtra = {
       {
         name: "Premium",
         price: "3 200 €",
-        priceSuffix: "À partir de — sur devis",
+        priceSuffix: "À partir de, sur devis",
         tagline: "",
         features: [
           "Tout le pack Croissance",
@@ -444,7 +444,7 @@ export const sitesWebExtra: SitesWebExtra = {
           "Clientèles cibles IA",
           "Crédits réseaux sociaux IA",
         ],
-        subscription: "75 €/mois — 1er mois offert",
+        subscription: "75 €/mois, 1er mois offert",
         subscriptionNote:
           "Plan 35 € + modifs illimitées, rapport SEO mensuel, support 12h",
         cta: { label: "Choisir Premium", href: "/contact" },
@@ -460,19 +460,19 @@ export const sitesWebExtra: SitesWebExtra = {
 
   why: {
     title: "Pourquoi Aurentia. Pas une autre agence.",
-    subtitle: "Trois raisons. Pas des slogans — des faits.",
+    subtitle: "Trois raisons. Pas des slogans, des faits.",
     items: [
       {
         icon: BrainCircuit,
         title: "L'IA qui accélère tout",
         description:
-          "Design, code, contenu, SEO — l'IA propulse chaque étape. Pas pour remplacer l'humain. Pour amplifier 20 ans d'expertise. Résultat : 72h au lieu de 6 semaines.",
+          "Design, code, contenu, SEO, l'IA propulse chaque étape. Pas pour remplacer l'humain. Pour amplifier 25 ans d'expertise. Résultat : 72h au lieu de 6 semaines.",
       },
       {
         icon: Code2,
-        title: "20 ans de craft web",
+        title: "25 ans de craft web",
         description:
-          "Fabien a forgé des centaines de sites. Il sait ce qui convertit, ce qui dure, ce qui illumine un business. L'IA est un outil. L'œil, c'est 20 ans d'expérience.",
+          "Fabien a forgé des centaines de sites. Il sait ce qui convertit, ce qui dure, ce qui illumine un business. L'IA est un outil. L'œil, c'est 25 ans d'expérience.",
         ctaLabel: "En savoir plus sur l'équipe",
         ctaHref: "/agence",
       },
@@ -489,12 +489,12 @@ export const sitesWebExtra: SitesWebExtra = {
     {
       question: "Combien coûte un site vitrine chez Aurentia ?",
       answer:
-        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call — c'est gratuit et sans engagement.",
+        "Nos sites vitrines démarrent à 1 500 €. Le prix dépend du nombre de pages, des fonctionnalités souhaitées et du niveau de personnalisation. On en parle ensemble pendant le call, c'est gratuit et sans engagement.",
     },
     {
       question: "Comment c'est possible de livrer en 72h ?",
       answer:
-        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 20 ans valide chaque choix. On ne bâcle rien — notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
+        "L'IA accélère le design, le code et le contenu. L'expertise humaine de 25 ans valide chaque choix. On ne bâcle rien, notre process est simplement redoutablement efficace. Là où une agence classique met 6 semaines, on met 72h.",
     },
     {
       question: "Est-ce que vous utilisez des templates ?",
@@ -515,7 +515,7 @@ export const sitesWebExtra: SitesWebExtra = {
     {
       question: "Que se passe-t-il après la livraison ?",
       answer:
-        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions — on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
+        "On ne disparaît pas. Modifications mineures, questions techniques, évolutions, on reste votre interlocuteur. Et si votre activité grandit, on fait évoluer le site avec vous.",
     },
     {
       question: "Quelles technologies utilisez-vous ?",
@@ -526,7 +526,7 @@ export const sitesWebExtra: SitesWebExtra = {
       question:
         "Je veux aussi un logo / une identité visuelle. C'est possible ?",
       answer:
-        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 20 ans de direction créative derrière chaque projet.",
+        "Oui. On propose aussi la création d'identité visuelle complète : logo, charte graphique, univers de marque. 25 ans de direction créative derrière chaque projet.",
     },
   ],
 

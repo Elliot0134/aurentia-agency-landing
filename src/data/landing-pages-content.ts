@@ -1,5 +1,5 @@
 // ──────────────────────────────────────────────────────
-// Landing Pages — data layer
+// Landing Pages, data layer
 // ──────────────────────────────────────────────────────
 
 export interface FeatureCard {
@@ -68,7 +68,7 @@ export const featuresContent = {
     {
       icon: "Smartphone",
       title: "Responsive natif",
-      text: "Mobile-first. Chaque breakpoint est pensé. 375px, 768px, 1280px — votre page est parfaite sur chaque écran.",
+      text: "Mobile-first. Chaque breakpoint est pensé. 375px, 768px, 1280px, votre page est parfaite sur chaque écran.",
     },
     {
       icon: "Search",
@@ -94,7 +94,7 @@ export const vitrineContent = {
   badge: "NOTRE VITRINE",
   title: "Ce qu'on livre, concrètement.",
   subtitle:
-    "Maison Enileh — un site conçu et livré par Aurentia. Design sur-mesure, animations fluides, optimisé conversion. Naviguez, cliquez, jugez par vous-même.",
+    "Maison Enileh, un site conçu et livré par Aurentia. Design sur-mesure, animations fluides, optimisé conversion. Naviguez, cliquez, jugez par vous-même.",
   callouts: [
     { label: "Avatar IA", position: { x: "5%", y: "20%" } },
     { label: "Landing Page", position: { x: "75%", y: "15%" } },
@@ -185,7 +185,7 @@ export const pricingContent = {
     price: "1 500",
     priceSuffix: "€",
     pricePrefix: "À partir de",
-    mention: "Sur devis — selon la complexité et les animations",
+    mention: "Sur devis, selon la complexité et les animations",
     included: [
       { label: "Design sur-mesure" },
       { label: "Copywriting orienté conversion" },
@@ -229,12 +229,12 @@ export const faqContent = {
     {
       question: "Vous faites aussi le copywriting ?",
       answer:
-        "Oui. On rédige les textes orientés conversion. Si vous avez déjà du contenu, on l'optimise. L'IA nous aide à itérer vite — l'expertise humaine valide chaque mot.",
+        "Oui. On rédige les textes orientés conversion. Si vous avez déjà du contenu, on l'optimise. L'IA nous aide à itérer vite, l'expertise humaine valide chaque mot.",
     },
     {
       question: "Est-ce que je peux modifier la page après livraison ?",
       answer:
-        "Oui. On développe avec Next.js — le code est propre, documenté, et déployé sur votre compte Vercel. Vous pouvez modifier le contenu ou nous demander des ajustements.",
+        "Oui. On développe avec Next.js, le code est propre, documenté, et déployé sur votre compte Vercel. Vous pouvez modifier le contenu ou nous demander des ajustements.",
     },
     {
       question: "Pourquoi pas Webflow ou Framer ?",

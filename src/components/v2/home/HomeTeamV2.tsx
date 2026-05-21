@@ -30,9 +30,9 @@ const team: Member[] = [
   {
     name: "Matthieu",
     role: "CTO, Lead Technique",
-    desc: "Le pilier technique. Sécurité, performance et fiabilité — sans exception.",
+    desc: "Le pilier technique. Sécurité, performance et fiabilité, sans exception.",
     details:
-      "Développeur full-stack et formateur à Epitech Marseille. Pionnier Claude Code au sein de l'équipe — c'est lui qui nous a tous convertis. Architecture technique et code review sur chaque projet.",
+      "Développeur full-stack et formateur à Epitech Marseille. Pionnier Claude Code au sein de l'équipe, c'est lui qui nous a tous convertis. Architecture technique et code review sur chaque projet.",
     imageRight: "/images/team/matthieu-droite.webp",
     imageLeft: "/images/team/matthieu-gauche.webp",
     linkedin: "https://www.linkedin.com/in/mathieu-bousquet-178454315/",
@@ -40,9 +40,9 @@ const team: Member[] = [
   {
     name: "Fabien",
     role: "Production Lead",
-    desc: "20 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
+    desc: "25 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
     details:
-      "Co-fondateur et directeur de l'agence de communication Le Prisme à Avignon. 20 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
+      "Co-fondateur et directeur de l'agence de communication Le Prisme. 25 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
     imageRight: "/images/team/fabien.webp",
     imageLeft: "/images/team/fabien.webp",
     linkedin: "https://www.linkedin.com/in/fabienestrade/",
@@ -52,7 +52,7 @@ const team: Member[] = [
     role: "Développement Business",
     desc: "L'entrepreneur visionnaire. Stratégie, croissance et développement business.",
     details:
-      "Cofondateur d'achat-vip.com (millions de membres), DG de Smily France (centaines de M€ de volume). Serial entrepreneur e-commerce et SaaS — de vente-privee à la location saisonnière.",
+      "Cofondateur d'achat-vip.com (millions de membres), DG de Smily France (centaines de M€ de volume). Serial entrepreneur e-commerce et SaaS, de vente-privee à la location saisonnière.",
     imageRight: "/images/team/olivier-droite.webp",
     imageLeft: "/images/team/olivier-gauche.webp",
     linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",
@@ -62,7 +62,7 @@ const team: Member[] = [
     role: "Développement Business",
     desc: "La culture du scale-up. 25 ans de serial entrepreneur, vision e-commerce et IA.",
     details:
-      "Serial entrepreneur, 4 sociétés créées et cédées. CEO d'Achatvip (45 M€ de CA, 2,7M membres) et co-fondateur d'Inshop chez Veepee — Trophée de l'Innovation E-commerce 2013. Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien.",
+      "Serial entrepreneur, 4 sociétés créées et cédées. CEO d'Achatvip (45 M€ de CA, 2,7M membres) et co-fondateur d'Inshop chez Veepee, Trophée de l'Innovation E-commerce 2013. Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien.",
     imageRight: "/images/team/stephane.webp",
     imageLeft: "/images/team/stephane.webp",
     linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
@@ -72,7 +72,7 @@ const team: Member[] = [
 function TeamCard({ member, idx }: { member: Member; idx: number }) {
   return (
     <Card className="relative p-4 h-full flex flex-col justify-end group overflow-hidden">
-      {/* Background image — desktop: always right, mobile: alternate */}
+      {/* Background image, desktop: always right, mobile: alternate */}
       <div className="absolute inset-0 z-0">
         <Image
           src={idx % 2 === 0 ? member.imageRight : member.imageLeft}
@@ -115,10 +115,10 @@ function TeamCard({ member, idx }: { member: Member; idx: number }) {
           {member.role}
         </span>
         <h3 className="text-2xl font-black mb-2">{member.name}</h3>
-        {/* Desc + details — in a floating panel for readability over photos */}
+        {/* Desc + details, in a floating panel for readability over photos */}
         <div className="rounded-2xl bg-background/80 dark:bg-foreground/[0.08] backdrop-blur-md p-3">
           <p className="leading-snug text-sm opacity-75">{member.desc}</p>
-          {/* Details — revealed on hover */}
+          {/* Details, revealed on hover */}
           <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-in-out">
             <div className="overflow-hidden">
               <p className="leading-snug text-sm mt-2 pt-2 opacity-60 border-t border-foreground/15">

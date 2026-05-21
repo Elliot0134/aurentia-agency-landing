@@ -30,8 +30,8 @@ const team = [
   {
     name: "Fabien",
     role: "Production Lead",
-    desc: "20 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
-    details: "Co-fondateur et directeur de l'agence de communication Le Prisme à Avignon. 20 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
+    desc: "25 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
+    details: "Co-fondateur et directeur de l'agence de communication Le Prisme à Avignon. 25 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
     imageRight: "/images/team/fabien.webp",
     imageLeft: "/images/team/fabien.webp",
     linkedin: "https://www.linkedin.com/in/fabienestrade/",

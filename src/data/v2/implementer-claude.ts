@@ -1,7 +1,7 @@
 // src/data/v2/implementer-claude.ts
 //
 // Toute la matière de la page /ressources/implementer-claude.
-// Source : CONCEPT - Claude (vault ENTREPRENEUR) — avril 2026.
+// Source : CONCEPT - Claude (vault ENTREPRENEUR), avril 2026.
 
 import {
   AlertTriangle,
@@ -55,7 +55,7 @@ export const implementerClaudeToc: TocEntry[] = [
   { id: "claude-md", label: "Ton premier CLAUDE.md" },
   { id: "memory", label: "Activer Memory comme un pro" },
   { id: "mcp", label: "Les 10 MCP à brancher" },
-  { id: "context7", label: "Context7 — la doc à jour des libs" },
+  { id: "context7", label: "Context7, la doc à jour des libs" },
   { id: "skills", label: "5 Skills business prêts à copier" },
   { id: "skill-creator", label: "Crée tes propres Skills (méta)" },
   { id: "prompts", label: "15 prompts business prêts" },
@@ -86,10 +86,10 @@ export const planQuiz: {
   q2: {
     question: "Combien d'heures/jour tu passes sur Claude ?",
     options: [
-      { value: "free", label: "< 1h — je teste" },
-      { value: "pro", label: "1-4h — usage modéré" },
-      { value: "max100", label: "4-6h — build mode" },
-      { value: "max200", label: "8-10h — power user (Code + Cowork)" },
+      { value: "free", label: "< 1h, je teste" },
+      { value: "pro", label: "1-4h, usage modéré" },
+      { value: "max100", label: "4-6h, build mode" },
+      { value: "max200", label: "8-10h, power user (Code + Cowork)" },
     ],
   },
   q3: {
@@ -174,7 +174,7 @@ export const claudeProducts: ClaudeProduct[] = [
     icon: MessageSquare,
     name: "Claude.ai",
     tagline: "Le chat web/desktop. Projects, Artifacts, Memory native.",
-    forWho: "Tout le monde — porte d'entrée par défaut.",
+    forWho: "Tout le monde, porte d'entrée par défaut.",
     installLabel: "Ouvrir claude.ai",
     installHref: "https://claude.ai",
   },
@@ -243,14 +243,14 @@ Va lire mon site, comprends l'activité, et génère un CLAUDE.md structuré ave
 
 Format markdown, prose dense, pas de blabla. Direct.`;
 
-export const claudeMdSoloFounder = `# CLAUDE.md — [Ton prénom]
+export const claudeMdSoloFounder = `# CLAUDE.md, [Ton prénom]
 
 ## Qui je suis
 [Prénom], [âge], [ville]. [Activité principale en 1 phrase].
-Profil : [3 mots clés — ex: stratégie + dev + design].
+Profil : [3 mots clés, ex: stratégie + dev + design].
 
 ## Mon business
-- **[Nom business]** — [pitch 1 phrase]
+- **[Nom business]**, [pitch 1 phrase]
 - Stade : [pré-revenu / MRR XK / ARR XK]
 - Stack : [outils principaux]
 
@@ -279,7 +279,7 @@ Profil : [3 mots clés — ex: stratégie + dev + design].
 - Docs : [/path/to/docs]
 `;
 
-export const claudeMdAgence = `# CLAUDE.md — Agence [Nom]
+export const claudeMdAgence = `# CLAUDE.md, Agence [Nom]
 
 ## L'agence
 [Nom], [N personnes], spécialisée [vertical]. On livre [type de missions] pour des clients [profil].
@@ -322,7 +322,7 @@ export const claudeMdAgence = `# CLAUDE.md — Agence [Nom]
 4. Le client doit pouvoir reprendre le code seul (zéro lock-in)
 `;
 
-export const claudeMdPme = `# CLAUDE.md — [Nom entreprise]
+export const claudeMdPme = `# CLAUDE.md, [Nom entreprise]
 
 ## L'entreprise
 [Nom], [N personnes], [secteur]. On fait [activité].
@@ -429,7 +429,7 @@ export const mcpServers: McpServer[] = [
   {
     icon: Briefcase,
     name: "Stripe",
-    unlocks: "Subscriptions, customers, invoices, refunds — sans quitter Claude.",
+    unlocks: "Subscriptions, customers, invoices, refunds, sans quitter Claude.",
     command: "claude mcp add stripe -- npx -y @stripe/mcp",
   },
   {
@@ -447,7 +447,7 @@ export const mcpServers: McpServer[] = [
   {
     icon: Target,
     name: "Linear",
-    unlocks: "Issues, sprints, status — Claude pilote ta delivery.",
+    unlocks: "Issues, sprints, status, Claude pilote ta delivery.",
     command: "claude mcp add linear -- npx -y mcp-linear",
   },
   {
@@ -471,7 +471,7 @@ export const mcpServers: McpServer[] = [
   {
     icon: FileText,
     name: "context7",
-    unlocks: "Doc à jour des libs (Next.js, React, Tailwind…) — voir section dédiée.",
+    unlocks: "Doc à jour des libs (Next.js, React, Tailwind…), voir section dédiée.",
     command: "claude mcp add context7 -- npx -y @upstash/context7-mcp",
   },
 ];
@@ -480,7 +480,7 @@ export const mcpServers: McpServer[] = [
 
 export const context7InstallCommand = `claude mcp add context7 -- npx -y @upstash/context7-mcp`;
 
-export const context7UsagePrompt = `Use context7 to fetch the latest Next.js 15 App Router docs for [SUJET — ex: server actions, parallel routes, intercepting routes].
+export const context7UsagePrompt = `Use context7 to fetch the latest Next.js 15 App Router docs for [SUJET, ex: server actions, parallel routes, intercepting routes].
 
 Then implement [CE QUE TU VEUX] en suivant exactement les patterns officiels actuels. Pas de pattern obsolète, pas d'API dépréciée.`;
 
@@ -614,7 +614,7 @@ Quand l'utilisateur colle ses notes brutes :
 2. Sortie format markdown :
 
 \`\`\`
-# CR — [Sujet] — [Date]
+# CR, [Sujet], [Date]
 
 **Participants :** ...
 **Durée :** ...
@@ -624,7 +624,7 @@ Quand l'utilisateur colle ses notes brutes :
 - ...
 
 ## Actions (qui / quoi / quand)
-- [ ] @prénom — action — date
+- [ ] @prénom, action, date
 - ...
 
 ## Sujets ouverts
@@ -660,7 +660,7 @@ Quand l'utilisateur veut générer une proposition après un RDV discovery :
 2. Génère la propale en 6 sections :
 
 \`\`\`
-# Proposition commerciale — [Client]
+# Proposition commerciale, [Client]
 **Date :** [date] · **Validité :** 30 jours
 
 ## 1. Contexte (max 5 lignes)
@@ -670,16 +670,16 @@ Quand l'utilisateur veut générer une proposition après un RDV discovery :
 - ...
 
 ## 3. Notre approche (3 phases)
-- **Phase 1** — [découverte/audit] — [livrable] — [délai]
-- **Phase 2** — [...]
-- **Phase 3** — [...]
+- **Phase 1**, [découverte/audit], [livrable], [délai]
+- **Phase 2**, [...]
+- **Phase 3**, [...]
 
 ## 4. Livrables concrets
-- [livrable 1] — [format] — [date cible]
+- [livrable 1], [format], [date cible]
 - ...
 
 ## 5. Investissement
-[Montant HT] € — [conditions paiement : 30/40/30 ou autre]
+[Montant HT] €, [conditions paiement : 30/40/30 ou autre]
 **Inclus :** [...]
 **En option :** [...]
 
@@ -703,7 +703,7 @@ Pose-moi les questions suivantes UNE PAR UNE :
 2. **Quand est-ce que tu le déclenches ?** (mots-clés / phrases qui doivent activer le skill)
 3. **Quels sont les inputs nécessaires ?** (URL, fichier, texte collé, etc.)
 4. **Décris-moi le process étape par étape** (5-8 étapes max, comme tu le ferais à un junior)
-5. **Quel format de sortie attendu ?** (markdown, JSON, email, autre — donne un exemple)
+5. **Quel format de sortie attendu ?** (markdown, JSON, email, autre, donne un exemple)
 6. **Y a-t-il des règles non-négociables ?** (ce que le skill doit JAMAIS faire)
 7. **Quels MCP / outils externes utiliser ?** (WebFetch, Bash, Read, MCP Notion, etc.)
 
@@ -720,7 +720,7 @@ description: Use when [trigger explicite, vraies phrases utilisateur]. [Ce que l
 [Contexte d'usage en 2 phrases]
 
 ## Process
-1. [Étape 1 — verbe d'action]
+1. [Étape 1, verbe d'action]
 2. ...
 
 ## Format de sortie
@@ -760,7 +760,7 @@ Ton : peer-to-peer, jamais "vous", utilise le prénom. Zéro buzzword.`,
     content: `Voici la transcription d'un appel discovery : [PASTE].
 
 Sors :
-1. Score MEDDIC sur 6 axes (Metrics / Economic buyer / Decision criteria / Decision process / Identify pain / Champion) — 1-5 chacun
+1. Score MEDDIC sur 6 axes (Metrics / Economic buyer / Decision criteria / Decision process / Identify pain / Champion), 1-5 chacun
 2. Probabilité de signer : Hot / Warm / Cold (avec justif 1 phrase)
 3. 3 next steps actionnables (qui fait quoi quand)
 4. Mail de follow-up à envoyer dans les 2h (120 mots max)`,
@@ -796,7 +796,7 @@ Si une étape est ambiguë, marque-la "🔶 À clarifier" + question précise à
 
 Sors :
 1. Décisions prises (3 max, en majuscules)
-2. Action items (qui / quoi / quand) au format \`- [ ] @prénom — action — date\`
+2. Action items (qui / quoi / quand) au format \`- [ ] @prénom, action, date\`
 3. Risques identifiés (1-3)
 4. Email de recap à envoyer (150 mots max, ton pro direct)`,
   },
@@ -819,11 +819,11 @@ Pour chaque ambiguïté du brief, marque "🔶 À clarifier" avec la question pr
     category: "Marketing",
     title: "Landing page teardown",
     content: `Lis [URL] et fais un teardown brutal :
-1. Hero — promesse claire ? CTA visible ? (note /10)
-2. Public cible — identifié en 3 secondes ?
-3. Preuves sociales — quantifiées ou floues ?
-4. CTA principal — friction ? clarté ?
-5. Mobile — qu'est-ce qui casse ?
+1. Hero, promesse claire ? CTA visible ? (note /10)
+2. Public cible, identifié en 3 secondes ?
+3. Preuves sociales, quantifiées ou floues ?
+4. CTA principal, friction ? clarté ?
+5. Mobile, qu'est-ce qui casse ?
 
 Sortie : 5 quick wins (impact > effort) avec emplacement EXACT de la modif. Pas de "vous pourriez", c'est "fais X".`,
   },
@@ -833,9 +833,9 @@ Sortie : 5 quick wins (impact > effort) avec emplacement EXACT de la modif. Pas 
     content: `Voici un bloc de copy actuel : "[PASTE]".
 
 Génère 3 variantes :
-- **Variante A — Direct** (factuel, bénéfice chiffré)
-- **Variante B — Aspiration** (transformation, identité)
-- **Variante C — Tension** (problème + retournement)
+- **Variante A, Direct** (factuel, bénéfice chiffré)
+- **Variante B, Aspiration** (transformation, identité)
+- **Variante C, Tension** (problème + retournement)
 
 Pour chaque variante : headline + sub + CTA. Et explique en 1 phrase la psycho derrière.`,
   },
@@ -846,7 +846,7 @@ Pour chaque variante : headline + sub + CTA. Et explique en 1 phrase la psycho d
 Contexte personnel : [TON ANGLE / TON STORY].
 
 Écris un post LinkedIn :
-- Hook (ligne 1) qui arrête le scroll — contre-intuitif ou stats choc
+- Hook (ligne 1) qui arrête le scroll, contre-intuitif ou stats choc
 - Story personnelle ou observation terrain en 4-5 lignes courtes
 - 3 takeaways actionnables
 - CTA d'engagement (question ouverte qui force une vraie réponse)
@@ -891,7 +891,7 @@ Stack / contexte tech : [STACK].
 - Hook ouverture : pourquoi ce job est unique (pas générique)
 - Ce que la personne va vraiment faire (3 missions concrètes, pas du blabla)
 - Profil cible (3 hard skills + 3 soft skills + red flags)
-- Ce qu'on offre (avec range salaire — obligatoire)
+- Ce qu'on offre (avec range salaire, obligatoire)
 - Process recrutement (étapes + timing)
 
 Ton : honnête, direct, zéro langue de bois. Public cible : top 10% du marché.`,
@@ -989,7 +989,7 @@ export const timeline14Days: TimelineDay[] = [
     day: "J4",
     title: "MCP critiques (3 max au début)",
     tasks: [
-      "Branche context7 (doc libs à jour) — non négociable",
+      "Branche context7 (doc libs à jour), non négociable",
       "Branche le MCP de ton outil knowledge (Notion / Linear)",
       "Branche le MCP de ton CRM ou Slack si applicable",
       "Test : pose une question qui croise les 3",
@@ -1031,7 +1031,7 @@ export const timeline14Days: TimelineDay[] = [
       "Crée un Project pour ton activité principale",
       "Upload tes docs clés (process, brand book, ICP)",
       "Custom instructions : référence ton CLAUDE.md",
-      "Test : pose 5 questions business — la réponse doit être ON brand",
+      "Test : pose 5 questions business, la réponse doit être ON brand",
     ],
   },
   {
@@ -1102,13 +1102,13 @@ export const redZones: RedZone[] = [
     icon: Bot,
     title: "Lancer Cowork sans sandbox",
     description:
-      "Cowork = filesystem + apps + browser. 3 niveaux de permission existent — comprends-les AVANT le run autonome. Sandbox dès que possible.",
+      "Cowork = filesystem + apps + browser. 3 niveaux de permission existent, comprends-les AVANT le run autonome. Sandbox dès que possible.",
   },
   {
     icon: AlertTriangle,
     title: "Ignorer le Memory dashboard",
     description:
-      "Memory accumule du contexte qui peut devenir faux ou compromettant. Audit mensuel obligatoire — 2 minutes, énorme impact.",
+      "Memory accumule du contexte qui peut devenir faux ou compromettant. Audit mensuel obligatoire, 2 minutes, énorme impact.",
   },
   {
     icon: Zap,

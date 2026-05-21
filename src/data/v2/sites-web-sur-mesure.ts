@@ -1,5 +1,5 @@
 // src/data/v2/sites-web-sur-mesure.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 import {
   Layers,
   MessageSquare,
@@ -24,7 +24,7 @@ export const sitesWebSurMesureData: SubPageData = {
     eyebrow: "Sites Web · Sur-mesure",
     headline: "Le projet web qui sort du cadre. Conçu, codé, livré.",
     subHeadline:
-      "App, plateforme, marketplace, site sur-mesure pensé pour vendre. On part de votre besoin, on conçoit, on développe — et on vous remet un projet qui vous appartient à 100% et qui rapporte. À partir de 6 000 €.",
+      "App, plateforme, marketplace, site sur-mesure pensé pour vendre. On part de votre besoin, on conçoit, on développe, et on vous remet un projet qui vous appartient à 100% et qui rapporte. À partir de 6 000 €.",
     priceFrom: "6 000 €",
     badges: [],
     cta: {
@@ -34,7 +34,7 @@ export const sitesWebSurMesureData: SubPageData = {
     visual: {
       kind: "image",
       src: "/images/portfolio/friendiz.png",
-      alt: "Projet sur-mesure Friendiz — marketplace livrée par Aurentia",
+      alt: "Projet sur-mesure Friendiz, marketplace livrée par Aurentia",
     },
   },
   forWho: [
@@ -42,13 +42,13 @@ export const sitesWebSurMesureData: SubPageData = {
       icon: Rocket,
       title: "Vous lancez un projet ambitieux",
       description:
-        "Une première version de votre app, une plateforme qui doit grandir vite, un espace de gestion à repenser. Vous voulez un partenaire qui livre vraiment, qui reste joignable et qui pense à long terme — pas une agence qui sous-traite à l'autre bout du monde.",
+        "Une première version de votre app, une plateforme qui doit grandir vite, un espace de gestion à repenser. Vous voulez un partenaire qui livre vraiment, qui reste joignable et qui pense à long terme, pas une agence qui sous-traite à l'autre bout du monde.",
     },
     {
       icon: Sparkles,
       title: "Vous avez une marque ou une expérience à incarner",
       description:
-        "Votre site doit raconter une histoire et marquer vos visiteurs. Animations, parcours sur-mesure, contenus interactifs, connexions à vos outils internes. Un template Wix ne tiendra pas la promesse — il vous faut quelque chose de vraiment unique.",
+        "Votre site doit raconter une histoire et marquer vos visiteurs. Animations, parcours sur-mesure, contenus interactifs, connexions à vos outils internes. Un template Wix ne tiendra pas la promesse, il vous faut quelque chose de vraiment unique.",
     },
   ],
   whatYouGet: {
@@ -61,7 +61,7 @@ export const sitesWebSurMesureData: SubPageData = {
       "Un espace d'administration privé pour piloter votre projet sans nous appeler",
       "Connexions à vos outils existants (paiement, emails, CRM, calendrier…)",
       "Comptes utilisateurs sécurisés avec différents niveaux d'accès",
-      "Parfait sur mobile, tablette, desktop — sans compromis",
+      "Parfait sur mobile, tablette, desktop, sans compromis",
       "Optimisé pour Google + suivi des performances",
       "Le code, les bases de données et les domaines : tout est à votre nom",
       "30 jours de support post-livraison inclus",
@@ -73,7 +73,7 @@ export const sitesWebSurMesureData: SubPageData = {
         pitch: "Construit sur les technologies que les grosses boîtes utilisent. Votre projet ne sera pas obsolète dans 2 ans.",
         items: [
           "Pensé pour absorber 100× plus de trafic sans devoir tout refaire",
-          "Performant, rapide à charger — vos clients ne décrochent pas",
+          "Performant, rapide à charger, vos clients ne décrochent pas",
           "Hébergement haut de gamme, disponible partout dans le monde",
         ],
       },
@@ -84,13 +84,13 @@ export const sitesWebSurMesureData: SubPageData = {
         items: [
           "Paiements en ligne (abonnements, achats, marketplace)",
           "Emails automatiques (confirmations, relances, notifications)",
-          "Connexion à vos outils internes ou tiers — au cas par cas",
+          "Connexion à vos outils internes ou tiers, au cas par cas",
         ],
       },
       {
         icon: Shield,
         title: "Sécurisé et 100% à vous",
-        pitch: "Vos données sont protégées. Le projet vous appartient — on ne vous tient jamais en otage.",
+        pitch: "Vos données sont protégées. Le projet vous appartient, on ne vous tient jamais en otage.",
         items: [
           "Le code, la base de données et les domaines sont à votre nom",
           "Données protégées par utilisateur, accès contrôlés",
@@ -100,9 +100,9 @@ export const sitesWebSurMesureData: SubPageData = {
       {
         icon: Database,
         title: "Construit pour rapporter",
-        pitch: "On code propre dès le premier jour pour que votre projet reste rentable à faire évoluer — pas un fardeau qu'il faut tout refaire dans 18 mois.",
+        pitch: "On code propre dès le premier jour pour que votre projet reste rentable à faire évoluer, pas un fardeau qu'il faut tout refaire dans 18 mois.",
         items: [
-          "Pas de dette cachée — on ne prend pas de raccourcis qui coûtent cher après",
+          "Pas de dette cachée, on ne prend pas de raccourcis qui coûtent cher après",
           "Évolutions futures faciles à ajouter (par nous ou un autre dev)",
           "Documentation claire pour reprendre la main sans friction",
         ],
@@ -121,7 +121,7 @@ export const sitesWebSurMesureData: SubPageData = {
       number: "02",
       title: "Cahier des charges chiffré",
       description:
-        "Sous 5 jours : périmètre détaillé, choix techniques, planning, devis ferme. Vous savez exactement quoi, quand et combien — avant de signer.",
+        "Sous 5 jours : périmètre détaillé, choix techniques, planning, devis ferme. Vous savez exactement quoi, quand et combien, avant de signer.",
       icon: Workflow,
     },
     {
@@ -135,7 +135,7 @@ export const sitesWebSurMesureData: SubPageData = {
       number: "04",
       title: "Développement par paliers",
       description:
-        "On avance par étapes d'une à deux semaines, avec une démo à chaque fois. Vous suivez le projet en direct sur un lien privé — pas d'effet tunnel.",
+        "On avance par étapes d'une à deux semaines, avec une démo à chaque fois. Vous suivez le projet en direct sur un lien privé, pas d'effet tunnel.",
       icon: Code2,
     },
     {
@@ -149,12 +149,12 @@ export const sitesWebSurMesureData: SubPageData = {
   pricing: {
     title: "Un cadrage clair. Un projet livré.",
     subtitle:
-      "Chaque projet sur-mesure est unique — on chiffre précisément après cadrage. Pas de facturation cachée, pas de frais mensuels obligatoires.",
+      "Chaque projet sur-mesure est unique, on chiffre précisément après cadrage. Pas de facturation cachée, pas de frais mensuels obligatoires.",
     packs: [
       {
         name: "Projet sur-mesure",
         price: "",
-        priceNote: "Sur devis selon scope — chiffrage ferme sous 5 jours",
+        priceNote: "Sur devis selon scope, chiffrage ferme sous 5 jours",
         description:
           "App web, plateforme, marketplace, expérience de marque. Construit pour grandir, livré clé en main, et 100% à vous.",
         recommended: true,
@@ -175,10 +175,10 @@ export const sitesWebSurMesureData: SubPageData = {
     conditions: [
       "Cadrage et devis : gratuits, sans engagement",
       "Paiement échelonné en 3 ou 4 fois selon le projet",
-      "Scope verrouillé en début — pas de surprise en cours de route",
+      "Scope verrouillé en début, pas de surprise en cours de route",
       "Demandes hors scope chiffrées séparément, jamais imposées",
     ],
-    note: "Vous n'êtes pas sûr que ça rentre dans le sur-mesure ? On regarde ensemble — 20 minutes au téléphone et vous savez.",
+    note: "Vous n'êtes pas sûr que ça rentre dans le sur-mesure ? On regarde ensemble, 20 minutes au téléphone et vous savez.",
     sideLink: { label: "Comparer les offres Sites Web", href: "/sites-web" },
   },
   examples: {
@@ -186,12 +186,12 @@ export const sitesWebSurMesureData: SubPageData = {
     variant: "bare",
     items: [
       {
-        title: "Comparateur IA Facile — comparateur SaaS",
+        title: "Comparateur IA Facile, comparateur SaaS",
         imageUrl: "/realisations/comparateur-ia/hero.webp",
         href: "/realisations/comparateur-ia-facile",
       },
       {
-        title: "HighLove — marque expérientielle",
+        title: "HighLove, marque expérientielle",
         imageUrl: "/images/portfolio/highlove.png",
       },
     ],
@@ -201,12 +201,12 @@ export const sitesWebSurMesureData: SubPageData = {
     {
       question: "Quel est le délai réel pour un projet sur-mesure ?",
       answer:
-        "Entre 4 et 12 semaines selon la complexité. Une première version simple : 4 à 6 semaines. Une plateforme complète avec plein de fonctionnalités : 8 à 12 semaines. Le planning est fixé dans le devis, pas après — vous savez exactement quoi attendre, et quand.",
+        "Entre 4 et 12 semaines selon la complexité. Une première version simple : 4 à 6 semaines. Une plateforme complète avec plein de fonctionnalités : 8 à 12 semaines. Le planning est fixé dans le devis, pas après, vous savez exactement quoi attendre, et quand.",
     },
     {
       question: "Suis-je vraiment propriétaire du projet à 100% ?",
       answer:
-        "Oui, entièrement. Le code, la base de données et les domaines sont à votre nom dès le premier jour. Vous pouvez partir avec votre projet à tout moment — c'est non négociable de notre côté. Aucun lock-in, aucune dépendance à nous.",
+        "Oui, entièrement. Le code, la base de données et les domaines sont à votre nom dès le premier jour. Vous pouvez partir avec votre projet à tout moment, c'est non négociable de notre côté. Aucun lock-in, aucune dépendance à nous.",
     },
     {
       question: "Que se passe-t-il si je veux ajouter des fonctionnalités en cours de route ?",
@@ -221,17 +221,17 @@ export const sitesWebSurMesureData: SubPageData = {
     {
       question: "Vous proposez de la maintenance après les 30 jours ?",
       answer:
-        "Oui, en option. Forfaits maintenance à partir de 350 €/mois : mises à jour de sécurité, surveillance, petites évolutions. Sinon vous pouvez gérer vous-même — le code est propre et bien documenté, vous (ou votre dev) pouvez reprendre la main sans friction.",
+        "Oui, en option. Forfaits maintenance à partir de 350 €/mois : mises à jour de sécurité, surveillance, petites évolutions. Sinon vous pouvez gérer vous-même, le code est propre et bien documenté, vous (ou votre dev) pouvez reprendre la main sans friction.",
     },
     {
       question: "Est-ce que vous sous-traitez le développement ?",
       answer:
-        "Non. Tout est codé en interne par notre équipe basée à Avignon. C'est ce qui nous permet de tenir les délais, garantir la qualité et rester proches du projet. Pas de dilution offshore.",
+        "Non. Tout est codé en interne par notre équipe basée en France. C'est ce qui nous permet de tenir les délais, garantir la qualité et rester proches du projet. Pas de dilution offshore.",
     },
     {
       question: "Pourquoi le tarif démarre à 6 000 € ?",
       answer:
-        "Parce qu'en dessous, ce n'est plus du sur-mesure — c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 500 €). 6 000 €, c'est le minimum pour un projet construit sérieusement, avec un espace d'administration et un projet 100% à vous. En dessous, regardez plutôt nos packs vitrine ou landing.",
+        "Parce qu'en dessous, ce n'est plus du sur-mesure, c'est un site vitrine ou une landing page (qu'on fait aussi, à partir de 1 500 €). 6 000 €, c'est le minimum pour un projet construit sérieusement, avec un espace d'administration et un projet 100% à vous. En dessous, regardez plutôt nos packs vitrine ou landing.",
     },
   ],
   finalCta: {
@@ -244,7 +244,7 @@ export const sitesWebSurMesureData: SubPageData = {
     { value: "6 000 €", label: "à partir de" },
     { value: "100%", label: "projet à vous" },
     { value: "5 jours", label: "devis ferme" },
-    { value: "Avignon", label: "équipe interne" },
+    { value: "France", label: "équipe interne" },
   ],
   guarantees: [
     {
@@ -257,7 +257,7 @@ export const sitesWebSurMesureData: SubPageData = {
       icon: Shield,
       title: "Votre projet vous appartient à 100%",
       description:
-        "Code, base de données, domaines : tout est à votre nom dès le premier jour. Vous pouvez partir avec votre projet quand vous voulez — aucun lock-in, aucune dépendance à nous.",
+        "Code, base de données, domaines : tout est à votre nom dès le premier jour. Vous pouvez partir avec votre projet quand vous voulez, aucun lock-in, aucune dépendance à nous.",
     },
     {
       icon: RefreshCw,
@@ -303,7 +303,7 @@ export const sitesWebSurMesureData: SubPageData = {
       },
       {
         label: "Équipe interne",
-        values: ["Avignon, in-house", "Selon prestataire", "Souvent sous-traité"],
+        values: ["France, in-house", "Selon prestataire", "Souvent sous-traité"],
       },
       {
         label: "Cadrage gratuit",

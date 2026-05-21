@@ -1,5 +1,5 @@
 // src/data/solutions-ia-audit.ts
-// DRAFT_COPY — to refine before swap
+// DRAFT_COPY, to refine before swap
 import {
   Building2,
   Briefcase,
@@ -138,10 +138,10 @@ export const solutionsIaAuditData: SubPageData = {
   testimonials: [
     {
       quote:
-        "Je m'attendais à un PowerPoint vague avec trois recos consensuelles. On est ressorti avec 27 chantiers IA priorisés, chiffrés et reliés à un vrai gain métier. On a lancé les 5 premiers la semaine suivante — sans avoir à les revendre en interne.",
+        "Je m'attendais à un PowerPoint vague avec trois recos consensuelles. On est ressorti avec 27 chantiers IA priorisés, chiffrés et reliés à un vrai gain métier. On a lancé les 5 premiers la semaine suivante, sans avoir à les revendre en interne.",
       author: "Alexandre Delaunay",
       role: "Directeur associé",
-      company: "Cabinet Meridian — conseil RH",
+      company: "Cabinet Meridian, conseil RH",
       pillar: "solutions-ia",
       stat: "27 chantiers priorisés",
     },
@@ -150,7 +150,7 @@ export const solutionsIaAuditData: SubPageData = {
         "Le rapport est utile, mais le vrai déclic c'est l'atelier de restitution. Pour la première fois en deux ans, toute l'équipe est sortie alignée sur la même roadmap IA. C'est ça qui a débloqué les budgets, pas le PDF.",
       author: "Camille Rouvier",
       role: "Head of Ops",
-      company: "Fable Studio — production audio",
+      company: "Fable Studio, production audio",
       pillar: "solutions-ia",
       stat: "Équipe alignée en 2 j",
     },
@@ -159,7 +159,7 @@ export const solutionsIaAuditData: SubPageData = {
         "On hésitait depuis des mois sur où mettre nos billes IA. L'audit nous a évité d'investir 40 k€ sur un projet voué à l'échec, et nous a redirigés sur une automatisation à 80 k€ d'impact annuel. Payé largement avec un seul chantier évité.",
       author: "Yannis Belhadj",
       role: "COO",
-      company: "Northbridge — agence média",
+      company: "Northbridge, agence média",
       pillar: "solutions-ia",
       stat: "+80 k€ / an d'impact",
     },
@@ -173,7 +173,7 @@ export const solutionsIaAuditData: SubPageData = {
     {
       question: "Vous imposez une stack ou des outils ?",
       answer:
-        "Non. On recommande des stacks mais c'est vous qui décidez. On est agnostique dans nos recommandations — même si on a des préférences basées sur l'expérience.",
+        "Non. On recommande des stacks mais c'est vous qui décidez. On est agnostique dans nos recommandations, même si on a des préférences basées sur l'expérience.",
     },
     {
       question: "Combien de personnes à interviewer ?",

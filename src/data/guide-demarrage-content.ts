@@ -9,7 +9,7 @@ export const claudeVsChatgpt = [
   },
   {
     feature: "Suivre des instructions complexes",
-    claude: "Excellent — lit et respecte les contraintes",
+    claude: "Excellent, lit et respecte les contraintes",
     chatgpt: "Peut ignorer certaines consignes",
     winner: "claude",
   },
@@ -127,8 +127,8 @@ export const readyPrompts: ReadyPrompt[] = [
     content: `Rédige un email professionnel avec ces informations :
 
 Objectif : [ex: relancer un prospect / confirmer un rdv / répondre à une réclamation]
-Destinataire : [NOM, POSTE ou RELATION — ex: "client fidèle depuis 2 ans"]
-Contexte : [ce qui s'est passé avant — ex: "il a demandé un devis il y a 5 jours"]
+Destinataire : [NOM, POSTE ou RELATION, ex: "client fidèle depuis 2 ans"]
+Contexte : [ce qui s'est passé avant, ex: "il a demandé un devis il y a 5 jours"]
 Ton : [professionnel / chaleureux / ferme / conciliant]
 CTA (action souhaitée) : [ex: "répondre avant vendredi" / "réserver un appel"]
 Longueur max : [80 / 120 / 150 mots]
@@ -195,8 +195,8 @@ Document :
 """
 
 Génère :
-1. Résumé exécutif (3 phrases max — ce qu'il faut retenir)
-2. Points clés (5-7 bullet points — les infos les plus importantes)
+1. Résumé exécutif (3 phrases max, ce qu'il faut retenir)
+2. Points clés (5-7 bullet points, les infos les plus importantes)
 3. Chiffres et dates clés (si présents dans le document)
 4. Actions requises (ce que je dois faire après lecture, si applicable)
 
@@ -231,7 +231,7 @@ Organise les idées du plus impactant au moins impactant.
     number: "06",
     title: "Script vidéo courte",
     useCase: "Reels, TikTok, YouTube Shorts, présentations",
-    content: `Écris un script pour une vidéo courte de [DURÉE — ex: 60 secondes / 90 secondes].
+    content: `Écris un script pour une vidéo courte de [DURÉE, ex: 60 secondes / 90 secondes].
 
 Plateforme : [Instagram Reels / TikTok / YouTube Shorts / LinkedIn]
 Sujet : [LE SUJET DE LA VIDÉO]
@@ -240,7 +240,7 @@ Mon profil : [QUI JE SUIS, MON EXPERTISE]
 
 Format du script :
 - Hook (0-3s) : phrase d'accroche qui donne envie de regarder
-- Corps ([DURÉE-10]s) : le contenu principal, découpé en temps (ex: "10s — ...")
+- Corps ([DURÉE-10]s) : le contenu principal, découpé en temps (ex: "10s, ...")
 - CTA (5-7s) : l'action à faire après la vidéo
 
 Précise aussi :
@@ -280,14 +280,14 @@ Ton : [professionnel et chaleureux / expert / simple et accessible]`,
     content: `Aide-moi à planifier ma semaine de travail.
 
 Mes priorités cette semaine :
-1. [PRIORITÉ 1 — avec deadline si applicable]
+1. [PRIORITÉ 1, avec deadline si applicable]
 2. [PRIORITÉ 2]
 3. [PRIORITÉ 3]
 
 Tâches en cours :
-- [TÂCHE A — temps estimé]
-- [TÂCHE B — temps estimé]
-- [TÂCHE C — temps estimé]
+- [TÂCHE A, temps estimé]
+- [TÂCHE B, temps estimé]
+- [TÂCHE C, temps estimé]
 
 Contraintes :
 - Disponibilité : [ex: "disponible lun/mar/jeu, réunions mer matin"]
@@ -357,7 +357,7 @@ Génère :
 export const erreursDébutant = [
   {
     title: "Poser des questions trop vagues",
-    piège: "\"Aide-moi avec mon business\" — Claude ne sait pas par où commencer.",
+    piège: "\"Aide-moi avec mon business\", Claude ne sait pas par où commencer.",
     solution: "Soyez précis : quel problème, quel contexte, quel format de réponse. Plus vous détaillez, plus Claude est utile.",
   },
   {
@@ -368,7 +368,7 @@ export const erreursDébutant = [
   {
     title: "Accepter la première réponse sans itérer",
     piège: "Prendre le premier résultat comme final, même s'il est moyen.",
-    solution: "La vraie puissance de Claude vient de l'itération. \"C'est bien mais trop long — réduis de 30%\" suffit souvent.",
+    solution: "La vraie puissance de Claude vient de l'itération. \"C'est bien mais trop long, réduis de 30%\" suffit souvent.",
   },
   {
     title: "Oublier de donner du contexte sur soi",
@@ -394,13 +394,13 @@ export const astucesPro = [
   {
     number: "02",
     title: "Utilisez les Projects sur claude.ai",
-    description: "Les Projects permettent de donner à Claude des instructions permanentes et de conserver le contexte entre les conversations. Créez un Project par client, par domaine ou par type de tâche. Vos instructions sont mémorisées — pas besoin de tout répéter à chaque session.",
+    description: "Les Projects permettent de donner à Claude des instructions permanentes et de conserver le contexte entre les conversations. Créez un Project par client, par domaine ou par type de tâche. Vos instructions sont mémorisées, pas besoin de tout répéter à chaque session.",
     example: "Créez un Project \"Marketing Client X\" avec les infos du client dans les instructions. Chaque conversation dans ce project part avec le bon contexte.",
   },
   {
     number: "03",
     title: "Sauvegardez vos meilleurs prompts",
-    description: "Quand un prompt fonctionne parfaitement, sauvegardez-le. Créez votre bibliothèque personnelle de prompts dans Notion, une note ou un fichier texte. Ces prompts sont votre capital — ils s'améliorent avec le temps et vous font gagner des heures.",
+    description: "Quand un prompt fonctionne parfaitement, sauvegardez-le. Créez votre bibliothèque personnelle de prompts dans Notion, une note ou un fichier texte. Ces prompts sont votre capital, ils s'améliorent avec le temps et vous font gagner des heures.",
     example: "Organisez vos prompts par catégorie (emails, social, analyse, code) avec une note sur quand et comment les utiliser.",
   },
 ];

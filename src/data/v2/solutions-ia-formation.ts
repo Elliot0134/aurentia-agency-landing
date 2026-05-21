@@ -32,7 +32,7 @@ import {
 import type { CTA, FAQItem, Testimonial } from "./types";
 
 /* ──────────────────────────────────────────────
-   Custom types — Formation IA page
+   Custom types, Formation IA page
    ────────────────────────────────────────────── */
 
 export type SkillCategory = {
@@ -157,7 +157,7 @@ export const solutionsIaFormationData: FormationIaData = {
     headline:
       "Formé par les gens qui livrent l'IA en production.\nPas par des slides.",
     subHeadline:
-      "On forme votre équipe sur Claude, le prompting avancé et l'automatisation IA — et vous repartez avec une bibliothèque de 542 skills qui tourne dans votre métier dès J+1. Pas de théorie sortie d'un MOOC : que des cas d'usage qu'on rencontre vraiment chez nos clients.",
+      "On forme votre équipe sur Claude, le prompting avancé et l'automatisation IA, et vous repartez avec une bibliothèque de 542 skills qui tourne dans votre métier dès J+1. Pas de théorie sortie d'un MOOC : que des cas d'usage qu'on rencontre vraiment chez nos clients.",
     cta: {
       primary: { label: "Réserver ma place (waiting list)", href: "/contact" },
       secondary: { label: "Voir le programme", href: "#modules" },
@@ -172,14 +172,14 @@ export const solutionsIaFormationData: FormationIaData = {
 
   trainersTitle: "Qui te forme",
   trainersSubtitle:
-    "Pas des formateurs qui ont lu un livre sur l'IA. Les praticiens d'Aurentia Agency — ceux qui livrent des SaaS, des chatbots et des automatisations IA en production toute la semaine. Tu apprends ce qu'on fait, pas ce qu'on lit.",
+    "Pas des formateurs qui ont lu un livre sur l'IA. Les praticiens d'Aurentia Agency, ceux qui livrent des SaaS, des chatbots et des automatisations IA en production toute la semaine. Tu apprends ce qu'on fait, pas ce qu'on lit.",
   trainersMembers: ["Elliot", "Matthieu", "Fabien", "Olivier"],
 
   skillsLibrary: {
     eyebrow: "Le vrai livrable",
     title: "Une bibliothèque de 542 skills,\nclassée par métier.",
     subtitle:
-      "Chaque skill est un mini-prompt-system Claude prêt à l'emploi : tu le déclenches, il fait le boulot. Audit RGPD, reformulation de propale, analyse de churn, plan de recrutement — c'est ce qu'on a construit pour nos clients, et ce qui te sera donné pendant la formation.",
+      "Chaque skill est un mini-prompt-system Claude prêt à l'emploi : tu le déclenches, il fait le boulot. Audit RGPD, reformulation de propale, analyse de churn, plan de recrutement, c'est ce qu'on a construit pour nos clients, et ce qui te sera donné pendant la formation.",
     totalCount: "542",
     categories: [
       {
@@ -199,7 +199,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: Megaphone,
         title: "Marketing & Acquisition",
         count: "90+ skills",
-        blurb: "Landing, email, ads, SEO, content — tout l'arsenal acquisition.",
+        blurb: "Landing, email, ads, SEO, content, tout l'arsenal acquisition.",
         examples: [
           "Audit de landing page",
           "Email marketing machine",
@@ -225,7 +225,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: Boxes,
         title: "Produit & SaaS",
         count: "55+ skills",
-        blurb: "Roadmap, audit produit, pricing, MVP — le toolkit du PM.",
+        blurb: "Roadmap, audit produit, pricing, MVP, le toolkit du PM.",
         examples: [
           "Audit produit SaaS",
           "Pricing strategy",
@@ -238,7 +238,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: Wallet,
         title: "Finance & Stratégie",
         count: "35+ skills",
-        blurb: "Pitch, levée, OKR, business plan — la boîte à outils du dirigeant.",
+        blurb: "Pitch, levée, OKR, business plan, la boîte à outils du dirigeant.",
         examples: [
           "Pitch deck builder",
           "Modèle financier 3 ans",
@@ -251,7 +251,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: Scale,
         title: "Juridique & Compliance",
         count: "40+ skills",
-        blurb: "CGV, RGPD, NDA, mentions — propre et défendable.",
+        blurb: "CGV, RGPD, NDA, mentions, propre et défendable.",
         examples: [
           "CGV génération",
           "Privacy policy RGPD",
@@ -303,7 +303,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: GraduationCap,
         title: "Pédagogie & Formation",
         count: "30+ skills",
-        blurb: "Cours, syllabus, exercices, évaluations — tout pour transmettre.",
+        blurb: "Cours, syllabus, exercices, évaluations, tout pour transmettre.",
         examples: [
           "Syllabus builder",
           "Exercice pédagogique",
@@ -319,7 +319,7 @@ export const solutionsIaFormationData: FormationIaData = {
     eyebrow: "Le programme",
     title: "5 parcours vidéo, 60+ modules,\n15h de formation effective.",
     subtitle:
-      "Une plateforme vidéo dédiée, accessible 1 an. Tu avances à ton rythme entre les sessions live. Chaque module se termine par un exercice sur tes vrais dossiers — pas un quiz pour faire joli.",
+      "Une plateforme vidéo dédiée, accessible 1 an. Tu avances à ton rythme entre les sessions live. Chaque module se termine par un exercice sur tes vrais dossiers, pas un quiz pour faire joli.",
     totalDuration: "15h",
     totalModules: "60+",
     tracks: [
@@ -389,7 +389,7 @@ export const solutionsIaFormationData: FormationIaData = {
   forWho: {
     title: "Pour qui c'est fait",
     subtitle:
-      "On forme des équipes qui veulent vraiment utiliser l'IA — pas l'essayer un dimanche soir.",
+      "On forme des équipes qui veulent vraiment utiliser l'IA, pas l'essayer un dimanche soir.",
     items: [
       {
         icon: Building2,
@@ -407,7 +407,7 @@ export const solutionsIaFormationData: FormationIaData = {
         icon: Users,
         title: "Équipes produit & tech",
         description:
-          "Devs, PM, designers qui veulent intégrer Claude au workflow quotidien — vrais skills, vrais MCP, vrais workflows.",
+          "Devs, PM, designers qui veulent intégrer Claude au workflow quotidien, vrais skills, vrais MCP, vrais workflows.",
       },
     ],
   },
@@ -435,7 +435,7 @@ export const solutionsIaFormationData: FormationIaData = {
         number: "03",
         title: "3 sessions live de 2h",
         description:
-          "En visio (ou présentiel à partir de 8 personnes). Prise en main, cas avancés, création de skills custom. On bosse sur vos vrais dossiers — pas sur des cas d'école.",
+          "En visio (ou présentiel à partir de 8 personnes). Prise en main, cas avancés, création de skills custom. On bosse sur vos vrais dossiers, pas sur des cas d'école.",
         icon: Hammer,
       },
       {
@@ -535,35 +535,35 @@ export const solutionsIaFormationData: FormationIaData = {
         cta: { label: "Réserver Équipe complète", href: "/contact" },
       },
     ],
-    note: "Devis officiel sous 24h. Prise en charge OPCO possible (Atlas, Akto, Constructys, OPCO EP, etc.) — on vous accompagne dans la démarche.",
-    earlyBirdNote: "Tarif early bird garanti pour toute réservation avant le lancement de Juin 2026 — places strictement limitées à 50 équipes.",
+    note: "Devis officiel sous 24h. Prise en charge OPCO possible (Atlas, Akto, Constructys, OPCO EP, etc.), on vous accompagne dans la démarche.",
+    earlyBirdNote: "Tarif early bird garanti pour toute réservation avant le lancement de Juin 2026, places strictement limitées à 50 équipes.",
   },
 
   testimonials: [
     {
       quote:
-        "On avait fait quatre formations IA avant celle-ci. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients tous les jours, ce ne sont pas des slides recyclées. On a appris des choses qu'aucun MOOC ne montre — et on a repris la main sur notre stack en trois semaines.",
+        "On avait fait quatre formations IA avant celle-ci. La différence : ici les formateurs livrent vraiment de l'IA chez leurs clients tous les jours, ce ne sont pas des slides recyclées. On a appris des choses qu'aucun MOOC ne montre, et on a repris la main sur notre stack en trois semaines.",
       author: "Sandrine Vasseur",
       role: "Directrice opérations",
-      company: "Groupe Meca — PME industrielle",
+      company: "Groupe Meca, PME industrielle",
       pillar: "solutions-ia",
       stat: "Équipe autonome en 3 sem.",
     },
     {
       quote:
-        "Le fait que la formation soit construite sur nos vrais dossiers a tout changé. Pendant l'atelier, on a co-écrit 8 skills directement utilisables le lundi suivant. Pas une slide de théorie sans application — c'était la première fois.",
+        "Le fait que la formation soit construite sur nos vrais dossiers a tout changé. Pendant l'atelier, on a co-écrit 8 skills directement utilisables le lundi suivant. Pas une slide de théorie sans application, c'était la première fois.",
       author: "Hugo Lambert",
       role: "Consultant senior",
-      company: "Cabinet Solveris — courtage",
+      company: "Cabinet Solveris, courtage",
       pillar: "solutions-ia",
       stat: "8 skills custom dès J+1",
     },
     {
       quote:
-        "J'avais peur que ce soit trop technique pour une équipe créa qui n'a jamais touché à du prompt avancé. Au contraire — chacun a trouvé son angle, du commercial à la compta. La bibliothèque de skills classée par métier, c'est ce qui a tout débloqué.",
+        "J'avais peur que ce soit trop technique pour une équipe créa qui n'a jamais touché à du prompt avancé. Au contraire, chacun a trouvé son angle, du commercial à la compta. La bibliothèque de skills classée par métier, c'est ce qui a tout débloqué.",
       author: "Marie Lacroix",
       role: "CEO",
-      company: "Studio Polaris — agence créative (12 pers.)",
+      company: "Studio Polaris, agence créative (12 pers.)",
       pillar: "solutions-ia",
       stat: "100 % de l'équipe sur Claude",
     },
@@ -573,7 +573,7 @@ export const solutionsIaFormationData: FormationIaData = {
     {
       question: "Pourquoi Juin 2026 et pas tout de suite ?",
       answer:
-        "Parce qu'on finalise la plateforme vidéo et la bibliothèque des 542 skills. On ne lance pas une formation moyenne — on lance la meilleure formation IA en France sur Claude. Si vous réservez avant le lancement, vous avez le tarif early bird garanti (-30%) et la priorité sur les premières sessions.",
+        "Parce qu'on finalise la plateforme vidéo et la bibliothèque des 542 skills. On ne lance pas une formation moyenne, on lance la meilleure formation IA en France sur Claude. Si vous réservez avant le lancement, vous avez le tarif early bird garanti (-30%) et la priorité sur les premières sessions.",
     },
     {
       question: "C'est pour quel niveau ?",
@@ -583,12 +583,12 @@ export const solutionsIaFormationData: FormationIaData = {
     {
       question: "Vous formez à Claude uniquement ?",
       answer:
-        "Principalement Claude — c'est notre spécialité, et c'est aujourd'hui ce qui produit les meilleurs résultats sur du livrable pro (analyse, rédaction, code). On couvre aussi les bases sur les autres IA (ChatGPT, Mistral, Gemini) et surtout : quand utiliser quoi.",
+        "Principalement Claude, c'est notre spécialité, et c'est aujourd'hui ce qui produit les meilleurs résultats sur du livrable pro (analyse, rédaction, code). On couvre aussi les bases sur les autres IA (ChatGPT, Mistral, Gemini) et surtout : quand utiliser quoi.",
     },
     {
       question: "C'est éligible au budget formation ?",
       answer:
-        "Oui. On fournit programme pédagogique, objectifs, modalités d'évaluation et certificat — tout ce qu'il faut pour un dossier OPCO (Atlas, Akto, Constructys, OPCO EP…). On vous accompagne dans la démarche si besoin. La majorité de nos clients passent par leur OPCO.",
+        "Oui. On fournit programme pédagogique, objectifs, modalités d'évaluation et certificat, tout ce qu'il faut pour un dossier OPCO (Atlas, Akto, Constructys, OPCO EP…). On vous accompagne dans la démarche si besoin. La majorité de nos clients passent par leur OPCO.",
     },
     {
       question: "Combien de temps mobilise la formation ?",
@@ -598,7 +598,7 @@ export const solutionsIaFormationData: FormationIaData = {
     {
       question: "Vous pouvez venir sur site ?",
       answer:
-        "Oui, à partir de 8 personnes (pack Équipe complète). On se déplace partout en France. Frais de déplacement à ajouter selon la localisation — on est à Avignon, donc c'est rapide sur tout le sud et la région parisienne.",
+        "Oui, à partir de 8 personnes (pack Équipe complète). On se déplace partout en France. Frais de déplacement à ajouter selon la localisation, on est en France, c'est rapide sur tout le sud et la région parisienne.",
     },
     {
       question: "Et si on a besoin d'aller plus loin après ?",
@@ -608,7 +608,7 @@ export const solutionsIaFormationData: FormationIaData = {
     {
       question: "Combien je peux gagner concrètement ?",
       answer:
-        "Sur les équipes qu'on a déjà formées (en bêta) : entre 4h et 12h par semaine et par personne. Sur une équipe de 5 personnes, ça représente l'équivalent de 0,5 à 1 ETP libéré — soit le coût de la formation amorti en 1 à 3 mois.",
+        "Sur les équipes qu'on a déjà formées (en bêta) : entre 4h et 12h par semaine et par personne. Sur une équipe de 5 personnes, ça représente l'équivalent de 0,5 à 1 ETP libéré, soit le coût de la formation amorti en 1 à 3 mois.",
     },
   ],
 

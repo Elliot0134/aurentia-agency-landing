@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { HomeHeroV2 } from "@/components/v2/home/HomeHeroV2";
 import { HomeServicesV2 } from "@/components/v2/home/HomeServicesV2";
+import { HomeHackathonsCompact } from "@/components/v2/home/HomeHackathonsCompact";
 import { HomeWhyAurentia } from "@/components/v2/home/HomeWhyAurentia";
 import { HomeRealisationsPreview } from "@/components/v2/home/HomeRealisationsPreview";
 import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
@@ -72,6 +73,7 @@ export function HomeClient() {
         {/* <HomeEasterEggV2 /> — désactivé temporairement, on réactivera plus tard */}
         <HomeHeroV2 />
         <HomeServicesV2 />
+        <HomeHackathonsCompact />
         <HomeRealisationsPreview />
         <HomeBookingCTA />
         <HomeWhyAurentia />

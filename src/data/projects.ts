@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA AGENCY — Project data for portfolio & case study pages
+// AURENTIA AGENCY, Project data for portfolio & case study pages
 // All project content for /realisations and /realisations/[slug]
 // ============================================
 

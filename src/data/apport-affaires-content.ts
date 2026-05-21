@@ -1,5 +1,5 @@
 // ============================================
-// AURENTIA APPORT D'AFFAIRES — Content data
+// AURENTIA APPORT D'AFFAIRES, Content data
 // ============================================
 
 export interface ApportStep {

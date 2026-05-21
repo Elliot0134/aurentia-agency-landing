@@ -76,6 +76,22 @@ const TABS: TabDef[] = [
         href: "/sites-web/landing-page",
         Visual: LandingMockup,
       },
+      {
+        title: "E-commerce",
+        desc: "Boutique Shopify sur-mesure. Catalogue, paiement, livraison, SEO produit.",
+        tags: ["Shopify", "Catalogue", "Paiement", "SEO"],
+        priceFrom: "2 500 €",
+        href: "/sites-web/ecommerce",
+        Visual: VitrineMockup,
+      },
+      {
+        title: "Site sur-mesure",
+        desc: "App, marketplace, plateforme. Stack moderne, archi propre, livraison continue.",
+        tags: ["Custom", "Next.js", "Supabase", "Scalable"],
+        priceFrom: "6 000 €",
+        href: "/sites-web/sur-mesure",
+        Visual: RefonteMockup,
+      },
     ],
   },
   {
@@ -147,7 +163,7 @@ const TABS: TabDef[] = [
     offers: [
       {
         title: "Audit IA",
-        desc: "Audit complet de votre business — process, coûts, ROI, opportunités d'automation.",
+        desc: "Audit complet de votre business : process, coûts, ROI, opportunités d'automation.",
         tags: ["Process", "Coûts", "ROI", "Opportunités"],
         priceFrom: "Sur devis",
         href: "/solutions-ia/audit",
