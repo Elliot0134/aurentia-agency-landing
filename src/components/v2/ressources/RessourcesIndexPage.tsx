@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   ArrowRight,
+  Building2,
   Check,
   Mail,
   Sparkles,
@@ -34,6 +35,15 @@ const RESOURCES: ResourceCard[] = [
       "Les prompts, skills, configs et templates qu'on déploie chez nos clients. CLAUDE.md, Memory, MCP, context7, skill creator, séquence 14 jours. Copie, colle, c'est branché.",
     readTime: "Setup ~2 weekends",
     icon: Wand2,
+  },
+  {
+    href: "/ressources/implementation-ia-ftgp",
+    eyebrow: "FTGP",
+    title: "Implémenter l'IA dans ton entreprise",
+    description:
+      "La suite de l'intervention pour les membres French Tech Grande Provence : slides, replay vidéo et plugin Aurentia (11 skills business FR) prêt à l'emploi.",
+    readTime: "Ressource exclusive",
+    icon: Building2,
   },
   {
     href: "/ressources/vibe-coding",
@@ -69,14 +79,14 @@ export function RessourcesIndexPage() {
         title="Nos guides"
         subtitle="On en publiera d'autres au fil du temps. En attendant, on commence fort."
       >
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
           {RESOURCES.map((r) => {
             const Icon = r.icon;
             return (
               <Link
                 key={r.href}
                 href={r.href}
-                className="group relative flex h-full w-full max-w-md flex-1 flex-col gap-5 rounded-3xl border border-transparent bg-background-surface p-7 transition-all duration-500 ease-in-out dark:border-foreground/10 dark:bg-foreground/[0.04] dark:hover:border-foreground/25"
+                className="group relative flex h-full w-full flex-col gap-5 rounded-3xl border border-transparent bg-background-surface p-7 transition-all duration-500 ease-in-out dark:border-foreground/10 dark:bg-foreground/[0.04] dark:hover:border-foreground/25"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex size-12 items-center justify-center rounded-2xl bg-accent-primary/10 text-accent-primary transition-colors duration-500 ease-in-out group-hover:bg-accent-primary group-hover:text-white">

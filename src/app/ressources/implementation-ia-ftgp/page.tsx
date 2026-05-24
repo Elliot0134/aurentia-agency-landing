@@ -14,6 +14,7 @@ import { PartnershipHero } from "@/components/v2/shared/PartnershipHero";
 import { AurentiaPluginSection } from "@/components/v2/ressources/AurentiaPluginSection";
 import { ResourceArticleLayout } from "@/components/v2/ressources/ResourceArticleLayout";
 import { ResourceArticleToc } from "@/components/v2/ressources/ResourceArticleToc";
+import { VideoSummaryAccordion } from "@/components/v2/ressources/VideoSummaryAccordion";
 import { implementationIaFtgp } from "@/data/v2/implementation-ia-ftgp";
 import { cn } from "@/lib/utils";
 
@@ -182,13 +183,18 @@ export default function ImplementationIaFtgpPage() {
             <iframe
               loading="lazy"
               className="absolute inset-0 h-full w-full border-0"
-              src={`https://www.youtube.com/embed/${video.youtubeId}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              src={video.embedUrl}
+              allow="autoplay; fullscreen"
               allowFullScreen
               title={video.title}
             />
           </div>
         </div>
+        <VideoSummaryAccordion
+          label={video.summary.label}
+          intro={video.summary.intro}
+          chapters={video.summary.chapters}
+        />
       </section>
 
       {/* Plugin Aurentia v2 */}

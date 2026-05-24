@@ -79,7 +79,63 @@ export const implementationIaFtgp = {
     title: "Revoir l'intervention en intégralité",
     description:
       "L'enregistrement complet, chapitré. Idéal si tu veux pousser plus loin un concept ou montrer la session à ton équipe.",
-    youtubeId: "REPLACE_VIDEO_ID",
+    embedUrl:
+      "https://www.tella.tv/video/vid_cmpfq5fpv007504jvdz3t3e7x/embed?b=0&title=1&a=1&loop=0&t=0&muted=0&wt=0&o=1",
+    summary: {
+      label: "Résumé de la vidéo",
+      intro:
+        "Une heure et demie pour passer d'« j'utilise ChatGPT de temps en temps » à un vrai workflow IA d'entrepreneur — esprit critique, configuration Claude, automatisations et un cas d'usage end-to-end.",
+      chapters: [
+        {
+          title: "Introduction — l'esprit critique d'abord",
+          timestamp: "0:00",
+          description:
+            "À l'ère de l'IA, la compétence la plus précieuse, c'est ton esprit critique. L'IA développe une certaine flemmardise : 3h à brainstormer sans rien produire, c'est du temps (donc de l'argent) perdu. Toujours expliquer à l'IA l'objectif final pour qu'elle reste alignée avec tes valeurs sur le long terme.",
+        },
+        {
+          title: "Le paysage des outils IA",
+          timestamp: "2:56",
+          description:
+            "Plus de 50 outils IA sortent chaque jour sur un besoin spécifique. L'IA démocratise l'exécution : un développeur devient un chef de projet qui pilote une armée d'agents (Claude Code). Pour s'y retrouver, Elliot a lancé Comparateur IA Facile.",
+        },
+        {
+          title: "Automatiser les process business",
+          timestamp: "5:43",
+          description:
+            "Cartographie service par service (marketing, recrutement, ops…) : les patterns sont les mêmes partout, seule la personnalisation change. L'objectif : construire un écosystème d'entreprise boosté à l'IA, pas juste empiler des outils.",
+        },
+        {
+          title: "Réglementation & sécurité des données",
+          timestamp: "11:06",
+          description:
+            "AI Act + retard européen. Règle d'or : zéro mot de passe, zéro donnée confidentielle dans l'IA. Claude > ChatGPT côté privacy, Mistral utile pour le juridique, et l'idéal reste un serveur en local quand le budget suit.",
+        },
+        {
+          title: "Prompts vs automatisations vs agents autonomes",
+          timestamp: "15:38",
+          description:
+            "Trois niveaux : prompt (action humaine ↔ réponse IA), automatisation n8n (un déclencheur → une suite d'actions), agent autonome (l'IA prend des décisions seule). Monter en autonomie progressivement, en gardant toujours la main.",
+        },
+        {
+          title: "Maîtriser Claude",
+          timestamp: "30:11",
+          description:
+            "Trois usages : Claude Desktop (chat), Claude Cowork (accès ordinateur & fichiers), Claude Code (déployer des agents de dev). Configuration projets, gestion de la mémoire, tokens : tirer le potentiel max de Claude quand il est bien paramétré.",
+        },
+        {
+          title: "Skills, connecteurs (MCP) & RAG local",
+          timestamp: "44:24",
+          description:
+            "Les MCP (Gmail, Calendar, Drive, Context7, n8n…) permettent à Claude d'agir dans tes outils comme tu le ferais. Skills custom + RAG local pour aller plus loin. L'enjeu : trouver le bon équilibre entre productivité maximale et sécurité.",
+        },
+        {
+          title: "Cas pratique : audit + site web en une session",
+          timestamp: "1:18:49",
+          description:
+            "Workflow end-to-end pour Casa Pavoni : skill /audit-site (rapport PDF complet) → /audit-to-design-prompt → Claude Design pour générer une V1 du site présentable au client. De l'audit à la maquette en une session, sans coder à la main.",
+        },
+      ],
+    },
   },
 
   plugin: {
