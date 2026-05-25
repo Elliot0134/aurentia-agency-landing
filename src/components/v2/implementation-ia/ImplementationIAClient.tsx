@@ -12,7 +12,7 @@ import { HomeTeamV2 } from "@/components/v2/home/HomeTeamV2";
 import { ImplementationIAWhyV2 } from "@/components/v2/implementation-ia/ImplementationIAWhyV2";
 import { HomeTestimonialsV2 } from "@/components/v2/home/HomeTestimonialsV2";
 import { ImplementationIAMethodV2 } from "@/components/v2/implementation-ia/ImplementationIAMethodV2";
-import { ImplementationIAExamplesV2 } from "@/components/v2/implementation-ia/ImplementationIAExamplesV2";
+
 import { ImplementationIAFAQV2 } from "@/components/v2/implementation-ia/ImplementationIAFAQV2";
 import { HomeBookingCTA } from "@/components/v2/home/HomeBookingCTA";
 import { HomeBookingEmbed } from "@/components/v2/home/HomeBookingEmbed";
@@ -29,7 +29,7 @@ const subNavItems = [
   { label: "Pourquoi", sectionId: "why" },
   { label: "Témoignages", sectionId: "testimonials" },
   { label: "Méthode", sectionId: "method" },
-  { label: "Exemples", sectionId: "examples" },
+
   { label: "FAQ", sectionId: "faq" },
   { label: "RDV", sectionId: "rdv-embed" },
 ];
@@ -83,8 +83,6 @@ export function ImplementationIAClient() {
         <HomeTestimonialsV2 />
         <SectionDivider />
         <ImplementationIAMethodV2 />
-        <SectionDivider />
-        <ImplementationIAExamplesV2 />
         <SectionDivider />
         <ImplementationIAFAQV2 />
         <SectionDivider />
