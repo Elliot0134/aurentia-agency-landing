@@ -39,16 +39,6 @@ const team: Member[] = [
     linkedin: "https://www.linkedin.com/in/mathieu-bousquet-178454315/",
   },
   {
-    name: "Fabien",
-    role: "Production Lead",
-    desc: "25 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
-    details:
-      "Co-fondateur et directeur de l'agence de communication Le Prisme. 25 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
-    imageRight: "/images/team/fabien.webp",
-    imageLeft: "/images/team/fabien.webp",
-    linkedin: "https://www.linkedin.com/in/fabienestrade/",
-  },
-  {
     name: "Olivier",
     role: "Co-fondateur",
     desc: "L'entrepreneur visionnaire. Stratégie, croissance et développement business.",
@@ -67,6 +57,16 @@ const team: Member[] = [
     imageRight: "/images/team/stephane.webp",
     imageLeft: "/images/team/stephane.webp",
     linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
+  },
+  {
+    name: "Fabien",
+    role: "Production Lead",
+    desc: "25 ans de craft web. La rigueur, l'expérience, l'oeil qui ne laisse rien passer.",
+    details:
+      "Co-fondateur et directeur de l'agence de communication Le Prisme. 25 ans de création de sites web, design graphique et stratégie de marque. Expert en identité visuelle, direction créative et accompagnement client.",
+    imageRight: "/images/team/fabien.webp",
+    imageLeft: "/images/team/fabien.webp",
+    linkedin: "https://www.linkedin.com/in/fabienestrade/",
   },
 ];
 
