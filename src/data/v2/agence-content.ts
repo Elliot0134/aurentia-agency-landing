@@ -119,21 +119,6 @@ export const agenceTeam: AgenceTeamMember[] = [
     linkedin: "https://www.linkedin.com/in/mathieu-bousquet-178454315/",
   },
   {
-    name: "Stéphane Guillemot",
-    role: "Co-fondateur",
-    badge: "Serial entrepreneur e-commerce",
-    bio: "Serial entrepreneur, 4 sociétés créées et cédées en 25 ans. CEO d'Achatvip (45 M€ de CA, 2,7M membres, 3 500 expéditions/jour) et co-fondateur d'Inshop chez Veepee, Trophée de l'Innovation E-commerce 2013. Ex-Country Manager de 3COM France (120 M€) et d'Efficient Networks (groupe Siemens). Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien. Chez Aurentia, il apporte la vision e-commerce et la culture du scale-up.",
-    tags: [
-      "E-commerce scaling",
-      "Stratégie & vision",
-      "IA appliquée",
-      "DeFi & Fintech",
-      "Direction générale",
-    ],
-    image: "/images/team/stephane.webp",
-    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
-  },
-  {
     name: "Olivier Le Floch",
     role: "Co-fondateur",
     badge: "Serial entrepreneur",
@@ -147,6 +132,21 @@ export const agenceTeam: AgenceTeamMember[] = [
     ],
     image: "/images/team/olivier-droite.webp",
     linkedin: "https://www.linkedin.com/in/olivier-le-floch-0899a9/",
+  },
+  {
+    name: "Stéphane Guillemot",
+    role: "Co-fondateur",
+    badge: "Serial entrepreneur e-commerce",
+    bio: "Serial entrepreneur, 4 sociétés créées et cédées en 25 ans. CEO d'Achatvip (45 M€ de CA, 2,7M membres, 3 500 expéditions/jour) et co-fondateur d'Inshop chez Veepee, Trophée de l'Innovation E-commerce 2013. Ex-Country Manager de 3COM France (120 M€) et d'Efficient Networks (groupe Siemens). Aujourd'hui CEO de Cryptoliquidity, où il combine DeFi et IA au quotidien. Chez Aurentia, il apporte la vision e-commerce et la culture du scale-up.",
+    tags: [
+      "E-commerce scaling",
+      "Stratégie & vision",
+      "IA appliquée",
+      "DeFi & Fintech",
+      "Direction générale",
+    ],
+    image: "/images/team/stephane.webp",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/",
   },
   {
     name: "Fabien Estrade",
