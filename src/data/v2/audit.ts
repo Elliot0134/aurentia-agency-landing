@@ -94,6 +94,34 @@ export const auditData = {
     ],
   },
 
+  // Bloc éditorial citable (GEO/AEO) — définition self-contained + réponses courtes.
+  whatIs: {
+    eyebrow: "Comprendre l'audit",
+    title: "Qu'est-ce qu'un audit de site web ?",
+    // Bloc définition (40-60 mots, self-contained) — format extrait par les IA.
+    definition:
+      "Un audit de site web est un diagnostic structuré qui évalue un site sur des critères mesurables — référencement (SEO), vitesse de chargement, expérience utilisateur, qualité du contenu, accessibilité et visibilité sur les moteurs IA — afin d'identifier précisément ce qui freine sa visibilité et ses conversions, puis de le corriger.",
+    blocks: [
+      {
+        question: "Que contient un audit SEO complet ?",
+        answer:
+          "Un audit SEO complet couvre le SEO technique (indexation, balises, schema, sitemap), le SEO on-page (titres, contenu, maillage interne), la performance (Core Web Vitals), l'expérience utilisateur, le copywriting, l'accessibilité, la visibilité sur les IA et, pour une activité locale, le Local SEO. Chez Aurentia, chaque constat est vérifié manuellement sur le site, pas généré par un simple score automatique.",
+      },
+      {
+        question: "Pourquoi un audit est-il important en 2026 ?",
+        answer:
+          "La vitesse et la visibilité conditionnent directement le chiffre d'affaires : selon Google, 53 % des visiteurs mobiles quittent une page qui met plus de trois secondes à charger. En parallèle, une part croissante des recherches passe par ChatGPT et Perplexity — si un site n'envoie pas les bons signaux, ces IA recommandent un concurrent. Un audit identifie ces fuites avant qu'elles ne coûtent des clients.",
+      },
+      {
+        question: "Combien coûte un audit de site web ?",
+        answer:
+          "Les tarifs varient selon la profondeur. Aurentia propose un pré-audit gratuit (premier diagnostic par email) et un audit complet à 99 € HT : un rapport PDF personnalisé avec score global sur 100, comparatif face aux concurrents, manque à gagner chiffré en euros par mois et plan d'action priorisé, relu par un humain et livré sous 24 heures.",
+      },
+    ],
+    sourceNote:
+      "Source performance : Google / SOASTA, « The State of Online Retail Performance » (2017).",
+  },
+
   domains: {
     eyebrow: "Ce qu'on analyse",
     title: "7 domaines passés au crible",

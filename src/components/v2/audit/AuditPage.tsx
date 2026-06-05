@@ -2,6 +2,7 @@ import { SubNavSetter } from "@/components/shared/SubNavContext";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { AuditHero } from "./AuditHero";
 import { AuditProblems } from "./AuditProblems";
+import { AuditWhatIs } from "./AuditWhatIs";
 import { AuditDomains } from "./AuditDomains";
 import { AuditDeliverables } from "./AuditDeliverables";
 import { AuditReportExample } from "./AuditReportExample";
@@ -13,6 +14,7 @@ import { AuditFinalCTA } from "./AuditFinalCTA";
 
 const SUB_NAV = [
   { label: "Le problème", sectionId: "probleme" },
+  { label: "Comprendre", sectionId: "comprendre" },
   { label: "Ce qu'on analyse", sectionId: "domaines" },
   { label: "Livrables", sectionId: "livrables" },
   { label: "Exemple", sectionId: "exemple" },
@@ -29,6 +31,7 @@ export function AuditPage() {
       <ScrollToTop />
       <AuditHero />
       <AuditProblems />
+      <AuditWhatIs />
       <AuditDomains />
       <AuditDeliverables />
       <AuditReportExample />

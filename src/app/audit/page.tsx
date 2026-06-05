@@ -46,7 +46,11 @@ const breadcrumbData = breadcrumb([
   { name: "Audit de site web", url: `${SITE}/audit` },
 ]);
 
-const faqData = faqPage(auditData.faq);
+// FAQ schema = blocs éditoriaux citables (visibles) + FAQ de la page.
+const faqData = faqPage([
+  ...auditData.whatIs.blocks.map((b) => ({ question: b.question, answer: b.answer })),
+  ...auditData.faq,
+]);
 
 export default function Page() {
   return (
