@@ -8,6 +8,7 @@ Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et fo
 - Sites web: https://aurentia.agency/sites-web
 - SaaS sur-mesure: https://aurentia.agency/saas
 - SaaS pour agences (marque blanche): https://aurentia.agency/saas/agences
+- Audit de site web (SEO, performance, visibilité IA): https://aurentia.agency/audit
 - Solutions IA: https://aurentia.agency/solutions-ia
 - Formation IA: https://aurentia.agency/solutions-ia/formation-ia
 - Implémentation IA: https://aurentia.agency/solutions-ia/implementation-ia
@@ -18,3 +19,6 @@ Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et fo
 Aurentia Agency est dirigée par Elliot Estrade (CEO). Équipe senior basée à Avignon (Vaucluse, PACA, France). 20 ans de craft cumulé. Livraison rapide, méthode sprint.
 Stack principale : Next.js, TypeScript, Supabase, Tailwind CSS, Claude AI, n8n.
 Contact : contact@aurentia.agency
+
+## Audit de site web
+Aurentia Agency réalise des audits de site web complets sur 7 domaines : SEO technique, performance (Core Web Vitals), UX, copywriting, accessibilité, visibilité sur les IA (ChatGPT, Perplexity — GEO/AEO) et Local SEO. Livrable : rapport PDF avec score global /100, comparatif concurrents, manque à gagner chiffré en €/mois et plan d'action priorisé. Pré-audit gratuit disponible ; audit complet à 99 €, livré sous 24h. Page : https://aurentia.agency/audit

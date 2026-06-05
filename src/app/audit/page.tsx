@@ -2,6 +2,8 @@
 import { AuditPage } from "@/components/v2/audit/AuditPage";
 import { JsonLd } from "@/components/v2/seo/JsonLd";
 import { pageMeta } from "@/lib/seo/metadata";
+import { breadcrumb, serviceSchema, faqPage } from "@/lib/seo/schema";
+import { auditData } from "@/data/v2/audit";
 
 export const metadata = pageMeta({
   title: "Audit de site web — SEO, performance & visibilité IA · dès 99 €",
@@ -10,33 +12,40 @@ export const metadata = pageMeta({
   path: "/audit",
 });
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Quelle différence entre le pré-audit gratuit et l'audit complet ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le pré-audit gratuit vous donne un premier aperçu des points qui bloquent votre site, livré par email. L'audit complet à 99 € déroule tout : rapport PDF personnalisé avec score global, synthèse des priorités, comparatif concurrents, manque à gagner chiffré, plan d'action priorisé et annexe technique.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "En combien de temps je reçois mon audit complet ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sous 24h. Une fois votre commande passée, on réalise l'audit puis un humain relit chaque constat avant de vous l'envoyer par email.",
-      },
-    },
-  ],
+const SITE = "https://aurentia.agency";
+
+// Service + Offer (99 €) — aide les IA et Google à comprendre le produit.
+const serviceData = {
+  ...serviceSchema({
+    name: "Audit de site web (SEO, performance & visibilité IA)",
+    description:
+      "Audit complet sur 7 domaines : SEO technique, performance (Core Web Vitals), UX, copywriting, accessibilité, visibilité IA (GEO/AEO) et Local SEO. Rapport PDF avec score /100, comparatif concurrents, manque à gagner chiffré et plan d'action priorisé. Livré sous 24h.",
+    url: "/audit",
+  }),
+  serviceType: "Audit SEO et de site web",
+  offers: {
+    "@type": "Offer",
+    price: "99",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: `${SITE}/audit`,
+    description: "Audit complet de site web, relu par un humain, livré sous 24h.",
+  },
 };
+
+const breadcrumbData = breadcrumb([
+  { name: "Accueil", url: `${SITE}/` },
+  { name: "Audit de site web", url: `${SITE}/audit` },
+]);
+
+const faqData = faqPage(auditData.faq);
 
 export default function Page() {
   return (
     <>
-      <JsonLd data={faqSchema} />
+      <JsonLd data={serviceData} />
+      <JsonLd data={breadcrumbData} />
+      <JsonLd data={faqData} />
       <AuditPage />
     </>
   );

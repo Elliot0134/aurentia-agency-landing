@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/a-propos`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/realisations`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    // Audit de site web (lead magnet + offre 99 €)
+    { url: `${baseUrl}/audit`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     // Sites web
     { url: `${baseUrl}/sites-web`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/sites-web/site-vitrine`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
