@@ -6,10 +6,12 @@ import { breadcrumb, serviceSchema, faqPage } from "@/lib/seo/schema";
 import { auditData } from "@/data/v2/audit";
 
 export const metadata = pageMeta({
-  title: "Audit de site web — SEO, performance & visibilité IA · dès 99 €",
+  title: "Audit de site web — SEO, performance & visibilité IA · dès 99 € HT",
   description:
-    "Recevez un audit complet de votre site : SEO, performance, UX, accessibilité et visibilité sur Google ET sur les IA (ChatGPT, Perplexity). On chiffre ce que ça vous coûte chaque mois. Pré-audit gratuit, audit complet à 99 €.",
+    "Recevez un audit complet de votre site : SEO, performance, UX, accessibilité et visibilité sur Google ET sur les IA (ChatGPT, Perplexity). On chiffre ce que ça vous coûte chaque mois. Pré-audit gratuit, audit complet à 99 € HT.",
   path: "/audit",
+  ogImage: "/audit/opengraph-image",
+  ogImageAlt: "Audit de site web — SEO, performance & visibilité IA · Aurentia Agency",
 });
 
 const SITE = "https://aurentia.agency";
@@ -29,7 +31,13 @@ const serviceData = {
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
     url: `${SITE}/audit`,
-    description: "Audit complet de site web, relu par un humain, livré sous 24h.",
+    description: "Audit complet de site web (prix HT), relu par un humain, livré sous 24h.",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      price: "99",
+      priceCurrency: "EUR",
+      valueAddedTaxIncluded: false,
+    },
   },
 };
 

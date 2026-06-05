@@ -256,7 +256,7 @@ export const auditData = {
       },
       {
         number: "03",
-        title: "L'audit complet (99 €) sous 24h",
+        title: "L'audit complet (99 € HT) sous 24h",
         description:
           "Si vous voulez tout le détail, vous passez à l'audit complet : rapport intégral, relu par un humain, livré sous 24h.",
       },
@@ -291,17 +291,17 @@ export const auditData = {
         "Votre manque à gagner chiffré en €/mois",
         "Plan d'action priorisé + annexe technique",
       ],
-      ctaLabel: "Passer à l'audit complet · 99 €",
+      ctaLabel: "Passer à l'audit complet · 99 € HT",
     },
     reassurance:
-      "Audit complet livré sous 24h — le temps qu'un humain relise chaque constat avant envoi.",
+      "Prix HT · Audit complet livré sous 24h — le temps qu'un humain relise chaque constat avant envoi.",
   },
 
   faq: [
     {
       question: "Quelle différence entre le pré-audit gratuit et l'audit complet ?",
       answer:
-        "Le pré-audit gratuit vous donne un premier aperçu des points qui bloquent votre site, livré par email. L'audit complet à 99 € déroule tout : un rapport PDF personnalisé avec score global, synthèse des priorités, comparatif face à vos concurrents, manque à gagner chiffré, plan d'action priorisé et annexe technique. Vous commencez gratuitement, et vous passez au complet seulement si vous le souhaitez.",
+        "Le pré-audit gratuit vous donne un premier aperçu des points qui bloquent votre site, livré par email. L'audit complet à 99 € HT déroule tout : un rapport PDF personnalisé avec score global, synthèse des priorités, comparatif face à vos concurrents, manque à gagner chiffré, plan d'action priorisé et annexe technique. Vous commencez gratuitement, et vous passez au complet seulement si vous le souhaitez.",
     },
     {
       question: "Le pré-audit gratuit, c'est vraiment gratuit ?",
@@ -316,7 +316,7 @@ export const auditData = {
     {
       question: "Est-ce que vous corrigez mon site ou créez des liens ?",
       answer:
-        "L'audit à 99 € est un diagnostic complet : il identifie tout ce qui bloque et vous remet un plan d'action. La mise en œuvre (refonte, optimisation, création des fiches annuaires, etc.) fait l'objet d'une prestation séparée. Beaucoup de clients commencent par l'audit pour savoir exactement quoi prioriser avant d'investir davantage.",
+        "L'audit à 99 € HT est un diagnostic complet : il identifie tout ce qui bloque et vous remet un plan d'action. La mise en œuvre (refonte, optimisation, création des fiches annuaires, etc.) fait l'objet d'une prestation séparée. Beaucoup de clients commencent par l'audit pour savoir exactement quoi prioriser avant d'investir davantage.",
     },
     {
       question: "Pourquoi parler des IA comme ChatGPT ?",
@@ -339,7 +339,7 @@ export const auditData = {
     title: "Arrêtez de deviner pourquoi votre site ne ramène personne.",
     subtitle:
       "Commencez par votre pré-audit gratuit : sachez ce qui vous coûte des clients — sur Google comme sur les IA — avant d'investir un centime.",
-    note: "Puis, si vous voulez tout le détail : audit complet à 99 €, livré sous 24h.",
+    note: "Puis, si vous voulez tout le détail : audit complet à 99 € HT, livré sous 24h.",
   },
 };
 

@@ -50,8 +50,9 @@ export function AuditPricing() {
         <Card className="flex flex-col p-8">
           <p className="font-heading text-xl text-foreground">{pricing.paid.title}</p>
           <p className="mt-2 font-heading text-4xl text-foreground">
-            <span className="align-super text-2xl">{pricing.paid.currency}</span>
             {pricing.paid.price}
+            <span className="align-super text-2xl">{pricing.paid.currency}</span>
+            <span className="ml-1 align-super text-base font-medium text-foreground/45">HT</span>
           </p>
           <p className="mt-1 text-sm text-foreground/55">{pricing.paid.subtitle}</p>
           <ul className="mt-6 flex flex-1 flex-col gap-3">
