@@ -74,6 +74,13 @@ export const navbarConfig: NavbarConfig = {
           description: "En cours, formations équipes sur-mesure",
           comingSoon: true,
         },
+        // === Audit & SEO ===
+        {
+          group: "Audit & SEO",
+          label: "Audit de site web",
+          href: "/audit",
+          description: "Diagnostic SEO, perf & IA · pré-audit gratuit, complet à 99 €",
+        },
       ],
     },
     {
