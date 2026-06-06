@@ -10,7 +10,7 @@ import { SubNavProvider } from "@/components/shared/SubNavContext";
 import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
 import { FooterV2 } from "@/components/v2/layout/FooterV2";
 import { WipModalProvider } from "@/components/shared/WipModal";
-import { ChatbotWidget } from "@/components/v2/chatbot/ChatbotWidget";
+import { ChatbotWidgetLazy } from "@/components/v2/chatbot/ChatbotWidgetLazy";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-inter",
@@ -34,7 +34,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aurentia.agency"),
+  metadataBase: new URL("https://www.aurentia.agency"),
   title: {
     default: "Aurentia Agency — Sites web, SaaS & IA · Avignon",
     template: "%s | Aurentia Agency",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Aurentia Agency",
-    url: "https://aurentia.agency",
+    url: "https://www.aurentia.agency",
     title: "Aurentia Agency — Sites web, SaaS & IA · Avignon",
     description: "Agence web & IA basée à Avignon. Sites sur-mesure, SaaS, automatisations et formations IA.",
     images: [{ url: "/images/opengraph/opengraph.png", width: 1200, height: 630, alt: "Aurentia Agency" }],
@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <NavbarV2 />
               <main className="flex flex-col">{children}</main>
               <FooterV2 />
-              <ChatbotWidget />
+              <ChatbotWidgetLazy />
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const SITE_URL = "https://aurentia.agency";
+const SITE_URL = "https://www.aurentia.agency";
 const DEFAULT_OG_IMAGE = "/images/opengraph/opengraph.png";
 
 type PageMetaInput = {

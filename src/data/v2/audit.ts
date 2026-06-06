@@ -46,7 +46,7 @@ export const auditData = {
     headline: "Votre site est-il invisible sur Google",
     headlineAccent: "et sur ChatGPT ?",
     subHeadline:
-      "Entrez votre site et votre email : recevez gratuitement un premier diagnostic. On mesure, on compare à vos concurrents, et on vous montre ce que votre site vous fait perdre — chaque mois.",
+      "On mesure, on compare à vos concurrents, et on vous montre ce que votre site vous fait perdre — chaque mois.",
     proofs: ["7 domaines analysés", "Comparatif concurrents", "Plan d'action priorisé"],
     // Carte score — cas réel anonymisé. Radar /100 par axe.
     scoreCard: {
@@ -105,17 +105,17 @@ export const auditData = {
       {
         question: "Que contient un audit SEO complet ?",
         answer:
-          "Un audit SEO complet couvre le SEO technique (indexation, balises, schema, sitemap), le SEO on-page (titres, contenu, maillage interne), la performance (Core Web Vitals), l'expérience utilisateur, le copywriting, l'accessibilité, la visibilité sur les IA et, pour une activité locale, le Local SEO. Chez Aurentia, chaque constat est vérifié manuellement sur le site, pas généré par un simple score automatique.",
+          "Le SEO technique et on-page, la performance, l'UX, le copywriting, l'accessibilité, la visibilité IA et le Local SEO. Chez Aurentia, chaque constat est vérifié à la main, pas sorti d'un score automatique.",
       },
       {
         question: "Pourquoi un audit est-il important en 2026 ?",
         answer:
-          "La vitesse et la visibilité conditionnent directement le chiffre d'affaires : selon Google, 53 % des visiteurs mobiles quittent une page qui met plus de trois secondes à charger. En parallèle, une part croissante des recherches passe par ChatGPT et Perplexity — si un site n'envoie pas les bons signaux, ces IA recommandent un concurrent. Un audit identifie ces fuites avant qu'elles ne coûtent des clients.",
+          "Vitesse et visibilité pèsent direct sur le CA : 53 % des visiteurs mobiles quittent une page qui charge en plus de 3 secondes (Google). Et de plus en plus de recherches passent par ChatGPT ou Perplexity — sans les bons signaux, ces IA recommandent un concurrent.",
       },
       {
         question: "Combien coûte un audit de site web ?",
         answer:
-          "Les tarifs varient selon la profondeur. Aurentia propose un pré-audit gratuit (premier diagnostic par email) et un audit complet à 99 € HT : un rapport PDF personnalisé avec score global sur 100, comparatif face aux concurrents, manque à gagner chiffré en euros par mois et plan d'action priorisé, relu par un humain et livré sous 24 heures.",
+          "Ça dépend de la profondeur. Aurentia propose un pré-audit gratuit par email et un audit complet à 99 € HT : rapport PDF avec score /100, comparatif concurrents, manque à gagner chiffré et plan d'action, relu par un humain et livré sous 24h.",
       },
     ],
     sourceNote:

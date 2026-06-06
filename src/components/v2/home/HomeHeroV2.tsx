@@ -27,6 +27,30 @@ const CLIENT_LOGOS: ClientLogo[] = [
   { name: "Mon Service Courtier", src: "/partenaires/mon-service-courtier.png", needsDarkBg: true },
 ];
 
+function LogoItem({ logo, mobile }: { logo: ClientLogo; mobile?: boolean }) {
+  const heightCls = mobile
+    ? (logo.heightClass?.replace(/md:\S+/g, "") ?? "h-8") // smaller on mobile rows
+    : (logo.heightClass ?? "h-10 md:h-12");
+  const img = (
+    <Image
+      src={logo.src}
+      alt={logo.name}
+      width={96}
+      height={48}
+      className={`${heightCls} w-auto object-contain`}
+    />
+  );
+  return logo.needsDarkBg ? (
+    <div className="flex shrink-0 items-center rounded-xl bg-zinc-900 px-4 py-2 transition-transform duration-500 ease-in-out hover:scale-110">
+      {img}
+    </div>
+  ) : (
+    <div className="shrink-0 transition-transform duration-500 ease-in-out hover:scale-110">
+      {img}
+    </div>
+  );
+}
+
 export function HomeHeroV2() {
   const { hero } = homeData;
 
@@ -105,7 +129,9 @@ export function HomeHeroV2() {
       </div>
 
       {/* ══════════════════════════════════════════════
-           CLIENTS — right-to-left marquee inside layout width (not full viewport)
+           CLIENTS — marquee logos
+           Desktop: single row right-to-left
+           Mobile: two rows, opposite directions
            ══════════════════════════════════════════════ */}
       <div className="relative z-10 py-8 md:py-10">
         <div className="mx-auto w-full max-w-7xl px-6 md:px-12">
@@ -124,35 +150,35 @@ export function HomeHeroV2() {
               aria-hidden
             />
 
-            {/* Marquee track — duplicated 2x for seamless loop (scroll-x translates -50%) */}
-            <div className="marquee-track flex items-center gap-x-16">
-              {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => {
-                const img = (
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    width={96}
-                    height={48}
-                    className={`${logo.heightClass ?? "h-10 md:h-12"} w-auto object-contain`}
-                  />
-                );
-                return logo.needsDarkBg ? (
-                  <div
-                    key={`${logo.name}-${i}`}
-                    className="flex shrink-0 items-center rounded-xl bg-zinc-900 px-4 py-2 transition-transform duration-500 ease-in-out hover:scale-110"
-                  >
-                    {img}
-                  </div>
-                ) : (
-                  <div
-                    key={`${logo.name}-${i}`}
-                    className="shrink-0 transition-transform duration-500 ease-in-out hover:scale-110"
-                  >
-                    {img}
-                  </div>
-                );
-              })}
+            {/* Desktop: single row */}
+            <div className="hidden md:block">
+              <div className="marquee-track flex items-center gap-x-16">
+                {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => (
+                  <LogoItem key={`${logo.name}-d-${i}`} logo={logo} />
+                ))}
+              </div>
             </div>
+
+            {/* Mobile: two rows with different logos, opposite scroll directions */}
+            {(() => {
+              const mid = Math.ceil(CLIENT_LOGOS.length / 2);
+              const row1 = CLIENT_LOGOS.slice(0, mid);
+              const row2 = CLIENT_LOGOS.slice(mid);
+              return (
+                <div className="flex flex-col gap-4 md:hidden">
+                  <div className="marquee-track flex items-center gap-x-10">
+                    {[...row1, ...row1, ...row1].map((logo, i) => (
+                      <LogoItem key={`${logo.name}-m1-${i}`} logo={logo} mobile />
+                    ))}
+                  </div>
+                  <div className="marquee-track-reverse flex items-center gap-x-10">
+                    {[...row2, ...row2, ...row2].map((logo, i) => (
+                      <LogoItem key={`${logo.name}-m2-${i}`} logo={logo} mobile />
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
       </div>

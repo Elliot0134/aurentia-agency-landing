@@ -105,15 +105,6 @@ export function AuditLeadForm({ source, className, tone = "default" }: AuditLead
         )}
       </button>
 
-      <p
-        className={cn(
-          "mt-3 text-sm",
-          tone === "dark" ? "text-foreground/55" : "text-foreground/55",
-        )}
-      >
-        Gratuit · sans engagement · résultat envoyé par email
-      </p>
-
       {status === "error" && (
         <p className="mt-2 text-sm text-red-500">
           Une erreur est survenue. Réessayez ou écrivez-nous à contact@aurentia.agency.

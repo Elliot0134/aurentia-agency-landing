@@ -489,13 +489,13 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
             role={!showPillarGrid ? "tablist" : undefined}
             aria-orientation={!showPillarGrid ? "horizontal" : undefined}
             aria-label={!showPillarGrid ? "Catégories de services" : undefined}
-            className="relative inline-flex items-center gap-1 rounded-full border border-foreground/15 p-1"
+            className="relative grid grid-cols-2 gap-1 rounded-2xl border border-foreground/15 p-1 sm:inline-flex sm:flex-nowrap sm:rounded-full"
           >
-            {/* Sliding pills — only relevant in tabs view */}
+            {/* Sliding pills — only relevant in tabs view, hidden on mobile (wrapping breaks absolute positioning) */}
             {!showPillarGrid && (
               <>
                 <div
-                  className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-foreground/[0.04] will-change-transform"
+                  className="pointer-events-none absolute inset-y-1 left-0 hidden rounded-full bg-foreground/[0.04] will-change-transform sm:block"
                   style={{
                     width: hoverPill.width,
                     opacity: hoverPill.opacity,
@@ -505,7 +505,7 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                   }}
                 />
                 <div
-                  className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-background-surface shadow-[0_2px_10px_-2px_rgba(0,0,0,0.08)] ring-1 ring-foreground/[0.08] will-change-transform"
+                  className="pointer-events-none absolute inset-y-1 left-0 hidden rounded-full bg-background-surface shadow-[0_2px_10px_-2px_rgba(0,0,0,0.08)] ring-1 ring-foreground/[0.08] will-change-transform sm:block"
                   style={{
                     width: activePill.width,
                     opacity: activePill.ready ? 1 : 0,
@@ -529,7 +529,7 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="relative z-10 cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium whitespace-nowrap text-foreground/70 transition-colors duration-500 ease-out hover:text-foreground"
+                  className="relative z-10 col-span-2 cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium whitespace-nowrap text-foreground/70 transition-colors duration-500 ease-out hover:text-foreground sm:col-span-1"
                 >
                   Détail des services
                 </motion.button>
@@ -556,8 +556,10 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className={`relative z-10 cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium whitespace-nowrap outline-none transition-colors duration-500 ease-out focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                        isActive ? "text-foreground" : "text-foreground/55 hover:text-foreground/90"
+                      className={`relative z-10 cursor-pointer rounded-full px-5 py-2 text-center text-sm font-medium whitespace-nowrap outline-none transition-all duration-500 ease-out focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:py-1.5 ${
+                        isActive
+                          ? "text-foreground bg-background-surface shadow-sm ring-1 ring-foreground/[0.08] sm:bg-transparent sm:shadow-none sm:ring-0"
+                          : "text-foreground/55 hover:text-foreground/90"
                       }`}
                     >
                       {tab.label}
@@ -580,11 +582,12 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
           >
-            <div className="mx-auto grid w-full grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-6">
-              {PILLARS.map((pillar) => (
+            <div className="mx-auto grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-6">
+              {PILLARS.map((pillar, i) => (
                 <PillarEntryCard
                   key={pillar.key}
                   pillar={pillar}
+                  index={i}
                   onClick={() => handlePillarClick(pillar.key)}
                 />
               ))}
@@ -648,23 +651,25 @@ export function HomeServicesV2({ lockedTab }: HomeServicesV2Props = {}) {
 function PillarEntryCard({
   pillar,
   onClick,
+  index,
 }: {
   pillar: PillarEntry;
   onClick: () => void;
+  index: number;
 }) {
   const { title, services, Mockup, accent } = pillar;
+  const isEven = index % 2 === 0;
   return (
     <div className="group relative h-full w-full">
-      <Card className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl">
+      {/* ── Desktop: vertical card (mockup top, text bottom) ── */}
+      <Card className="relative hidden h-full w-full flex-col overflow-hidden rounded-3xl sm:flex">
         <button
           type="button"
           onClick={onClick}
           aria-label={`Voir les offres ${title}`}
           className="flex h-full w-full cursor-pointer flex-col text-left"
         >
-          {/* Viewport — bg layer only, mockup is rendered as a sibling of Card so it can overflow */}
           <div className="relative aspect-[16/10] w-full shrink-0">
-            {/* Background layer — strictly clipped by the Card (overflow-hidden), never moves, never scales */}
             <div
               className="absolute inset-0 rounded-t-3xl"
               style={{
@@ -682,7 +687,6 @@ function PillarEntryCard({
             </div>
           </div>
 
-          {/* Bottom — title + services list. Whole block lifts on hover; services line is blurred at rest, sharpens on hover. */}
           <div className="flex flex-1 flex-col gap-2 p-6 transition-transform duration-700 ease-in-out group-hover:-translate-y-2 md:p-7">
             <h3 className="font-heading text-2xl font-bold leading-tight tracking-tight text-foreground whitespace-nowrap">
               {title}
@@ -693,12 +697,49 @@ function PillarEntryCard({
           </div>
         </button>
       </Card>
-      {/* Mockup overlay — rendered OUTSIDE the Card so it can overflow freely on hover.
-          pointer-events-none lets clicks pass through to the Card's button below. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex aspect-[16/10] items-center justify-center p-4 transition-transform duration-700 ease-in-out group-hover:-translate-y-6 group-hover:scale-[1.06]">
+      {/* Desktop mockup overlay */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 hidden aspect-[16/10] items-center justify-center p-4 transition-transform duration-700 ease-in-out group-hover:-translate-y-6 group-hover:scale-[1.06] sm:flex">
         <Mockup />
       </div>
-      {/* Arrow — rendered OUTSIDE the Card too, with the highest z-index so it always sits above the mockup */}
+
+      {/* ── Mobile: horizontal card (mockup + text side by side, alternating) ── */}
+      <Card className="relative flex h-full w-full overflow-hidden rounded-2xl sm:hidden">
+        <button
+          type="button"
+          onClick={onClick}
+          aria-label={`Voir les offres ${title}`}
+          className={`flex h-full w-full cursor-pointer items-center gap-0 text-left ${isEven ? "flex-row" : "flex-row-reverse"}`}
+        >
+          <div className="flex flex-1 flex-col gap-1.5 p-5">
+            <h3 className="font-heading text-xl font-bold leading-tight tracking-tight text-foreground">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-foreground/60">
+              {services.join(" · ")}
+            </p>
+          </div>
+          <div
+            className={`relative flex w-[45%] shrink-0 items-center justify-center self-stretch ${isEven ? "rounded-r-2xl" : "rounded-l-2xl"}`}
+            style={{
+              background: `linear-gradient(135deg, ${accent.from}18 0%, ${accent.to}18 100%)`,
+            }}
+          >
+            <div
+              className="pointer-events-none absolute -top-8 -right-8 h-28 w-28 rounded-full opacity-45 blur-2xl"
+              style={{ background: accent.from }}
+            />
+            <div
+              className="pointer-events-none absolute -bottom-8 -left-8 h-28 w-28 rounded-full opacity-35 blur-2xl"
+              style={{ background: accent.to }}
+            />
+            <div className="relative z-10 w-full max-w-[140px] p-3">
+              <Mockup />
+            </div>
+          </div>
+        </button>
+      </Card>
+
+      {/* Arrow */}
       <span
         className="pointer-events-none absolute right-3 top-3 z-30 flex size-7 items-center justify-center rounded-full bg-background-surface/85 text-foreground/70 backdrop-blur-sm"
         aria-hidden
@@ -733,7 +774,7 @@ function WebsiteMini() {
         <div className="mt-1 h-3 w-14 rounded-md bg-white/95" />
       </div>
       {/* Content blocks */}
-      <div className="flex gap-1.5 px-3 py-2">
+      <div className="flex gap-1.5 px-3 py-2 pb-3">
         <div className="h-6 flex-1 rounded bg-slate-100" />
         <div className="h-6 flex-1 rounded bg-slate-100" />
       </div>
@@ -828,10 +869,10 @@ function OrgChartMini() {
         </span>
         <span className="h-1 w-10 rounded-full bg-white" />
       </div>
-      {/* Connector lines */}
+      {/* Connector lines — 2 children on mobile, 3 on desktop */}
       <svg
         viewBox="0 0 200 32"
-        className="h-6 w-full"
+        className="hidden h-6 w-full sm:block"
         preserveAspectRatio="none"
         aria-hidden
       >
@@ -843,9 +884,35 @@ function OrgChartMini() {
           opacity="0.4"
         />
       </svg>
-      {/* Children */}
-      <div className="flex w-full justify-between gap-1.5">
+      <svg
+        viewBox="0 0 200 32"
+        className="h-6 w-full sm:hidden"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        <path
+          d="M100 0 L100 12 M50 32 L50 20 L150 20 L150 32 M100 12 L100 20"
+          stroke={ceoColor}
+          strokeWidth="1.5"
+          fill="none"
+          opacity="0.4"
+        />
+      </svg>
+      {/* Children — 2 on mobile, 3 on desktop */}
+      <div className="hidden w-full justify-between gap-1.5 sm:flex">
         {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="flex flex-1 items-center justify-center gap-0.5 rounded-md px-1 py-1.5 shadow-sm"
+            style={{ background: `linear-gradient(135deg, ${childColor} 0%, #CA8A04 100%)` }}
+          >
+            <span className="size-1.5 rounded-full bg-white/80" />
+            <span className="h-1 w-6 rounded-full bg-white/90" />
+          </div>
+        ))}
+      </div>
+      <div className="flex w-full justify-center gap-3 sm:hidden">
+        {[0, 1].map((i) => (
           <div
             key={i}
             className="flex flex-1 items-center justify-center gap-0.5 rounded-md px-1 py-1.5 shadow-sm"
@@ -886,8 +953,8 @@ function OfferCard({
           {title}
         </h3>
 
-        {/* Mockup viewport — same chrome + hover-scroll as root homepage */}
-        <div className="mockup-viewport relative aspect-[16/11] w-full shrink-0 overflow-hidden rounded-xl border border-foreground/[0.08] bg-white transition-all duration-700 ease-in-out group-hover:border-foreground/20 group-hover:shadow-[0_0_50px_rgba(228,85,18,0.08)] group-hover:scale-[1.02] dark:bg-background-surface">
+        {/* Mockup viewport — hidden on mobile to save space */}
+        <div className="mockup-viewport relative hidden aspect-[16/11] w-full shrink-0 overflow-hidden rounded-xl border border-foreground/[0.08] bg-white transition-all duration-700 ease-in-out group-hover:border-foreground/20 group-hover:shadow-[0_0_50px_rgba(228,85,18,0.08)] group-hover:scale-[1.02] dark:bg-background-surface md:block">
           <Visual />
           {/* Bottom fade — hints scrollability + softens content clip */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-14 bg-gradient-to-t from-white via-white/70 to-transparent dark:from-background-surface dark:via-background-surface/70" />

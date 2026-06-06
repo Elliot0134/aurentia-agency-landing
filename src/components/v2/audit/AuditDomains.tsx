@@ -9,7 +9,6 @@ export function AuditDomains() {
   return (
     <SectionContainer
       id="domaines"
-      surface
       eyebrow={domains.eyebrow}
       title={domains.title}
       subtitle={domains.subtitle}

@@ -1021,6 +1021,18 @@
   will-change: transform;
 }
 
+@keyframes scroll-x-reverse {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+.marquee-track-reverse {
+  display: flex;
+  white-space: nowrap;
+  animation: scroll-x-reverse 22s linear infinite;
+  will-change: transform;
+}
+
 /* SaaS portfolio marquee — pause on hover */
 .saas-marquee-track {
   animation: scroll-x 40s linear infinite;
@@ -1203,6 +1215,15 @@ h1, h2 {
     animation-iteration-count: 1 !important;
   }
 
+  /* Marquees are content carousels — keep them scrolling on mobile */
+  .marquee-track,
+  .marquee-track-reverse,
+  .saas-marquee-track,
+  .animate-marquee {
+    animation-duration: 25s !important;
+    animation-iteration-count: infinite !important;
+  }
+
   /* Remove will-change hints on mobile (reduces GPU layer creation) */
   .will-change-transform {
     will-change: auto !important;
@@ -1228,6 +1249,14 @@ h1, h2 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Marquees are content carousels, not decorative — keep them moving but slower */
+  .marquee-track,
+  .saas-marquee-track,
+  .animate-marquee {
+    animation-duration: 60s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 

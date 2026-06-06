@@ -14,9 +14,9 @@ import { AuditFinalCTA } from "./AuditFinalCTA";
 
 const SUB_NAV = [
   { label: "Le problème", sectionId: "probleme" },
+  { label: "Livrables", sectionId: "livrables" },
   { label: "Comprendre", sectionId: "comprendre" },
   { label: "Ce qu'on analyse", sectionId: "domaines" },
-  { label: "Livrables", sectionId: "livrables" },
   { label: "Exemple", sectionId: "exemple" },
   { label: "Visibilité IA", sectionId: "ia" },
   { label: "Étapes", sectionId: "etapes" },
@@ -31,9 +31,9 @@ export function AuditPage() {
       <ScrollToTop />
       <AuditHero />
       <AuditProblems />
+      <AuditDeliverables />
       <AuditWhatIs />
       <AuditDomains />
-      <AuditDeliverables />
       <AuditReportExample />
       <AuditAISection />
       <AuditSteps />

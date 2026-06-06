@@ -130,8 +130,7 @@ export function HomeTestimonialsV2() {
   const testimonials = homeData.testimonials;
   if (testimonials.length === 0) return null;
 
-  // At least 8 cards in the marquee for a smooth seamless loop
-  const items =
+  const marqueeItems =
     testimonials.length < 4
       ? [...testimonials, ...testimonials, ...testimonials, ...testimonials]
       : [...testimonials, ...testimonials];
@@ -144,23 +143,26 @@ export function HomeTestimonialsV2() {
       surface
       innerClassName="!max-w-none"
     >
-      <BlurReveal>
-        <div className="relative overflow-hidden">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-40 bg-gradient-to-r from-background-surface to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 md:w-40 bg-gradient-to-l from-background-surface to-transparent" />
+      {/* Desktop only — hidden on mobile for now */}
+      <div className="hidden md:block">
+        <BlurReveal>
+          <div className="relative overflow-hidden">
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-40 bg-gradient-to-r from-background-surface to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-40 bg-gradient-to-l from-background-surface to-transparent" />
 
-          <div className="flex w-max animate-marquee gap-6 py-2">
-            {items.map((testimonial, i) => (
-              <div
-                key={`${testimonial.author}-${i}`}
-                className="w-[340px] md:w-[420px] flex-shrink-0"
-              >
-                <TestimonialCard testimonial={testimonial} />
-              </div>
-            ))}
+            <div className="flex w-max animate-marquee gap-6 py-2">
+              {marqueeItems.map((testimonial, i) => (
+                <div
+                  key={`${testimonial.author}-${i}`}
+                  className="w-[420px] flex-shrink-0"
+                >
+                  <TestimonialCard testimonial={testimonial} />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </BlurReveal>
+        </BlurReveal>
+      </div>
     </SectionContainer>
   );
 }

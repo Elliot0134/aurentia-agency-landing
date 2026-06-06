@@ -220,10 +220,10 @@ export function ChatbotWidget() {
               transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ transformOrigin: "bottom right" }}
               className={cn(
-                "mb-4 flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-2xl",
+                "mb-4 flex max-h-[calc(100dvh-9rem)] flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-2xl",
                 isExpanded
-                  ? "h-[calc(100vh-120px)] w-[calc(100vw-48px)] sm:h-[80vh] sm:w-[700px]"
-                  : "h-[80vh] w-[calc(100vw-48px)] sm:h-[520px] sm:w-[380px]",
+                  ? "h-[calc(100dvh-9rem)] w-[calc(100vw-48px)] sm:h-[80vh] sm:max-h-[80vh] sm:w-[700px]"
+                  : "h-[80vh] w-[calc(100vw-48px)] sm:h-[520px] sm:max-h-[520px] sm:w-[380px]",
               )}
             >
               {/* Header */}
