@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { STRIPE_PAYMENT_LINK } from "@/data/v2/payment";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -8,6 +9,75 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.AUDIT_FROM_EMAIL ?? "audit@aurentia.fr";
 const REPLY_TO = process.env.AUDIT_REPLY_TO ?? "contact@aurentia.fr";
 const SLACK_WEBHOOK_URL = process.env.SLACK_AUDIT_WEBHOOK_URL;
+
+// Charte mail (warm terracotta sur crème — aligné sur le site).
+const C = {
+  bg: "#f0ece2",
+  card: "#ffffff",
+  border: "#e9e4d8",
+  text: "#2b2b28",
+  muted: "#83817a",
+  accent: "#c96442",
+  accentDark: "#b05730",
+  tintBg: "#faf6ef",
+};
+
+/** Échappe l'input visiteur avant injection dans le HTML du mail. */
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string,
+  );
+}
+
+/** Template HTML du mail de confirmation pré-audit. */
+function buildEmailHtml(site: string): string {
+  const safeSite = escapeHtml(site);
+  return `
+  <!doctype html>
+  <html lang="fr">
+  <body style="margin:0;padding:0;background:${C.bg};">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Votre pré-audit gratuit est en route — et votre audit complet en 1 clic.</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg};padding:32px 16px;">
+      <tr><td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:${C.card};border:1px solid ${C.border};border-radius:20px;overflow:hidden;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+          <!-- Header -->
+          <tr><td style="padding:32px 36px 8px;">
+            <div style="font-size:20px;font-weight:700;letter-spacing:-0.02em;color:${C.accent};">Aurentia<span style="color:${C.text};">.agency</span></div>
+            <div style="font-size:13px;color:${C.muted};margin-top:4px;">Sites web · IA · automatisation</div>
+          </td></tr>
+          <!-- Body -->
+          <tr><td style="padding:16px 36px 8px;color:${C.text};font-size:16px;line-height:1.65;">
+            <p style="margin:0 0 16px;">Bonjour,</p>
+            <p style="margin:0 0 16px;">Merci pour votre demande de pré-audit gratuit pour <a href="${safeSite}" style="color:${C.accent};font-weight:600;text-decoration:none;">${safeSite}</a>.</p>
+            <p style="margin:0 0 16px;">Notre équipe analyse votre site et vous revient sous <strong>48h ouvrées</strong> avec vos premiers points d'amélioration : SEO, performance, UX et conversion.</p>
+          </td></tr>
+          <!-- CTA box -->
+          <tr><td style="padding:8px 36px 8px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.tintBg};border:1px solid ${C.border};border-radius:16px;">
+              <tr><td style="padding:24px 24px 26px;">
+                <div style="font-size:17px;font-weight:700;color:${C.text};margin-bottom:6px;">Pas envie d'attendre ?</div>
+                <p style="margin:0 0 18px;font-size:15px;line-height:1.6;color:${C.muted};">L'audit complet et chiffré couvre <strong style="color:${C.text};">7 domaines en détail</strong> avec un plan d'action priorisé. Livré rapidement, payable en ligne.</p>
+                <a href="${STRIPE_PAYMENT_LINK}" style="display:inline-block;background:${C.accent};color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:14px 26px;border-radius:12px;">Obtenir l'audit complet — 99 € HT →</a>
+                <div style="font-size:13px;color:${C.muted};margin-top:12px;">Paiement sécurisé via Stripe.</div>
+              </td></tr>
+            </table>
+          </td></tr>
+          <!-- Sign-off -->
+          <tr><td style="padding:16px 36px 4px;color:${C.text};font-size:16px;line-height:1.65;">
+            <p style="margin:0;">À très vite,<br/>L'équipe Aurentia.agency</p>
+          </td></tr>
+          <!-- Footer -->
+          <tr><td style="padding:20px 36px 32px;">
+            <div style="border-top:1px solid ${C.border};padding-top:16px;font-size:13px;color:${C.muted};line-height:1.5;">
+              Une question ? Répondez simplement à cet email, on vous lit.
+            </div>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body>
+  </html>`;
+}
 
 /** Mail de confirmation envoyé au prospect après sa demande de pré-audit. */
 async function sendClientEmail(site: string, email: string) {
@@ -23,17 +93,7 @@ async function sendClientEmail(site: string, email: string) {
       to: [email],
       reply_to: REPLY_TO,
       subject: "Votre pré-audit gratuit est en route 🚀",
-      html: `
-        <div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:#1a1a18;max-width:560px;margin:0 auto;">
-          <p>Bonjour,</p>
-          <p>Merci pour votre demande de pré-audit gratuit pour <strong>${site}</strong>.</p>
-          <p>Notre équipe analyse votre site et vous revient sous <strong>48h ouvrées</strong> avec vos premiers points d'amélioration (SEO, performance, UX, conversion).</p>
-          <p>En attendant, si vous voulez le diagnostic complet et chiffré tout de suite, l'audit approfondi à 99 € HT couvre 7 domaines en détail.</p>
-          <p>À très vite,<br/>L'équipe Aurentia.agency</p>
-          <hr style="border:none;border-top:1px solid #e5e5e0;margin:24px 0;"/>
-          <p style="font-size:14px;color:#6b6b66;">Une question ? Répondez simplement à cet email.</p>
-        </div>
-      `,
+      html: buildEmailHtml(site),
     }),
   });
 }

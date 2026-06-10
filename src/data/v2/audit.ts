@@ -3,9 +3,8 @@
 // Toute la copy de la page /audit (audit de site web · lead magnet + 99 €).
 // Édite le contenu ici sans toucher au JSX des composants.
 //
-// ⚠️ À CONFIGURER ENCORE :
-//   - Le webhook de capture des leads est dans src/app/api/audit/route.ts (AUDIT_WEBHOOK)
-//     — toujours un placeholder, le pré-audit gratuit ne part nulle part tant qu'il n'est pas branché.
+// Lead pré-audit gratuit : traité dans src/app/api/audit/route.ts
+// (mail de confirmation au prospect via Resend + notif Slack à l'équipe).
 
 import {
   Search,
@@ -19,8 +18,9 @@ import {
 } from "lucide-react";
 import type { FAQItem } from "./types";
 
-/** Lien Stripe Payment Link pour l'audit complet à 99 €. */
-export const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28E6oGaA43WGgL72Bf0x200";
+// Lien Stripe : source de vérité unique dans ./payment (réexporté ici pour
+// que les imports existants `from "@/data/v2/audit"` continuent de marcher).
+export { STRIPE_PAYMENT_LINK } from "./payment";
 
 export type AuditDomain = {
   icon: LucideIcon;
