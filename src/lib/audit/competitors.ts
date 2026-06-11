@@ -1,3 +1,6 @@
+import { generateObject } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { z } from 'zod';
 import type { BusinessDetection, CompetitorSummary } from './types';
 import { runPsi } from './psi';
 
@@ -57,6 +60,79 @@ export async function searchCompetitors(
   if (!res.ok) throw new Error(`Exa /search → ${res.status}`);
   const data = (await res.json()) as ExaSearchResponse;
   return selectCompetitorUrls(data.results.map((r) => r.url), auditedDomain, 3);
+}
+
+/**
+ * Recherche de concurrents via une requête fournie directement (ex: requête géo
+ * issue de la classification de scope). Ne throw jamais : en cas d'erreur, [].
+ */
+export async function searchCompetitorsByQuery(
+  query: string,
+  auditedDomain: string,
+  exaApiKey: string,
+  fetchFn: typeof fetch = fetch
+): Promise<string[]> {
+  try {
+    const res = await fetchFn('https://api.exa.ai/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': exaApiKey },
+      body: JSON.stringify({ query, numResults: 10, type: 'keyword' }),
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as ExaSearchResponse;
+    return selectCompetitorUrls(data.results.map((r) => r.url), auditedDomain, 3);
+  } catch {
+    return [];
+  }
+}
+
+/** Portée d'un business : local (concurrents proches) vs national/en ligne. */
+export type BusinessScope = { isLocal: boolean; geoQuery: string | null };
+
+/** Fonction de classification injectable (stub en test, LLM en prod). */
+export type ScopeClassifyFn = (description: string, city: string | null) => Promise<BusinessScope>;
+
+const ScopeSchema = z.object({
+  isLocal: z.boolean(),
+  geoQuery: z.string().nullable(),
+});
+
+const SCOPE_SYSTEM =
+  "Tu classes un site web. On te donne sa description et la ville detectee. Determine si c'est un business a ancrage LOCAL (commerce physique, restaurant, artisan, agence ou cabinet servant une zone geographique precise) dont les concurrents pertinents sont geographiquement proches — isLocal=true ; OU un business NATIONAL ou en ligne (SaaS, e-commerce national, marque nationale) dont les concurrents sont a l'echelle nationale — isLocal=false. Si isLocal=true ET qu'une ville est connue, geoQuery = la meilleure requete '[type d'activite] [ville]' pour trouver des concurrents locaux (ex: 'agence web Avignon', 'restaurant italien Lyon'). Sinon geoQuery=null. Pas de tiret long, pas de mention d'IA.";
+
+const defaultScopeClassify: ScopeClassifyFn = async (description, city) => {
+  const model = process.env.OPENROUTER_MODEL;
+  if (!model) throw new Error("OPENROUTER_MODEL manquant dans l'environnement");
+  const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
+  const { object } = await generateObject({
+    model: openrouter(model),
+    schema: ScopeSchema,
+    system: SCOPE_SYSTEM,
+    prompt: JSON.stringify({ description, ville: city }),
+  });
+  return object;
+};
+
+/**
+ * Classe la portée d'un business à partir de sa description Exa et de la ville.
+ * Remplace l'ancienne règle en dur (liste de secteurs). Ne throw jamais :
+ * description absente ou erreur LLM → fallback national (findSimilar).
+ */
+export async function classifyBusinessScope(
+  description: string | null,
+  city: string | null,
+  opts: { classifyFn?: ScopeClassifyFn } = {}
+): Promise<BusinessScope> {
+  if (description === null || description.trim() === '') {
+    return { isLocal: false, geoQuery: null };
+  }
+  const classifyFn = opts.classifyFn ?? defaultScopeClassify;
+  try {
+    return await classifyFn(description, city);
+  } catch {
+    return { isLocal: false, geoQuery: null };
+  }
 }
 
 interface ExaContentsResponse {

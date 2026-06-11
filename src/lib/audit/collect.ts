@@ -10,11 +10,15 @@ import { runPsi, psiToMeasurements } from './psi';
 import { captureScreenshot, getImageRects, type BrowserlessConfig } from './screenshot';
 import { buildScreenshotAnnotations } from './screenshot-annotations';
 import { detectBusinessType } from './business-type';
-import { searchCompetitors, findSimilarCompetitors, describeSite, auditCompetitors } from './competitors';
+import {
+  searchCompetitorsByQuery,
+  findSimilarCompetitors,
+  describeSite,
+  auditCompetitors,
+  classifyBusinessScope,
+  type ScopeClassifyFn,
+} from './competitors';
 import { estimateImpact } from './impact';
-
-/** Secteurs où une recherche géo locale a du sens (sinon : concurrents similaires). */
-const LOCAL_SECTORS = new Set(['conciergerie', 'artisan', 'restaurant', 'service-pro']);
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -24,6 +28,11 @@ export interface CollectDeps {
   exaApiKey: string;
   /** Dossier d'écriture du screenshot. null = pas d'écriture (tests). */
   outDir: string | null;
+  /**
+   * Stub de classification du scope (local/national), injecté en test pour
+   * éviter l'appel réseau LLM. Absent en prod → vrai appel OpenRouter.
+   */
+  classifyFn?: ScopeClassifyFn;
 }
 
 export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps): Promise<AuditData> {
@@ -69,15 +78,16 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
   // 8. Concurrents : benchmark perf/SEO, calculé pour flash ET pro (valeur
   // ajoutée du gratuit). Les fonctions avalent les concurrents injoignables,
   // donc une erreur réseau ne fait pas planter l'audit. Stratégie scope-aware :
-  // un vrai local → recherche géo ; sinon → concurrents similaires (findSimilar).
+  // une classification LLM décide à partir de la description Exa si le business
+  // est local-physique (recherche géo) ou national/en ligne (findSimilar).
   const domain = new URL(page.finalUrl).hostname;
-  const isTrueLocal =
-    business.type === 'local' &&
-    business.sector !== null &&
-    LOCAL_SECTORS.has(business.sector);
-  const competitorUrls = isTrueLocal
-    ? await searchCompetitors(business, domain, deps.exaApiKey, fetchFn)
-    : await findSimilarCompetitors(page.finalUrl, domain, deps.exaApiKey, fetchFn);
+  const scope = await classifyBusinessScope(description, business.city, {
+    classifyFn: deps.classifyFn,
+  });
+  const competitorUrls =
+    scope.isLocal && scope.geoQuery
+      ? await searchCompetitorsByQuery(scope.geoQuery, domain, deps.exaApiKey, fetchFn)
+      : await findSimilarCompetitors(page.finalUrl, domain, deps.exaApiKey, fetchFn);
   const competitors: AuditData['competitors'] = await auditCompetitors(
     competitorUrls,
     deps.psiApiKey,

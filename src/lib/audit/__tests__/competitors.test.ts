@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { buildCompetitorQuery, selectCompetitorUrls, describeSite, findSimilarCompetitors } from '../competitors';
+import {
+  buildCompetitorQuery,
+  selectCompetitorUrls,
+  describeSite,
+  findSimilarCompetitors,
+  searchCompetitorsByQuery,
+  classifyBusinessScope,
+  type ScopeClassifyFn,
+} from '../competitors';
 
 function jsonFetch(payload: unknown, status = 200): typeof fetch {
   return (async () => new Response(JSON.stringify(payload), { status })) as typeof fetch;
@@ -78,5 +86,60 @@ describe('findSimilarCompetitors', () => {
   it('retourne [] sur erreur', async () => {
     const fetchFn = jsonFetch({}, 500);
     expect(await findSimilarCompetitors('https://x.fr', 'x.fr', 'KEY', fetchFn)).toEqual([]);
+  });
+});
+
+describe('searchCompetitorsByQuery', () => {
+  it('cherche via la requête fournie, filtre et déduplique', async () => {
+    let sentBody: unknown;
+    const fetchFn = (async (_input: RequestInfo | URL, init?: RequestInit) => {
+      sentBody = JSON.parse(String(init?.body));
+      return new Response(
+        JSON.stringify({
+          results: [
+            { url: 'https://www.pagesjaunes.fr/x' },
+            { url: 'https://maconciergerie.fr/a' },
+            { url: 'https://concurrent-a.fr/' },
+            { url: 'https://concurrent-a.fr/dup' },
+            { url: 'https://concurrent-b.fr/' },
+            { url: 'https://concurrent-c.fr/' },
+            { url: 'https://concurrent-d.fr/' },
+          ],
+        }),
+        { status: 200 }
+      );
+    }) as typeof fetch;
+    const out = await searchCompetitorsByQuery('agence web Avignon', 'maconciergerie.fr', 'KEY', fetchFn);
+    expect(out).toEqual(['https://concurrent-a.fr/', 'https://concurrent-b.fr/', 'https://concurrent-c.fr/']);
+    expect(sentBody).toMatchObject({ query: 'agence web Avignon', numResults: 10, type: 'keyword' });
+  });
+  it('retourne [] sur erreur', async () => {
+    const fetchFn = jsonFetch({}, 500);
+    expect(await searchCompetitorsByQuery('q', 'x.fr', 'KEY', fetchFn)).toEqual([]);
+  });
+});
+
+describe('classifyBusinessScope', () => {
+  it('description null → fallback national (findSimilar)', async () => {
+    expect(await classifyBusinessScope(null, 'Lyon')).toEqual({ isLocal: false, geoQuery: null });
+  });
+  it('description vide → fallback national', async () => {
+    expect(await classifyBusinessScope('   ', 'Lyon')).toEqual({ isLocal: false, geoQuery: null });
+  });
+  it('passe description + ville au classifyFn et retourne son verdict', async () => {
+    let seen: { description: string; city: string | null } | null = null;
+    const classifyFn: ScopeClassifyFn = async (description, city) => {
+      seen = { description, city };
+      return { isLocal: true, geoQuery: 'restaurant italien Lyon' };
+    };
+    const out = await classifyBusinessScope('Un restaurant italien à Lyon', 'Lyon', { classifyFn });
+    expect(out).toEqual({ isLocal: true, geoQuery: 'restaurant italien Lyon' });
+    expect(seen).toEqual({ description: 'Un restaurant italien à Lyon', city: 'Lyon' });
+  });
+  it('ne throw pas si classifyFn échoue → fallback national', async () => {
+    const classifyFn: ScopeClassifyFn = async () => {
+      throw new Error('LLM down');
+    };
+    expect(await classifyBusinessScope('Un SaaS', null, { classifyFn })).toEqual({ isLocal: false, geoQuery: null });
   });
 });

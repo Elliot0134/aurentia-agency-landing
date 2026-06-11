@@ -42,6 +42,8 @@ const deps: CollectDeps = {
   browserless: { token: 'BL' },
   exaApiKey: 'EXA',
   outDir: null, // pas d'écriture disque en test
+  // stub : pas d'appel LLM réseau. National → route findSimilar (stub renvoie []).
+  classifyFn: async () => ({ isLocal: false, geoQuery: null }),
 };
 
 describe('collectAudit', () => {
