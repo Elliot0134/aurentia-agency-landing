@@ -11,7 +11,12 @@ const audit = (): AuditData => ({
     { id: 'perf.mobile.score', module: 'perf', label: 'Performance mobile', status: 'fail', value: 32, unit: '/100' },
   ],
   annotations: [{ x: 1, y: 1, width: 1, height: 1, measurementId: 'perf.mobile.lcp', note: 'Zone lente' }],
-  screenshotPath: null, competitors: [], revenue: null,
+  screenshotPath: null, competitors: [],
+  impact: {
+    items: [{ id: 'impact.lcp', label: 'Visiteurs perdus à cause de la lenteur de chargement', lossPercent: 32, basis: 'Google.' }],
+    headlinePercent: 32,
+    assumptions: ['Estimation sans donnée de trafic.'],
+  },
 });
 const content = (): ReportContent => ({
   execSummary: 'Votre site est lent et perd des visiteurs avant même qu’ils voient votre offre.',
@@ -28,10 +33,14 @@ describe('buildFlashEmailHtml', () => {
     expect(html).toContain('#F36F1C'); // charte orange
     expect(html).toContain('https://aurentia.agency/audit'); // CTA
     expect(html.toLowerCase()).toContain('vaucluse'); // présentation agence (devs/designers)
+    expect(html).toContain('32'); // impact en % de visiteurs perdus
+    expect(html.toLowerCase()).toContain('visiteurs'); // libellé impact
+    expect(html).toContain('%'); // exprimé en pourcentage, pas en euros
   });
-  it('ne contient jamais de tiret long ni de mention IA', () => {
+  it('ne contient ni tiret long, ni mention IA, ni montant €', () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
     expect(html).not.toMatch(/—|–/);
     expect(html.toLowerCase()).not.toContain('intelligence artificielle');
+    expect(html).not.toMatch(/€|&euro;/);
   });
 });

@@ -43,21 +43,21 @@ const deps: CollectDeps = {
 };
 
 describe('collectAudit', () => {
-  it('flash : produit un AuditData complet sans concurrents ni revenue', async () => {
+  it('flash : produit un AuditData complet sans concurrents ni impact', async () => {
     const audit = await collectAudit('exemple.fr', 'flash', deps);
     expect(audit.tier).toBe('flash');
     expect(audit.business.type).toBe('local');
     expect(audit.measurements.length).toBeGreaterThan(10);
     expect(audit.competitors).toEqual([]);
-    expect(audit.revenue).toBeNull();
+    expect(audit.impact).toBeNull();
     // toutes les measurements ont un id unique
     const ids = audit.measurements.map((m) => m.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('pro : inclut le revenue estimate', async () => {
+  it("pro : inclut l'estimation d'impact", async () => {
     const audit = await collectAudit('exemple.fr', 'pro', deps);
-    expect(audit.revenue).not.toBeNull();
-    expect(audit.revenue!.items.some((i) => i.id === 'revenue.lcp')).toBe(true);
+    expect(audit.impact).not.toBeNull();
+    expect(audit.impact!.items.some((i) => i.id === 'impact.lcp')).toBe(true);
   });
 });

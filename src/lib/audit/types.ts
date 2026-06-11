@@ -10,7 +10,7 @@ export type ModuleId =
   | 'mobile'
   | 'business'
   | 'competitors'
-  | 'revenue';
+  | 'impact';
 
 /**
  * L'unité atomique de vérité du système. Chaque donnée du rapport final
@@ -54,17 +54,16 @@ export interface CompetitorSummary {
   lcpMs: number | null;
 }
 
-export interface RevenueItem {
-  id: string; // ex: 'revenue.lcp'
+export interface ImpactItem {
+  id: string; // ex: 'impact.lcp'
   label: string;
-  monthlyLossEur: number;
-  formula: string; // formule lisible avec les valeurs injectées
+  lossPercent: number; // % de visiteurs perdus
+  basis: string; // source/justification de l'estimation
 }
 
-export interface RevenueEstimate {
-  sector: string;
-  items: RevenueItem[];
-  totalMonthlyLossEur: number; // somme × 0.6 (chevauchement)
+export interface ImpactEstimate {
+  items: ImpactItem[];
+  headlinePercent: number; // % phare affiché dans le rapport
   assumptions: string[]; // hypothèses affichées dans le rapport
 }
 
@@ -88,5 +87,5 @@ export interface AuditData {
   annotations: Annotation[];
   screenshotPath: string | null; // PNG full-page sur disque
   competitors: CompetitorSummary[];
-  revenue: RevenueEstimate | null; // pro uniquement
+  impact: ImpactEstimate | null; // pro uniquement
 }

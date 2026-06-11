@@ -23,12 +23,11 @@ function extractEuros(text: string): number[] {
 /**
  * Vérifie que le contenu rédigé respecte le contrat de véracité. Lève ContractViolation sinon.
  * 1. tout measurementId référencé existe ; 2. zéro tiret long ; 3. zéro mention IA ;
- * 4. zéro position Google affirmée ; 5. tout montant € cité existe dans revenue.items.
+ * 4. zéro position Google affirmée ; 5. zéro montant € (on n'estime plus aucun montant
+ *    en self-service, l'impact s'exprime en % de visiteurs perdus).
  */
 export function validateReportContract(content: ReportContent, audit: AuditData): void {
   const validIds = new Set(audit.measurements.map((m) => m.id));
-  const allowedEuros = new Set((audit.revenue?.items ?? []).map((i) => i.monthlyLossEur));
-  if (audit.revenue) allowedEuros.add(audit.revenue.totalMonthlyLossEur);
 
   const allText = [
     content.execSummary,
@@ -56,8 +55,6 @@ export function validateReportContract(content: ReportContent, audit: AuditData)
     }
   }
   for (const euro of extractEuros(allText)) {
-    if (!allowedEuros.has(euro)) {
-      throw new ContractViolation(`Montant € non issu d'un calcul de manque à gagner : ${euro} €`);
-    }
+    throw new ContractViolation(`Montant € interdit (l'impact s'exprime en % de visiteurs) : ${euro} €`);
   }
 }

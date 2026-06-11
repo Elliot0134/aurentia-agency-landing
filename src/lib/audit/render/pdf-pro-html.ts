@@ -13,13 +13,6 @@ function escapeHtml(s: string): string {
   );
 }
 
-/** Formate un entier à la française avec espaces (ex 1056 -> "1 056"). */
-function formatEurFr(value: number): string {
-  return Math.round(value)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-}
-
 /** Formate un nombre à la française (virgule décimale). */
 function formatNumberFr(value: number): string {
   return value.toLocaleString('fr-FR', { maximumFractionDigits: 2 });
@@ -254,10 +247,10 @@ function buildCover(audit: AuditData): string {
 }
 
 function buildSynthese(audit: AuditData, content: ReportContent, score: number): string {
-  const loss = audit.revenue
+  const loss = audit.impact && audit.impact.headlinePercent > 0
     ? `
-        <p style="margin-top:14pt;"><strong>Manque à gagner mensuel estimé :</strong></p>
-        <p class="loss-amount">~ ${formatEurFr(audit.revenue.totalMonthlyLossEur)}&nbsp;&euro;/mois</p>`
+        <p style="margin-top:14pt;"><strong>Impact estimé de la lenteur :</strong></p>
+        <p class="loss-amount">~ ${formatNumberFr(audit.impact.headlinePercent)}% de vos visiteurs partent avant de voir votre offre</p>`
     : '';
   return `
   <section class="section">
@@ -366,7 +359,7 @@ function buildAnnex(audit: AuditData): string {
  * Construit le HTML complet du rapport PDF Pro (charte orange Aurentia.agency),
  * porté de la structure + CSS de `generate_pdf.py`. Fonction pure, aucun réseau.
  *
- * Sections : couverture, synthèse (score color-codé + manque à gagner), findings
+ * Sections : couverture, synthèse (score color-codé + impact en % de visiteurs), findings
  * groupés P0/P1/P2, comparatif concurrents, annexe technique. Footer @page paginé.
  *
  * Règles : zéro tiret long, zéro prix de refonte, zéro roadmap, valeurs numériques

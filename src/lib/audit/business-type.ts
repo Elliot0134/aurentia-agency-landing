@@ -20,7 +20,7 @@ const LOCAL_SCHEMA_TYPES = [
   'HousePainter', 'RoofingContractor', 'HomeAndConstructionBusiness', 'LodgingBusiness',
 ];
 
-/** mot-clé → clé de SECTOR_BENCHMARKS (revenue.ts) */
+/** mot-clé → clé de secteur business (sert à la détection locale/nationale) */
 const SECTOR_KEYWORDS: Record<string, string> = {
   conciergerie: 'conciergerie',
   airbnb: 'conciergerie',

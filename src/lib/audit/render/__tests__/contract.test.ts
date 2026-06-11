@@ -11,7 +11,7 @@ const audit = (): AuditData => ({
     { id: 'seo.images.alt', module: 'seo-onpage', label: 'alt', status: 'fail', value: 2 },
   ],
   annotations: [], screenshotPath: null, competitors: [],
-  revenue: { sector: 'conciergerie', items: [{ id: 'revenue.lcp', label: 'LCP', monthlyLossEur: 1760, formula: '...' }], totalMonthlyLossEur: 1056, assumptions: [] },
+  impact: { items: [{ id: 'impact.lcp', label: 'LCP', lossPercent: 60, basis: '...' }], headlinePercent: 60, assumptions: [] },
 });
 
 const okContent = (): ReportContent => ({
@@ -45,14 +45,14 @@ describe('validateReportContract', () => {
     c.findings[0].body = 'Vous êtes en position 8 sur Google.';
     expect(() => validateReportContract(c, audit())).toThrow(/position Google/i);
   });
-  it('rejette un montant € absent des revenue items', () => {
+  it('rejette tout montant €', () => {
     const c = okContent();
     c.findings[0].body = 'Vous perdez 9 999 € par mois à cause de ça.';
     expect(() => validateReportContract(c, audit())).toThrow(/montant/i);
   });
-  it('accepte un montant € présent dans les revenue items', () => {
+  it('accepte un % de visiteurs cité', () => {
     const c = okContent();
-    c.findings[0].body = 'Vous perdez environ 1 760 € par mois.';
+    c.findings[0].body = "Environ 32% de vos visiteurs partent avant de voir votre offre.";
     expect(() => validateReportContract(c, audit())).not.toThrow();
   });
 });

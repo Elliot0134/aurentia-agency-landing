@@ -50,7 +50,7 @@ async function main() {
   const fails = audit.measurements.filter((m) => m.status === 'fail');
   console.log(`\n${audit.measurements.length} mesures, dont ${fails.length} en échec :`);
   for (const m of fails) console.log(`  ✗ [${m.id}] ${m.label} = ${m.value}${m.unit ? ' ' + m.unit : ''}`);
-  if (audit.revenue) console.log(`\nManque à gagner estimé : ~${audit.revenue.totalMonthlyLossEur} €/mois`);
+  if (audit.impact && audit.impact.headlinePercent > 0) console.log(`\nImpact estimé : ~${audit.impact.headlinePercent}% de visiteurs perdus à cause de la lenteur`);
   console.log(`\nJSON complet : ${outDir}/audit.json`);
 
   if (doRender) {

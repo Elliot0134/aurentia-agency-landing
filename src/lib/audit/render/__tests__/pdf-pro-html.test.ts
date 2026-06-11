@@ -12,7 +12,7 @@ const audit = (): AuditData => ({
   ],
   annotations: [], screenshotPath: null,
   competitors: [{ domain: 'concurrent.fr', url: 'https://concurrent.fr', perfScoreMobile: 78, seoScore: 90, lcpMs: 1800 }],
-  revenue: { sector: 'conciergerie', items: [{ id: 'revenue.lcp', label: 'LCP', monthlyLossEur: 1760, formula: 'x' }], totalMonthlyLossEur: 1056, assumptions: ['Estimation.'] },
+  impact: { items: [{ id: 'impact.lcp', label: 'LCP', lossPercent: 32, basis: 'Google.' }], headlinePercent: 32, assumptions: ['Estimation.'] },
 });
 const content = (): ReportContent => ({
   execSummary: 'Votre site sous-performe face a vos concurrents.',
@@ -24,17 +24,19 @@ const content = (): ReportContent => ({
 });
 
 describe('buildProReportHtml', () => {
-  it('contient score, manque à gagner, concurrent et charte orange', () => {
+  it('contient score, impact en % de visiteurs, concurrent et charte orange', () => {
     const html = buildProReportHtml(audit(), content(), { score: 38 });
     expect(html).toContain('38'); // score injecté
-    expect(html).toContain('1 056'); // manque à gagner total formaté FR
+    expect(html).toContain('32'); // impact headlinePercent
+    expect(html.toLowerCase()).toContain('visiteurs'); // exprimé en visiteurs perdus
     expect(html).toContain('concurrent.fr');
     expect(html).toContain('#F36F1C'); // charte orange (pas le bleu skill)
     expect(html).not.toContain('#1e40af');
   });
-  it('ne contient ni prix de refonte ni roadmap ni tiret long', () => {
+  it('ne contient ni prix de refonte, ni roadmap, ni tiret long, ni montant €', () => {
     const html = buildProReportHtml(audit(), content(), { score: 38 });
     expect(html.toLowerCase()).not.toMatch(/roadmap|devis|sprint|tjm/);
     expect(html).not.toMatch(/—|–/);
+    expect(html).not.toMatch(/€|&euro;/);
   });
 });

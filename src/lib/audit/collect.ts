@@ -10,7 +10,7 @@ import { runPsi, psiToMeasurements } from './psi';
 import { captureScreenshot, getImageRects, buildAnnotations, type BrowserlessConfig } from './screenshot';
 import { detectBusinessType } from './business-type';
 import { searchCompetitors, auditCompetitors } from './competitors';
-import { estimateRevenue } from './revenue';
+import { estimateImpact } from './impact';
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -59,16 +59,16 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
   }
   const annotations = buildAnnotations(rects, measurements);
 
-  // 7. Pro : desktop PSI + concurrents + revenue
+  // 7. Pro : desktop PSI + concurrents + impact
   let competitors: AuditData['competitors'] = [];
-  let revenue: AuditData['revenue'] = null;
+  let impact: AuditData['impact'] = null;
   if (tier === 'pro') {
     const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
     measurements.push(...psiToMeasurements(psiDesktop));
     const domain = new URL(page.finalUrl).hostname;
     const urls = await searchCompetitors(business, domain, deps.exaApiKey, fetchFn);
     competitors = await auditCompetitors(urls, deps.psiApiKey, fetchFn);
-    revenue = estimateRevenue(measurements, business.sector ?? 'default');
+    impact = estimateImpact(measurements);
   }
 
   return {
@@ -81,6 +81,6 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     annotations,
     screenshotPath,
     competitors,
-    revenue,
+    impact,
   };
 }

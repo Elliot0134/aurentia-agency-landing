@@ -87,6 +87,20 @@ export function buildFlashEmailHtml(
   const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
 
+  // Bloc impact : % de visiteurs perdus (jamais de montant €). Affiché seulement
+  // si l'impact est calculé et significatif.
+  const impactBlock =
+    audit.impact && audit.impact.headlinePercent > 0
+      ? `
+        <tr><td style="padding:8px 36px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.tintBg};border:1px solid ${C.tintBorder};border-radius:16px;">
+            <tr><td style="padding:18px 24px;color:${C.text};font-size:16px;line-height:1.6;">
+              <strong>Environ ${formatFr(audit.impact.headlinePercent)}% de vos visiteurs partent avant de voir votre offre</strong>, à cause de la lenteur de chargement.
+            </td></tr>
+          </table>
+        </td></tr>`
+      : '';
+
   return `<!doctype html>
 <html lang="fr">
 <body style="margin:0;padding:0;background:${C.surface};">
@@ -126,7 +140,7 @@ export function buildFlashEmailHtml(
               <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Recommandé</td>
             </tr>${metricRows}
           </table>
-        </td></tr>
+        </td></tr>${impactBlock}
         <!-- Présentation agence + offre -->
         <tr><td style="padding:16px 36px 8px;color:${C.text};font-size:16px;line-height:1.65;">
           <p style="margin:0 0 16px;">Là je ne vous parle que de votre page d'accueil. On a des outils d'analyse développés en interne qui passent un site complet au crible : toutes les pages, le référencement, la vitesse, les parcours de réservation.</p>

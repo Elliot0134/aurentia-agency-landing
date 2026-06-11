@@ -21,7 +21,7 @@ const baseAudit = (tier: 'flash' | 'pro'): AuditData => ({
   annotations: [],
   screenshotPath: null,
   competitors: [],
-  revenue: null,
+  impact: null,
 });
 
 const flashContent: ReportContent = {

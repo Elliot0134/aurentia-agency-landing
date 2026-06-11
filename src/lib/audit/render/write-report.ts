@@ -15,7 +15,7 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - INTERDIT : le tiret long (— ou –). Utilise des virgules ou des points.
 - INTERDIT : mentionner l'IA, l'intelligence artificielle, un algorithme, ChatGPT, un LLM.
 - INTERDIT : affirmer une position Google précise ("vous êtes en position 8").
-- INTERDIT : citer un montant en euros qui n'est pas dans les données de manque à gagner fournies.
+- INTERDIT : citer un montant en euros (€). Tu exprimes l'impact en POURCENTAGE de visiteurs perdus, jamais en argent.
 - Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).`;
 
 /** Construit le prompt utilisateur à partir des mesures (sérialisation compacte). */
@@ -26,10 +26,10 @@ function buildPrompt(audit: AuditData, attemptNote: string): string {
     tier: audit.tier,
     business: audit.business,
     problemes: fails.map((m) => ({ id: m.id, label: m.label, value: m.value, unit: m.unit, proof: m.proof })),
-    manque_a_gagner: audit.revenue,
+    impact: audit.impact,
     concurrents: audit.competitors,
     consigne: audit.tier === 'pro'
-      ? 'Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis.'
+      ? "Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis. Exprime l'impact en % de visiteurs perdus, jamais en euros."
       : 'Rédige execSummary, recommendation et 2 à 4 findings. competitorAnalysis = null.',
   });
 }
