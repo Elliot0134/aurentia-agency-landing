@@ -5,6 +5,7 @@ import { COLORS, statusColor } from './theme';
 export interface FlashEmailOptions {
   screenshotUrl: string;
   ctaUrl: string;
+  scoreGaugeUrl?: string;
 }
 
 /** Échappe l'input (texte LLM) avant injection dans le HTML du mail. */
@@ -87,6 +88,15 @@ export function buildFlashEmailHtml(
   const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
 
+  const gaugeBlock =
+    opts.scoreGaugeUrl
+      ? `
+        <tr><td style="padding:8px 36px 0;text-align:center;">
+          <div style="font-size:14px;font-weight:600;color:${C.muted};margin-bottom:8px;">Votre score global</div>
+          <img src="${escapeHtml(opts.scoreGaugeUrl)}" alt="Score global de votre site" width="160" style="height:auto;display:block;margin:8px auto;">
+        </td></tr>`
+      : '';
+
   // Bloc impact : % de visiteurs perdus (jamais de montant €). Affiché seulement
   // si l'impact est calculé et significatif.
   const impactBlock =
@@ -117,6 +127,8 @@ export function buildFlashEmailHtml(
           <p style="margin:0 0 16px;">${safeSummary}</p>
           <p style="margin:0 0 16px;">J'ai noté directement sur une capture de votre page d'accueil ce qui freine un visiteur :</p>
         </td></tr>
+        <!-- Cadran de score global -->
+        ${gaugeBlock}
         <!-- Capture annotée -->
         <tr><td style="padding:8px 36px;">
           <img src="${safeScreenshot}" alt="Votre page d'accueil annotée" width="528" style="max-width:100%;height:auto;border:1px solid ${C.border};border-radius:10px;display:block;"/>

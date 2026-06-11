@@ -27,7 +27,7 @@ const content = (): ReportContent => ({
 
 describe('buildFlashEmailHtml', () => {
   it('produit un HTML avec capture, métriques colorées et CTA', () => {
-    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit' });
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit', scoreGaugeUrl: 'https://cdn/gauge.png' });
     expect(html).toContain('https://cdn/x.jpg'); // image capture
     expect(html).toContain('11,8'); // valeur LCP injectée depuis la mesure
     expect(html).toContain('#F36F1C'); // charte orange
@@ -42,5 +42,21 @@ describe('buildFlashEmailHtml', () => {
     expect(html).not.toMatch(/—|–/);
     expect(html.toLowerCase()).not.toContain('intelligence artificielle');
     expect(html).not.toMatch(/€|&euro;/);
+  });
+  it('affiche le cadran de score quand scoreGaugeUrl est fourni', () => {
+    const html = buildFlashEmailHtml(audit(), content(), {
+      screenshotUrl: 'https://cdn/x.jpg',
+      ctaUrl: 'https://aurentia.agency/audit',
+      scoreGaugeUrl: 'https://cdn/gauge.png',
+    });
+    expect(html).toContain('https://cdn/gauge.png');
+    expect(html).toContain('Votre score global');
+  });
+  it('omet le cadran de score quand scoreGaugeUrl est absent', () => {
+    const html = buildFlashEmailHtml(audit(), content(), {
+      screenshotUrl: 'https://cdn/x.jpg',
+      ctaUrl: 'https://aurentia.agency/audit',
+    });
+    expect(html).not.toContain('Votre score global');
   });
 });
