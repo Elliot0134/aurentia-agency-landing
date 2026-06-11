@@ -1,15 +1,10 @@
 import { generateObject } from 'ai';
-import { anthropic } from '@ai-sdk/anthropic';
-import type { AuditData, Tier } from '../types';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import type { AuditData } from '../types';
 import { ReportContentSchema, type ReportContent } from './report-schema';
 import { validateReportContract } from './contract';
 
 export type GenerateFn = (audit: AuditData, attemptNote: string) => Promise<ReportContent>;
-
-const MODEL_BY_TIER: Record<Tier, string> = {
-  flash: 'claude-sonnet-4-6',
-  pro: 'claude-opus-4-8',
-};
 
 const SYSTEM = `Tu rédiges un audit de site web pour un dirigeant non-technique (CEO).
 Tu ne mesures rien : on te fournit des mesures, tu les mets en mots.
@@ -40,8 +35,13 @@ function buildPrompt(audit: AuditData, attemptNote: string): string {
 }
 
 const defaultGenerate: GenerateFn = async (audit, attemptNote) => {
+  const model = process.env.OPENROUTER_MODEL;
+  if (!model) {
+    throw new Error('OPENROUTER_MODEL manquant dans l\'environnement');
+  }
+  const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
   const { object } = await generateObject({
-    model: anthropic(MODEL_BY_TIER[audit.tier]),
+    model: openrouter(model),
     schema: ReportContentSchema,
     system: SYSTEM,
     prompt: buildPrompt(audit, attemptNote),
