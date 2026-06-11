@@ -5,6 +5,7 @@ import type { ReportContent } from '../report-schema';
 
 const audit = (): AuditData => ({
   url: 'https://x.fr', finalUrl: 'https://x.fr', tier: 'flash', collectedAt: '2026-06-11T00:00:00Z',
+  description: null,
   business: { type: 'local', scoreLocal: 5, scoreNational: 0, city: 'marseille', sector: 'conciergerie' },
   measurements: [
     { id: 'perf.mobile.lcp', module: 'perf', label: 'Affichage du contenu principal', status: 'fail', value: 11.8, unit: 's' },

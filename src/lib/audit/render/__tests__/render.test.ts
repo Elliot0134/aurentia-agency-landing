@@ -13,6 +13,7 @@ const baseAudit = (tier: 'flash' | 'pro'): AuditData => ({
   finalUrl: 'https://x.fr',
   tier,
   collectedAt: '2026-06-11T00:00:00Z',
+  description: null,
   business: { type: 'local', scoreLocal: 5, scoreNational: 0, city: 'marseille', sector: 'conciergerie' },
   measurements: [
     { id: 'perf.mobile.lcp', module: 'perf', label: 'LCP', status: 'fail', value: 11.8, unit: 's' },

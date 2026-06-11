@@ -25,6 +25,7 @@ function buildPrompt(audit: AuditData, attemptNote: string): string {
   return JSON.stringify({
     note: attemptNote,
     tier: audit.tier,
+    ...(audit.description !== null ? { description_du_site: audit.description } : {}),
     business: audit.business,
     problemes: fails.map((m) => ({ id: m.id, label: m.label, value: m.value, unit: m.unit, proof: m.proof })),
     impact: audit.impact,

@@ -26,6 +26,8 @@ const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: Request
   if (u.includes('pagespeedonline')) return new Response(PSI_FIXTURE, { status: 200 });
   if (u.includes('/screenshot')) return new Response(new Uint8Array([1]), { status: 200 });
   if (u.includes('/function')) return new Response(JSON.stringify([]), { status: 200 });
+  if (u.includes('api.exa.ai/contents')) return new Response(JSON.stringify({ results: [{ summary: 'desc test' }] }), { status: 200 });
+  if (u.includes('api.exa.ai/findSimilar')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
   if (u.includes('api.exa.ai')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
   if (u.endsWith('/robots.txt')) return new Response('User-agent: *', { status: 200 });
   if (u.endsWith('/sitemap.xml')) return new Response('<urlset/>', { status: 200 });
@@ -46,6 +48,7 @@ describe('collectAudit', () => {
   it('flash : produit un AuditData complet sans concurrents ni impact', async () => {
     const audit = await collectAudit('exemple.fr', 'flash', deps);
     expect(audit.tier).toBe('flash');
+    expect(audit.description).toBe('desc test');
     expect(audit.business.type).toBe('local');
     expect(audit.measurements.length).toBeGreaterThan(10);
     expect(audit.competitors).toEqual([]);

@@ -10,8 +10,11 @@ import { runPsi, psiToMeasurements } from './psi';
 import { captureScreenshot, getImageRects, type BrowserlessConfig } from './screenshot';
 import { buildScreenshotAnnotations } from './screenshot-annotations';
 import { detectBusinessType } from './business-type';
-import { searchCompetitors, auditCompetitors } from './competitors';
+import { searchCompetitors, findSimilarCompetitors, describeSite, auditCompetitors } from './competitors';
 import { estimateImpact } from './impact';
+
+/** Secteurs où une recherche géo locale a du sens (sinon : concurrents similaires). */
+const LOCAL_SECTORS = new Set(['conciergerie', 'artisan', 'restaurant', 'service-pro']);
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -60,18 +63,28 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
   }
   const annotations = buildScreenshotAnnotations(measurements, rects);
 
-  // 7. Concurrents : benchmark perf/SEO, calculé pour flash ET pro (valeur
+  // 7. Description du site (contexte secteur via Exa) : enrichit la rédaction.
+  const description = await describeSite(page.finalUrl, deps.exaApiKey, fetchFn);
+
+  // 8. Concurrents : benchmark perf/SEO, calculé pour flash ET pro (valeur
   // ajoutée du gratuit). Les fonctions avalent les concurrents injoignables,
-  // donc une erreur réseau ne fait pas planter l'audit.
+  // donc une erreur réseau ne fait pas planter l'audit. Stratégie scope-aware :
+  // un vrai local → recherche géo ; sinon → concurrents similaires (findSimilar).
   const domain = new URL(page.finalUrl).hostname;
-  const competitorUrls = await searchCompetitors(business, domain, deps.exaApiKey, fetchFn);
+  const isTrueLocal =
+    business.type === 'local' &&
+    business.sector !== null &&
+    LOCAL_SECTORS.has(business.sector);
+  const competitorUrls = isTrueLocal
+    ? await searchCompetitors(business, domain, deps.exaApiKey, fetchFn)
+    : await findSimilarCompetitors(page.finalUrl, domain, deps.exaApiKey, fetchFn);
   const competitors: AuditData['competitors'] = await auditCompetitors(
     competitorUrls,
     deps.psiApiKey,
     fetchFn,
   );
 
-  // 8. Pro : desktop PSI + estimation d'impact
+  // 9. Pro : desktop PSI + estimation d'impact
   let impact: AuditData['impact'] = null;
   if (tier === 'pro') {
     const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
@@ -84,6 +97,7 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     finalUrl: page.finalUrl,
     tier,
     collectedAt: new Date().toISOString(),
+    description,
     business,
     measurements,
     annotations,

@@ -84,6 +84,7 @@ export interface AuditData {
   finalUrl: string;
   tier: Tier;
   collectedAt: string; // ISO 8601
+  description: string | null; // résumé Exa du site (contexte secteur), null si indisponible
   business: BusinessDetection;
   measurements: Measurement[];
   annotations: Annotation[];

@@ -59,6 +59,62 @@ export async function searchCompetitors(
   return selectCompetitorUrls(data.results.map((r) => r.url), auditedDomain, 3);
 }
 
+interface ExaContentsResponse {
+  results: { summary?: string }[];
+}
+
+/**
+ * Décrit le site analysé via Exa /contents (résumé secteur).
+ * Ne throw jamais : une description manquante ne doit pas faire planter l'audit.
+ */
+export async function describeSite(
+  url: string,
+  exaApiKey: string,
+  fetchFn: typeof fetch = fetch
+): Promise<string | null> {
+  try {
+    const res = await fetchFn('https://api.exa.ai/contents', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': exaApiKey },
+      body: JSON.stringify({
+        urls: [url],
+        summary: { query: "En une phrase, qu'est-ce que ce site et quel est son secteur ?" },
+      }),
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as ExaContentsResponse;
+    return data.results[0]?.summary ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Concurrents réellement similaires via Exa /findSimilar.
+ * Ne throw jamais : en cas d'erreur, retourne [] (concurrents = bonus).
+ */
+export async function findSimilarCompetitors(
+  url: string,
+  auditedDomain: string,
+  exaApiKey: string,
+  fetchFn: typeof fetch = fetch
+): Promise<string[]> {
+  try {
+    const res = await fetchFn('https://api.exa.ai/findSimilar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': exaApiKey },
+      body: JSON.stringify({ url, numResults: 8 }),
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as ExaSearchResponse;
+    return selectCompetitorUrls(data.results.map((r) => r.url), auditedDomain, 3);
+  } catch {
+    return [];
+  }
+}
+
 /** Mini-audit PSI mobile de chaque concurrent (séquentiel : pas de rafale). */
 export async function auditCompetitors(
   urls: string[],
