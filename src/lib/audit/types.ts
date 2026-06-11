@@ -44,7 +44,7 @@ export interface Annotation {
   y: number;
   width: number;
   height: number;
-  measurementId: string; // la preuve
+  measurementId?: string; // la preuve (absente pour les annotations visuelles, qui sont des opinions)
   note: string;
 }
 
