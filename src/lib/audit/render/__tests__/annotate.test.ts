@@ -21,6 +21,18 @@ describe('annotateScreenshot', () => {
     // le PNG annoté diffère de l'original (overlay ajouté)
     expect(out.equals(base)).toBe(false);
   });
+  it('pastille adaptative : annote une grande image (rayon proportionnel)', async () => {
+    const base = await blankPng(1440, 900);
+    const annotations: Annotation[] = [
+      { x: 100, y: 100, width: 0, height: 0, measurementId: 'perf.mobile.lcp', note: 'Zone lente' },
+    ];
+    const out = await annotateScreenshot(base, annotations);
+    const meta = await sharp(out).metadata();
+    expect(meta.format).toBe('png');
+    expect(meta.width).toBe(1440);
+    expect(meta.height).toBe(900);
+    expect(out.equals(base)).toBe(false);
+  });
   it('sans annotations, retourne un PNG valide (inchangé visuellement)', async () => {
     const base = await blankPng(200, 200);
     const out = await annotateScreenshot(base, []);

@@ -61,4 +61,22 @@ describe('buildFlashEmailHtml', () => {
     });
     expect(html).not.toContain('Votre score global');
   });
+  it('affiche le tableau concurrents quand il y a des concurrents', () => {
+    const a = audit();
+    a.competitors = [
+      { domain: 'rival-un.fr', url: 'https://rival-un.fr', perfScoreMobile: 78, seoScore: 91, lcpMs: 2100 },
+      { domain: 'rival-deux.fr', url: 'https://rival-deux.fr', perfScoreMobile: null, seoScore: 85, lcpMs: null },
+    ];
+    const html = buildFlashEmailHtml(a, content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    expect(html).toContain('Face à vos concurrents');
+    expect(html).toContain('Votre site');
+    expect(html).toContain('rival-un.fr');
+    expect(html).toContain('78/100'); // perf concurrent
+    expect(html).toContain('n/d'); // valeur manquante du 2e concurrent
+    expect(html).not.toMatch(/—|–/); // toujours zéro tiret long
+  });
+  it("n'affiche pas le tableau concurrents quand il n'y en a pas", () => {
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    expect(html).not.toContain('Face à vos concurrents');
+  });
 });

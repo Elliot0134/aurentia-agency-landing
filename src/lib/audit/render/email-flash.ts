@@ -41,6 +41,62 @@ const RECOMMENDED: Record<string, string> = {
   'perf.mobile.score': '90/100',
 };
 
+/** Formate un score sur 100 (`32/100`) ou "n/d" si la valeur manque. */
+function formatScore100(value: number | null): string {
+  return value === null ? 'n/d' : `${value}/100`;
+}
+
+/**
+ * Construit le tableau comparatif "Face à vos concurrents" (perf mobile + SEO).
+ * Renvoie une chaîne vide si aucun concurrent n'a été trouvé.
+ * Votre ligne tire ses valeurs des mesures `perf.mobile.score` / `perf.mobile.seo-score`.
+ */
+function buildCompetitorBlock(audit: AuditData): string {
+  if (audit.competitors.length === 0) return '';
+  const C = COLORS;
+
+  const perfM = audit.measurements.find((m) => m.id === 'perf.mobile.score');
+  const seoM = audit.measurements.find((m) => m.id === 'perf.mobile.seo-score');
+  const cellYou = (m: Measurement | undefined): string => {
+    if (!m || typeof m.value !== 'number') return 'n/d';
+    const color = statusColor(m.status);
+    return `<span style="color:${color};font-weight:bold;">${m.value}/100</span>`;
+  };
+
+  const youRow = `
+              <tr>
+                <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;color:${C.text};font-size:14px;">Votre site</td>
+                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;font-size:14px;">${cellYou(perfM)}</td>
+                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;font-size:14px;">${cellYou(seoM)}</td>
+              </tr>`;
+
+  const competitorRows = audit.competitors
+    .slice(0, 3)
+    .map(
+      (c) => `
+              <tr>
+                <td style="border:1px solid ${C.border};padding:8px 12px;color:${C.text};font-size:14px;">${escapeHtml(c.domain)}</td>
+                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${C.muted};font-size:14px;">${formatScore100(c.perfScoreMobile)}</td>
+                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${C.muted};font-size:14px;">${formatScore100(c.seoScore)}</td>
+              </tr>`,
+    )
+    .join('');
+
+  return `
+        <tr><td style="padding:16px 36px 4px;color:${C.text};font-size:16px;line-height:1.65;">
+          <p style="margin:0;font-weight:bold;">Face à vos concurrents</p>
+        </td></tr>
+        <tr><td style="padding:8px 36px;">
+          <table role="presentation" style="border-collapse:collapse;width:100%;margin:0;">
+            <tr style="background:${C.surface};">
+              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;color:${C.text};font-size:14px;">Site</td>
+              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Performance mobile</td>
+              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">SEO</td>
+            </tr>${youRow}${competitorRows}
+          </table>
+        </td></tr>`;
+}
+
 /**
  * Construit le mail Flash HTML : structure du template de prospection
  * (intro, capture annotée, pastilles numérotées, constat mobile, tableau
@@ -84,6 +140,11 @@ export function buildFlashEmailHtml(
               </tr>`;
     })
     .join('');
+
+  // Bloc concurrents : benchmark perf mobile + SEO face à 3 concurrents max.
+  // Affiché seulement si des concurrents ont été trouvés. Valeurs depuis les
+  // mesures (votre site) et les CompetitorSummary (concurrents).
+  const competitorBlock = buildCompetitorBlock(audit);
 
   const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
@@ -162,7 +223,7 @@ export function buildFlashEmailHtml(
               <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Recommandé</td>
             </tr>${metricRows}
           </table>
-        </td></tr>${impactBlock}
+        </td></tr>${competitorBlock}${impactBlock}
         <!-- Présentation agence + offre -->
         <tr><td style="padding:16px 36px 8px;color:${C.text};font-size:16px;line-height:1.65;">
           <p style="margin:0 0 16px;">Là je ne vous parle que de votre page d'accueil. On a des outils d'analyse développés en interne qui passent un site complet au crible : toutes les pages, le référencement, la vitesse, les parcours de réservation.</p>

@@ -60,15 +60,22 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
   }
   const annotations = buildScreenshotAnnotations(measurements, rects);
 
-  // 7. Pro : desktop PSI + concurrents + impact
-  let competitors: AuditData['competitors'] = [];
+  // 7. Concurrents : benchmark perf/SEO, calculé pour flash ET pro (valeur
+  // ajoutée du gratuit). Les fonctions avalent les concurrents injoignables,
+  // donc une erreur réseau ne fait pas planter l'audit.
+  const domain = new URL(page.finalUrl).hostname;
+  const competitorUrls = await searchCompetitors(business, domain, deps.exaApiKey, fetchFn);
+  const competitors: AuditData['competitors'] = await auditCompetitors(
+    competitorUrls,
+    deps.psiApiKey,
+    fetchFn,
+  );
+
+  // 8. Pro : desktop PSI + estimation d'impact
   let impact: AuditData['impact'] = null;
   if (tier === 'pro') {
     const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
     measurements.push(...psiToMeasurements(psiDesktop));
-    const domain = new URL(page.finalUrl).hostname;
-    const urls = await searchCompetitors(business, domain, deps.exaApiKey, fetchFn);
-    competitors = await auditCompetitors(urls, deps.psiApiKey, fetchFn);
     impact = estimateImpact(measurements);
   }
 
