@@ -50,6 +50,8 @@ export default async function ({ page, context }) {
         y: Math.round(r.y + window.scrollY),
         width: Math.round(r.width),
         height: Math.round(r.height),
+        alt: img.getAttribute('alt'),
+        area: Math.round(r.width * r.height),
       };
     })
   );

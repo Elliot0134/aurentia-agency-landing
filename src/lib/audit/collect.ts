@@ -7,7 +7,8 @@ import { checkOnPage } from './checks-onpage';
 import { checkTech } from './checks-tech';
 import { checkImages } from './checks-images';
 import { runPsi, psiToMeasurements } from './psi';
-import { captureScreenshot, getImageRects, buildAnnotations, type BrowserlessConfig } from './screenshot';
+import { captureScreenshot, getImageRects, type BrowserlessConfig } from './screenshot';
+import { buildScreenshotAnnotations } from './screenshot-annotations';
 import { detectBusinessType } from './business-type';
 import { searchCompetitors, auditCompetitors } from './competitors';
 import { estimateImpact } from './impact';
@@ -57,7 +58,7 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     screenshotPath = path.join(deps.outDir, 'fullpage.png');
     await writeFile(screenshotPath, png);
   }
-  const annotations = buildAnnotations(rects, measurements);
+  const annotations = buildScreenshotAnnotations(measurements, rects);
 
   // 7. Pro : desktop PSI + concurrents + impact
   let competitors: AuditData['competitors'] = [];

@@ -34,6 +34,8 @@ export interface ImageRect {
   y: number;
   width: number;
   height: number;
+  alt: string | null;
+  area: number; // surface rendue en px² (width * height arrondi)
 }
 
 /** Annotation prouvable par code, destinée au screenshot annoté (plan 2). */

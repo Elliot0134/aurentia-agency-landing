@@ -19,7 +19,7 @@ describe('captureScreenshot', () => {
 describe('getImageRects', () => {
   it('extrait le tableau depuis la clé data de la réponse Browserless', async () => {
     const fakeFetch: typeof fetch = (async () =>
-      new Response(JSON.stringify({ data: [{ src: 'https://x/a.jpg', x: 1, y: 2, width: 3, height: 4 }], type: 'application/json' }), { status: 200 })) as typeof fetch;
+      new Response(JSON.stringify({ data: [{ src: 'https://x/a.jpg', x: 1, y: 2, width: 3, height: 4, alt: null, area: 12 }], type: 'application/json' }), { status: 200 })) as typeof fetch;
     const rects = await getImageRects('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
     expect(rects).toHaveLength(1);
     expect(rects[0]).toMatchObject({ src: 'https://x/a.jpg', x: 1, width: 3 });
@@ -70,8 +70,8 @@ describe('retry Browserless', () => {
 describe('buildAnnotations', () => {
   it('croise les rects avec les measurements images.broken.* uniquement', () => {
     const rects = [
-      { src: 'https://exemple.fr/dead.jpg', x: 100, y: 200, width: 300, height: 150 },
-      { src: 'https://exemple.fr/ok.jpg', x: 0, y: 0, width: 50, height: 50 },
+      { src: 'https://exemple.fr/dead.jpg', x: 100, y: 200, width: 300, height: 150, alt: null, area: 45000 },
+      { src: 'https://exemple.fr/ok.jpg', x: 0, y: 0, width: 50, height: 50, alt: 'ok', area: 2500 },
     ];
     const measurements: Measurement[] = [
       {

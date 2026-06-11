@@ -3,7 +3,8 @@ import type { Annotation } from '../types';
 import { COLORS } from './theme';
 
 /**
- * Dessine un cadre + une pastille numérotée sur chaque zone annotée.
+ * Dessine un gros point numéroté sur chaque zone annotée (pas de cadre).
+ * Le point se place près du coin haut-gauche de l'élément DOM ciblé.
  * Pas de légende incrustée (elle vit dans le HTML du rapport).
  */
 export async function annotateScreenshot(pngBuffer: Buffer, annotations: Annotation[]): Promise<Buffer> {
@@ -14,13 +15,11 @@ export async function annotateScreenshot(pngBuffer: Buffer, annotations: Annotat
   const shapes = annotations
     .map((a, i) => {
       const n = i + 1;
-      const cx = a.x + Math.min(18, a.width / 2);
-      const cy = a.y + Math.min(18, a.height / 2);
+      const cx = a.x + Math.min(24, a.width / 2);
+      const cy = a.y + Math.min(24, a.height / 2);
       return `
-        <rect x="${a.x}" y="${a.y}" width="${a.width}" height="${a.height}"
-              fill="none" stroke="${COLORS.bad}" stroke-width="3" rx="4"/>
-        <circle cx="${cx}" cy="${cy}" r="14" fill="${COLORS.bad}"/>
-        <text x="${cx}" y="${cy + 5}" font-family="Arial, sans-serif" font-size="15"
+        <circle cx="${cx}" cy="${cy}" r="20" fill="${COLORS.bad}"/>
+        <text x="${cx}" y="${cy + 7}" font-family="Arial, sans-serif" font-size="20"
               font-weight="bold" fill="#ffffff" text-anchor="middle">${n}</text>`;
     })
     .join('');
