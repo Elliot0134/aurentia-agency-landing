@@ -20,7 +20,7 @@ export async function captureScreenshot(
       url,
       options: { fullPage: true, type: 'png' },
       viewport: { width: 1440, height: 1200 },
-      gotoOptions: { waitUntil: 'networkidle2', timeout: 30_000 },
+      gotoOptions: { waitUntil: 'load', timeout: 30_000 },
     }),
     signal: AbortSignal.timeout(60_000),
   });
@@ -37,7 +37,7 @@ export async function getImageRects(
   const code = `
 export default async function ({ page, context }) {
   await page.setViewport({ width: 1440, height: 1200 });
-  await page.goto(context.url, { waitUntil: 'networkidle2', timeout: 30000 });
+  await page.goto(context.url, { waitUntil: 'load', timeout: 30000 });
   const rects = await page.evaluate(() =>
     Array.from(document.images).map((img) => {
       const r = img.getBoundingClientRect();

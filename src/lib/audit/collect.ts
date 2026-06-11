@@ -50,10 +50,8 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
 
   // 6. Screenshot + annotations prouvables
   let screenshotPath: string | null = null;
-  const [png, rects] = await Promise.all([
-    captureScreenshot(page.finalUrl, deps.browserless, fetchFn),
-    getImageRects(page.finalUrl, deps.browserless, fetchFn),
-  ]);
+  const png = await captureScreenshot(page.finalUrl, deps.browserless, fetchFn);
+  const rects = await getImageRects(page.finalUrl, deps.browserless, fetchFn);
   if (deps.outDir) {
     await mkdir(deps.outDir, { recursive: true });
     screenshotPath = path.join(deps.outDir, 'fullpage.png');
