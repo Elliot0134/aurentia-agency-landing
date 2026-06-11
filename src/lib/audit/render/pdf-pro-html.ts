@@ -13,14 +13,14 @@ function escapeHtml(s: string): string {
   );
 }
 
-/** Formate un entier a la francaise avec espaces (ex 1056 -> "1 056"). */
+/** Formate un entier à la française avec espaces (ex 1056 -> "1 056"). */
 function formatEurFr(value: number): string {
   return Math.round(value)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
-/** Formate un nombre a la francaise (virgule decimale). */
+/** Formate un nombre à la française (virgule décimale). */
 function formatNumberFr(value: number): string {
   return value.toLocaleString('fr-FR', { maximumFractionDigits: 2 });
 }
@@ -42,15 +42,15 @@ function domainOf(url: string): string {
 }
 
 const RECO_LABEL: Record<ReportContent['recommendation'], string> = {
-  refonte: 'Refonte recommandee',
-  optimisations: 'Optimisations ciblees recommandees',
-  'bon-etat': 'Site en bon etat',
+  refonte: 'Refonte recommandée',
+  optimisations: 'Optimisations ciblées recommandées',
+  'bon-etat': 'Site en bon état',
 };
 
 /**
- * CSS print A4 porte de `generate_pdf.py` (CSS_TEMPLATE), recolore a la charte
+ * CSS print A4 porté de `generate_pdf.py` (CSS_TEMPLATE), recoloré à la charte
  * orange Aurentia.agency : le bleu `#1e40af`/`#1e3a8a` du skill devient
- * `COLORS.accent`/`COLORS.accentDark`. Scores color-codes via bad/mid/good.
+ * `COLORS.accent`/`COLORS.accentDark`. Scores color-codés via bad/mid/good.
  */
 function styleBlock(): string {
   const C = COLORS;
@@ -69,7 +69,7 @@ function styleBlock(): string {
     padding-bottom: 4pt;
   }
   @top-right {
-    content: "Audit strategique";
+    content: "Audit stratégique";
     font-family: 'Inter', Arial, sans-serif;
     font-size: 8.5pt;
     color: ${C.muted};
@@ -241,14 +241,14 @@ function buildCover(audit: AuditData): string {
   <div class="cover-page">
     <div class="cover-logo">AURENTIA AGENCY</div>
     <div class="cover-main">
-      <h2>Audit strategique</h2>
+      <h2>Audit stratégique</h2>
       <h1>${escapeHtml(name)}</h1>
       <div class="url">${escapeHtml(audit.finalUrl)}</div>
     </div>
     <div class="cover-meta">
       Date : ${escapeHtml(date)}<br/>
-      Prepare par : Aurentia Agency<br/>
-      Confidentiel, destine a ${escapeHtml(name)}
+      Préparé par : Aurentia Agency<br/>
+      Confidentiel, destiné à ${escapeHtml(name)}
     </div>
   </div>`;
 }
@@ -256,12 +256,12 @@ function buildCover(audit: AuditData): string {
 function buildSynthese(audit: AuditData, content: ReportContent, score: number): string {
   const loss = audit.revenue
     ? `
-        <p style="margin-top:14pt;"><strong>Manque a gagner mensuel estime :</strong></p>
-        <p class="loss-amount">~ ${formatEurFr(audit.revenue.totalMonthlyLossEur)} &euro;/mois</p>`
+        <p style="margin-top:14pt;"><strong>Manque à gagner mensuel estimé :</strong></p>
+        <p class="loss-amount">~ ${formatEurFr(audit.revenue.totalMonthlyLossEur)}&nbsp;&euro;/mois</p>`
     : '';
   return `
   <section class="section">
-    <h2>Synthese</h2>
+    <h2>Synthèse</h2>
     <div class="score-block">
       <div>
         <div class="score-big" style="color:${scoreColor(score)};">${score}</div>
@@ -292,8 +292,8 @@ function findingBlock(f: Finding): string {
 
 function buildFindings(content: ReportContent): string {
   const groups: { priority: Finding['priority']; title: string }[] = [
-    { priority: 'P0', title: 'Problemes critiques (P0)' },
-    { priority: 'P1', title: 'Problemes importants (P1)' },
+    { priority: 'P0', title: 'Problèmes critiques (P0)' },
+    { priority: 'P1', title: 'Problèmes importants (P1)' },
     { priority: 'P2', title: 'Optimisations (P2)' },
   ];
   return groups
@@ -354,9 +354,9 @@ function buildAnnex(audit: AuditData): string {
   return `
   <section class="section annex">
     <h2>Annexe technique</h2>
-    <p>Detail des mesures collectees sur le site.</p>
+    <p>Détail des mesures collectées sur le site.</p>
     <table>
-      <thead><tr><th>Mesure</th><th>Valeur</th><th>Etat</th></tr></thead>
+      <thead><tr><th>Mesure</th><th>Valeur</th><th>État</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </section>`;
@@ -364,13 +364,13 @@ function buildAnnex(audit: AuditData): string {
 
 /**
  * Construit le HTML complet du rapport PDF Pro (charte orange Aurentia.agency),
- * porte de la structure + CSS de `generate_pdf.py`. Fonction pure, aucun reseau.
+ * porté de la structure + CSS de `generate_pdf.py`. Fonction pure, aucun réseau.
  *
- * Sections : couverture, synthese (score color-code + manque a gagner), findings
- * groupes P0/P1/P2, comparatif concurrents, annexe technique. Footer @page pagine.
+ * Sections : couverture, synthèse (score color-codé + manque à gagner), findings
+ * groupés P0/P1/P2, comparatif concurrents, annexe technique. Footer @page paginé.
  *
- * Regles : zero tiret long, zero prix de refonte, zero roadmap, valeurs numeriques
- * injectees depuis les donnees (jamais depuis le texte LLM), texte LLM echappe.
+ * Règles : zéro tiret long, zéro prix de refonte, zéro roadmap, valeurs numériques
+ * injectées depuis les données (jamais depuis le texte LLM), texte LLM échappé.
  */
 export function buildProReportHtml(
   audit: AuditData,
