@@ -23,7 +23,30 @@ export async function runPsi(
   const qs = new URLSearchParams({ url, strategy, key: apiKey });
   qs.append('category', 'PERFORMANCE');
   qs.append('category', 'SEO');
-  const res = await fetchFn(`${ENDPOINT}?${qs}`, { signal: AbortSignal.timeout(60_000) });
+
+  // PSI peut prendre ~56s sur un site lourd : timeout large + 1 retry sur timeout/5xx.
+  let res: Response | null = null;
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 2_000));
+    try {
+      const r = await fetchFn(`${ENDPOINT}?${qs}`, { signal: AbortSignal.timeout(90_000) });
+      if (r.status >= 500) {
+        lastErr = new Error(`PSI ${strategy} a répondu ${r.status} pour ${url}`);
+        continue;
+      }
+      res = r;
+      break;
+    } catch (err) {
+      // AbortSignal.timeout déclenche une TimeoutError : on retente.
+      if (err instanceof Error && err.name === 'TimeoutError') {
+        lastErr = err;
+        continue;
+      }
+      throw err;
+    }
+  }
+  if (res === null) throw lastErr ?? new Error(`PSI ${strategy} a échoué pour ${url}`);
   if (!res.ok) throw new Error(`PSI ${strategy} a répondu ${res.status} pour ${url}`);
   const data = (await res.json()) as {
     lighthouseResult?: {

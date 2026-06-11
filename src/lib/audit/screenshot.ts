@@ -59,7 +59,8 @@ export default async function ({ page, context }) {
     signal: AbortSignal.timeout(60_000),
   });
   if (!res.ok) throw new Error(`Browserless /function → ${res.status} pour ${url}`);
-  return (await res.json()) as ImageRect[];
+  const json = (await res.json()) as { data?: ImageRect[] };
+  return json.data ?? [];
 }
 
 /**
