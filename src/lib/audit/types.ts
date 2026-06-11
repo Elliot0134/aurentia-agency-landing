@@ -1,0 +1,92 @@
+export type Tier = 'flash' | 'pro';
+
+export type MeasurementStatus = 'pass' | 'warn' | 'fail' | 'info';
+
+export type ModuleId =
+  | 'seo-onpage'
+  | 'seo-tech'
+  | 'perf'
+  | 'images'
+  | 'mobile'
+  | 'business'
+  | 'competitors'
+  | 'revenue';
+
+/**
+ * L'unité atomique de vérité du système. Chaque donnée du rapport final
+ * provient d'une Measurement. Le LLM rédacteur ne pourra référencer que des
+ * ids existants (contrat du plan 2).
+ */
+export interface Measurement {
+  id: string; // ex: 'seo.title.length' — stable, unique par audit
+  module: ModuleId;
+  label: string; // libellé FR lisible
+  status: MeasurementStatus;
+  value: string | number | boolean | null;
+  unit?: string; // 's', 'ms', '%', 'octets'...
+  proof?: string; // ce qui a été testé : URL, code HTTP, sélecteur...
+  details?: string; // contexte factuel additionnel
+}
+
+export interface ImageRect {
+  src: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/** Annotation prouvable par code, destinée au screenshot annoté (plan 2). */
+export interface Annotation {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  measurementId: string; // la preuve
+  note: string;
+}
+
+export interface CompetitorSummary {
+  domain: string;
+  url: string;
+  perfScoreMobile: number | null;
+  seoScore: number | null;
+  lcpMs: number | null;
+}
+
+export interface RevenueItem {
+  id: string; // ex: 'revenue.lcp'
+  label: string;
+  monthlyLossEur: number;
+  formula: string; // formule lisible avec les valeurs injectées
+}
+
+export interface RevenueEstimate {
+  sector: string;
+  items: RevenueItem[];
+  totalMonthlyLossEur: number; // somme × 0.6 (chevauchement)
+  assumptions: string[]; // hypothèses affichées dans le rapport
+}
+
+export type BusinessType = 'local' | 'national' | 'hybrid';
+
+export interface BusinessDetection {
+  type: BusinessType;
+  scoreLocal: number;
+  scoreNational: number;
+  city: string | null;
+  sector: string | null; // clé de SECTOR_BENCHMARKS
+}
+
+export interface AuditData {
+  url: string;
+  finalUrl: string;
+  tier: Tier;
+  collectedAt: string; // ISO 8601
+  business: BusinessDetection;
+  measurements: Measurement[];
+  annotations: Annotation[];
+  screenshotPath: string | null; // PNG full-page sur disque
+  competitors: CompetitorSummary[];
+  revenue: RevenueEstimate | null; // pro uniquement
+}
