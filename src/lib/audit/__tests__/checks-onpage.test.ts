@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import * as cheerio from 'cheerio';
 import { checkOnPage } from '../checks-onpage';
+import type { Measurement } from '../types';
 
 const page = (html: string) => cheerio.load(html);
-const byId = (ms: { id: string }[], id: string) => ms.find((m) => m.id === id);
+const byId = (ms: Measurement[], id: string): Measurement | undefined => ms.find((m) => m.id === id);
 
 describe('checkOnPage', () => {
   it('valide une page correcte', () => {

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import * as cheerio from 'cheerio';
 import { checkTech } from '../checks-tech';
+import type { Measurement } from '../types';
 
 /** fetch stub : route → Response */
 const router = (routes: Record<string, { body?: string; status?: number }>): typeof fetch =>
@@ -11,7 +12,7 @@ const router = (routes: Record<string, { body?: string; status?: number }>): typ
     return new Response(hit[1].body ?? '', { status: hit[1].status ?? 200 });
   }) as typeof fetch;
 
-const byId = (ms: { id: string }[], id: string) => ms.find((m) => m.id === id);
+const byId = (ms: Measurement[], id: string): Measurement | undefined => ms.find((m) => m.id === id);
 
 describe('checkTech', () => {
   it('valide un site bien configuré', async () => {
