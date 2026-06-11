@@ -1,0 +1,37 @@
+import { describe, it, expect } from 'vitest';
+import { buildFlashEmailHtml } from '../email-flash';
+import type { AuditData } from '../../types';
+import type { ReportContent } from '../report-schema';
+
+const audit = (): AuditData => ({
+  url: 'https://x.fr', finalUrl: 'https://x.fr', tier: 'flash', collectedAt: '2026-06-11T00:00:00Z',
+  business: { type: 'local', scoreLocal: 5, scoreNational: 0, city: 'marseille', sector: 'conciergerie' },
+  measurements: [
+    { id: 'perf.mobile.lcp', module: 'perf', label: 'Affichage du contenu principal', status: 'fail', value: 11.8, unit: 's' },
+    { id: 'perf.mobile.score', module: 'perf', label: 'Performance mobile', status: 'fail', value: 32, unit: '/100' },
+  ],
+  annotations: [{ x: 1, y: 1, width: 1, height: 1, measurementId: 'perf.mobile.lcp', note: 'Zone lente' }],
+  screenshotPath: null, competitors: [], revenue: null,
+});
+const content = (): ReportContent => ({
+  execSummary: 'Votre site est lent et perd des visiteurs avant même qu’ils voient votre offre.',
+  recommendation: 'refonte',
+  findings: [{ title: 'Site lent', body: 'Le contenu met 11,8s a apparaitre.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
+  competitorAnalysis: null,
+});
+
+describe('buildFlashEmailHtml', () => {
+  it('produit un HTML avec capture, métriques colorées et CTA', () => {
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit' });
+    expect(html).toContain('https://cdn/x.jpg'); // image capture
+    expect(html).toContain('11,8'); // valeur LCP injectée depuis la mesure
+    expect(html).toContain('#F36F1C'); // charte orange
+    expect(html).toContain('https://aurentia.agency/audit'); // CTA
+    expect(html.toLowerCase()).toContain('vaucluse'); // présentation agence (devs/designers)
+  });
+  it('ne contient jamais de tiret long ni de mention IA', () => {
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    expect(html).not.toMatch(/—|–/);
+    expect(html.toLowerCase()).not.toContain('intelligence artificielle');
+  });
+});
