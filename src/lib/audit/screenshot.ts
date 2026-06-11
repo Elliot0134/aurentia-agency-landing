@@ -7,25 +7,45 @@ export interface BrowserlessConfig {
 
 const base = (c: BrowserlessConfig) => c.baseUrl ?? 'https://production-sfo.browserless.io';
 
+const BROWSERLESS_MAX_ATTEMPTS = 5;
+
+/** Réessaie un appel Browserless sur erreur réseau, timeout, ou HTTP >= 500. Max 5 tentatives. */
+async function withBrowserlessRetry<T>(label: string, fn: () => Promise<T>): Promise<T> {
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= BROWSERLESS_MAX_ATTEMPTS; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      if (attempt === BROWSERLESS_MAX_ATTEMPTS) break;
+      // back-off court : 1s, 2s, 3s, 4s
+      await new Promise((r) => setTimeout(r, attempt * 1000));
+    }
+  }
+  throw new Error(`Browserless ${label} a échoué après ${BROWSERLESS_MAX_ATTEMPTS} tentatives : ${String(lastErr)}`);
+}
+
 /** Capture full-page PNG (le scroll natif de fullPage déclenche le lazy-loading). */
 export async function captureScreenshot(
   url: string,
   config: BrowserlessConfig,
   fetchFn: typeof fetch = fetch
 ): Promise<Buffer> {
-  const res = await fetchFn(`${base(config)}/screenshot?token=${config.token}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      url,
-      options: { fullPage: true, type: 'png' },
-      viewport: { width: 1440, height: 1200 },
-      gotoOptions: { waitUntil: 'load', timeout: 30_000 },
-    }),
-    signal: AbortSignal.timeout(60_000),
+  return withBrowserlessRetry('screenshot', async () => {
+    const res = await fetchFn(`${base(config)}/screenshot?token=${config.token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url,
+        options: { fullPage: true, type: 'png' },
+        viewport: { width: 1440, height: 1200 },
+        gotoOptions: { waitUntil: 'load', timeout: 30_000 },
+      }),
+      signal: AbortSignal.timeout(60_000),
+    });
+    if (!res.ok) throw new Error(`Browserless /screenshot → ${res.status} pour ${url}`);
+    return Buffer.from(await res.arrayBuffer());
   });
-  if (!res.ok) throw new Error(`Browserless /screenshot → ${res.status} pour ${url}`);
-  return Buffer.from(await res.arrayBuffer());
 }
 
 /** Récupère la position de chaque <img> dans la page (coordonnées document). */
@@ -52,15 +72,17 @@ export default async function ({ page, context }) {
   );
   return { data: rects, type: 'application/json' };
 }`;
-  const res = await fetchFn(`${base(config)}/function?token=${config.token}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code, context: { url } }),
-    signal: AbortSignal.timeout(60_000),
+  return withBrowserlessRetry('function', async () => {
+    const res = await fetchFn(`${base(config)}/function?token=${config.token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, context: { url } }),
+      signal: AbortSignal.timeout(60_000),
+    });
+    if (!res.ok) throw new Error(`Browserless /function → ${res.status} pour ${url}`);
+    const json = (await res.json()) as { data?: ImageRect[] };
+    return json.data ?? [];
   });
-  if (!res.ok) throw new Error(`Browserless /function → ${res.status} pour ${url}`);
-  const json = (await res.json()) as { data?: ImageRect[] };
-  return json.data ?? [];
 }
 
 /**

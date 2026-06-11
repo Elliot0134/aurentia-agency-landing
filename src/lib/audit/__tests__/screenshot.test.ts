@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { captureScreenshot, getImageRects, buildAnnotations } from '../screenshot';
 import type { Measurement } from '../types';
 
@@ -29,6 +29,41 @@ describe('getImageRects', () => {
       new Response(JSON.stringify({ type: 'application/json' }), { status: 200 })) as typeof fetch;
     const rects = await getImageRects('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
     expect(rects).toEqual([]);
+  });
+});
+
+describe('retry Browserless', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('captureScreenshot réessaie sur 500 puis réussit', async () => {
+    vi.useFakeTimers();
+    let calls = 0;
+    const fakeFetch: typeof fetch = (async () => {
+      calls++;
+      if (calls < 3) return new Response('boom', { status: 500 });
+      return new Response(new Uint8Array([1, 2]), { status: 200 });
+    }) as typeof fetch;
+    const promise = captureScreenshot('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+    await vi.runAllTimersAsync();
+    const buf = await promise;
+    expect(calls).toBe(3);
+    expect(buf.byteLength).toBe(2);
+  });
+
+  it('captureScreenshot abandonne après 5 échecs', async () => {
+    vi.useFakeTimers();
+    let calls = 0;
+    const fakeFetch: typeof fetch = (async () => {
+      calls++;
+      return new Response('boom', { status: 500 });
+    }) as typeof fetch;
+    const promise = captureScreenshot('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+    const assertion = expect(promise).rejects.toThrow(/5 tentatives/);
+    await vi.runAllTimersAsync();
+    await assertion;
+    expect(calls).toBe(5);
   });
 });
 
