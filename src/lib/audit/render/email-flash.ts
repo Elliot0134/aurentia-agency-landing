@@ -88,12 +88,22 @@ export function buildFlashEmailHtml(
   const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
 
+  const safeJustification = escapeHtml(content.scoreJustification);
   const gaugeBlock =
     opts.scoreGaugeUrl
       ? `
-        <tr><td style="padding:8px 36px 0;text-align:center;">
-          <div style="font-size:14px;font-weight:600;color:${C.muted};margin-bottom:8px;">Votre score global</div>
-          <img src="${escapeHtml(opts.scoreGaugeUrl)}" alt="Score global de votre site" width="160" style="height:auto;display:block;margin:8px auto;">
+        <tr><td style="padding:8px 36px 0;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+            <tr>
+              <td style="width:180px;vertical-align:middle;text-align:center;padding-right:16px;">
+                <img src="${escapeHtml(opts.scoreGaugeUrl)}" alt="Score global de votre site" width="160" style="height:auto;display:block;margin:0 auto;">
+              </td>
+              <td style="vertical-align:middle;">
+                <div style="font-size:14px;font-weight:600;color:${C.muted};margin-bottom:6px;">Votre score global</div>
+                <div style="font-size:15px;color:${C.text};line-height:1.55;">${safeJustification}</div>
+              </td>
+            </tr>
+          </table>
         </td></tr>`
       : '';
 

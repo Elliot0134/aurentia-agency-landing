@@ -14,5 +14,6 @@ export const ReportContentSchema = z.object({
   recommendation: z.enum(['refonte', 'optimisations', 'bon-etat']),
   findings: z.array(FindingSchema).min(1),
   competitorAnalysis: z.string().nullable(), // pro uniquement, sinon null
+  scoreJustification: z.string().min(10), // 2-3 phrases CEO-friendly expliquant le score global
 });
 export type ReportContent = z.infer<typeof ReportContentSchema>;

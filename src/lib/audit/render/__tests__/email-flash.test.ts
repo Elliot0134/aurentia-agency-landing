@@ -13,31 +13,32 @@ const audit = (): AuditData => ({
   annotations: [{ x: 1, y: 1, width: 1, height: 1, measurementId: 'perf.mobile.lcp', note: 'Zone lente' }],
   screenshotPath: null, competitors: [],
   impact: {
-    items: [{ id: 'impact.lcp', label: 'Visiteurs perdus à cause de la lenteur de chargement', lossPercent: 32, basis: 'Google.' }],
+    items: [{ id: 'impact.lcp', label: 'Visiteurs perdus a cause de la lenteur de chargement', lossPercent: 32, basis: 'Google.' }],
     headlinePercent: 32,
-    assumptions: ['Estimation sans donnée de trafic.'],
+    assumptions: ['Estimation sans donnee de trafic.'],
   },
 });
 const content = (): ReportContent => ({
-  execSummary: 'Votre site est lent et perd des visiteurs avant même qu’ils voient votre offre.',
+  execSummary: "Votre site est lent et perd des visiteurs avant meme qu'ils voient votre offre.",
   recommendation: 'refonte',
   findings: [{ title: 'Site lent', body: 'Le contenu met 11,8s a apparaitre.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
   competitorAnalysis: null,
+  scoreJustification: 'Score faible cause par des temps de chargement excessifs sur mobile.',
 });
 
 describe('buildFlashEmailHtml', () => {
-  it('produit un HTML avec capture, métriques colorées et CTA', () => {
+  it('produit un HTML avec capture, metriques colorees et CTA', () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit', scoreGaugeUrl: 'https://cdn/gauge.png' });
     expect(html).toContain('https://cdn/x.jpg'); // image capture
-    expect(html).toContain('11,8'); // valeur LCP injectée depuis la mesure
+    expect(html).toContain('11,8'); // valeur LCP injectee depuis la mesure
     expect(html).toContain('#F36F1C'); // charte orange
     expect(html).toContain('https://aurentia.agency/audit'); // CTA
-    expect(html.toLowerCase()).toContain('vaucluse'); // présentation agence (devs/designers)
+    expect(html.toLowerCase()).toContain('vaucluse'); // presentation agence (devs/designers)
     expect(html).toContain('32'); // impact en % de visiteurs perdus
-    expect(html.toLowerCase()).toContain('visiteurs'); // libellé impact
-    expect(html).toContain('%'); // exprimé en pourcentage, pas en euros
+    expect(html.toLowerCase()).toContain('visiteurs'); // libelle impact
+    expect(html).toContain('%'); // exprime en pourcentage, pas en euros
   });
-  it('ne contient ni tiret long, ni mention IA, ni montant €', () => {
+  it('ne contient ni tiret long, ni mention IA, ni montant euros', () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
     expect(html).not.toMatch(/—|–/);
     expect(html.toLowerCase()).not.toContain('intelligence artificielle');
@@ -51,6 +52,7 @@ describe('buildFlashEmailHtml', () => {
     });
     expect(html).toContain('https://cdn/gauge.png');
     expect(html).toContain('Votre score global');
+    expect(html).toContain('Score faible cause par des temps de chargement excessifs sur mobile.');
   });
   it('omet le cadran de score quand scoreGaugeUrl est absent', () => {
     const html = buildFlashEmailHtml(audit(), content(), {

@@ -16,7 +16,8 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - INTERDIT : mentionner l'IA, l'intelligence artificielle, un algorithme, ChatGPT, un LLM.
 - INTERDIT : affirmer une position Google précise ("vous êtes en position 8").
 - INTERDIT : citer un montant en euros (€). Tu exprimes l'impact en POURCENTAGE de visiteurs perdus, jamais en argent.
-- Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).`;
+- Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).
+- Rédige aussi "scoreJustification" : 2 à 3 phrases expliquant à quoi correspond le score global du site (ce qui le tire vers le haut ou le bas), en langage simple pour un dirigeant.`;
 
 /** Construit le prompt utilisateur à partir des mesures (sérialisation compacte). */
 function buildPrompt(audit: AuditData, attemptNote: string): string {

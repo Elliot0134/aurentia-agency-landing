@@ -21,6 +21,7 @@ const content = (): ReportContent => ({
     { title: 'Performance', body: 'Score de 32 sur 100.', priority: 'P0', measurementIds: ['perf.mobile.score'] },
   ],
   competitorAnalysis: 'Vos concurrents chargent plus vite.',
+  scoreJustification: 'Texte de justification du score global pour ce test.',
 });
 
 describe('buildProReportHtml', () => {

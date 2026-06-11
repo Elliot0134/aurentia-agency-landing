@@ -14,6 +14,7 @@ const valid: ReportContent = {
   recommendation: 'refonte',
   findings: [{ title: 'Lenteur', body: 'Le contenu met 11,8s a charger.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
   competitorAnalysis: null,
+  scoreJustification: 'Texte de justification du score global pour ce test.',
 };
 
 describe('writeReport', () => {

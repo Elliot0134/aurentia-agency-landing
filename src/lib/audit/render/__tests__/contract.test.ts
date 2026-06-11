@@ -19,6 +19,7 @@ const okContent = (): ReportContent => ({
   recommendation: 'refonte',
   findings: [{ title: 'Site lent', body: 'Le contenu met 11,8s à apparaitre, vos visiteurs partent.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
   competitorAnalysis: null,
+  scoreJustification: 'Le score est tiré vers le bas par des temps de chargement excessifs. Les fondations techniques sont en place mais les performances freinent la conversion.',
 });
 
 describe('validateReportContract', () => {
