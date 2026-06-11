@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 import { collectAudit } from '../src/lib/audit/collect';
+import { renderReport } from '../src/lib/audit/render/render';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -12,12 +13,23 @@ async function main() {
     process.exit(1);
   }
   const tier = rest.includes('--tier') && rest[rest.indexOf('--tier') + 1] === 'pro' ? 'pro' : 'flash';
+  const doRender = rest.includes('--render');
 
   const required = ['PSI_API_KEY', 'BROWSERLESS_TOKEN', 'EXA_API_KEY'] as const;
   for (const k of required) {
     if (!process.env[k]) {
       console.error(`Variable manquante dans .env.local : ${k}`);
       process.exit(1);
+    }
+  }
+
+  if (doRender) {
+    const renderRequired = ['OPENROUTER_API_KEY', 'OPENROUTER_MODEL'] as const;
+    for (const k of renderRequired) {
+      if (!process.env[k]) {
+        console.error(`--render nécessite ${k} dans l'environnement (.env.local).`);
+        process.exit(1);
+      }
     }
   }
 
@@ -40,6 +52,28 @@ async function main() {
   for (const m of fails) console.log(`  ✗ [${m.id}] ${m.label} = ${m.value}${m.unit ? ' ' + m.unit : ''}`);
   if (audit.revenue) console.log(`\nManque à gagner estimé : ~${audit.revenue.totalMonthlyLossEur} €/mois`);
   console.log(`\nJSON complet : ${outDir}/audit.json`);
+
+  if (doRender) {
+    console.log(`\nRendu ${tier} (LLM réel + Browserless)...`);
+    const result = await renderReport(audit, {
+      browserless: { token: process.env.BROWSERLESS_TOKEN!, baseUrl: process.env.BROWSERLESS_URL },
+      fetchFn: undefined,
+      generateFn: undefined,
+      ctaUrl: 'https://www.aurentia.agency/audit',
+    });
+
+    if (result.emailHtml !== undefined) {
+      const htmlPath = path.join(outDir, 'report.html');
+      await writeFile(htmlPath, result.emailHtml);
+      console.log(`Mail Flash : ${htmlPath}`);
+    }
+    if (result.pdfBuffer !== undefined) {
+      const pdfPath = path.join(outDir, 'report.pdf');
+      await writeFile(pdfPath, result.pdfBuffer);
+      console.log(`PDF Pro : ${pdfPath}`);
+    }
+    console.log(`Score : ${result.score}/100 — recommandation : ${result.content.recommendation}`);
+  }
 }
 
 main().catch((e) => {
