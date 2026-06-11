@@ -32,7 +32,7 @@ describe('buildProReportHtml', () => {
     expect(html).toContain('32'); // impact headlinePercent
     expect(html.toLowerCase()).toContain('visiteurs'); // exprimé en visiteurs perdus
     expect(html).toContain('concurrent.fr');
-    expect(html).toContain('#F36F1C'); // charte orange (pas le bleu skill)
+    expect(html).toContain('#c96442'); // charte terracotta v2 chaud (pas le bleu skill)
     expect(html).not.toContain('#1e40af');
   });
   it('ne contient ni prix de refonte, ni roadmap, ni tiret long, ni montant €', () => {

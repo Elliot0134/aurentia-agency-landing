@@ -32,18 +32,25 @@ describe('buildFlashEmailHtml', () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit', scoreGaugeUrl: 'https://cdn/gauge.png' });
     expect(html).toContain('https://cdn/x.jpg'); // image capture
     expect(html).toContain('11,8'); // valeur LCP injectee depuis la mesure
-    expect(html).toContain('#F36F1C'); // charte orange
+    expect(html).toContain('#c96442'); // charte terracotta v2 chaud
     expect(html).toContain('https://aurentia.agency/audit'); // CTA
     expect(html.toLowerCase()).toContain('vaucluse'); // presentation agence (devs/designers)
     expect(html).toContain('32'); // impact en % de visiteurs perdus
     expect(html.toLowerCase()).toContain('visiteurs'); // libelle impact
     expect(html).toContain('%'); // exprime en pourcentage, pas en euros
+    expect(html).toContain('logo-light.png'); // vrai logo image en en-tête
+    expect(html.toLowerCase()).toContain('audit pro'); // section audit Pro
+    expect(html).toContain('99'); // prix audit Pro
+    expect(html).toContain('cal.com/elliot-estrade-ixfuya/appel-decouverte'); // RDV cal.com par défaut
   });
-  it('ne contient ni tiret long, ni mention IA, ni montant euros', () => {
+  it("ne contient ni tiret long, ni mention IA, ni montant euros d'impact", () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
     expect(html).not.toMatch(/—|–/);
     expect(html.toLowerCase()).not.toContain('intelligence artificielle');
-    expect(html).not.toMatch(/€|&euro;/);
+    // Seul euro autorisé : le prix de l'audit Pro (99 €). Aucun montant d'impact
+    // chiffré en euros (ex "1 200 €/mois", "perte de X €").
+    expect(html).not.toMatch(/\/mois/);
+    expect(html).not.toMatch(/perte[^.]*€/i);
   });
   it('affiche le cadran de score quand scoreGaugeUrl est fourni', () => {
     const html = buildFlashEmailHtml(audit(), content(), {

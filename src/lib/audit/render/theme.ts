@@ -1,18 +1,20 @@
 import type { MeasurementStatus } from '../types';
 
 export const COLORS = {
-  accent: '#F36F1C',
-  accentDark: '#BD3F11',
-  tintBg: '#FFF7ED',
-  tintBorder: '#FBE2C8',
-  surface: '#F4F4F5',
-  card: '#FFFFFF',
-  border: '#E5E5E5',
-  text: '#0A0A0A',
-  muted: '#767676',
-  bad: '#C62828',
-  mid: '#E8710A',
-  good: '#2E7D32',
+  accent: '#c96442',       // terracotta (bouton "Prendre RDV", CTA primaire)
+  accentDark: '#b05730',   // terracotta foncé (hover)
+  accentLight: '#d97757',  // coral clair
+  tintBg: '#f5efe7',       // tint crème chaud pour encarts
+  tintBorder: '#e7dccf',   // bordure d'encart
+  surface: '#ede9de',      // fond crème (bg-base)
+  card: '#faf9f6',         // carte (warm off-white)
+  border: '#e3dfd4',       // bordure
+  text: '#3d3929',         // texte principal (brun chaud foncé)
+  muted: '#5c5a50',        // texte secondaire
+  dim: '#83827d',          // texte tertiaire
+  bad: '#C62828',          // mauvais (inchangé, feu rouge universel)
+  mid: '#E8710A',          // moyen
+  good: '#2E7D32',         // bon
 } as const;
 
 export function statusColor(status: MeasurementStatus): string {
