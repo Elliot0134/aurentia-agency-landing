@@ -105,20 +105,39 @@ const bareAudit = (): AuditData => {
 };
 
 describe('buildProReportHtml', () => {
-  it("cover : bandeau de marque HTML/CSS, RAPPORT D'AUDIT et les deux boxes", async () => {
+  it("cover : bannière image, composition centrée, deux boxes et synthèse exécutive en page 1", async () => {
     const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
     const cover = section(html, 'cover');
+    expect(cover).toContain('data:image/jpeg;base64'); // bannière image, plus de bandeau HTML/CSS
+    expect(cover).toContain('cover-banner');
     expect(cover).toContain('Aurentia.agency');
-    expect(cover).toContain('Landing pages · Applications SaaS · Sites vitrines');
     expect(cover).toContain('Audit &amp; Recommandations Stratégiques');
+    expect(cover).toContain('Aurentia Agency | contact@aurentia.fr');
     expect(cover).toContain("RAPPORT D'AUDIT");
     expect(cover).toContain('Site web exemple.fr');
     expect(cover).toContain('SITE AUDITÉ');
     expect(cover).toContain('INFORMATIONS RAPPORT');
     expect(cover).toContain('Conciergerie de location courte duree dans le Luberon.');
     expect(cover).toContain('Cavaillon');
-    expect(cover).toContain('Aurentia Agency');
-    expect(cover).not.toMatch(/<img/); // bandeau recréé en HTML/CSS, pas d'image bitmap
+    expect(cover).toContain('Auditeur :</span> Elliot Estrade, Aurentia Agency');
+    // SYNTHÈSE EXÉCUTIVE en page 1 : execSummary + impact AVANT le premier saut de page
+    expect(cover).toContain('SYNTHÈSE EXÉCUTIVE');
+    expect(cover).toContain('Votre site perd une part importante de ses visiteurs');
+    expect(cover).toContain('détail et hypothèses en annexe');
+    expect(cover).toContain('Le diagnostic complet et les corrections recommandées suivent.');
+    // ordre de composition : bannière → tagline → titre → boxes → synthèse exécutive
+    const iBanner = cover.indexOf('data:image/jpeg;base64');
+    const iTagline = cover.indexOf('Audit &amp; Recommandations Stratégiques');
+    const iTitle = cover.indexOf("RAPPORT D'AUDIT");
+    const iBoxes = cover.indexOf('SITE AUDITÉ');
+    const iExecTitle = cover.indexOf('SYNTHÈSE EXÉCUTIVE');
+    const iExec = cover.indexOf('Votre site perd une part importante');
+    expect(iBanner).toBeGreaterThan(-1);
+    expect(iTagline).toBeGreaterThan(iBanner);
+    expect(iTitle).toBeGreaterThan(iTagline);
+    expect(iBoxes).toBeGreaterThan(iTitle);
+    expect(iExecTitle).toBeGreaterThan(iBoxes);
+    expect(iExec).toBeGreaterThan(iExecTitle);
   });
 
   it('cover : Pages analysées branchée sur audit.crawl quand présent, fallback homepage sinon', async () => {
@@ -140,6 +159,17 @@ describe('buildProReportHtml', () => {
     expect(syn).toContain('priority-list');
     expect(syn).toContain('Recommandation :');
     expect(syn).toContain('Refonte recommandée');
+    // l'impact est à gauche, sous le score, AVANT le radar
+    expect(syn.indexOf('Impact estimé')).toBeGreaterThan(syn.indexOf('>38<'));
+    expect(syn.indexOf('Impact estimé')).toBeLessThan(syn.indexOf('data-chart="radar"'));
+  });
+
+  it("synthèse : l'execSummary vit en page 1 uniquement, jamais en double", async () => {
+    const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
+    const execText = 'Votre site perd une part importante de ses visiteurs';
+    expect(html.split(execText).length - 1).toBe(1); // une seule occurrence dans tout le rapport
+    const syn = section(html, 'synthese');
+    expect(syn).not.toContain(execText);
   });
 
   it('comparatif : colonne Vous, cellule rouge quand mauvais, analyse concurrents', async () => {
@@ -271,10 +301,12 @@ describe('buildProReportHtml', () => {
     expect(annex).toContain('ai.llms-txt');
   });
 
-  it('back cover : bandeau, bouton mailto, QR svg, coordonnées centrées', async () => {
+  it('back cover : bannière image, bouton mailto, QR svg, coordonnées centrées', async () => {
     const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
     const back = html.slice(html.indexOf('id="back-cover"'));
     expect(html.indexOf('id="back-cover"')).toBeGreaterThan(-1);
+    expect(back).toContain('data:image/jpeg;base64'); // même bannière image que la cover
+    expect(back).toContain('cover-banner');
     expect(back).toContain('Aurentia.agency');
     expect(back).toContain('mailto:agency@aurentia.fr');
     expect(back).toContain('Nous contacter');

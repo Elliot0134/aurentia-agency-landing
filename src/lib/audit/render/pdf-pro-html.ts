@@ -1,6 +1,7 @@
 import { toString as qrToString } from 'qrcode';
 import type { AuditData, CompetitorSummary, Measurement, ModuleId } from '../types';
 import { localSeoBreakdown } from '../local-seo';
+import { BANNER_DATA_URI } from './banner-asset';
 import type { Finding, ReportContent } from './report-schema';
 import { COLORS } from './theme';
 
@@ -69,8 +70,7 @@ export type ProContent = ReportContent &
  * Constantes charte (le bleu marine de la référence devient terracotta/chaud)
  * ------------------------------------------------------------------------- */
 
-const BANNER_BG = '#2b2017'; // fond sombre chaud du bandeau de marque
-const CREAM = '#f5ede1'; // wordmark crème sur le bandeau
+const BANNER_BG = '#2b2017'; // sombre chaud de la marque (utilisé pour le QR code)
 const TABLE_HEAD_BG = '#3d3929'; // en-têtes de tableau : sombre chaud
 
 const BADGE = {
@@ -260,9 +260,6 @@ function styleBlock(): string {
   size: A4;
   margin: 20mm 18mm 20mm 18mm;
 }
-@page :first {
-  margin: 0;
-}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -281,66 +278,59 @@ h4 { font-size: 11pt; margin: 10pt 0 4pt; }
 
 p { margin: 6pt 0; }
 
-/* --- Bandeau de marque (cover + back cover), recréé en HTML/CSS --- */
-.brand-banner {
-  background: ${BANNER_BG};
-  color: ${CREAM};
-  padding: 12mm 18mm;
-}
-.brand-wordmark {
-  font-size: 19pt;
-  font-weight: 800;
-  letter-spacing: -0.3pt;
-  color: ${CREAM};
-}
-.brand-tagline {
-  font-size: 9pt;
-  letter-spacing: 1.2pt;
-  color: ${CREAM};
-  opacity: 0.75;
-  margin-top: 2pt;
+/* --- Bannière image de marque (cover + back cover) : insérée DANS les marges
+   de page (jamais collée aux bords), centrée, coins arrondis. --- */
+.cover-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10pt;
+  margin: 0 auto 8mm;
 }
 
-/* --- Cover --- */
+/* --- Cover (composition centrée, comme la référence) --- */
 .cover-page {
   page-break-after: always;
-  height: 290mm;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
-.cover-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 22mm 18mm 18mm;
+.cover-tagline {
+  text-align: center;
+  font-size: 12pt;
+  color: ${C.text};
+  padding-bottom: 6pt;
+  border-bottom: 1px solid ${C.border};
 }
-.cover-kicker {
-  font-size: 11pt;
-  font-weight: 600;
-  letter-spacing: 1.5pt;
-  text-transform: uppercase;
+.cover-contact {
+  text-align: center;
+  font-size: 9pt;
   color: ${C.muted};
-  margin-bottom: 10pt;
+  margin-top: 5pt;
 }
 .cover-title {
-  font-size: 34pt;
+  text-align: center;
+  font-size: 30pt;
   font-weight: 800;
-  letter-spacing: 0.5pt;
+  letter-spacing: 1pt;
   line-height: 1.1;
-  margin: 0 0 8pt 0;
+  color: ${C.text};
+  margin: 12mm 0 6pt;
 }
 .cover-subtitle {
-  font-size: 17pt;
+  text-align: center;
+  font-size: 15pt;
   font-weight: 700;
   color: ${C.accent};
-  margin: 0 0 10pt 0;
+  margin: 0 0 6pt 0;
 }
 .cover-domains {
+  text-align: center;
   font-style: italic;
   font-size: 10pt;
   color: ${C.muted};
+}
+.cover-rule {
+  border: none;
+  border-bottom: 1px solid ${C.border};
+  margin: 10pt 0 12pt;
 }
 .cover-boxes {
   display: flex;
@@ -362,6 +352,16 @@ p { margin: 6pt 0; }
 }
 .cover-box .box-row { font-size: 10pt; margin: 3pt 0; }
 .cover-box .box-row .k { color: ${C.muted}; }
+.exec-title {
+  font-size: 13pt;
+  font-weight: 700;
+  letter-spacing: 1.2pt;
+  color: ${C.accent};
+  border-bottom: 2px solid ${C.accent};
+  padding-bottom: 4pt;
+  margin: 14pt 0 8pt;
+}
+.exec-text { text-align: justify; }
 
 /* --- Sections --- */
 .section { page-break-after: always; }
@@ -557,15 +557,12 @@ td.rec-id { background: ${TABLE_HEAD_BG} !important; color: #ffffff; font-weight
 }
 
 /* ----------------------------------------------------------------------------
- * Bandeau de marque (HTML/CSS pur, pas d'image bitmap)
+ * Bannière de marque (image, comme la référence : centrée, coins arrondis,
+ * insérée avec les marges de page)
  * ------------------------------------------------------------------------- */
 
 function brandBanner(): string {
-  return `
-  <div class="brand-banner">
-    <div class="brand-wordmark">Aurentia.agency</div>
-    <div class="brand-tagline">Landing pages · Applications SaaS · Sites vitrines</div>
-  </div>`;
+  return `<img src="${BANNER_DATA_URI}" alt="Aurentia.agency" class="cover-banner" />`;
 }
 
 /* ----------------------------------------------------------------------------
@@ -578,7 +575,13 @@ function auditedDomains(audit: AuditData): string[] {
   return CATEGORY_ORDER.filter((c) => present.has(c)).map((c) => CATEGORY_DISPLAY[c]);
 }
 
-function buildCover(audit: AuditData): string {
+/**
+ * Page 1 complète, comme la référence : bannière image → tagline centrée +
+ * filet → ligne de contact → "RAPPORT D'AUDIT" → domaine en accent → domaines
+ * audités en italique → filet → les deux boxes côte à côte → SYNTHÈSE
+ * EXÉCUTIVE (execSummary justifié + impact estimé). Saut de page après.
+ */
+function buildCover(audit: AuditData, content: ProContent): string {
   const domain = domainOf(audit.finalUrl);
   const date = new Date(audit.collectedAt).toLocaleDateString('fr-FR');
   const domains = auditedDomains(audit).join(' · ');
@@ -596,29 +599,35 @@ function buildCover(audit: AuditData): string {
       : '',
   ].join('');
 
+  const impactSentence =
+    audit.impact !== null && audit.impact.headlinePercent > 0
+      ? `Impact estimé : ~${formatNumberFr(audit.impact.headlinePercent)}% de visiteurs perdus (détail et hypothèses en annexe). Le diagnostic complet et les corrections recommandées suivent.`
+      : 'Le diagnostic complet et les corrections recommandées suivent.';
+
   return `
   <div class="cover-page" id="cover">
     ${brandBanner()}
-    <div class="cover-body">
-      <div>
-        <div class="cover-kicker">Audit &amp; Recommandations Stratégiques</div>
-        <h1 class="cover-title">RAPPORT D'AUDIT</h1>
-        <div class="cover-subtitle">Site web ${esc(domain)}</div>
-        <div class="cover-domains">${esc(domains)}</div>
+    <div class="cover-tagline">Audit &amp; Recommandations Stratégiques</div>
+    <div class="cover-contact">Aurentia Agency | contact@aurentia.fr</div>
+    <h1 class="cover-title">RAPPORT D'AUDIT</h1>
+    <div class="cover-subtitle">Site web ${esc(domain)}</div>
+    <div class="cover-domains">${esc(domains)}</div>
+    <hr class="cover-rule" />
+    <div class="cover-boxes">
+      <div class="cover-box">
+        <div class="box-label">SITE AUDITÉ</div>
+        ${siteRows}
       </div>
-      <div class="cover-boxes">
-        <div class="cover-box">
-          <div class="box-label">SITE AUDITÉ</div>
-          ${siteRows}
-        </div>
-        <div class="cover-box">
-          <div class="box-label">INFORMATIONS RAPPORT</div>
-          <div class="box-row"><span class="k">Date :</span> ${esc(date)}</div>
-          <div class="box-row"><span class="k">Pages analysées :</span> ${pagesAnalyzed}</div>
-          <div class="box-row"><span class="k">Auditeur :</span> Aurentia Agency</div>
-        </div>
+      <div class="cover-box">
+        <div class="box-label">INFORMATIONS RAPPORT</div>
+        <div class="box-row"><span class="k">Date :</span> ${esc(date)}</div>
+        <div class="box-row"><span class="k">Pages analysées :</span> ${pagesAnalyzed}</div>
+        <div class="box-row"><span class="k">Auditeur :</span> Elliot Estrade, Aurentia Agency</div>
       </div>
     </div>
+    <div class="exec-title">SYNTHÈSE EXÉCUTIVE</div>
+    <p class="exec-text">${esc(content.execSummary)}</p>
+    <p class="exec-text">${impactSentence}</p>
   </div>`;
 }
 
@@ -628,15 +637,17 @@ function buildCover(audit: AuditData): string {
 
 const PRIORITY_RANK: Record<Finding['priority'], number> = { P0: 0, P1: 1, P2: 2 };
 
+/**
+ * Page Synthèse, comme la référence p2 : à gauche le gros score /100
+ * color-codé avec l'impact estimé en accent dessous, à droite le radar.
+ * Puis les priorités à pastilles et la box Recommandation. L'execSummary
+ * n'est PAS répété ici : il vit en page 1 (SYNTHÈSE EXÉCUTIVE).
+ */
 function buildSynthese(audit: AuditData, content: ProContent, opts: ProReportOptions): string {
   const score = opts.score;
   const radar = opts.charts?.radar;
 
-  const right = radar
-    ? `<div style="flex:1;">${chartHtml(radar)}</div>`
-    : `<div style="flex:1;"><p class="lead">${esc(content.execSummary)}</p></div>`;
-
-  const lead = radar ? `<p class="lead">${esc(content.execSummary)}</p>` : '';
+  const right = radar ? `<div style="flex:1;">${chartHtml(radar)}</div>` : '';
 
   const impactLine =
     audit.impact !== null && audit.impact.headlinePercent > 0
@@ -654,16 +665,15 @@ function buildSynthese(audit: AuditData, content: ProContent, opts: ProReportOpt
   return `
   <section class="section" id="synthese">
     <h2>Synthèse</h2>
-    ${lead}
     <div class="score-block">
       <div>
         <div class="score-big" style="color:${scoreColor(score)};">${score}</div>
         <div class="score-meta">/ 100</div>
+        ${impactLine}
       </div>
       ${right}
     </div>
     <p class="score-meta">${esc(content.scoreJustification)}</p>
-    ${impactLine}
 
     <h3>${prioritiesTitle}</h3>
     <ol class="priority-list">${prioritiesHtml}</ol>
@@ -1128,10 +1138,11 @@ function buildBackCover(qrSvg: string): string {
  * charte terracotta Aurentia.agency. Async (génération offline du QR code),
  * aucun réseau.
  *
- * Sections fixes : cover (bandeau de marque + 2 boxes), synthèse (score 64pt +
- * impact % + priorités + box recommandation), tableau d'audit complet (bandes de
- * catégorie + badges), état actuel vs cible, recommandations R1..Rn, annexe
- * technique (pre monospace), back cover (bouton contact + QR).
+ * Sections fixes : cover page 1 complète (bannière image + composition centrée
+ * + 2 boxes + synthèse exécutive), synthèse (score 64pt + impact % + priorités +
+ * box recommandation), tableau d'audit complet (bandes de catégorie + badges),
+ * état actuel vs cible, recommandations R1..Rn, annexe technique (pre
+ * monospace), back cover (bannière image + bouton contact + QR).
  * Sections conditionnelles : comparatif (si concurrents), constats visuels
  * (si opts.visuals), Local SEO (si business local), funnel (si chart ou analyse).
  *
@@ -1159,7 +1170,7 @@ export async function buildProReportHtml(
   <style>${styleBlock()}</style>
 </head>
 <body>
-${buildCover(audit)}
+${buildCover(audit, content)}
 ${buildSynthese(audit, content, opts)}
 ${buildCompetitors(audit, content)}
 ${buildAuditTable(audit, pro)}
