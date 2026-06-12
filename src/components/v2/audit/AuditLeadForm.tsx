@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackConversion } from "@/lib/gtag";
 
 type AuditLeadFormProps = {
   source: string;
@@ -33,6 +34,7 @@ export function AuditLeadForm({ source, className, tone = "default" }: AuditLead
       });
       if (!res.ok) throw new Error("request_failed");
       setStatus("success");
+      trackConversion("auditLead");
       form.reset();
     } catch {
       setStatus("error");

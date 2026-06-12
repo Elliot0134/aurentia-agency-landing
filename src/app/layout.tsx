@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -10,6 +11,7 @@ import { SubNavProvider } from "@/components/shared/SubNavContext";
 import { NavbarV2 } from "@/components/v2/layout/NavbarV2";
 import { FooterV2 } from "@/components/v2/layout/FooterV2";
 import { WipModalProvider } from "@/components/shared/WipModal";
+import { CookieConsent } from "@/components/shared/CookieConsent";
 import { ChatbotWidgetLazy } from "@/components/v2/chatbot/ChatbotWidgetLazy";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -75,6 +77,33 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body data-v2-root className="bg-background text-foreground">
+        {/* Google tag (gtag.js) — Google Ads AW-18228632740 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18228632740"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              analytics_storage: 'denied'
+            });
+            if (document.cookie.indexOf('aurentia_consent=granted') !== -1) {
+              gtag('consent', 'update', {
+                ad_storage: 'granted',
+                ad_user_data: 'granted',
+                ad_personalization: 'granted',
+                analytics_storage: 'granted'
+              });
+            }
+            gtag('js', new Date());
+            gtag('config', 'AW-18228632740');
+          `}
+        </Script>
         <ThemeProvider>
           <SubNavProvider>
             <WipModalProvider>
@@ -84,6 +113,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <main className="flex flex-col">{children}</main>
               <FooterV2 />
               <ChatbotWidgetLazy />
+              <CookieConsent />
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>
