@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderReport } from '../render';
+import type { buildVisualFindings } from '../visual-findings';
 import { computeScore } from '../score';
 import type { AuditData } from '../../types';
 import type { GenerateFn, GenerateProFn } from '../write-report';
@@ -62,6 +63,9 @@ const pdfFetch: typeof fetch = vi.fn(async () => {
   return new Response(body, { status: 200 });
 }) as unknown as typeof fetch;
 
+/** Stub constats visuels : aucun finding (la section est omise). */
+const noVisuals = vi.fn(async () => []);
+
 describe('renderReport', () => {
   it('flash → emailHtml non vide, pas de pdfBuffer, score cohérent', async () => {
     const audit = baseAudit('flash');
@@ -78,7 +82,7 @@ describe('renderReport', () => {
   it('pro → pdfBuffer commence par %PDF, competitorAnalysis présent, score cohérent', async () => {
     const audit = baseAudit('pro');
     const generateProFn: GenerateProFn = vi.fn(async () => proContent);
-    const r = await renderReport(audit, { browserless, generateProFn, fetchFn: pdfFetch });
+    const r = await renderReport(audit, { browserless, generateProFn, fetchFn: pdfFetch, buildVisualsFn: noVisuals });
 
     expect(r.pdfBuffer).toBeInstanceOf(Buffer);
     expect(r.pdfBuffer!.subarray(0, 4).toString('latin1')).toBe('%PDF');
@@ -96,7 +100,12 @@ describe('renderReport', () => {
       return new Response(body, { status: 200 });
     });
     const generateProFn: GenerateProFn = vi.fn(async () => proContent);
-    await renderReport(audit, { browserless, generateProFn, fetchFn: fetchSpy as unknown as typeof fetch });
+    await renderReport(audit, {
+      browserless,
+      generateProFn,
+      fetchFn: fetchSpy as unknown as typeof fetch,
+      buildVisualsFn: noVisuals,
+    });
 
     const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
     const payload = JSON.parse(String(init?.body)) as { html: string };
@@ -111,7 +120,12 @@ describe('renderReport', () => {
       return new Response(body, { status: 200 });
     });
     const generateProFn: GenerateProFn = vi.fn(async () => proContent);
-    await renderReport(audit, { browserless, generateProFn, fetchFn: fetchSpy as unknown as typeof fetch });
+    await renderReport(audit, {
+      browserless,
+      generateProFn,
+      fetchFn: fetchSpy as unknown as typeof fetch,
+      buildVisualsFn: noVisuals,
+    });
 
     const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
     const payload = JSON.parse(String(init?.body)) as { html: string };
@@ -119,5 +133,57 @@ describe('renderReport', () => {
     expect(payload.html).toContain('Accélérer le chargement mobile en priorité'); // titre de reco du stub
     expect(payload.html).toContain('Sur 100 visiteurs, environ 60 partent'); // funnelAnalysis
     expect(payload.html).toContain('estimation prudente'); // funnelProjection
+  });
+
+  it('pro → les constats visuels (B5) sont injectés dans le HTML envoyé à /pdf', async () => {
+    const audit = baseAudit('pro');
+    const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
+      const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
+      return new Response(body, { status: 200 });
+    });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    const buildVisualsFn = vi.fn<typeof buildVisualFindings>(async () => [
+      {
+        title: 'Accueil sur ordinateur',
+        imageDataUri: 'data:image/jpeg;base64,QUJDRA==',
+        legend: ['Accroche claire et lisible'],
+        analysis: '1 point fort relevé sur ce premier écran.',
+      },
+    ]);
+
+    await renderReport(audit, {
+      browserless,
+      generateProFn,
+      fetchFn: fetchSpy as unknown as typeof fetch,
+      buildVisualsFn,
+    });
+
+    expect(buildVisualsFn).toHaveBeenCalledOnce();
+    expect(buildVisualsFn.mock.calls[0]?.[0]).toMatchObject({ homepageUrl: audit.finalUrl, browserless });
+
+    const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
+    const payload = JSON.parse(String(init?.body)) as { html: string };
+    expect(payload.html).toContain('Accueil sur ordinateur');
+    expect(payload.html).toContain('data:image/jpeg;base64,QUJDRA==');
+    expect(payload.html).toContain('Accroche claire et lisible');
+  });
+
+  it('pro → visuals [] : la section constats visuels est omise', async () => {
+    const audit = baseAudit('pro');
+    const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
+      const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
+      return new Response(body, { status: 200 });
+    });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    await renderReport(audit, {
+      browserless,
+      generateProFn,
+      fetchFn: fetchSpy as unknown as typeof fetch,
+      buildVisualsFn: noVisuals,
+    });
+
+    const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
+    const payload = JSON.parse(String(init?.body)) as { html: string };
+    expect(payload.html).not.toContain('Constats visuels');
   });
 });

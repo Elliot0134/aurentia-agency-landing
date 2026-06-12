@@ -8,6 +8,7 @@ import { buildProReportHtml } from './pdf-pro-html';
 import { renderPdf } from './render-pdf';
 import type { ProReportContent, ReportContent } from './report-schema';
 import { radarAxesFromMeasurements, svgRadar, svgScoreTargetBars } from './charts';
+import { buildVisualFindings } from './visual-findings';
 
 export interface RenderDeps {
   browserless: BrowserlessConfig;
@@ -15,6 +16,8 @@ export interface RenderDeps {
   generateFn?: GenerateFn;
   generateProFn?: GenerateProFn;
   screenshotUrl?: string; // URL publique de la capture (annotée) — fournie par le plan 3
+  /** Constats visuels (B5), injectable pour les tests. Défaut : buildVisualFindings. */
+  buildVisualsFn?: typeof buildVisualFindings;
 }
 
 export interface RenderResult {
@@ -51,7 +54,21 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
         }
       : undefined;
 
-  const html = await buildProReportHtml(audit, content, { score, charts });
+  // Constats visuels (B5) : captures desktop + mobile de la homepage, analysées
+  // par vision. buildVisualFindings ne throw jamais ; [] → section omise (A1).
+  const visualsFn = deps.buildVisualsFn ?? buildVisualFindings;
+  const visuals = await visualsFn({
+    homepageUrl: audit.finalUrl,
+    pageTitle: audit.crawl?.pages.find((p) => p.url === audit.finalUrl)?.title ?? null,
+    browserless: deps.browserless,
+    fetchFn: deps.fetchFn,
+  });
+
+  const html = await buildProReportHtml(audit, content, {
+    score,
+    charts,
+    visuals: visuals.length > 0 ? visuals : undefined,
+  });
   const pdfBuffer = await renderPdf(html, deps.browserless, deps.fetchFn);
   return { score, content, pdfBuffer };
 }

@@ -25,12 +25,21 @@ export interface HeroElementRects {
   logos: Rect | null;
 }
 
+/** Viewport de capture. Défaut : desktop 1440x1200. */
+export interface ScreenshotViewport {
+  width: number;
+  height: number;
+  isMobile?: boolean;
+}
+
 /** Capture full-page PNG (le scroll natif de fullPage déclenche le lazy-loading). */
 export async function captureScreenshot(
   url: string,
   config: BrowserlessConfig,
-  fetchFn: typeof fetch = fetch
+  fetchFn: typeof fetch = fetch,
+  viewport?: ScreenshotViewport
 ): Promise<Buffer> {
+  const vp = viewport ?? { width: 1440, height: 1200 };
   return withBrowserlessRetry('screenshot', async () => {
     const res = await fetchFn(`${base(config)}/screenshot?token=${config.token}`, {
       method: 'POST',
@@ -38,7 +47,11 @@ export async function captureScreenshot(
       body: JSON.stringify({
         url,
         options: { fullPage: true, type: 'png' },
-        viewport: { width: 1440, height: 1200 },
+        viewport: {
+          width: vp.width,
+          height: vp.height,
+          ...(vp.isMobile !== undefined && { isMobile: vp.isMobile, hasTouch: vp.isMobile }),
+        },
         gotoOptions: { waitUntil: 'load', timeout: 30_000 },
       }),
       signal: AbortSignal.timeout(60_000),
