@@ -33,7 +33,7 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
     return { score, content, emailHtml };
   }
 
-  const html = buildProReportHtml(audit, content, { score });
+  const html = await buildProReportHtml(audit, content, { score });
   const pdfBuffer = await renderPdf(html, deps.browserless, deps.fetchFn);
   return { score, content, pdfBuffer };
 }
