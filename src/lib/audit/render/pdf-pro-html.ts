@@ -380,10 +380,15 @@ p { margin: 6pt 0; }
 
 .score-block {
   display: flex;
-  gap: 24pt;
+  gap: 16pt;
   align-items: center;
   margin: 12pt 0;
 }
+/* Colonne gauche étroite (score + impact), radar large à droite. */
+.score-left { flex: 0 0 38%; }
+.score-right { flex: 0 0 62%; }
+.score-right .chart { margin: 0 auto; }
+.score-right .chart svg { width: 440px; max-width: 100%; height: auto; }
 .score-big {
   font-size: 64pt;
   font-weight: 800;
@@ -393,10 +398,20 @@ p { margin: 6pt 0; }
 .lead { font-size: 12pt; line-height: 1.6; }
 
 .impact-line {
-  font-size: 15pt;
+  font-size: 12pt;
   font-weight: 700;
   color: ${C.accent};
-  margin: 12pt 0 4pt;
+  margin: 12pt 0 0;
+}
+.impact-value {
+  font-size: 11pt;
+  font-weight: 700;
+  color: ${C.accent};
+  margin: 2pt 0 4pt;
+}
+.impact-value .impact-pct {
+  font-size: 24pt;
+  line-height: 1.1;
 }
 
 .priority-list { padding-left: 0; list-style: none; counter-reset: prio; }
@@ -438,6 +453,9 @@ tr:nth-child(even) td { background: ${C.surface}; }
 
 td.you-cell { font-weight: 700; }
 td.bad-cell { background: ${BADGE.Critique.bg} !important; color: ${BADGE.Critique.fg}; }
+td.good-cell { background: ${BADGE['À optimiser'].bg} !important; color: ${BADGE['À optimiser'].fg}; }
+td.standard-cell { color: ${C.muted}; }
+.table-note { font-size: 9pt; color: ${C.muted}; margin: 2pt 0 8pt; }
 td.cat-band {
   background: ${C.tintBg} !important;
   color: ${C.accentDark};
@@ -671,11 +689,13 @@ function buildSynthese(audit: AuditData, content: ProContent, opts: ProReportOpt
   const score = opts.score;
   const radar = opts.charts?.radar;
 
-  const right = radar ? `<div style="flex:1;">${chartHtml(radar)}</div>` : '';
+  const right = radar ? `<div class="score-right">${chartHtml(radar)}</div>` : '';
 
+  // Deux lignes : libellé, puis le % en gros (accent) pour ne pas écraser le radar.
   const impactLine =
     audit.impact !== null && audit.impact.headlinePercent > 0
-      ? `<p class="impact-line">Impact estimé : ~${formatNumberFr(audit.impact.headlinePercent)}% de visiteurs perdus</p>`
+      ? `<p class="impact-line">Impact estimé :</p>
+        <p class="impact-value"><span class="impact-pct">~${formatNumberFr(audit.impact.headlinePercent)}%</span> de visiteurs perdus</p>`
       : '';
 
   const top = [...content.findings]
@@ -690,7 +710,7 @@ function buildSynthese(audit: AuditData, content: ProContent, opts: ProReportOpt
   <section class="section" id="synthese">
     <h2>Synthèse</h2>
     <div class="score-block">
-      <div>
+      <div class="score-left">
         <div class="score-big" style="color:${scoreColor(score)};">${score}</div>
         <div class="score-meta">/ 100</div>
         ${impactLine}
@@ -722,6 +742,11 @@ interface CompetitorCriterion {
   ofCompetitor: (c: CompetitorSummary) => number | null;
   format: (v: number) => string;
   isBad: (v: number) => boolean;
+  /** Standard secteur affiché : référence FIXE et sourcée (seuils Google/Lighthouse). */
+  standardLabel: string;
+  meetsStandard: (v: number) => boolean;
+  /** true si `a` est strictement meilleur que `b` pour ce critère. */
+  betterThan: (a: number, b: number) => boolean;
 }
 
 function buildCompetitors(audit: AuditData, content: ReportContent): string {
@@ -732,6 +757,9 @@ function buildCompetitors(audit: AuditData, content: ReportContent): string {
     return typeof m?.value === 'number' ? m.value : null;
   };
 
+  // Les CompetitorSummary n'exposent que perfScoreMobile/seoScore/lcpMs : aucune
+  // ligne additionnelle n'est inventée. La colonne "Standard secteur" sert de
+  // référence fixe (seuils Lighthouse "bon" >= 90 ; LCP "bon" <= 2,5 s, Google CWV).
   const criteria: CompetitorCriterion[] = [
     {
       label: 'Performance mobile',
@@ -739,6 +767,9 @@ function buildCompetitors(audit: AuditData, content: ReportContent): string {
       ofCompetitor: (c) => c.perfScoreMobile,
       format: (v) => `${formatNumberFr(v)}/100`,
       isBad: (v) => v < 50,
+      standardLabel: '≥ 90/100',
+      meetsStandard: (v) => v >= 90,
+      betterThan: (a, b) => a > b,
     },
     {
       label: 'SEO',
@@ -746,6 +777,9 @@ function buildCompetitors(audit: AuditData, content: ReportContent): string {
       ofCompetitor: (c) => c.seoScore,
       format: (v) => `${formatNumberFr(v)}/100`,
       isBad: (v) => v < 70,
+      standardLabel: '≥ 90/100',
+      meetsStandard: (v) => v >= 90,
+      betterThan: (a, b) => a > b,
     },
     {
       label: 'Affichage du contenu (LCP)',
@@ -753,26 +787,45 @@ function buildCompetitors(audit: AuditData, content: ReportContent): string {
       ofCompetitor: (c) => (c.lcpMs === null ? null : c.lcpMs / 1000),
       format: (v) => `${formatNumberFr(v)} s`,
       isBad: (v) => v > 4,
+      standardLabel: '≤ 2,5 s',
+      meetsStandard: (v) => v <= 2.5,
+      betterThan: (a, b) => a < b,
     },
   ];
 
-  const cell = (v: number | null, crit: CompetitorCriterion, you: boolean): string => {
-    const classes = [you ? 'you-cell' : '', v !== null && crit.isBad(v) ? 'bad-cell' : '']
-      .filter(Boolean)
-      .join(' ');
-    const attr = classes ? ` class="${classes}"` : '';
+  const cell = (v: number | null, crit: CompetitorCriterion): string => {
+    const attr = v !== null && crit.isBad(v) ? ' class="bad-cell"' : '';
     return `<td${attr}>${v === null ? 'n.d.' : crit.format(v)}</td>`;
+  };
+
+  // Colonne "Vous" color-codée : rouge si pire que TOUS les concurrents affichés
+  // ou hors standard, vert si meilleur que tous ET dans le standard, sinon neutre.
+  const youCell = (crit: CompetitorCriterion): string => {
+    const v = crit.you;
+    if (v === null) return '<td class="you-cell">n.d.</td>';
+    const others = audit.competitors
+      .map((c) => crit.ofCompetitor(c))
+      .filter((x): x is number => x !== null);
+    const inStandard = crit.meetsStandard(v);
+    const worseThanAll = others.length > 0 && others.every((x) => crit.betterThan(x, v));
+    const betterThanAll = others.length > 0 && others.every((x) => crit.betterThan(v, x));
+    const tone = worseThanAll || !inStandard ? ' bad-cell' : betterThanAll && inStandard ? ' good-cell' : '';
+    return `<td class="you-cell${tone}">${crit.format(v)}</td>`;
   };
 
   const rows = criteria
     .map(
       (crit) => `<tr>
         <td>${esc(crit.label)}</td>
-        ${cell(crit.you, crit, true)}
-        ${audit.competitors.map((c) => cell(crit.ofCompetitor(c), crit, false)).join('')}
+        ${youCell(crit)}
+        ${audit.competitors.map((c) => cell(crit.ofCompetitor(c), crit)).join('')}
+        <td class="standard-cell">${esc(crit.standardLabel)}</td>
       </tr>`,
     )
     .join('');
+
+  const n = audit.competitors.length;
+  const note = `<p class="table-note">Lecture : vos valeurs comparées à ${n} concurrent${n > 1 ? 's' : ''} mesuré${n > 1 ? 's' : ''} le même jour et au standard attendu par Google.</p>`;
 
   const analysis = content.competitorAnalysis
     ? `<h3>Ce que les concurrents font mieux</h3><p>${esc(content.competitorAnalysis)}</p>`
@@ -786,9 +839,11 @@ function buildCompetitors(audit: AuditData, content: ReportContent): string {
         <th>Critère mesuré</th>
         <th>Vous</th>
         ${audit.competitors.map((c) => `<th>${esc(c.domain)}</th>`).join('')}
+        <th>Standard secteur</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
+    ${note}
     ${analysis}
   </section>`;
 }

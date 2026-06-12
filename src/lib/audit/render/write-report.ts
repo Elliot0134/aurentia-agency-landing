@@ -28,7 +28,7 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - Rédige aussi "scoreJustification" : 2 à 3 phrases expliquant à quoi correspond le score global du site (ce qui le tire vers le haut ou le bas), en langage simple pour un dirigeant.`;
 
 const PRO_CONSIGNE = `Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis. Exprime l'impact en % de visiteurs perdus, jamais en euros.
-Rédige aussi auditTable : 12 à 18 lignes, couvre TOUS les domaines mesurés, y compris les points forts (priorité 'A optimiser' n'est pas une insulte : mentionne aussi 2-3 constats POSITIFS avec la priorité la plus basse), chaque constat cite la valeur mesurée. Chaque ligne = constat factuel issu des mesures (measurementIds obligatoires), impact = conséquence business concrète, priority selon la gravité.
+Rédige aussi auditTable : 18 a 25 lignes, couvre TOUS les domaines mesurés avec plusieurs lignes par domaine quand les mesures le justifient, y compris les points forts (priorité 'A optimiser' n'est pas une insulte : mentionne aussi 2-3 constats POSITIFS avec la priorité la plus basse), chaque constat cite la valeur mesurée. Chaque ligne = constat factuel issu des mesures (measurementIds obligatoires), impact = conséquence business concrète, priority selon la gravité.
 recommendations : 4 à 8 actions concrètes priorisées (R1 = le levier numéro 1), action = concrète et actionnable, expectedImpact = effet attendu.
 strategicRecommendations : 3 a 5 axes STRATEGIQUES a 6-12 mois, distincts des correctifs techniques : positionnement et differenciation, strategie de contenu/SEO durable, presence locale et reputation (avis clients), visibilite sur les moteurs IA (ChatGPT, Perplexity), mesure et pilotage. Chaque axe : titre + 3-4 phrases de justification ancrees dans les constats.
 funnelAnalysis : 3 à 5 phrases sur où se perd le visiteur (base : les mesures, l'impact %).
@@ -50,6 +50,14 @@ function buildPrompt(audit: AuditData, attemptNote: string): string {
       ? PRO_CONSIGNE
       : 'Rédige execSummary, recommendation et 2 à 4 findings. competitorAnalysis = null.',
   });
+}
+
+/**
+ * Label traçable du modèle rédacteur, pour le CLI et les logs (prouve quel
+ * modèle a rédigé le rapport). Ne throw jamais, contrairement à openrouterModel.
+ */
+export function getWriterModelLabel(): string {
+  return `openrouter:${process.env.OPENROUTER_MODEL ?? 'non configuré'}`;
 }
 
 function openrouterModel(): string {

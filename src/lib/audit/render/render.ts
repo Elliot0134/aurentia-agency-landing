@@ -2,7 +2,7 @@ import type { AuditData } from '../types';
 import type { BrowserlessConfig } from '../screenshot';
 import type { GenerateFn, GenerateProFn } from './write-report';
 import { computeScore } from './score';
-import { writeReport, writeProReport } from './write-report';
+import { getWriterModelLabel, writeReport, writeProReport } from './write-report';
 import { buildFlashEmailHtml } from './email-flash';
 import { buildProReportHtml } from './pdf-pro-html';
 import { renderPdf } from './render-pdf';
@@ -26,6 +26,8 @@ export interface RenderResult {
   content: ReportContent | ProReportContent;
   emailHtml?: string;
   pdfBuffer?: Buffer;
+  /** Traçabilité : modèle qui a rédigé le rapport (`openrouter:<modèle>`). */
+  writerModel: string;
 }
 
 /** Pathnames qui signalent une page commerciale clé (contact, tarifs, offres...). */
@@ -57,7 +59,7 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
     const emailHtml = buildFlashEmailHtml(audit, content, {
       screenshotUrl: deps.screenshotUrl ?? '',
     });
-    return { score, content, emailHtml };
+    return { score, content, emailHtml, writerModel: getWriterModelLabel() };
   }
 
   // Chemin pro : contenu enrichi (tableau d'audit, recommandations, analyses funnel).
@@ -100,5 +102,5 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
     visuals: visuals.length > 0 ? visuals : undefined,
   });
   const pdfBuffer = await renderPdf(html, deps.browserless, deps.fetchFn);
-  return { score, content, pdfBuffer };
+  return { score, content, pdfBuffer, writerModel: getWriterModelLabel() };
 }

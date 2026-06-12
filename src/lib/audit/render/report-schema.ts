@@ -63,7 +63,7 @@ export const StrategicRecommendationSchema = z.object({
 export type StrategicRecommendation = z.infer<typeof StrategicRecommendationSchema>;
 
 export const ProContentSchema = ReportContentSchema.extend({
-  auditTable: z.array(AuditTableRowSchema).min(10), // 12 à 18 lignes attendues, tous domaines couverts
+  auditTable: z.array(AuditTableRowSchema).min(12), // 18 à 25 lignes attendues, tous domaines couverts
   recommendations: z.array(RecommendationSchema).min(4),
   strategicRecommendations: z.array(StrategicRecommendationSchema).min(3), // 3 à 5 axes 6-12 mois
   funnelAnalysis: z.string().min(30), // où se perd le visiteur

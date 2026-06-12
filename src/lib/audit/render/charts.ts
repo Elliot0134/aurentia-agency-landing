@@ -161,7 +161,7 @@ export function svgRadar(axes: RadarAxis[], globalScore: number): string {
       const anchor = cos > 0.25 ? 'start' : cos < -0.25 ? 'end' : 'middle';
       return (
         `<line x1="${cx}" y1="${cy}" x2="${r2(ox)}" y2="${r2(oy)}" stroke="${COLORS.border}" stroke-width="1"/>` +
-        `<text x="${r2(lx)}" y="${r2(ly)}" font-size="12" font-weight="700" fill="${COLORS.text}" text-anchor="${anchor}">${escapeXml(a.label)}</text>`
+        `<text x="${r2(lx)}" y="${r2(ly)}" font-size="14" font-weight="700" fill="${COLORS.text}" text-anchor="${anchor}">${escapeXml(a.label)}</text>`
       );
     })
     .join('\n  ');

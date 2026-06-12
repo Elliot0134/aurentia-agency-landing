@@ -72,6 +72,7 @@ async function main() {
       console.log(`PDF Pro : ${pdfPath}`);
     }
     console.log(`Score : ${result.score}/100 — recommandation : ${result.content.recommendation}`);
+    console.log(`Modèle rédacteur : ${result.writerModel}`);
   }
 }
 

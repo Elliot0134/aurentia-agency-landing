@@ -162,6 +162,14 @@ describe('buildProReportHtml', () => {
     // l'impact est à gauche, sous le score, AVANT le radar
     expect(syn.indexOf('Impact estimé')).toBeGreaterThan(syn.indexOf('>38<'));
     expect(syn.indexOf('Impact estimé')).toBeLessThan(syn.indexOf('data-chart="radar"'));
+    // impact sur deux lignes : libellé puis % en gros (accent), colonne gauche 38% / radar 62%
+    expect(syn).toContain('Impact estimé :</p>');
+    expect(syn).toContain('<span class="impact-pct">~32%</span> de visiteurs perdus');
+    expect(syn).toContain('score-left');
+    expect(syn).toContain('score-right');
+    expect(html).toContain('.score-left { flex: 0 0 38%; }');
+    expect(html).toContain('.score-right { flex: 0 0 62%; }');
+    expect(html).toContain('.score-right .chart svg { width: 440px;'); // radar agrandi
   });
 
   it("synthèse : l'execSummary vit en page 1 uniquement, jamais en double", async () => {
@@ -182,6 +190,29 @@ describe('buildProReportHtml', () => {
     expect(comp).toContain('bad-cell'); // perf 32/100 → rouge clair
     expect(comp).toContain('Ce que les concurrents font mieux');
     expect(comp).toContain('Vos concurrents chargent trois fois plus vite');
+    // colonne Standard secteur : références fixes sourcées (Lighthouse / CWV Google)
+    expect(comp).toContain('Standard secteur');
+    expect(comp).toContain('≥ 90/100');
+    expect(comp).toContain('≤ 2,5 s');
+    // colonne Vous color-codée : perf 32 pire que tous + hors standard → rouge
+    expect(comp).toContain('class="you-cell bad-cell"');
+    // ligne de lecture grise sous le tableau
+    expect(comp).toContain(
+      'Lecture : vos valeurs comparées à 2 concurrents mesurés le même jour et au standard attendu par Google.',
+    );
+    expect(comp.indexOf('table-note')).toBeGreaterThan(comp.indexOf('</table>'));
+    // l'analyse LLM reste après la ligne de lecture
+    expect(comp.indexOf('Ce que les concurrents font mieux')).toBeGreaterThan(comp.indexOf('table-note'));
+  });
+
+  it('comparatif : Vous meilleur que tous ET dans le standard → cellule verte', async () => {
+    const a = richAudit();
+    a.measurements = a.measurements.map((m) =>
+      m.id === 'perf.mobile.lcp' ? { ...m, status: 'pass' as const, value: 1.2 } : m,
+    );
+    const html = await buildProReportHtml(a, richContent(), richOpts());
+    const comp = section(html, 'competitors');
+    expect(comp).toContain('class="you-cell good-cell"'); // LCP 1,2 s < 1,9 et 2,6 et <= 2,5
   });
 
   it("tableau d'audit fallback : bandes de catégorie, badges, pass exclus, légende", async () => {

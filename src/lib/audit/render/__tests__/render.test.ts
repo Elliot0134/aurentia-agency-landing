@@ -45,7 +45,7 @@ const flashContent: ReportContent = {
 const proContent: ProReportContent = {
   ...flashContent,
   competitorAnalysis: 'Vos concurrents chargent plus vite et captent les visiteurs.',
-  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => ({
     category: 'PERFORMANCE & TECHNIQUE' as const,
     domain: i === 1 ? 'Navigation mobile distinctive' : `Domaine ${i}`,
     finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
@@ -88,6 +88,7 @@ describe('renderReport', () => {
     expect(r.pdfBuffer).toBeUndefined();
     expect(r.content).toEqual(flashContent);
     expect(r.score).toBe(computeScore(audit.measurements));
+    expect(r.writerModel).toMatch(/^openrouter:/); // traçabilité du modèle rédacteur
   });
 
   it('pro → pdfBuffer commence par %PDF, competitorAnalysis présent, score cohérent', async () => {
@@ -100,6 +101,7 @@ describe('renderReport', () => {
     expect(r.emailHtml).toBeUndefined();
     expect(r.content.competitorAnalysis).toBe(proContent.competitorAnalysis);
     expect(r.score).toBe(computeScore(audit.measurements));
+    expect(r.writerModel).toMatch(/^openrouter:/); // traçabilité du modèle rédacteur
   });
 
   it('pro avec >= 3 modules scorables → charts radar et état/cible injectés dans le HTML envoyé', async () => {

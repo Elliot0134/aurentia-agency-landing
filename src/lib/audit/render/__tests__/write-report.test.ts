@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { writeReport, writeProReport, type GenerateFn, type GenerateProFn } from '../write-report';
+import { getWriterModelLabel, writeReport, writeProReport, type GenerateFn, type GenerateProFn } from '../write-report';
 import type { AuditData } from '../../types';
 import type { ProReportContent, ReportContent } from '../report-schema';
 
@@ -49,7 +49,7 @@ const proAudit = (): AuditData => ({ ...audit(), tier: 'pro' });
 
 const validPro: ProReportContent = {
   ...valid,
-  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => ({
     category: 'PERFORMANCE & TECHNIQUE' as const,
     domain: `Domaine ${i}`,
     finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
@@ -76,7 +76,7 @@ describe('writeProReport', () => {
     const gen: GenerateProFn = vi.fn(async () => validPro);
     const r = await writeProReport(proAudit(), { generateFn: gen });
     expect(r).toEqual(validPro);
-    expect(r.auditTable).toHaveLength(10);
+    expect(r.auditTable).toHaveLength(12);
     expect(gen).toHaveBeenCalledTimes(1);
   });
   it('réessaie après une violation de contrat dans un champ Pro, puis réussit', async () => {
@@ -91,5 +91,20 @@ describe('writeProReport', () => {
     const gen: GenerateProFn = vi.fn(async () => bad);
     await expect(writeProReport(proAudit(), { generateFn: gen, maxAttempts: 2 })).rejects.toThrow();
     expect(gen).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('getWriterModelLabel', () => {
+  it('retourne openrouter:<modèle> depuis l\'environnement, fallback "non configuré"', () => {
+    const prev = process.env.OPENROUTER_MODEL;
+    try {
+      process.env.OPENROUTER_MODEL = 'google/gemini-3.5-flash';
+      expect(getWriterModelLabel()).toBe('openrouter:google/gemini-3.5-flash');
+      delete process.env.OPENROUTER_MODEL;
+      expect(getWriterModelLabel()).toBe('openrouter:non configuré');
+    } finally {
+      if (prev !== undefined) process.env.OPENROUTER_MODEL = prev;
+      else delete process.env.OPENROUTER_MODEL;
+    }
   });
 });

@@ -35,7 +35,7 @@ const valid = () => ({
   ],
   competitorAnalysis: null,
   scoreJustification: 'Le score est tiré vers le bas par la performance mobile.',
-  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(row),
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(row),
   recommendations: [1, 2, 3, 4].map(rec),
   strategicRecommendations: [1, 2, 3].map(strategic),
   funnelAnalysis: 'Sur 100 visiteurs, environ 32 partent avant que le contenu principal ne soit affiché.',
@@ -46,13 +46,13 @@ const valid = () => ({
 describe('ProContentSchema', () => {
   it('accepte un contenu Pro complet et conforme', () => {
     const parsed = ProContentSchema.parse(valid());
-    expect(parsed.auditTable).toHaveLength(10);
+    expect(parsed.auditTable).toHaveLength(12);
     expect(parsed.recommendations).toHaveLength(4);
     expect(parsed.strategicRecommendations).toHaveLength(3);
   });
 
-  it('rejette moins de 10 lignes de tableau d\'audit', () => {
-    const c = { ...valid(), auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(row) };
+  it('rejette moins de 12 lignes de tableau d\'audit', () => {
+    const c = { ...valid(), auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(row) };
     expect(ProContentSchema.safeParse(c).success).toBe(false);
   });
 
