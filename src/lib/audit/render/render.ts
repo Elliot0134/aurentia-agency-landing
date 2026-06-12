@@ -7,7 +7,8 @@ import { buildFlashEmailHtml } from './email-flash';
 import { buildProReportHtml } from './pdf-pro-html';
 import { renderPdf } from './render-pdf';
 import type { ProReportContent, ReportContent } from './report-schema';
-import { radarAxesFromMeasurements, svgRadar, svgScoreTargetBars } from './charts';
+import { radarAxesFromMeasurements, svgFunnel, svgHeatmap, svgRadar, svgScoreTargetBars } from './charts';
+import { buildFunnelStages, buildHeatmapData } from './funnel';
 import { buildVisualFindings } from './visual-findings';
 
 export interface RenderDeps {
@@ -42,17 +43,23 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
   const content = await writeProReport(audit, { generateFn: deps.generateProFn });
 
   // Charts radar + état/cible si assez de modules scorables (le radar exige 3 axes).
-  // Heatmap : données pas encore disponibles (phase B), non passée.
   const axes = radarAxesFromMeasurements(audit.measurements);
-  const charts =
-    axes.length >= 3
-      ? {
-          radar: svgRadar(axes, score),
-          scoreTarget: svgScoreTargetBars(
-            axes.map((a) => ({ label: a.label, current: a.score, target: a.score < 9 ? 9 : 10 })),
-          ),
-        }
-      : undefined;
+  const charts: { radar?: string; funnel?: string; scoreTarget?: string; heatmap?: string } = {};
+  if (axes.length >= 3) {
+    charts.radar = svgRadar(axes, score);
+    charts.scoreTarget = svgScoreTargetBars(
+      axes.map((a) => ({ label: a.label, current: a.score, target: a.score < 9 ? 9 : 10 })),
+    );
+  }
+
+  // Funnel de perte honnête (B6) : base 100 visiteurs, pertes issues de mesures.
+  // null si le site est trop sain pour justifier un funnel (pas de remplissage).
+  const stages = buildFunnelStages(audit);
+  if (stages) charts.funnel = svgFunnel(stages);
+
+  // Heatmap pages × critères on-page (annexe) : seulement si >= 2 pages crawlées.
+  const heatmap = buildHeatmapData(audit);
+  if (heatmap) charts.heatmap = svgHeatmap(heatmap.pageLabels, heatmap.criteriaLabels, heatmap.cells);
 
   // Constats visuels (B5) : captures desktop + mobile de la homepage, analysées
   // par vision. buildVisualFindings ne throw jamais ; [] → section omise (A1).
@@ -66,7 +73,7 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
 
   const html = await buildProReportHtml(audit, content, {
     score,
-    charts,
+    charts: Object.keys(charts).length > 0 ? charts : undefined,
     visuals: visuals.length > 0 ? visuals : undefined,
   });
   const pdfBuffer = await renderPdf(html, deps.browserless, deps.fetchFn);

@@ -135,6 +135,32 @@ describe('renderReport', () => {
     expect(payload.html).toContain('estimation prudente'); // funnelProjection
   });
 
+  it('pro avec impact mesuré → le funnel SVG (base 100) est injecté dans le HTML envoyé', async () => {
+    const audit = baseAudit('pro');
+    audit.impact = {
+      items: [{ id: 'impact.lcp', label: 'Lenteur LCP', lossPercent: 25, basis: 'LCP mesuré 11,8 s' }],
+      headlinePercent: 25,
+      assumptions: ['estimation prudente'],
+    };
+
+    const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
+      const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
+      return new Response(body, { status: 200 });
+    });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    await renderReport(audit, {
+      browserless,
+      generateProFn,
+      fetchFn: fetchSpy as unknown as typeof fetch,
+      buildVisualsFn: noVisuals,
+    });
+
+    const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
+    const payload = JSON.parse(String(init?.body)) as { html: string };
+    expect(payload.html).toContain('Visiteurs qui arrivent sur le site (base)'); // étage 1 du funnel SVG
+    expect(payload.html).toContain('Visiteurs qui peuvent devenir contact/client'); // étage final
+  });
+
   it('pro → les constats visuels (B5) sont injectés dans le HTML envoyé à /pdf', async () => {
     const audit = baseAudit('pro');
     const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
