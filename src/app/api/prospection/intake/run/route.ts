@@ -31,8 +31,12 @@ export const dynamic = 'force-dynamic';
  * déjà pour ce lead, sinon skip `flash_job_exists`. Un job failed/refunded ne
  * bloque pas : retry légitime.
  *
- * Kill switch : sequences_paused (fail-closed : clé absente = pause) → 200
- * `{ started: [], paused: true }`, aucun job lancé.
+ * Kill switch : sequences_paused, lu dans la table Config Airtable (valeur
+ * string, fail-closed : tout sauf 'false' — clé absente comprise — vaut
+ * pause) → 200 `{ started: [], paused: true }`, aucun job lancé.
+ *
+ * Leads lus dans Airtable (base maître) : leadId = record id (recXXXX),
+ * persisté tel quel dans audit_jobs.lead_id (colonne text).
  */
 
 const bodySchema = z.object({
@@ -67,8 +71,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Kill switch global, fail-closed comme dans le moteur de séquences.
-    const paused = (await getConfig('sequences_paused')) !== false;
+    // Kill switch global, fail-closed comme dans le moteur de séquences :
+    // seule la string exacte 'false' autorise l'intake.
+    const paused = (await getConfig('sequences_paused')) !== 'false';
     if (paused) {
       return NextResponse.json({ started: [], skipped: [], paused: true }, { status: 200 });
     }

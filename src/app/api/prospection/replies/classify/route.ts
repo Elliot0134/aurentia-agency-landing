@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { postSlack, requireWebhookToken } from '@/lib/prospection/api-auth';
 import { classifyReply } from '@/lib/prospection/classify-reply';
 import {
+  findReplyByGmailMessageId,
   getLeadByEmail,
   getLeadByGmailThreadId,
   insertReply,
@@ -31,8 +32,9 @@ export const dynamic = 'force-dynamic';
  * - bounce → bounce=true + perdu
  * Confidence < 0.6 → a_trier (et c'est tout : un humain tranche, + Slack).
  *
- * Idempotence : gmail_message_id est UNIQUE dans prospection_replies, un
- * conflit d'insertion → 200 `alreadyProcessed` sans aucun effet de bord.
+ * Idempotence : Airtable n'a pas de contrainte unique → recherche de la
+ * réponse par Gmail Message ID AVANT classification ; déjà vue → 200
+ * `alreadyProcessed` sans aucun effet de bord (ni appel LLM).
  */
 
 const bodySchema = z.object({
@@ -81,22 +83,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'lead_not_found' }, { status: 404 });
     }
 
+    // Idempotence AVANT classification : un event Gmail déjà traité ne
+    // déclenche ni LLM, ni insertion, ni patch, ni Slack.
+    const alreadySeen = await findReplyByGmailMessageId(gmailMessageId);
+    if (alreadySeen) {
+      return NextResponse.json({ alreadyProcessed: true }, { status: 200 });
+    }
+
     // Heuristique bounce AVANT LLM (mailer-daemon, snippet de non-livraison) :
     // classifyReply court-circuite le LLM dans ce cas (confidence 1).
     const verdict = await classifyReply(snippet, leadEmail);
 
-    const { duplicate } = await insertReply({
+    await insertReply({
       leadId: lead.id,
+      leadLabel: lead.entreprise ?? lead.email,
       gmailMessageId,
       classification: verdict.classification,
       confidence: verdict.confidence,
       snippet,
       ...(receivedAt !== undefined ? { receivedAt } : {}),
     });
-    if (duplicate) {
-      // Event Gmail déjà traité : aucun effet de bord supplémentaire.
-      return NextResponse.json({ alreadyProcessed: true }, { status: 200 });
-    }
 
     const label = lead.entreprise ?? lead.email;
     if (verdict.confidence < CONFIDENCE_FLOOR) {
