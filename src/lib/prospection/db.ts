@@ -18,6 +18,7 @@ import type { LeadPhase, LeadSource, StatutFunnel } from './sequences';
 /** Tables de la base Airtable (ids stables, insensibles au renommage). */
 export const AIRTABLE_TABLES = {
   leads: 'tblwtKYIVLLl1Yosf',
+  niches: 'tblWHeYzoUBRwaxYM',
   touches: 'tblVq7AHFd3dr7ukP',
   replies: 'tblB2mX0IE3Xq7deP',
   config: 'tblp1MhcjAoS79NWr',
@@ -320,6 +321,22 @@ export async function updateLead(
   const fields = leadPatchFields(patch);
   if (Object.keys(fields).length === 0) return;
   await at.updateRecord(AIRTABLE_TABLES.leads, id, fields);
+}
+
+// ── Niches ─────────────────────────────────────────────────────────────────
+
+/**
+ * Nom de la niche (champ primaire "Niche" de la table Niches), ou null si le
+ * record n'existe pas ou n'a pas de nom. Sert au moteur de séquences pour
+ * choisir la variante de copy cold (templates/nicheKeyFromName), avec un
+ * cache par run côté engine : un fetch par niche, pas par lead.
+ */
+export async function getNicheName(
+  nicheId: string,
+  at: AirtableApi = defaultAirtableApi(),
+): Promise<string | null> {
+  const record = await at.getRecord(AIRTABLE_TABLES.niches, nicheId);
+  return record === null ? null : str(record.fields.Niche);
 }
 
 // ── Touches ────────────────────────────────────────────────────────────────

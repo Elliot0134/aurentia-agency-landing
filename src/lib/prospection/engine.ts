@@ -5,10 +5,18 @@ import {
   type SequenceKind,
   type StatutFunnel,
 } from './sequences';
-import { DEFAULT_AUDIT_URL, DEFAULT_CAL_URL, renderTemplate } from './templates';
+import {
+  DEFAULT_AUDIT_URL,
+  DEFAULT_CAL_URL,
+  nicheKeyFromName,
+  renderTemplate,
+  senderNameFromAssignee,
+  type NicheKey,
+} from './templates';
 import { lintEmail } from './linter';
 import {
   getConfig,
+  getNicheName,
   listLeadsByStatus,
   listTouches,
   type ProspectionLead,
@@ -42,12 +50,15 @@ export interface EngineDb {
   getConfig(key: string): Promise<string | null>;
   listLeadsByStatus(statuts: readonly StatutFunnel[]): Promise<ProspectionLead[]>;
   listTouches(): Promise<ProspectionTouch[]>;
+  /** Nom de la niche Airtable (variantes cold), null si record absent. */
+  getNicheName(nicheId: string): Promise<string | null>;
 }
 
 const defaultEngineDb: EngineDb = {
   getConfig: (key) => getConfig(key),
   listLeadsByStatus: (statuts) => listLeadsByStatus(statuts),
   listTouches: () => listTouches(),
+  getNicheName: (nicheId) => getNicheName(nicheId),
 };
 
 export interface DuePayload {
@@ -180,6 +191,24 @@ export async function computeDueSends(
     skipped.push({ leadId, reason });
   };
 
+  // Variantes cold par niche : un fetch Airtable max par niche et par run
+  // (cache), et une erreur de résolution n'empêche jamais l'envoi (fallback
+  // copy générique, tracé par templateVersion sans suffixe de niche).
+  const nicheNameCache = new Map<string, string | null>();
+  const resolveNicheKey = async (nicheId: string | null): Promise<NicheKey | null> => {
+    if (nicheId === null) return null;
+    if (!nicheNameCache.has(nicheId)) {
+      let name: string | null = null;
+      try {
+        name = await db.getNicheName(nicheId);
+      } catch {
+        name = null; // fallback générique, jamais bloquant
+      }
+      nicheNameCache.set(nicheId, name);
+    }
+    return nicheKeyFromName(nicheNameCache.get(nicheId) ?? null);
+  };
+
   for (const lead of leads) {
     // Défensif : les candidats sont déjà filtrés, on revérifie.
     if (isSequenceStopped({ opt_out: lead.optOut, bounce: lead.bounce, statut_funnel: lead.statutFunnel })) {
@@ -215,12 +244,18 @@ export async function computeDueSends(
       skip(lead.id, 'missing_site_url'); // tous les templates citent le site
       continue;
     }
+    // Seule la séquence cold a des variantes : on ne résout la niche que là
+    // (zéro fetch Airtable inutile pour inbound/refonte).
+    const nicheKey = kind === 'cold' ? await resolveNicheKey(lead.nicheId) : null;
     const email = renderTemplate(step.type, {
       contactName: lead.contactName,
       entreprise: lead.entreprise,
       siteUrl: lead.siteUrl,
       auditUrl: DEFAULT_AUDIT_URL,
       calUrl: DEFAULT_CAL_URL,
+      score: lead.scoreFlash,
+      senderName: senderNameFromAssignee(lead.assignedTo),
+      nicheKey,
     });
     const violations = lintEmail(email.subject, email.html, email.text);
     if (violations.length > 0) {
