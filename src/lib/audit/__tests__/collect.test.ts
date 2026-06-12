@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { collectAudit, type CollectDeps } from '../collect';
 
 const HTML = `<html><head>
@@ -35,7 +35,17 @@ const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: Request
   const u = String(input);
   if (u.includes('pagespeedonline')) return new Response(PSI_FIXTURE, { status: 200 });
   if (u.includes('/screenshot')) return new Response(new Uint8Array([1]), { status: 200 });
-  if (u.includes('/function')) return new Response(JSON.stringify([]), { status: 200 });
+  if (u.includes('/function')) {
+    // deux appels /function distincts : axe (le code injecté charge axe.min.js) vs getImageRects
+    if (String(init?.body ?? '').includes('axe.min.js'))
+      return new Response(
+        JSON.stringify({
+          data: { violations: [{ id: 'color-contrast', impact: 'serious', description: 'Contraste insuffisant', nodes: 5 }] },
+        }),
+        { status: 200 },
+      );
+    return new Response(JSON.stringify([]), { status: 200 });
+  }
   if (u.includes('api.exa.ai/contents')) return new Response(JSON.stringify({ results: [{ summary: 'desc test' }] }), { status: 200 });
   if (u.includes('api.exa.ai/findSimilar')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
   if (u.includes('api.exa.ai')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
@@ -103,5 +113,49 @@ describe('collectAudit', () => {
     // unicité globale des ids préservée
     const ids = audit.measurements.map((m) => m.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  describe('accessibilité (axe-core)', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("pro : audite l'accessibilité (homepage + 2 pages crawlées) et fusionne les measurements a11y", async () => {
+      const audit = await collectAudit('exemple.fr', 'pro', deps);
+      const total = audit.measurements.find((m) => m.id === 'a11y.violations.total');
+      expect(total).toBeDefined();
+      expect(total!.module).toBe('a11y');
+      expect(total!.status).toBe('fail'); // serious présent dans le stub
+      expect(total!.value).toBe(3); // 1 violation x 3 pages (homepage + /contact + /services)
+      const contrast = audit.measurements.find((m) => m.id === 'a11y.color-contrast');
+      expect(contrast).toBeDefined();
+      expect(contrast!.value).toBe(15); // 5 nodes x 3 pages
+      expect(contrast!.proof).toContain('/contact');
+      expect(contrast!.proof).toContain('/services');
+    });
+
+    it("flash : pas d'audit d'accessibilité", async () => {
+      const audit = await collectAudit('exemple.fr', 'flash', deps);
+      expect(audit.measurements.some((m) => m.module === 'a11y')).toBe(false);
+    });
+
+    it("pro : toutes les pages axe échouent → a11y.unavailable info, jamais de faux conforme", async () => {
+      vi.useFakeTimers();
+      const axeFailFetch: typeof fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+        const u = String(input);
+        if (u.includes('/function') && String(init?.body ?? '').includes('axe.min.js'))
+          return new Response('boom', { status: 500 });
+        return fakeFetch(input, init);
+      }) as typeof fetch;
+      const promise = collectAudit('exemple.fr', 'pro', { ...deps, fetchFn: axeFailFetch });
+      await vi.runAllTimersAsync();
+      const audit = await promise;
+      const unavailable = audit.measurements.find((m) => m.id === 'a11y.unavailable');
+      expect(unavailable).toBeDefined();
+      expect(unavailable!.status).toBe('info');
+      expect(unavailable!.details).toContain('indisponible');
+      // aucun autre measurement a11y : pas de fausse conformité
+      expect(audit.measurements.filter((m) => m.module === 'a11y')).toHaveLength(1);
+    });
   });
 });

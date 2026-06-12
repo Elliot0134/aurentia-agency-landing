@@ -20,6 +20,7 @@ import {
 } from './competitors';
 import { estimateImpact } from './impact';
 import { crawlSite, aggregateCrawlMeasurements, type CrawlOptions } from './crawl';
+import { runAxe, a11yToMeasurements, type A11yPageResult } from './a11y';
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -115,6 +116,36 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
       discoveredCount: crawlResult.discoveredCount,
       pages: crawlResult.pages.map(({ url, title, status }) => ({ url, title, status })),
     };
+
+    // Accessibilité réelle (axe-core, WCAG 2.2 AA) : homepage + jusqu'à 2 pages
+    // crawlées en 200, séquentiel (Browserless free tier mono-session). Une page
+    // qui échoue est sautée ; si TOUTES échouent → a11y.unavailable (info), car
+    // un échec d'outil ne doit jamais passer pour une conformité.
+    const axeTargets = [
+      page.finalUrl,
+      ...crawlResult.pages.filter((p) => p.status === 200).slice(0, 2).map((p) => p.url),
+    ];
+    const axeResults: A11yPageResult[] = [];
+    for (const target of axeTargets) {
+      try {
+        axeResults.push(await runAxe(target, deps.browserless, fetchFn));
+      } catch {
+        // page sautée (échec définitif après retries) : aucune fausse donnée
+      }
+    }
+    if (axeResults.length > 0) {
+      measurements.push(...a11yToMeasurements(axeResults));
+    } else {
+      measurements.push({
+        id: 'a11y.unavailable',
+        module: 'a11y',
+        label: "Audit d'accessibilité (axe-core)",
+        status: 'info',
+        value: null,
+        details: "Audit d'accessibilité indisponible pendant la génération, à vérifier en relecture",
+      });
+    }
+
     impact = estimateImpact(measurements);
   }
 

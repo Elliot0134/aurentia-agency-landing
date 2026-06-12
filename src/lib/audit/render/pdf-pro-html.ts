@@ -116,6 +116,7 @@ const MODULE_CATEGORY: Record<ModuleId, string> = {
   impact: 'CONVERSION & FUNNEL',
   perf: 'PERFORMANCE & TECHNIQUE',
   images: 'PERFORMANCE & TECHNIQUE',
+  a11y: 'ACCESSIBILITÉ',
 };
 
 const MODULE_DOMAIN: Record<ModuleId, string> = {
@@ -127,6 +128,7 @@ const MODULE_DOMAIN: Record<ModuleId, string> = {
   impact: 'Conversion',
   perf: 'Performance',
   images: 'Images',
+  a11y: 'Accessibilité',
 };
 
 /* ----------------------------------------------------------------------------
@@ -1024,7 +1026,7 @@ function buildRecommendations(audit: AuditData, pro: ProContent): string {
 const ANNEX_GROUPS: { title: string; match: (m: Measurement) => boolean }[] = [
   { title: 'SEO technique', match: (m) => m.module === 'seo-tech' || m.module === 'seo-onpage' },
   { title: 'Performance', match: (m) => m.module === 'perf' || m.module === 'images' },
-  { title: 'Accessibilité', match: (m) => m.id.startsWith('a11y.') },
+  { title: 'Accessibilité (axe-core, WCAG 2.2 AA)', match: (m) => m.module === 'a11y' || m.id.startsWith('a11y.') },
   {
     title: 'Conversion / stack',
     match: (m) =>

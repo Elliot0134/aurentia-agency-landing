@@ -10,7 +10,8 @@ export type ModuleId =
   | 'mobile'
   | 'business'
   | 'competitors'
-  | 'impact';
+  | 'impact'
+  | 'a11y';
 
 /**
  * L'unité atomique de vérité du système. Chaque donnée du rapport final
