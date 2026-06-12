@@ -7,7 +7,7 @@ export default defineConfig({
     include: [
       'src/lib/audit/**/*.test.ts',
       'src/workflows/**/*.test.ts',
-      'src/app/api/audit/jobs/**/*.test.ts',
+      'src/app/api/audit/**/*.test.ts',
       'src/app/api/stripe/**/*.test.ts',
     ],
     passWithNoTests: true,
