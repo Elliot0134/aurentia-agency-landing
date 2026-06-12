@@ -53,6 +53,9 @@ export async function captureScreenshot(
           ...(vp.isMobile !== undefined && { isMobile: vp.isMobile, hasTouch: vp.isMobile }),
         },
         gotoOptions: { waitUntil: 'load', timeout: 30_000 },
+        // Règle d'acier : laisser les animations d'apparition se jouer avant de capturer,
+        // sinon on photographie une page "vide" et on affirme un faux défaut au client.
+        waitForTimeout: 3_000,
       }),
       signal: AbortSignal.timeout(60_000),
     });
