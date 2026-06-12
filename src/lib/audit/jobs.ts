@@ -36,6 +36,8 @@ export interface AuditJob {
   subject: string | null;
   html: string | null;
   pdfPath: string | null;
+  /** URL Google Drive du PDF Pro archivé par n8n. NULL tant que non archivé. */
+  driveUrl: string | null;
   error: string | null;
   reviewToken: string | null;
   createdAt: string;
@@ -59,6 +61,7 @@ interface AuditJobRow {
   subject: string | null;
   html: string | null;
   pdf_path: string | null;
+  drive_url: string | null;
   error: string | null;
   review_token: string | null;
   created_at: string;
@@ -103,6 +106,18 @@ export interface AuditJobsDb {
           ): {
             limit(count: number): PromiseLike<{ data: unknown; error: DbError | null }>;
           };
+          not(
+            column: string,
+            operator: 'is',
+            value: null,
+          ): {
+            is(
+              column: string,
+              value: null,
+            ): {
+              limit(count: number): PromiseLike<{ data: unknown; error: DbError | null }>;
+            };
+          };
         };
       };
     };
@@ -134,6 +149,7 @@ export type AuditJobPatch = Partial<
     | 'subject'
     | 'html'
     | 'pdfPath'
+    | 'driveUrl'
     | 'error'
     | 'reviewToken'
   >
@@ -156,6 +172,7 @@ function mapRow(row: AuditJobRow): AuditJob {
     subject: row.subject,
     html: row.html,
     pdfPath: row.pdf_path,
+    driveUrl: row.drive_url,
     error: row.error,
     reviewToken: row.review_token,
     createdAt: row.created_at,
@@ -180,6 +197,7 @@ const PATCH_COLUMNS: Record<keyof Required<AuditJobPatch>, string> = {
   subject: 'subject',
   html: 'html',
   pdfPath: 'pdf_path',
+  driveUrl: 'drive_url',
   error: 'error',
   reviewToken: 'review_token',
 };
@@ -257,6 +275,25 @@ export async function findActiveFlashJobByLeadId(leadId: string, db: AuditJobsDb
   const rows = (data ?? []) as AuditJobRow[];
   if (rows.length === 0) return null;
   return mapRow(rows[0]);
+}
+
+/**
+ * Jobs Pro livrés dont le PDF n'a pas encore été archivé sur Google Drive
+ * (pdf_path présent, drive_url absent). Consommé par n8n via
+ * GET /api/audit/jobs?status=delivered&tier=pro&archived=false : télécharge
+ * le PDF (URL signée), l'upload sur Drive, puis PATCH drive_url.
+ */
+export async function listArchivableProJobs(limit: number, db: AuditJobsDb = adminDb): Promise<AuditJob[]> {
+  const { data, error } = await db
+    .from('audit_jobs')
+    .select()
+    .eq('status', 'delivered')
+    .eq('tier', 'pro')
+    .not('pdf_path', 'is', null)
+    .is('drive_url', null)
+    .limit(limit);
+  if (error) throw new Error(`Liste des jobs Pro à archiver échouée : ${error.message}`);
+  return ((data ?? []) as AuditJobRow[]).map(mapRow);
 }
 
 /** Job déjà créé pour cette session Checkout, ou null (idempotence webhook). */

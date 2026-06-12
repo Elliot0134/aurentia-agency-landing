@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { start } from 'workflow/api';
 import { flashAuditWorkflow, proAuditWorkflow } from '@/workflows/audit-workflows';
-import { createJob, getJob, updateJob } from '@/lib/audit/jobs';
+import { createJob, getJob, updateJob, listArchivableProJobs, type AuditJob } from '@/lib/audit/jobs';
+import { signedPdfUrl } from '@/lib/audit/pdf-url';
 import { assertSafeUrl, UnsafeUrlError } from '@/lib/audit/url-safety';
 
 export const runtime = 'nodejs';
@@ -11,7 +12,8 @@ export const dynamic = 'force-dynamic';
 /**
  * Endpoint machine-to-machine de création/consultation des jobs d'audit.
  * Consommé par : le webhook Stripe (jobs pro), n8n (jobs flash cold + polling
- * du HTML prêt à déposer en draft Gmail), le formulaire inbound (via backend).
+ * du HTML prêt à déposer en draft Gmail + archivage Drive des PDF Pro livrés),
+ * le formulaire inbound (via backend).
  *
  * Protégé par header `x-audit-secret` (env AUDIT_JOBS_SECRET). Si l'env est
  * absente, l'endpoint est FERMÉ (401 systématique) : jamais d'endpoint ouvert
@@ -85,7 +87,82 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/**
+ * TTL des URL signées du bucket privé `audit-pdfs` exposées par cette API :
+ * 30 min, le temps pour n8n de télécharger le PDF et l'uploader sur Drive.
+ */
+const SIGNED_PDF_TTL_SECONDS = 30 * 60;
+
+/**
+ * Mode liste : seule la combinaison « jobs Pro livrés pas encore archivés »
+ * est supportée (les littéraux sont volontairement stricts : tout autre
+ * filtre → 400, pas de listing générique de la table).
+ */
+const listQuerySchema = z.object({
+  status: z.literal('delivered'),
+  tier: z.literal('pro'),
+  archived: z.literal('false'),
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+});
+
+/** Projection liste pour n8n : le strict nécessaire, sans html ni token. */
+async function toArchivableJobJson(job: AuditJob) {
+  return {
+    id: job.id,
+    leadId: job.leadId,
+    email: job.email,
+    url: job.url,
+    pdfPath: job.pdfPath,
+    score: job.score,
+    pdfUrl: job.pdfPath ? await signedPdfUrl(job.pdfPath, SIGNED_PDF_TTL_SECONDS) : null,
+  };
+}
+
 export async function GET(req: NextRequest) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  const id = req.nextUrl.searchParams.get('id');
+
+  // Mode liste (archivage Drive n8n) : pas d'id, filtres stricts.
+  if (!id) {
+    const parsed = listQuerySchema.safeParse(Object.fromEntries(req.nextUrl.searchParams));
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'invalid_query', details: parsed.error.issues }, { status: 400 });
+    }
+    try {
+      const jobs = await listArchivableProJobs(parsed.data.limit);
+      return NextResponse.json({ jobs: await Promise.all(jobs.map(toArchivableJobJson)) });
+    } catch (err) {
+      console.error('[api/audit/jobs] GET list failed', err);
+      return NextResponse.json({ error: 'server_error' }, { status: 500 });
+    }
+  }
+
+  try {
+    const job = await getJob(id);
+    if (!job) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+    if (!job.pdfPath) return NextResponse.json(job);
+    // PDF présent : on joint une URL signée pour le télécharger sans clé.
+    return NextResponse.json({ ...job, pdfUrl: await signedPdfUrl(job.pdfPath, SIGNED_PDF_TTL_SECONDS) });
+  } catch (err) {
+    console.error('[api/audit/jobs] GET failed', err);
+    return NextResponse.json({ error: 'server_error' }, { status: 500 });
+  }
+}
+
+const patchBodySchema = z.object({
+  driveUrl: z.url(),
+});
+
+/**
+ * Marque un job Pro livré comme archivé sur Google Drive (n8n, après upload
+ * du PDF). Uniquement sur un job `delivered` : 404 sinon (même réponse que
+ * job inconnu, pas d'oracle sur l'existence des jobs). Idempotent : un
+ * re-PATCH écrase drive_url et répond 200.
+ */
+export async function PATCH(req: NextRequest) {
   if (!isAuthorized(req)) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
@@ -95,12 +172,27 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'missing_id' }, { status: 400 });
   }
 
+  let raw: unknown;
+  try {
+    raw = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
+  }
+
+  const parsed = patchBodySchema.safeParse(raw);
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'invalid_body', details: parsed.error.issues }, { status: 400 });
+  }
+
   try {
     const job = await getJob(id);
-    if (!job) return NextResponse.json({ error: 'not_found' }, { status: 404 });
-    return NextResponse.json(job);
+    if (!job || job.status !== 'delivered') {
+      return NextResponse.json({ error: 'not_found' }, { status: 404 });
+    }
+    await updateJob(id, { driveUrl: parsed.data.driveUrl });
+    return NextResponse.json({ id, driveUrl: parsed.data.driveUrl });
   } catch (err) {
-    console.error('[api/audit/jobs] GET failed', err);
+    console.error('[api/audit/jobs] PATCH failed', err);
     return NextResponse.json({ error: 'server_error' }, { status: 500 });
   }
 }

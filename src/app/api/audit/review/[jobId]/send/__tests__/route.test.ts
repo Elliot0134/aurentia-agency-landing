@@ -42,6 +42,7 @@ function fakeJob(overrides: Partial<AuditJob> = {}): AuditJob {
     subject: null,
     html: null,
     pdfPath: 'pro/job-1/audit.pdf',
+    driveUrl: null,
     error: null,
     reviewToken: null,
     createdAt: '2026-06-12T10:00:00Z',
