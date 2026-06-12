@@ -8,8 +8,10 @@ export class ContractViolation extends Error {}
  * analyse précisément la visibilité du site sur ChatGPT/Perplexity (sujet légitime).
  * La règle est : ne JAMAIS révéler que l'audit lui-même est produit par une IA.
  * Seules les formulations d'auto-attribution sont interdites.
+ * Exporté : le linter d'envoi des séquences (src/lib/prospection/linter.ts)
+ * réutilise le même lexique pour bloquer les emails.
  */
-const IA_LEXICON = [
+export const IA_LEXICON = [
   'généré par ', 'génère ce rapport', 'notre ia', 'notre intelligence artificielle',
   'notre algorithme', "l'algorithme d'analyse", 'notre modèle', 'assistant ia',
   'rédigé par une ia', 'analyse automatisée par ia',
