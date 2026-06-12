@@ -282,6 +282,7 @@ Supabase est la source de vérité des statuts. La clause `.eq('status', 'ready_
 | `OPENROUTER_MODEL` | Rendu LLM | Ex. `google/gemini-3.5-flash`. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Client Supabase admin | URL du projet Supabase. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Client Supabase admin | Clé service-role (jamais exposée côté client). |
+| `PROSPECTION_API_SECRET` | Routes `/api/prospection/*` | Secret du header `x-webhook-token` (auth M2M n8n). Absent = endpoints fermés (503). |
 
 ---
 
@@ -305,3 +306,24 @@ Les captures Flash (screenshots annotés) sont intégrées dans le HTML du mail,
 - **PSI variable** : les sites lourds ou protégés (o2switch/Tiger Protect, HTTP 429 sur bots) donnent des scores Lighthouse instables. Le moteur retente automatiquement (WDK), mais un score bas peut être un artefact.
 - **Coût indicatif** : Flash ~0,05-0,07 EUR (PSI + Browserless + LLM). Pro ~0,12-0,20 EUR (collecte multi-pages + PDF + LLM Pro).
 - **URL manquante après paiement Stripe** : si le client paie sans avoir soumis de Flash au préalable, le job Pro est créé sans URL, le workflow n'est pas lancé, et une alerte Slack demande intervention manuelle.
+- **Lead cold = `nouveau` jusqu'à /touches/confirm** : relancer `/api/prospection/intake/run` avant la confirmation d'envoi recrée un job Flash pour le même lead (pas de garde anti-doublon côté intake). En production, n8n doit confirmer (ou marquer le lead) avant le run d'intake suivant.
+
+---
+
+## 8. Smoke E2E 2026-06-12
+
+Smoke test réel exécuté en local (`pnpm dev`, port 3002, workflows WDK exécutés par le runtime dev) contre les vraies APIs (PSI, Browserless, Exa, OpenRouter/Gemini, Resend, Supabase). Tout vert.
+
+| Scénario | Résultat | Durée |
+|---|---|---|
+| Flash inbound (`aurentia.agency`) | `delivered`, score 76, mail Resend parti | ~3 min 45 |
+| Pro inbound (`aurentia.agency`) | `ready_for_review` (pdf_path + review_token + Slack) puis `delivered` via `POST /review/<jobId>/send` (PDF joint) | ~6 min 15 + envoi |
+| Flash cold via `/api/prospection/intake/run` | `ready_to_send`, subject + html (15,8 ko, captures score + page présentes), zéro tiret long | ~4 min |
+| Kill switch `sequences_paused` | intake → `{started: [], paused: true}` | — |
+| `/touches/confirm` | lead → `flash_envoye`, rejeu idempotent (pas de 2e touche) | — |
+| `/replies/classify` (Gemini réel) | `interesse` (confiance 0.98) → `a_appeler` + Slack, rejeu idempotent | ~2 s |
+| `/events/resend` (`email.bounced`) | `bounce=true`, statut `perdu` | — |
+| `/leads/changed?since=` | 200, `{leads, serverTime}`, lead modifié présent | — |
+| Auth | header absent → 401, mauvais token → 401 | — |
+
+Notes : `html` est volontairement null en DB pour un Flash inbound `delivered` (le mail est parti, seul le cold persiste le brouillon). `impact_percent` peut être null sur un Flash (non bloquant). Coût estimé du smoke : ~0,25-0,30 EUR (2 Flash + 1 Pro + 1 classification LLM). Données de test purgées, `sequences_paused` remis à `true`.
