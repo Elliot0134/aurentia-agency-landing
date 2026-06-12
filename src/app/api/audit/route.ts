@@ -10,16 +10,18 @@ const FROM_EMAIL = process.env.AUDIT_FROM_EMAIL ?? "audit@aurentia.fr";
 const REPLY_TO = process.env.AUDIT_REPLY_TO ?? "contact@aurentia.fr";
 const SLACK_WEBHOOK_URL = process.env.SLACK_AUDIT_WEBHOOK_URL;
 
-// Charte mail (warm terracotta sur crème — aligné sur le site).
+// Charte mail — alignée sur le thème v2 du site ([data-v2-root]) :
+// fond eggshell quasi-blanc, surfaces gris clair, accent orange.
 const C = {
-  bg: "#f0ece2",
-  card: "#ffffff",
-  border: "#e9e4d8",
-  text: "#2b2b28",
-  muted: "#83817a",
-  accent: "#c96442",
-  accentDark: "#b05730",
-  tintBg: "#faf6ef",
+  bg: "#F4F4F5", // surface neutre (cadre extérieur)
+  card: "#FFFFFF", // carte blanche
+  border: "#E5E5E5", // neutral-100
+  text: "#0A0A0A", // foreground
+  muted: "#767676", // neutral-500
+  accent: "#F36F1C", // orange-500
+  accentDark: "#BD3F11", // orange-700
+  tintBg: "#FFF7ED", // orange-50 (encart CTA)
+  tintBorder: "#FBE2C8", // orange-100/200 adouci
 };
 
 /** Échappe l'input visiteur avant injection dans le HTML du mail. */
@@ -53,7 +55,7 @@ function buildEmailHtml(site: string): string {
           </td></tr>
           <!-- CTA box -->
           <tr><td style="padding:8px 36px 8px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.tintBg};border:1px solid ${C.border};border-radius:16px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.tintBg};border:1px solid ${C.tintBorder};border-radius:16px;">
               <tr><td style="padding:24px 24px 26px;">
                 <div style="font-size:17px;font-weight:700;color:${C.text};margin-bottom:6px;">Pas envie d'attendre ?</div>
                 <p style="margin:0 0 18px;font-size:15px;line-height:1.6;color:${C.muted};">L'audit complet et chiffré couvre <strong style="color:${C.text};">7 domaines en détail</strong> avec un plan d'action priorisé. Livré rapidement, payable en ligne.</p>
