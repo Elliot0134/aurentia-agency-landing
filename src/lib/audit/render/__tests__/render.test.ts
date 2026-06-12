@@ -70,4 +70,21 @@ describe('renderReport', () => {
     expect(r.content.competitorAnalysis).toBe(proContent.competitorAnalysis);
     expect(r.score).toBe(computeScore(audit.measurements));
   });
+
+  it('pro avec >= 3 modules scorables → charts radar et état/cible injectés dans le HTML envoyé', async () => {
+    const audit = baseAudit('pro');
+    audit.measurements.push({ id: 'images.alt', module: 'images', label: 'Alt manquants', status: 'warn', value: 3 });
+
+    const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
+      const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
+      return new Response(body, { status: 200 });
+    });
+    const generateFn: GenerateFn = vi.fn(async () => proContent);
+    await renderReport(audit, { browserless, generateFn, fetchFn: fetchSpy as unknown as typeof fetch });
+
+    const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
+    const payload = JSON.parse(String(init?.body)) as { html: string };
+    expect(payload.html).toContain('<polygon'); // radar
+    expect(payload.html).toContain('cible 9'); // barres état/cible
+  });
 });

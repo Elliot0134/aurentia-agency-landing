@@ -7,6 +7,7 @@ import { buildFlashEmailHtml } from './email-flash';
 import { buildProReportHtml } from './pdf-pro-html';
 import { renderPdf } from './render-pdf';
 import type { ReportContent } from './report-schema';
+import { radarAxesFromMeasurements, svgRadar, svgScoreTargetBars } from './charts';
 
 export interface RenderDeps {
   browserless: BrowserlessConfig;
@@ -33,7 +34,20 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
     return { score, content, emailHtml };
   }
 
-  const html = await buildProReportHtml(audit, content, { score });
+  // Charts radar + état/cible si assez de modules scorables (le radar exige 3 axes).
+  // Funnel et heatmap : données pas encore disponibles (phase B), non passés.
+  const axes = radarAxesFromMeasurements(audit.measurements);
+  const charts =
+    axes.length >= 3
+      ? {
+          radar: svgRadar(axes, score),
+          scoreTarget: svgScoreTargetBars(
+            axes.map((a) => ({ label: a.label, current: a.score, target: a.score < 9 ? 9 : 10 })),
+          ),
+        }
+      : undefined;
+
+  const html = await buildProReportHtml(audit, content, { score, charts });
   const pdfBuffer = await renderPdf(html, deps.browserless, deps.fetchFn);
   return { score, content, pdfBuffer };
 }
