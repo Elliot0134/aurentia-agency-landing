@@ -9,6 +9,7 @@ export default defineConfig({
       'src/lib/prospection/**/*.test.ts',
       'src/workflows/**/*.test.ts',
       'src/app/api/audit/**/*.test.ts',
+      'src/app/api/prospection/**/*.test.ts',
       'src/app/api/stripe/**/*.test.ts',
     ],
     passWithNoTests: true,

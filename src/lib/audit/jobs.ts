@@ -107,6 +107,8 @@ export interface CreateJobInput {
   tier: AuditTier;
   channel: AuditChannel;
   stripeSessionId?: string;
+  /** Lead CRM prospection à l'origine du job (colonne lead_id, intake WF0). */
+  leadId?: string;
 }
 
 /** Champs modifiables d'un job (camelCase, mappés vers snake_case). */
@@ -179,6 +181,7 @@ export async function createJob(input: CreateJobInput, db: AuditJobsDb = adminDb
     channel: input.channel,
   };
   if (input.stripeSessionId !== undefined) values.stripe_session_id = input.stripeSessionId;
+  if (input.leadId !== undefined) values.lead_id = input.leadId;
 
   const { data, error } = await db.from('audit_jobs').insert(values).select().single();
   if (error) throw new Error(`Création du job d'audit échouée : ${error.message}`);
