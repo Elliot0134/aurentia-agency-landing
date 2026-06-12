@@ -242,13 +242,13 @@ export function buildFlashEmailHtml(
         <!-- Intro -->
         <tr><td style="padding:16px 36px 8px;color:${C.text};font-size:16px;line-height:1.65;">
           <p style="margin:0 0 16px;">${safeSummary}</p>
-          <p style="margin:0 0 16px;">J'ai noté directement sur une capture de votre page d'accueil ce qui freine un visiteur :</p>
+          <p style="margin:0 0 16px;">Voici notre regard sur votre page d'accueil :</p>
         </td></tr>
         <!-- Cadran de score global -->
         ${gaugeBlock}
-        <!-- Capture annotée -->
+        <!-- Capture de la page d'accueil -->
         <tr><td style="padding:8px 36px;">
-          <img src="${safeScreenshot}" alt="Votre page d'accueil annotée" width="528" style="max-width:100%;height:auto;border:1px solid ${C.border};border-radius:10px;display:block;"/>
+          <img src="${safeScreenshot}" alt="Votre page d'accueil" width="528" style="max-width:100%;height:auto;border:1px solid ${C.border};border-radius:10px;display:block;"/>
         </td></tr>
         <!-- Pastilles numérotées -->
         <tr><td style="padding:8px 36px;">
