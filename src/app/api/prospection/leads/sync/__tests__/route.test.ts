@@ -1,14 +1,20 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 
-const { getLeadByNotionPageIdMock, updateLeadMock } = vi.hoisted(() => ({
+const { getLeadByNotionPageIdMock, getLeadByAirtableRecordIdMock, updateLeadMock } = vi.hoisted(() => ({
   getLeadByNotionPageIdMock: vi.fn(),
+  getLeadByAirtableRecordIdMock: vi.fn(),
   updateLeadMock: vi.fn(),
 }));
 
 vi.mock('@/lib/prospection/db', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/prospection/db')>();
-  return { ...actual, getLeadByNotionPageId: getLeadByNotionPageIdMock, updateLead: updateLeadMock };
+  return {
+    ...actual,
+    getLeadByNotionPageId: getLeadByNotionPageIdMock,
+    getLeadByAirtableRecordId: getLeadByAirtableRecordIdMock,
+    updateLead: updateLeadMock,
+  };
 });
 
 import { POST } from '../route';
@@ -30,6 +36,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   vi.stubEnv('PROSPECTION_API_SECRET', SECRET);
   getLeadByNotionPageIdMock.mockResolvedValue({ id: 'lead-1' });
+  getLeadByAirtableRecordIdMock.mockResolvedValue({ id: 'lead-air-1' });
   updateLeadMock.mockResolvedValue(undefined);
 });
 
@@ -46,9 +53,39 @@ describe('POST /api/prospection/leads/sync', () => {
     expect((await POST(request({ changes: [] }, 'mauvais'))).status).toBe(401);
   });
 
-  it('400 sans tableau changes ou notionPageId manquant', async () => {
+  it('400 sans tableau changes ou sans aucun id (ni airtableRecordId ni notionPageId)', async () => {
     expect((await POST(request({}, SECRET))).status).toBe(400);
     expect((await POST(request({ changes: [{ statutHumain: 'Gagné' }] }, SECRET))).status).toBe(400);
+  });
+
+  it('lookup par airtableRecordId : lead retrouvé et patché, jamais de lookup Notion', async () => {
+    const res = await POST(
+      request({ changes: [{ airtableRecordId: 'recAAA', statutHumain: 'Gagné' }] }, SECRET),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ applied: 1, ignored: 0 });
+    expect(getLeadByAirtableRecordIdMock).toHaveBeenCalledWith('recAAA');
+    expect(getLeadByNotionPageIdMock).not.toHaveBeenCalled();
+    expect(updateLeadMock).toHaveBeenCalledWith('lead-air-1', { statutHumain: 'Gagné', statutFunnel: 'gagne' });
+  });
+
+  it('sync mixte : un change Airtable + un change Notion dans le même batch', async () => {
+    const res = await POST(
+      request(
+        {
+          changes: [
+            { airtableRecordId: 'recAAA', statutHumain: 'Gagné' },
+            { notionPageId: 'notion-1', notes: 'rappelé' },
+          ],
+        },
+        SECRET,
+      ),
+    );
+    expect(await res.json()).toEqual({ applied: 2, ignored: 0 });
+    expect(getLeadByAirtableRecordIdMock).toHaveBeenCalledWith('recAAA');
+    expect(getLeadByNotionPageIdMock).toHaveBeenCalledWith('notion-1');
+    expect(updateLeadMock).toHaveBeenNthCalledWith(1, 'lead-air-1', { statutHumain: 'Gagné', statutFunnel: 'gagne' });
+    expect(updateLeadMock).toHaveBeenNthCalledWith(2, 'lead-1', { notes: 'rappelé' });
   });
 
   it("statut humain 'Gagné' → statut_humain + statut_funnel gagne", async () => {

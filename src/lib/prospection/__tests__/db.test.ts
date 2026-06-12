@@ -3,6 +3,7 @@ import {
   createLead,
   findTouchByMessageId,
   getConfig,
+  getLeadByAirtableRecordId,
   getLeadByEmail,
   getLeadByGmailThreadId,
   getLeadById,
@@ -41,6 +42,7 @@ function leadRow(overrides: Row = {}): Row {
     statut_funnel: 'nouveau',
     gmail_thread_id: null,
     notion_page_id: null,
+    airtable_record_id: null,
     assigned_to: null,
     statut_humain: null,
     notes: null,
@@ -173,6 +175,19 @@ describe('leads : lectures', () => {
     expect(await getLeadByNotionPageId('notion-x', db)).toBeNull();
   });
 
+  it('getLeadByAirtableRecordId : filtre sur airtable_record_id, expose airtableRecordId mappé', async () => {
+    const { db } = makeFake({
+      prospection_leads: [
+        leadRow({ id: 'lead-a', airtable_record_id: 'recAAA', email: 'a@exemple.fr' }),
+        leadRow({ id: 'lead-b', airtable_record_id: 'recBBB', email: 'b@exemple.fr' }),
+      ],
+    });
+    const lead = await getLeadByAirtableRecordId('recBBB', db);
+    expect(lead?.id).toBe('lead-b');
+    expect(lead?.airtableRecordId).toBe('recBBB');
+    expect(await getLeadByAirtableRecordId('recXXX', db)).toBeNull();
+  });
+
   it('listLeadsByStatus : filtre par statut et trie par created_at croissant', async () => {
     const { db } = makeFake({
       prospection_leads: [
@@ -189,12 +204,13 @@ describe('leads : lectures', () => {
     const { db } = makeFake({
       prospection_leads: [
         leadRow({ id: 'l1', updated_at: '2026-06-10T00:00:00Z', email: 'l1@x.fr' }),
-        leadRow({ id: 'l3', updated_at: '2026-06-12T00:00:00Z', email: 'l3@x.fr' }),
+        leadRow({ id: 'l3', updated_at: '2026-06-12T00:00:00Z', email: 'l3@x.fr', airtable_record_id: 'recL3' }),
         leadRow({ id: 'l2', updated_at: '2026-06-11T00:00:00Z', email: 'l2@x.fr' }),
       ],
     });
     const leads = await listLeadsChangedSince('2026-06-11T00:00:00Z', db);
     expect(leads.map((l) => l.id)).toEqual(['l2', 'l3']);
+    expect(leads[1].airtableRecordId).toBe('recL3');
     const limited = await listLeadsChangedSince('2026-06-11T00:00:00Z', db, 1);
     expect(limited.map((l) => l.id)).toEqual(['l2']);
   });
@@ -215,10 +231,15 @@ describe('leads : écritures', () => {
 
   it('updateLead : mappe le patch camelCase vers les colonnes snake_case', async () => {
     const { db, tables } = makeFake({ prospection_leads: [leadRow()] });
-    await updateLead('lead-1', { statutFunnel: 'flash_envoye', gmailThreadId: 'thread-9', optOut: true }, db);
+    await updateLead(
+      'lead-1',
+      { statutFunnel: 'flash_envoye', gmailThreadId: 'thread-9', airtableRecordId: 'recZZZ', optOut: true },
+      db,
+    );
     const row = tables.prospection_leads[0];
     expect(row.statut_funnel).toBe('flash_envoye');
     expect(row.gmail_thread_id).toBe('thread-9');
+    expect(row.airtable_record_id).toBe('recZZZ');
     expect(row.opt_out).toBe(true);
   });
 

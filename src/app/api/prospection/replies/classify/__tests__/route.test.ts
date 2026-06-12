@@ -51,6 +51,7 @@ function fakeLead(overrides: Partial<ProspectionLead> = {}): ProspectionLead {
     statutFunnel: 'en_sequence',
     gmailThreadId: 'thread-1',
     notionPageId: null,
+    airtableRecordId: null,
     assignedTo: null,
     statutHumain: null,
     notes: null,

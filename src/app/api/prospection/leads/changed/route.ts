@@ -6,8 +6,10 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
- * WF4 descendant (Supabase → Notion) : leads modifiés depuis `since` (ISO),
- * pour que n8n upsert les pages miroir Notion. Limite 100, tri updated_at
+ * WF4 descendant (Supabase → miroir) : leads modifiés depuis `since` (ISO),
+ * pour que n8n upsert les records miroir Airtable (ex-Notion, déprécié).
+ * Chaque lead expose `airtableRecordId` (et `notionPageId` pour compat),
+ * via le mapping camelCase de db.ts. Limite 100, tri updated_at
  * croissant ; la réponse inclut `serverTime`, à réutiliser comme curseur
  * `since` de l'appel suivant (jamais d'horloge n8n : seule l'horloge serveur
  * fait foi, aucun lead raté entre deux runs).

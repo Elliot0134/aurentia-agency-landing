@@ -1,30 +1,42 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { requireWebhookToken } from '@/lib/prospection/api-auth';
-import { getLeadByNotionPageId, updateLead, type LeadPatch } from '@/lib/prospection/db';
+import {
+  getLeadByAirtableRecordId,
+  getLeadByNotionPageId,
+  updateLead,
+  type LeadPatch,
+} from '@/lib/prospection/db';
 import { statutFunnelFromStatutHumain } from '@/lib/prospection/statut-humain';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
- * WF4 remontant (Notion → Supabase) : n8n pousse les modifications humaines
- * faites dans la DB Leads Notion (statut après call, notes). Pour chaque
- * changement : lead retrouvé par notion_page_id, mise à jour de
+ * WF4 remontant (miroir → Supabase) : n8n pousse les modifications humaines
+ * faites dans le miroir CRM (statut après call, notes). Miroir = Airtable
+ * depuis le 2026-06-12 (décision Elliot) ; chaque changement est identifié
+ * par `airtableRecordId` OU `notionPageId` (compat ascendante, déprécié).
+ * Lead retrouvé par le champ fourni (Airtable prioritaire), mise à jour de
  * statut_humain / notes, et si le statut humain est reconnu ('Gagné',
  * 'Perdu', 'À appeler', insensible accents/casse) le statut funnel machine
  * suit (gagne / perdu / a_appeler). Un statut humain non reconnu est conservé
  * tel quel SANS toucher le funnel.
  *
  * Les changements sans lead correspondant sont comptés `ignored` (jamais
- * d'erreur globale : une page Notion orpheline ne bloque pas le batch).
+ * d'erreur globale : un record miroir orphelin ne bloque pas le batch).
  */
 
-const changeSchema = z.object({
-  notionPageId: z.string().min(1),
-  statutHumain: z.string().optional(),
-  notes: z.string().optional(),
-});
+const changeSchema = z
+  .object({
+    airtableRecordId: z.string().min(1).optional(),
+    notionPageId: z.string().min(1).optional(),
+    statutHumain: z.string().optional(),
+    notes: z.string().optional(),
+  })
+  .refine((change) => change.airtableRecordId !== undefined || change.notionPageId !== undefined, {
+    message: 'airtableRecordId ou notionPageId requis',
+  });
 
 const bodySchema = z.object({
   changes: z.array(changeSchema),
@@ -50,7 +62,14 @@ export async function POST(req: NextRequest) {
     let ignored = 0;
 
     for (const change of parsed.data.changes) {
-      const lead = await getLeadByNotionPageId(change.notionPageId);
+      // Airtable prioritaire ; la branche null est impossible (refine zod :
+      // au moins un id) mais garde TS strict sans cast et finit en `ignored`.
+      const lead =
+        change.airtableRecordId !== undefined
+          ? await getLeadByAirtableRecordId(change.airtableRecordId)
+          : change.notionPageId !== undefined
+            ? await getLeadByNotionPageId(change.notionPageId)
+            : null;
       if (!lead) {
         ignored += 1;
         continue;

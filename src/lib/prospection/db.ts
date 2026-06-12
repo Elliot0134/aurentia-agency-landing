@@ -97,7 +97,10 @@ export interface ProspectionLead {
   phase: LeadPhase;
   statutFunnel: StatutFunnel;
   gmailThreadId: string | null;
+  /** @deprecated Miroir Notion remplacé par Airtable (décision 2026-06-12). */
   notionPageId: string | null;
+  /** Record id du miroir Airtable (recXXXX). */
+  airtableRecordId: string | null;
   assignedTo: string | null;
   statutHumain: string | null;
   notes: string | null;
@@ -121,6 +124,7 @@ interface LeadRow {
   statut_funnel: StatutFunnel;
   gmail_thread_id: string | null;
   notion_page_id: string | null;
+  airtable_record_id: string | null;
   assigned_to: string | null;
   statut_humain: string | null;
   notes: string | null;
@@ -144,6 +148,7 @@ function mapLead(row: LeadRow): ProspectionLead {
     statutFunnel: row.statut_funnel,
     gmailThreadId: row.gmail_thread_id,
     notionPageId: row.notion_page_id,
+    airtableRecordId: row.airtable_record_id,
     assignedTo: row.assigned_to,
     statutHumain: row.statut_humain,
     notes: row.notes,
@@ -166,6 +171,7 @@ export interface CreateLeadInput {
   statutFunnel?: StatutFunnel;
   gmailThreadId?: string | null;
   notionPageId?: string | null;
+  airtableRecordId?: string | null;
   assignedTo?: string | null;
 }
 
@@ -181,6 +187,7 @@ export type LeadPatch = Partial<
     | 'statutFunnel'
     | 'gmailThreadId'
     | 'notionPageId'
+    | 'airtableRecordId'
     | 'assignedTo'
     | 'statutHumain'
     | 'notes'
@@ -198,6 +205,7 @@ const LEAD_PATCH_COLUMNS: Record<keyof Required<LeadPatch>, string> = {
   statutFunnel: 'statut_funnel',
   gmailThreadId: 'gmail_thread_id',
   notionPageId: 'notion_page_id',
+  airtableRecordId: 'airtable_record_id',
   assignedTo: 'assigned_to',
   statutHumain: 'statut_humain',
   notes: 'notes',
@@ -236,11 +244,19 @@ export async function getLeadByGmailThreadId(
   return leadByColumn('gmail_thread_id', gmailThreadId, db);
 }
 
+/** @deprecated Miroir Notion remplacé par Airtable : utiliser getLeadByAirtableRecordId. */
 export async function getLeadByNotionPageId(
   notionPageId: string,
   db: ProspectionDb = adminDb,
 ): Promise<ProspectionLead | null> {
   return leadByColumn('notion_page_id', notionPageId, db);
+}
+
+export async function getLeadByAirtableRecordId(
+  airtableRecordId: string,
+  db: ProspectionDb = adminDb,
+): Promise<ProspectionLead | null> {
+  return leadByColumn('airtable_record_id', airtableRecordId, db);
 }
 
 export async function createLead(input: CreateLeadInput, db: ProspectionDb = adminDb): Promise<ProspectionLead> {
@@ -258,6 +274,7 @@ export async function createLead(input: CreateLeadInput, db: ProspectionDb = adm
     ['statutFunnel', 'statut_funnel'],
     ['gmailThreadId', 'gmail_thread_id'],
     ['notionPageId', 'notion_page_id'],
+    ['airtableRecordId', 'airtable_record_id'],
     ['assignedTo', 'assigned_to'],
   ];
   for (const [key, column] of optional) {

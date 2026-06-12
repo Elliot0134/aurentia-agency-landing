@@ -44,13 +44,14 @@ describe('GET /api/prospection/leads/changed', () => {
   });
 
   it('200 : leads complets + serverTime (curseur du run n8n suivant), limite 100', async () => {
-    const leads = [{ id: 'lead-1', email: 'jean@exemple.fr', statutFunnel: 'a_appeler' }];
+    const leads = [{ id: 'lead-1', email: 'jean@exemple.fr', statutFunnel: 'a_appeler', airtableRecordId: 'recAAA' }];
     listLeadsChangedSinceMock.mockResolvedValue(leads);
     const before = Date.now();
     const res = await GET(request('?since=2026-06-12T00:00:00Z', SECRET));
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.leads).toEqual(leads);
+    expect(json.leads[0].airtableRecordId).toBe('recAAA');
     expect(listLeadsChangedSinceMock).toHaveBeenCalledWith('2026-06-12T00:00:00.000Z', undefined, 100);
     const serverTime = Date.parse(json.serverTime);
     expect(serverTime).toBeGreaterThanOrEqual(before - 1000);
