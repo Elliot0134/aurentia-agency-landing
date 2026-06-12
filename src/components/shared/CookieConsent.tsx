@@ -69,9 +69,8 @@ export function CookieConsent() {
               Un cookie, et un seul objectif
             </p>
             <p className="text-sm text-foreground/70 leading-relaxed">
-              On utilise des cookies Google Ads pour mesurer si nos campagnes
-              servent à quelque chose. Aucun tracking tant que tu n&rsquo;as pas
-              accepté.{" "}
+              On utilise des cookies pour mesurer si nos campagnes servent à
+              quelque chose. Aucun tracking tant que tu n&rsquo;as pas accepté.{" "}
               <Link
                 href="/politique-confidentialite"
                 className="underline underline-offset-2 text-foreground/80 hover:text-foreground transition-colors duration-500 ease-in-out"
@@ -83,7 +82,7 @@ export function CookieConsent() {
               <button
                 type="button"
                 onClick={() => choose("granted")}
-                className="flex-1 px-5 py-3 text-sm font-semibold rounded-2xl bg-foreground text-background hover:opacity-90 transition-opacity duration-500 ease-in-out"
+                className="flex-1 px-5 py-3 text-sm font-semibold rounded-2xl bg-accent-primary text-white hover:opacity-90 transition-opacity duration-500 ease-in-out"
               >
                 Accepter
               </button>
