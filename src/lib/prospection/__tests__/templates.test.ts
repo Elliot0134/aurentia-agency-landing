@@ -38,6 +38,14 @@ const ALL_CADENCE_TYPES = [
 
 const COLD_TYPES = CADENCES.cold.map((s) => s.type);
 
+/** Toutes les variantes d'une touche cold : générique + les 4 niches. */
+const ALL_COLD_VARIANTS: Array<NicheKey | null> = [null, ...NICHE_KEYS];
+
+/** URLs http(s) d'un rendu, ponctuation de fin de phrase retirée. */
+function extractUrls(s: string): string[] {
+  return (s.match(/https?:\/\/[^\s"<]+/g) ?? []).map((u) => u.replace(/[.,;:!?]+$/, ''));
+}
+
 /**
  * Toutes les variantes rendables : les 13 types en générique (nicheKey null)
  * + les 3 touches cold déclinées pour chacune des 4 niches = 25 rendus.
@@ -140,13 +148,37 @@ describe('renderTemplate', () => {
     expect(email.text).toContain('Bonjour,');
   });
 
-  it.each(CADENCES.cold.map((s) => s.type))('%s (cold) pointe vers le lien audit', (type) => {
-    for (const nicheKey of [null, ...NICHE_KEYS]) {
-      const email = renderTemplate(type, { ...FULL_VARS, nicheKey });
-      expect(email.html).toContain('https://buy.stripe.com/test_audit');
-      expect(email.text).toContain('https://buy.stripe.com/test_audit');
-    }
-  });
+  it.each(ALL_COLD_VARIANTS)(
+    'cold_1 (%s) ne contient aucun lien CTA et finit sur la question ouverte',
+    (nicheKey) => {
+      const email = renderTemplate('cold_1', { ...FULL_VARS, nicheKey });
+      // Seules URLs tolérées : le site du prospect (corps) et aurentia.agency (signature HTML).
+      for (const url of extractUrls(email.html)) {
+        expect([FULL_VARS.siteUrl, 'https://aurentia.agency']).toContain(url);
+      }
+      for (const url of extractUrls(email.text)) {
+        expect(url).toBe(FULL_VARS.siteUrl);
+      }
+      expect(email.html).not.toContain('stripe');
+      expect(email.html).not.toContain('cal.com');
+      // Le corps se termine par la question ouverte, juste avant la signature.
+      expect(email.text).toMatch(/\?\n\nStéphane\n/);
+    },
+  );
+
+  it.each(['cold_2', 'cold_3'])(
+    '%s (relance cold) pointe vers cal.com, jamais vers Stripe',
+    (type) => {
+      for (const nicheKey of ALL_COLD_VARIANTS) {
+        const email = renderTemplate(type, { ...FULL_VARS, nicheKey });
+        expect(email.html).toContain('https://cal.com/elliot-test/appel');
+        expect(email.text).toContain('https://cal.com/elliot-test/appel');
+        expect(email.html).not.toContain('stripe');
+        expect(email.text).not.toContain('stripe');
+        expect(email.text).not.toContain('audit complet');
+      }
+    },
+  );
 
   it.each(CADENCES.inbound.map((s) => s.type))(
     '%s (inbound) pointe vers le lien audit Pro',
@@ -241,16 +273,44 @@ describe('renderTemplate — variantes par niche (cold uniquement)', () => {
 });
 
 describe('renderTemplate — signature dynamique', () => {
-  it('signe avec senderName quand il est fourni', () => {
+  /** Regex d'un numéro FR au format 0X XX XX XX XX (espaces ou points). */
+  const PHONE_RE = /0\d(?:[ .]\d{2}){4}/;
+
+  it('signe avec senderName, agence, descriptif court et filet de séparation', () => {
     const email = renderTemplate('cold_1', FULL_VARS);
-    expect(email.text).toContain('Stéphane\nAurentia Agency');
-    expect(email.html).toContain('Stéphane<br/>Aurentia Agency');
+    expect(email.text).toContain('Stéphane\nAurentia Agency, Développeurs & designers, Vaucluse');
+    expect(email.html).toContain('<strong');
+    expect(email.html).toContain('border-top:1px solid #ddd');
   });
 
-  it('retombe sur Elliot si senderName absent, null ou vide', () => {
+  it('Elliot signe avec son téléphone réel', () => {
+    const email = renderTemplate('cold_1', { ...FULL_VARS, senderName: 'Elliot' });
+    expect(email.text).toContain('07 81 95 80 90');
+    expect(email.html).toContain('07 81 95 80 90');
+  });
+
+  it("les autres signataires n'ont aucun téléphone (numéro inconnu, jamais inventé)", () => {
+    for (const senderName of ['Stéphane', 'Olivier', 'Matthieu', 'Fabien']) {
+      const email = renderTemplate('inbound_1', { ...FULL_VARS, senderName });
+      expect(email.text).not.toMatch(PHONE_RE);
+      expect(email.html).not.toMatch(PHONE_RE);
+    }
+  });
+
+  it('retombe sur Elliot (avec son téléphone) si senderName absent, null ou vide', () => {
     for (const senderName of [undefined, null, '', '   ']) {
       const email = renderTemplate('cold_1', { ...MIN_VARS, senderName });
       expect(email.text).toContain('Elliot\nAurentia Agency');
+      expect(email.text).toContain('07 81 95 80 90');
     }
   });
+
+  it.each(ALL_VARIANT_CASES)(
+    '$type ($nicheKey) inclut le lien aurentia.agency en signature',
+    ({ type, nicheKey }) => {
+      const email = renderTemplate(type, { ...FULL_VARS, nicheKey });
+      expect(email.html).toContain('href="https://aurentia.agency"');
+      expect(email.text).toContain('aurentia.agency');
+    },
+  );
 });
