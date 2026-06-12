@@ -306,7 +306,7 @@ Les captures Flash (screenshots annotés) sont intégrées dans le HTML du mail,
 - **PSI variable** : les sites lourds ou protégés (o2switch/Tiger Protect, HTTP 429 sur bots) donnent des scores Lighthouse instables. Le moteur retente automatiquement (WDK), mais un score bas peut être un artefact.
 - **Coût indicatif** : Flash ~0,05-0,07 EUR (PSI + Browserless + LLM). Pro ~0,12-0,20 EUR (collecte multi-pages + PDF + LLM Pro).
 - **URL manquante après paiement Stripe** : si le client paie sans avoir soumis de Flash au préalable, le job Pro est créé sans URL, le workflow n'est pas lancé, et une alerte Slack demande intervention manuelle.
-- **Lead cold = `nouveau` jusqu'à /touches/confirm** : relancer `/api/prospection/intake/run` avant la confirmation d'envoi recrée un job Flash pour le même lead (pas de garde anti-doublon côté intake). En production, n8n doit confirmer (ou marquer le lead) avant le run d'intake suivant.
+- **Lead cold = `nouveau` jusqu'à /touches/confirm** : corrigé. L'intake porte désormais une garde anti-doublon : avant de créer un job, il vérifie dans `audit_jobs` qu'aucun job `tier='flash'` actif (statut `queued`/`running`/`ready_to_send`/`ready_for_review`/`delivered`) n'existe déjà pour ce `lead_id` (`findActiveFlashJobByLeadId`), sinon le lead est skippé avec `reason: 'flash_job_exists'`. Un job `failed`/`refunded` ne bloque pas (retry légitime). Relancer `/api/prospection/intake/run` avant la confirmation d'envoi ne recrée donc plus de Flash en doublon.
 
 ---
 

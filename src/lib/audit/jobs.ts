@@ -93,6 +93,17 @@ export interface AuditJobsDb {
         ): {
           limit(count: number): PromiseLike<{ data: unknown; error: DbError | null }>;
         };
+        eq(
+          column: string,
+          value: string,
+        ): {
+          in(
+            column: string,
+            values: readonly string[],
+          ): {
+            limit(count: number): PromiseLike<{ data: unknown; error: DbError | null }>;
+          };
+        };
       };
     };
     update(values: Record<string, unknown>): {
@@ -209,6 +220,40 @@ export async function findLatestJobByEmail(email: string, db: AuditJobsDb = admi
     .order('created_at', { ascending: false })
     .limit(1);
   if (error) throw new Error(`Recherche du dernier job de ${email} échouée : ${error.message}`);
+  const rows = (data ?? []) as AuditJobRow[];
+  if (rows.length === 0) return null;
+  return mapRow(rows[0]);
+}
+
+/**
+ * Statuts considérés comme « actifs » pour la garde anti-doublon de l'intake :
+ * tout sauf `failed`/`refunded` (échecs terminaux, un retry est légitime).
+ * Inclut `delivered` : un Flash déjà livré ne doit JAMAIS être regénéré ni
+ * renvoyé au prospect.
+ */
+const ACTIVE_FLASH_JOB_STATUSES: readonly AuditJobStatus[] = [
+  'queued',
+  'running',
+  'ready_to_send',
+  'ready_for_review',
+  'delivered',
+];
+
+/**
+ * Job `flash` actif (statut non terminal-échec) pour ce lead, ou null.
+ * Garde anti-doublon de l'intake (WF0) : un lead cold reste `nouveau` jusqu'à
+ * /touches/confirm, donc sans cette garde le cron horaire relancerait un
+ * deuxième Flash pour le même lead (double envoi au prospect).
+ */
+export async function findActiveFlashJobByLeadId(leadId: string, db: AuditJobsDb = adminDb): Promise<AuditJob | null> {
+  const { data, error } = await db
+    .from('audit_jobs')
+    .select()
+    .eq('lead_id', leadId)
+    .eq('tier', 'flash')
+    .in('status', ACTIVE_FLASH_JOB_STATUSES)
+    .limit(1);
+  if (error) throw new Error(`Recherche du job flash actif du lead ${leadId} échouée : ${error.message}`);
   const rows = (data ?? []) as AuditJobRow[];
   if (rows.length === 0) return null;
   return mapRow(rows[0]);

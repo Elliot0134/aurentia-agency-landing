@@ -5,6 +5,7 @@ import {
   updateJob,
   findLatestJobByEmail,
   findJobByStripeSessionId,
+  findActiveFlashJobByLeadId,
   type AuditJobsDb,
 } from '../jobs';
 
@@ -39,6 +40,7 @@ interface FakeCalls {
   updated: Array<{ values: Record<string, unknown>; id: string }>;
   selected: Array<{ column: string; value: string }>;
   ordered: Array<{ column: string; ascending: boolean; limit: number | null }>;
+  inFiltered: Array<{ column: string; values: readonly string[]; limit: number | null }>;
 }
 
 /** Fake structurel du client Supabase : capture les appels, zéro réseau. */
@@ -48,7 +50,7 @@ function fakeDb(opts: {
   listResult?: { data: unknown; error: { message: string } | null };
   updateError?: { message: string } | null;
 }): { db: AuditJobsDb; calls: FakeCalls } {
-  const calls: FakeCalls = { inserted: [], updated: [], selected: [], ordered: [] };
+  const calls: FakeCalls = { inserted: [], updated: [], selected: [], ordered: [], inFiltered: [] };
   const db: AuditJobsDb = {
     from: () => ({
       insert: (values: Record<string, unknown>) => {
@@ -71,6 +73,21 @@ function fakeDb(opts: {
                 limit: (count: number) => {
                   ordered.limit = count;
                   return Promise.resolve(opts.listResult ?? { data: [], error: null });
+                },
+              };
+            },
+            eq: (column2: string, value2: string) => {
+              calls.selected.push({ column: column2, value: value2 });
+              return {
+                in: (inColumn: string, values: readonly string[]) => {
+                  const filtered = { column: inColumn, values, limit: null as number | null };
+                  calls.inFiltered.push(filtered);
+                  return {
+                    limit: (count: number) => {
+                      filtered.limit = count;
+                      return Promise.resolve(opts.listResult ?? { data: [], error: null });
+                    },
+                  };
                 },
               };
             },
@@ -200,6 +217,38 @@ describe('findLatestJobByEmail', () => {
   it('throw si la lecture échoue', async () => {
     const { db } = fakeDb({ listResult: { data: null, error: { message: 'timeout' } } });
     await expect(findLatestJobByEmail('p@e.fr', db)).rejects.toThrow(/timeout/);
+  });
+});
+
+describe('findActiveFlashJobByLeadId', () => {
+  it('filtre lead_id + tier=flash + statuts actifs (failed et refunded exclus : retry légitime)', async () => {
+    const { db, calls } = fakeDb({
+      listResult: { data: [fakeRow({ id: 'job-actif', lead_id: 'lead-1', tier: 'flash', status: 'queued' })], error: null },
+    });
+    const job = await findActiveFlashJobByLeadId('lead-1', db);
+    expect(calls.selected).toEqual([
+      { column: 'lead_id', value: 'lead-1' },
+      { column: 'tier', value: 'flash' },
+    ]);
+    expect(calls.inFiltered).toEqual([
+      {
+        column: 'status',
+        values: ['queued', 'running', 'ready_to_send', 'ready_for_review', 'delivered'],
+        limit: 1,
+      },
+    ]);
+    expect(job?.id).toBe('job-actif');
+    expect(job?.status).toBe('queued');
+  });
+
+  it('retourne null quand le lead n’a aucun job flash actif (ex. uniquement failed/refunded)', async () => {
+    const { db } = fakeDb({ listResult: { data: [], error: null } });
+    expect(await findActiveFlashJobByLeadId('lead-1', db)).toBeNull();
+  });
+
+  it('throw si la lecture échoue', async () => {
+    const { db } = fakeDb({ listResult: { data: null, error: { message: 'timeout' } } });
+    await expect(findActiveFlashJobByLeadId('lead-1', db)).rejects.toThrow(/timeout/);
   });
 });
 

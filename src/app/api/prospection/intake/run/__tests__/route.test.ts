@@ -3,19 +3,32 @@ import { NextRequest } from 'next/server';
 import { UnsafeUrlError } from '@/lib/audit/url-safety';
 import type { ProspectionLead } from '@/lib/prospection/db';
 
-const { startMock, createJobMock, updateJobMock, assertSafeUrlMock, getConfigMock, listLeadsByStatusMock, updateLeadMock } =
-  vi.hoisted(() => ({
-    startMock: vi.fn(),
-    createJobMock: vi.fn(),
-    updateJobMock: vi.fn(),
-    assertSafeUrlMock: vi.fn(),
-    getConfigMock: vi.fn(),
-    listLeadsByStatusMock: vi.fn(),
-    updateLeadMock: vi.fn(),
-  }));
+const {
+  startMock,
+  createJobMock,
+  updateJobMock,
+  findActiveFlashJobByLeadIdMock,
+  assertSafeUrlMock,
+  getConfigMock,
+  listLeadsByStatusMock,
+  updateLeadMock,
+} = vi.hoisted(() => ({
+  startMock: vi.fn(),
+  createJobMock: vi.fn(),
+  updateJobMock: vi.fn(),
+  findActiveFlashJobByLeadIdMock: vi.fn(),
+  assertSafeUrlMock: vi.fn(),
+  getConfigMock: vi.fn(),
+  listLeadsByStatusMock: vi.fn(),
+  updateLeadMock: vi.fn(),
+}));
 
 vi.mock('workflow/api', () => ({ start: startMock }));
-vi.mock('@/lib/audit/jobs', () => ({ createJob: createJobMock, updateJob: updateJobMock }));
+vi.mock('@/lib/audit/jobs', () => ({
+  createJob: createJobMock,
+  updateJob: updateJobMock,
+  findActiveFlashJobByLeadId: findActiveFlashJobByLeadIdMock,
+}));
 vi.mock('@/workflows/audit-workflows', () => ({ flashAuditWorkflow: vi.fn() }));
 vi.mock('@/lib/audit/url-safety', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/audit/url-safety')>();
@@ -78,6 +91,7 @@ beforeEach(() => {
   assertSafeUrlMock.mockImplementation(async (url: string) => new URL(url));
   let jobSeq = 0;
   createJobMock.mockImplementation(async () => ({ id: `job-${++jobSeq}` }));
+  findActiveFlashJobByLeadIdMock.mockResolvedValue(null);
   updateJobMock.mockResolvedValue(undefined);
   updateLeadMock.mockResolvedValue(undefined);
   startMock.mockResolvedValue({ runId: 'wrun_1' });
@@ -198,6 +212,37 @@ describe('POST /api/prospection/intake/run : nominal', () => {
     const json = await res.json();
     expect(json.started).toEqual([{ leadId: ok.id, jobId: 'job-1' }]);
     expect(json.skipped).toEqual([{ leadId: bad.id, reason: 'unsafe_url:IP privée interdite' }]);
+  });
+
+  it('garde anti-doublon : un job flash actif (queued) pour le lead → skip flash_job_exists, aucun nouveau job', async () => {
+    const dejaEnCours = fakeLead();
+    const ok = fakeLead();
+    listLeadsByStatusMock.mockResolvedValue([dejaEnCours, ok]);
+    findActiveFlashJobByLeadIdMock.mockImplementation(async (leadId: string) =>
+      leadId === dejaEnCours.id ? { id: 'job-actif', status: 'queued' } : null,
+    );
+    const res = await POST(request({}, SECRET));
+    const json = await res.json();
+    expect(json.skipped).toEqual([{ leadId: dejaEnCours.id, reason: 'flash_job_exists' }]);
+    expect(json.started).toEqual([{ leadId: ok.id, jobId: 'job-1' }]);
+    expect(createJobMock).toHaveBeenCalledTimes(1);
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ leadId: ok.id }));
+    // Lead skippé : ni workflow lancé pour lui, ni transition de statut.
+    expect(startMock).toHaveBeenCalledTimes(1);
+    expect(updateLeadMock).not.toHaveBeenCalled();
+  });
+
+  it('un job flash failed antérieur ne bloque pas : le helper renvoie null → nouveau job créé (retry légitime)', async () => {
+    const lead = fakeLead();
+    listLeadsByStatusMock.mockResolvedValue([lead]);
+    // findActiveFlashJobByLeadId ne matche que les statuts actifs : pour un
+    // lead dont le seul job est failed/refunded, il renvoie null.
+    findActiveFlashJobByLeadIdMock.mockResolvedValue(null);
+    const res = await POST(request({}, SECRET));
+    const json = await res.json();
+    expect(findActiveFlashJobByLeadIdMock).toHaveBeenCalledWith(lead.id);
+    expect(json.started).toEqual([{ leadId: lead.id, jobId: 'job-1' }]);
+    expect(json.skipped).toEqual([]);
   });
 
   it("un échec de création de job n'empêche pas les leads suivants", async () => {

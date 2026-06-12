@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { start } from 'workflow/api';
 import { flashAuditWorkflow } from '@/workflows/audit-workflows';
-import { createJob, updateJob } from '@/lib/audit/jobs';
+import { createJob, findActiveFlashJobByLeadId, updateJob } from '@/lib/audit/jobs';
 import { assertSafeUrl, UnsafeUrlError } from '@/lib/audit/url-safety';
 import { requireWebhookToken } from '@/lib/prospection/api-auth';
 import { getConfig, listLeadsByStatus, updateLead } from '@/lib/prospection/db';
@@ -24,6 +24,12 @@ export const dynamic = 'force-dynamic';
  *   qui envoie, puis n8n qui confirme via /touches/confirm (type `flash`),
  *   et C'EST CETTE CONFIRMATION qui fait passer le lead en `flash_envoye`.
  *   Ici le lead cold reste donc en `nouveau`.
+ *
+ * Garde anti-doublon : un lead cold restant `nouveau` jusqu'à la confirmation,
+ * il serait re-sélectionné par le cron suivant → avant de créer un job, on
+ * vérifie qu'aucun job `flash` actif (statut hors failed/refunded) n'existe
+ * déjà pour ce lead, sinon skip `flash_job_exists`. Un job failed/refunded ne
+ * bloque pas : retry légitime.
  *
  * Kill switch : sequences_paused (fail-closed : clé absente = pause) → 200
  * `{ started: [], paused: true }`, aucun job lancé.
@@ -92,6 +98,13 @@ export async function POST(req: NextRequest) {
       const siteUrl = lead.siteUrl;
       if (!siteUrl) continue; // impossible (filtré ci-dessus), narrowing TS
       try {
+        // Anti-doublon : un Flash actif (ou déjà livré) existe → on ne relance
+        // rien, sinon double génération puis double envoi au prospect.
+        const existingFlash = await findActiveFlashJobByLeadId(lead.id);
+        if (existingFlash) {
+          skipped.push({ leadId: lead.id, reason: 'flash_job_exists' });
+          continue;
+        }
         const safeUrl = await assertSafeUrl(siteUrl);
         const channel = lead.source === 'outbound' ? 'cold' : 'inbound';
         const job = await createJob({
