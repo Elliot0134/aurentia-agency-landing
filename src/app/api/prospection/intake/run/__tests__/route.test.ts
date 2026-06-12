@@ -48,7 +48,7 @@ let leadSeq = 0;
 function fakeLead(overrides: Partial<ProspectionLead> = {}): ProspectionLead {
   leadSeq += 1;
   return {
-    id: `lead-${leadSeq}`,
+    id: `rec-lead-${leadSeq}`,
     source: 'outbound',
     entreprise: 'Test SARL',
     contactName: 'Jean Test',
@@ -59,14 +59,14 @@ function fakeLead(overrides: Partial<ProspectionLead> = {}): ProspectionLead {
     phase: 'pre_audit',
     statutFunnel: 'nouveau',
     gmailThreadId: null,
-    notionPageId: null,
     assignedTo: null,
     statutHumain: null,
     notes: null,
+    scoreFlash: null,
     optOut: false,
     bounce: false,
+    dernierContact: null,
     createdAt: '2026-06-01T08:00:00Z',
-    updatedAt: '2026-06-01T08:00:00Z',
     ...overrides,
   };
 }
@@ -86,7 +86,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   leadSeq = 0;
   vi.stubEnv('PROSPECTION_API_SECRET', SECRET);
-  getConfigMock.mockResolvedValue(false); // sequences_paused = false
+  getConfigMock.mockResolvedValue('false'); // sequences_paused = 'false' (string Airtable)
   listLeadsByStatusMock.mockResolvedValue([]);
   assertSafeUrlMock.mockImplementation(async (url: string) => new URL(url));
   let jobSeq = 0;
@@ -129,8 +129,8 @@ describe('POST /api/prospection/intake/run : validation', () => {
 });
 
 describe('POST /api/prospection/intake/run : kill switch', () => {
-  it('sequences_paused=true → 200 { started: [], paused: true }, aucun job', async () => {
-    getConfigMock.mockResolvedValue(true);
+  it("sequences_paused='true' → 200 { started: [], paused: true }, aucun job", async () => {
+    getConfigMock.mockResolvedValue('true');
     listLeadsByStatusMock.mockResolvedValue([fakeLead()]);
     const res = await POST(request({}, SECRET));
     expect(res.status).toBe(200);

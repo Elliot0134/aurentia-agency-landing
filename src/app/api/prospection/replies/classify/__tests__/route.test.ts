@@ -5,6 +5,7 @@ import type { ProspectionLead } from '@/lib/prospection/db';
 const {
   getLeadByEmailMock,
   getLeadByGmailThreadIdMock,
+  findReplyByGmailMessageIdMock,
   insertReplyMock,
   updateLeadMock,
   classifyReplyMock,
@@ -12,6 +13,7 @@ const {
 } = vi.hoisted(() => ({
   getLeadByEmailMock: vi.fn(),
   getLeadByGmailThreadIdMock: vi.fn(),
+  findReplyByGmailMessageIdMock: vi.fn(),
   insertReplyMock: vi.fn(),
   updateLeadMock: vi.fn(),
   classifyReplyMock: vi.fn(),
@@ -24,6 +26,7 @@ vi.mock('@/lib/prospection/db', async (importOriginal) => {
     ...actual,
     getLeadByEmail: getLeadByEmailMock,
     getLeadByGmailThreadId: getLeadByGmailThreadIdMock,
+    findReplyByGmailMessageId: findReplyByGmailMessageIdMock,
     insertReply: insertReplyMock,
     updateLead: updateLeadMock,
   };
@@ -39,7 +42,7 @@ const SECRET = 'secret-prospection-test';
 
 function fakeLead(overrides: Partial<ProspectionLead> = {}): ProspectionLead {
   return {
-    id: 'lead-1',
+    id: 'rec-lead-1',
     source: 'outbound',
     entreprise: 'Test SARL',
     contactName: 'Jean Test',
@@ -50,14 +53,14 @@ function fakeLead(overrides: Partial<ProspectionLead> = {}): ProspectionLead {
     phase: 'pre_audit',
     statutFunnel: 'en_sequence',
     gmailThreadId: 'thread-1',
-    notionPageId: null,
     assignedTo: null,
     statutHumain: null,
     notes: null,
+    scoreFlash: null,
     optOut: false,
     bounce: false,
+    dernierContact: null,
     createdAt: '2026-06-01T08:00:00Z',
-    updatedAt: '2026-06-01T08:00:00Z',
     ...overrides,
   };
 }
@@ -87,7 +90,8 @@ beforeEach(() => {
   fetchMock.mockResolvedValue({ ok: true } as Response);
   getLeadByGmailThreadIdMock.mockResolvedValue(fakeLead());
   getLeadByEmailMock.mockResolvedValue(null);
-  insertReplyMock.mockResolvedValue({ duplicate: false, reply: { id: 'reply-1' } });
+  findReplyByGmailMessageIdMock.mockResolvedValue(null);
+  insertReplyMock.mockResolvedValue({ id: 'recREPLY1' });
   updateLeadMock.mockResolvedValue(undefined);
   classifyReplyMock.mockResolvedValue({ classification: 'interesse', confidence: 0.92 });
 });
@@ -133,15 +137,21 @@ describe('POST /api/prospection/replies/classify : effets par classification', (
     const res = await POST(request(validBody, SECRET));
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({
-      leadId: 'lead-1',
+      leadId: 'rec-lead-1',
       classification: 'interesse',
       confidence: 0.92,
       statutFunnel: 'a_appeler',
     });
     expect(insertReplyMock).toHaveBeenCalledWith(
-      expect.objectContaining({ leadId: 'lead-1', gmailMessageId: 'gm-1', classification: 'interesse', confidence: 0.92 }),
+      expect.objectContaining({
+        leadId: 'rec-lead-1',
+        leadLabel: 'Test SARL',
+        gmailMessageId: 'gm-1',
+        classification: 'interesse',
+        confidence: 0.92,
+      }),
     );
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'a_appeler' });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'a_appeler' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const slackBody = JSON.parse((fetchMock.mock.calls[0][1] as { body: string }).body) as { text: string };
     expect(slackBody.text).toContain(':fire:');
@@ -150,21 +160,21 @@ describe('POST /api/prospection/replies/classify : effets par classification', (
   it('question → a_appeler + Slack', async () => {
     classifyReplyMock.mockResolvedValue({ classification: 'question', confidence: 0.8 });
     await POST(request(validBody, SECRET));
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'a_appeler' });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'a_appeler' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('pas_interesse → perdu, sans Slack', async () => {
     classifyReplyMock.mockResolvedValue({ classification: 'pas_interesse', confidence: 0.9 });
     await POST(request(validBody, SECRET));
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'perdu' });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'perdu' });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('stop → statut stop + opt_out=true (à vie)', async () => {
     classifyReplyMock.mockResolvedValue({ classification: 'stop', confidence: 0.95 });
     await POST(request(validBody, SECRET));
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'stop', optOut: true });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'stop', optOut: true });
   });
 
   it('absent → aucun changement de statut', async () => {
@@ -177,25 +187,27 @@ describe('POST /api/prospection/replies/classify : effets par classification', (
   it('bounce → bounce=true + perdu', async () => {
     classifyReplyMock.mockResolvedValue({ classification: 'bounce', confidence: 1 });
     await POST(request(validBody, SECRET));
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'perdu', bounce: true });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'perdu', bounce: true });
   });
 
   it('confidence < 0.6 → a_trier UNIQUEMENT + Slack, quel que soit le verdict', async () => {
     classifyReplyMock.mockResolvedValue({ classification: 'pas_interesse', confidence: 0.4 });
     const res = await POST(request(validBody, SECRET));
     expect(updateLeadMock).toHaveBeenCalledTimes(1);
-    expect(updateLeadMock).toHaveBeenCalledWith('lead-1', { statutFunnel: 'a_trier' });
+    expect(updateLeadMock).toHaveBeenCalledWith('rec-lead-1', { statutFunnel: 'a_trier' });
     expect((await res.json()).statutFunnel).toBe('a_trier');
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('POST /api/prospection/replies/classify : idempotence', () => {
-  it('gmail_message_id déjà traité (conflit unique) → 200 alreadyProcessed, AUCUN effet', async () => {
-    insertReplyMock.mockResolvedValue({ duplicate: true, reply: null });
+  it('Gmail Message ID déjà traité (réponse trouvée) → 200 alreadyProcessed, ni LLM ni écriture', async () => {
+    findReplyByGmailMessageIdMock.mockResolvedValue({ id: 'recREPLY1', gmailMessageId: 'gm-1' });
     const res = await POST(request(validBody, SECRET));
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ alreadyProcessed: true });
+    expect(classifyReplyMock).not.toHaveBeenCalled();
+    expect(insertReplyMock).not.toHaveBeenCalled();
     expect(updateLeadMock).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
   });

@@ -15,19 +15,22 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Confirmation d'envoi par n8n (WF0 cold, WF2 relances) : insère la touche
- * dans prospection_touches et fait avancer le statut funnel :
- * - type `flash` → lead en `flash_envoye` (+ gmail_thread_id si fourni) :
+ * dans la table Touches (Airtable) et fait avancer le statut funnel :
+ * - type `flash` → lead en `flash_envoye` (+ Gmail Thread si fourni) :
  *   c'est LA transition du cold, après envoi réel par un humain ;
  * - type relance (cold_* / inbound_* / refonte_*) → `en_sequence` si le lead
  *   est encore en `flash_envoye` (un statut plus avancé, ex `repondu`, n'est
  *   jamais écrasé par une confirmation d'envoi).
+ * Dans tous les cas, `Dernier contact` du lead est mis à maintenant.
  *
  * Idempotence : si messageId est fourni et déjà présent dans les touches,
- * 200 sans doublon (n8n peut rejouer une confirmation).
+ * 200 sans doublon (n8n peut rejouer une confirmation). Pas de contrainte
+ * unique côté Airtable : le check AVANT insertion est la seule garde.
  */
 
 const bodySchema = z.object({
-  leadId: z.uuid(),
+  /** Record id Airtable du lead (recXXXX). */
+  leadId: z.string().min(1),
   type: z.enum(TOUCH_TYPES),
   channel: z.enum(['gmail', 'resend']),
   messageId: z.string().min(1).optional(),
@@ -66,19 +69,21 @@ export async function POST(req: NextRequest) {
 
     await insertTouch({
       leadId,
+      leadLabel: lead.entreprise ?? lead.email,
       type,
       channel,
       ...(messageId !== undefined ? { messageId } : {}),
       ...(templateVersion !== undefined ? { templateVersion } : {}),
     });
 
+    const patch: LeadPatch = { dernierContact: new Date().toISOString() };
     if (type === 'flash') {
-      const patch: LeadPatch = { statutFunnel: 'flash_envoye' };
+      patch.statutFunnel = 'flash_envoye';
       if (gmailThreadId !== undefined) patch.gmailThreadId = gmailThreadId;
-      await updateLead(leadId, patch);
     } else if (lead.statutFunnel === 'flash_envoye') {
-      await updateLead(leadId, { statutFunnel: 'en_sequence' });
+      patch.statutFunnel = 'en_sequence';
     }
+    await updateLead(leadId, patch);
 
     return NextResponse.json({ confirmed: true, duplicate: false }, { status: 200 });
   } catch (err) {
