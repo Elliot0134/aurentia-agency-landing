@@ -41,7 +41,12 @@ function isProContent(content: ReportContent | ProReportContent): content is Pro
  *    funnelProjection, recommendationSummary) quand ils sont présents.
  */
 export function validateReportContract(content: ReportContent | ProReportContent, audit: AuditData): void {
-  const validIds = new Set(audit.measurements.map((m) => m.id));
+  // Références valides : les mesures + les items d'impact calculés (ex impact.lcp),
+  // qui sont eux aussi des valeurs vérifiées fournies au rédacteur.
+  const validIds = new Set([
+    ...audit.measurements.map((m) => m.id),
+    ...(audit.impact?.items.map((i) => i.id) ?? []),
+  ]);
 
   const texts = [
     content.execSummary,
