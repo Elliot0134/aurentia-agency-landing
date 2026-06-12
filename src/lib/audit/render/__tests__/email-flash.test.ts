@@ -29,11 +29,10 @@ const content = (): ReportContent => ({
 
 describe('buildFlashEmailHtml', () => {
   it('produit un HTML avec capture, metriques colorees et CTA', () => {
-    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', ctaUrl: 'https://aurentia.agency/audit', scoreGaugeUrl: 'https://cdn/gauge.png' });
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'https://cdn/x.jpg', scoreGaugeUrl: 'https://cdn/gauge.png' });
     expect(html).toContain('https://cdn/x.jpg'); // image capture
     expect(html).toContain('11,8'); // valeur LCP injectee depuis la mesure
     expect(html).toContain('#c96442'); // charte terracotta v2 chaud
-    expect(html).toContain('https://aurentia.agency/audit'); // CTA
     expect(html.toLowerCase()).toContain('vaucluse'); // presentation agence (devs/designers)
     expect(html).toContain('32'); // impact en % de visiteurs perdus
     expect(html.toLowerCase()).toContain('visiteurs'); // libelle impact
@@ -44,8 +43,15 @@ describe('buildFlashEmailHtml', () => {
     expect(html).toContain('buy.stripe.com/28E6oGaA43WGgL72Bf0x200'); // bouton Pro vers Stripe
     expect(html).toContain('cal.com/elliot-estrade-ixfuya/appel-decouverte'); // RDV cal.com par défaut
   });
+  it("ne contient plus le bloc 'audit offert' et place le bloc Pro avant la signature", () => {
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });
+    expect(html).not.toContain('Je vous fais l’audit complet, offert');
+    expect(html).not.toContain('Je vous fais l&#39;audit complet, offert');
+    expect(html).not.toContain('Recevoir mon audit complet');
+    expect(html.indexOf('analyse complète')).toBeLessThan(html.indexOf('Bonne journée'));
+  });
   it("ne contient ni tiret long, ni mention IA, ni montant euros d'impact", () => {
-    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });
     expect(html).not.toMatch(/—|–/);
     expect(html.toLowerCase()).not.toContain('intelligence artificielle');
     // Seul euro autorisé : le prix de l'audit Pro (99 €). Aucun montant d'impact
@@ -56,7 +62,7 @@ describe('buildFlashEmailHtml', () => {
   it('affiche le cadran de score quand scoreGaugeUrl est fourni', () => {
     const html = buildFlashEmailHtml(audit(), content(), {
       screenshotUrl: 'https://cdn/x.jpg',
-      ctaUrl: 'https://aurentia.agency/audit',
+
       scoreGaugeUrl: 'https://cdn/gauge.png',
     });
     expect(html).toContain('https://cdn/gauge.png');
@@ -66,7 +72,7 @@ describe('buildFlashEmailHtml', () => {
   it('omet le cadran de score quand scoreGaugeUrl est absent', () => {
     const html = buildFlashEmailHtml(audit(), content(), {
       screenshotUrl: 'https://cdn/x.jpg',
-      ctaUrl: 'https://aurentia.agency/audit',
+
     });
     expect(html).not.toContain('Votre score global');
   });
@@ -76,7 +82,7 @@ describe('buildFlashEmailHtml', () => {
       { domain: 'rival-un.fr', url: 'https://rival-un.fr', perfScoreMobile: 78, seoScore: 91, lcpMs: 2100 },
       { domain: 'rival-deux.fr', url: 'https://rival-deux.fr', perfScoreMobile: null, seoScore: 85, lcpMs: null },
     ];
-    const html = buildFlashEmailHtml(a, content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    const html = buildFlashEmailHtml(a, content(), { screenshotUrl: 'x' });
     expect(html).toContain('Face à vos concurrents');
     expect(html).toContain('Votre site');
     expect(html).toContain('rival-un.fr');
@@ -85,7 +91,7 @@ describe('buildFlashEmailHtml', () => {
     expect(html).not.toMatch(/—|–/); // toujours zéro tiret long
   });
   it("n'affiche pas le tableau concurrents quand il n'y en a pas", () => {
-    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x', ctaUrl: 'y' });
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });
     expect(html).not.toContain('Face à vos concurrents');
   });
 });

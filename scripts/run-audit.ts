@@ -59,7 +59,6 @@ async function main() {
       browserless: { token: process.env.BROWSERLESS_TOKEN!, baseUrl: process.env.BROWSERLESS_URL },
       fetchFn: undefined,
       generateFn: undefined,
-      ctaUrl: 'https://www.aurentia.agency/audit',
     });
 
     if (result.emailHtml !== undefined) {

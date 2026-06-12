@@ -4,7 +4,6 @@ import { COLORS, statusColor } from './theme';
 
 export interface FlashEmailOptions {
   screenshotUrl: string;
-  ctaUrl: string;
   scoreGaugeUrl?: string;
   /** Lien de prise de rendez-vous (défaut : cal.com Elliot). */
   calUrl?: string;
@@ -156,7 +155,6 @@ export function buildFlashEmailHtml(
   // mesures (votre site) et les CompetitorSummary (concurrents).
   const competitorBlock = buildCompetitorBlock(audit);
 
-  const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
   const safeCal = escapeHtml(opts.calUrl ?? DEFAULT_CAL_URL);
   const safePro = escapeHtml(opts.proUrl ?? DEFAULT_PRO_URL);
@@ -258,22 +256,12 @@ export function buildFlashEmailHtml(
           <p style="margin:0 0 16px;">Là je ne vous parle que de votre page d'accueil. On a des outils d'analyse développés en interne qui passent un site complet au crible : toutes les pages, le référencement, la vitesse, les parcours de réservation.</p>
           <p style="margin:0 0 16px;">Pour me présenter : je dirige Aurentia, une équipe de développeurs et designers basée dans le Vaucluse. On a déjà travaillé sur des refontes de sites pour des activités comme la vôtre, où le site doit avant tout transformer un visiteur en client.</p>
         </td></tr>
-        <!-- CTA box -->
-        <tr><td style="padding:8px 36px 8px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.tintBg};border:1px solid ${C.tintBorder};border-radius:16px;">
-            <tr><td style="padding:24px 24px 26px;">
-              <div style="font-size:17px;font-weight:700;color:${C.text};margin-bottom:6px;">Je vous fais l'audit complet, offert.</div>
-              <p style="margin:0 0 18px;font-size:15px;line-height:1.6;color:${C.muted};">Sans engagement. Si vous voulez voir concrètement ce que ça donnerait, je peux aussi vous préparer une maquette de votre nouvelle page d'accueil.</p>
-              <a href="${safeCta}" style="display:inline-block;background:${C.accent};color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:14px 26px;border-radius:12px;">Recevoir mon audit complet</a>
-            </td></tr>
-          </table>
-        </td></tr>
+        <!-- Encart audit Pro + prise de RDV -->
+        ${proBlock}
         <!-- Sign-off -->
         <tr><td style="padding:16px 36px 4px;color:${C.text};font-size:16px;line-height:1.65;">
           <p style="margin:0;">Bonne journée,<br/>L'équipe Aurentia.agency</p>
         </td></tr>
-        <!-- Encart audit Pro + prise de RDV -->
-        ${proBlock}
         <!-- Footer + désinscription -->
         <tr><td style="padding:20px 36px 32px;">
           <div style="border-top:1px solid ${C.border};padding-top:16px;font-size:13px;color:${C.muted};line-height:1.5;">

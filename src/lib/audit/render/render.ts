@@ -13,7 +13,6 @@ export interface RenderDeps {
   fetchFn?: typeof fetch;
   generateFn?: GenerateFn;
   screenshotUrl?: string; // URL publique de la capture (annotée) — fournie par le plan 3
-  ctaUrl?: string;
 }
 
 export interface RenderResult {
@@ -30,7 +29,6 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
   if (audit.tier === 'flash') {
     const emailHtml = buildFlashEmailHtml(audit, content, {
       screenshotUrl: deps.screenshotUrl ?? '',
-      ctaUrl: deps.ctaUrl ?? 'https://www.aurentia.agency/audit',
     });
     return { score, content, emailHtml };
   }
