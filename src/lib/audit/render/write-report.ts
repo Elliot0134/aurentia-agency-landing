@@ -33,7 +33,8 @@ recommendations : 4 à 8 actions concrètes priorisées (R1 = le levier numéro 
 strategicRecommendations : 3 a 5 axes STRATEGIQUES a 6-12 mois, distincts des correctifs techniques : positionnement et differenciation, strategie de contenu/SEO durable, presence locale et reputation (avis clients), visibilite sur les moteurs IA (ChatGPT, Perplexity), mesure et pilotage. Chaque axe : titre + 3-4 phrases de justification ancrees dans les constats.
 funnelAnalysis : 3 à 5 phrases sur où se perd le visiteur (base : les mesures, l'impact %).
 funnelProjection : 2 à 4 phrases prudentes sur l'effet attendu des corrections, en % uniquement, jamais en euros, toujours présenté comme une estimation.
-recommendationSummary : 2 a 3 phrases, le verdict et la marche a suivre recommandee, sans montant en euros.`;
+recommendationSummary : 2 a 3 phrases, le verdict et la marche a suivre recommandee, sans montant en euros.
+aiVisibilityAnalysis : 4 a 6 phrases sur la visibilite du site dans les recherches IA (GEO : etre compris et cite par ChatGPT, Perplexity, les reponses IA de Google ; AEO : repondre aux questions des clients). Appuie-toi sur les mesures ai.* fournies (llms.txt, schema, sameAs, passages citables, mentions externes, FAQ, titres en question). Explique ce que le site gagne concretement a corriger les manques : c'est un canal de decouverte en forte croissance.`;
 
 /** Construit le prompt utilisateur à partir des mesures (sérialisation compacte). */
 function buildPrompt(audit: AuditData, attemptNote: string): string {

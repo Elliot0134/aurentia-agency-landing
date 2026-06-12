@@ -69,5 +69,6 @@ export const ProContentSchema = ReportContentSchema.extend({
   funnelAnalysis: z.string().min(30), // où se perd le visiteur
   funnelProjection: z.string().min(30), // effet attendu des corrections, prudent, en %
   recommendationSummary: z.string().min(40), // 2-3 phrases : verdict global + chemin recommandé, ton consultant, sans prix
+  aiVisibilityAnalysis: z.string().min(80), // 4-6 phrases : visibilité GEO/AEO du site, ancrée dans les mesures ai.*
 });
 export type ProReportContent = z.infer<typeof ProContentSchema>;

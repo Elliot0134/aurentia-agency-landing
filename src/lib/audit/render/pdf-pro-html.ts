@@ -3,7 +3,7 @@ import type { AuditData, CompetitorSummary, Measurement, ModuleId } from '../typ
 import { localSeoBreakdown } from '../local-seo';
 import { BANNER_DATA_URI } from './banner-asset';
 import type { Finding, ReportContent } from './report-schema';
-import { COLORS } from './theme';
+import { COLORS, statusColor } from './theme';
 
 /* ----------------------------------------------------------------------------
  * Interface du module
@@ -72,6 +72,7 @@ export type ProContent = ReportContent &
     funnelAnalysis: string;
     funnelProjection: string;
     recommendationSummary: string;
+    aiVisibilityAnalysis: string;
   }>;
 
 /* ----------------------------------------------------------------------------
@@ -529,9 +530,17 @@ td.rec-id { background: ${TABLE_HEAD_BG} !important; color: #ffffff; font-weight
   font-size: 10pt;
 }
 
-/* --- Bloc score local --- */
+/* --- Bloc score local (réutilisé par la section GEO/AEO) --- */
 .local-score-block { display: flex; gap: 20pt; align-items: center; margin: 12pt 0; }
 .local-score-big { font-size: 42pt; font-weight: 800; line-height: 1; }
+.ai-dot {
+  display: inline-block;
+  width: 8pt;
+  height: 8pt;
+  border-radius: 50%;
+  margin-right: 5pt;
+  vertical-align: baseline;
+}
 .breakdown-table { width: 100%; }
 .breakdown-table td.k { color: ${C.muted}; letter-spacing: 0.8pt; font-size: 9pt; font-weight: 600; }
 .breakdown-table td.v { text-align: right; font-weight: 700; }
@@ -1001,6 +1010,89 @@ function buildLocalSeo(audit: AuditData): string {
 }
 
 /* ----------------------------------------------------------------------------
+ * Visibilité dans les recherches IA (GEO / AEO) : section dédiée, présente
+ * pour TOUT site pro (pas conditionnelle au type local).
+ * ------------------------------------------------------------------------- */
+
+/** Libellés courts du breakdown GEO/AEO, dans l'ordre d'affichage. */
+const AI_BREAKDOWN_LABELS: readonly { id: string; label: string }[] = [
+  { id: 'ai.llms-txt', label: 'llms.txt' },
+  { id: 'ai.robots.ai-agents', label: 'Accès des crawlers IA' },
+  { id: 'ai.schema.richness', label: 'Données structurées' },
+  { id: 'ai.schema.sameas', label: 'Profils reliés (sameAs)' },
+  { id: 'ai.citability', label: 'Passages citables' },
+  { id: 'ai.mentions.external', label: 'Mentions externes' },
+  { id: 'ai.faq.schema', label: 'Balisage FAQ' },
+  { id: 'ai.headings.questions', label: 'Titres en question' },
+] as const;
+
+const AI_STATUS_LABELS: Record<Measurement['status'], string> = {
+  pass: 'OK',
+  warn: 'À améliorer',
+  fail: 'Manquant',
+  info: 'À vérifier',
+};
+
+const AI_INTRO =
+  'De plus en plus de clients trouvent leurs prestataires via ChatGPT, Perplexity ou les ' +
+  'réponses IA de Google. Le GEO (Generative Engine Optimization) mesure la capacité de ' +
+  'votre site à être compris et cité par ces moteurs ; l\'AEO (Answer Engine Optimization) ' +
+  'sa capacité à répondre aux questions que vos clients posent.';
+
+/**
+ * Section GEO/AEO : intro pédagogique, score « X / N » calculé du pass-rate des
+ * mesures ai-readiness (pass = 1, warn = 0,5, info exclues), breakdown des
+ * checks ai.* avec pastille color-codée, puis analyse rédigée par le LLM
+ * (aiVisibilityAnalysis). Aucune mesure ai-readiness → section omise (pas de trou).
+ */
+function buildAiVisibility(audit: AuditData, pro: ProContent): string {
+  const ms = audit.measurements.filter((m) => m.module === 'ai-readiness');
+  if (ms.length === 0) return '';
+
+  const scored = ms.filter((m) => m.status !== 'info');
+  const points = scored.reduce(
+    (acc, m) => acc + (m.status === 'pass' ? 1 : m.status === 'warn' ? 0.5 : 0),
+    0,
+  );
+  const max = scored.length;
+
+  const scoreHtml =
+    max > 0
+      ? `<div class="local-score-big" style="color:${scoreColor(Math.round((points / max) * 100))};">${formatNumberFr(points)} / ${max}</div>
+         <div class="score-meta">Score de visibilité IA (mesurable)</div>`
+      : `<div class="local-score-big" style="color:${COLORS.muted};">n.d.</div>
+         <div class="score-meta">Score de visibilité IA</div>`;
+
+  const rowsHtml = AI_BREAKDOWN_LABELS.flatMap(({ id, label }) => {
+    const m = ms.find((x) => x.id === id);
+    if (!m) return [];
+    const color = statusColor(m.status);
+    return [
+      `<tr>
+        <td class="k">${esc(label)}</td>
+        <td><span class="ai-dot" style="background:${color};"></span><span style="color:${color}; font-weight:700;">${esc(AI_STATUS_LABELS[m.status])}</span></td>
+        <td class="v">${measurementValue(m.value, m.unit)}</td>
+      </tr>`,
+    ];
+  }).join('');
+
+  const analysis = pro.aiVisibilityAnalysis
+    ? `<h3>Analyse</h3><p>${esc(pro.aiVisibilityAnalysis)}</p>`
+    : '';
+
+  return `
+  <section class="section" id="ai-visibility">
+    <h2>Visibilité dans les recherches IA (GEO / AEO)</h2>
+    <p>${AI_INTRO}</p>
+    <div class="local-score-block">
+      <div>${scoreHtml}</div>
+      <div style="flex:1;"><table class="breakdown-table"><tbody>${rowsHtml}</tbody></table></div>
+    </div>
+    ${analysis}
+  </section>`;
+}
+
+/* ----------------------------------------------------------------------------
  * Funnel
  * ------------------------------------------------------------------------- */
 
@@ -1253,7 +1345,8 @@ function buildBackCover(qrSvg: string): string {
  * 6-12 mois si rédigées, et bouton de prise de rendez-vous), annexe technique
  * (pre monospace), back cover (bannière image + boutons contact/rendez-vous + QR).
  * Sections conditionnelles : comparatif (si concurrents), constats visuels
- * (si opts.visuals), Local SEO (si business local), funnel (si chart ou analyse).
+ * (si opts.visuals), Local SEO (si business local), visibilité IA GEO/AEO
+ * (tout site pro, dès qu'une mesure ai-readiness existe), funnel (si chart ou analyse).
  *
  * Règles : zéro tiret long (neutralisés même dans les données), zéro montant en
  * euros (impact en % uniquement), zéro prix/roadmap, texte dynamique échappé.
@@ -1285,6 +1378,7 @@ ${buildCompetitors(audit, content)}
 ${buildAuditTable(audit, pro)}
 ${buildVisuals(opts.visuals)}
 ${buildLocalSeo(audit)}
+${buildAiVisibility(audit, pro)}
 ${buildFunnel(pro, opts)}
 ${buildScoreTarget(audit, opts)}
 ${buildRecommendations(audit, pro)}

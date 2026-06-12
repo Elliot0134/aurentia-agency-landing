@@ -90,6 +90,16 @@ function countFactualBlocks($: CheerioAPI): number {
   return count;
 }
 
+/** h2/h3 de la homepage formulés en question (texte se terminant par « ? »). */
+function countQuestionHeadings($: CheerioAPI): number {
+  let count = 0;
+  $('h2, h3').each((_, el) => {
+    const text = $(el).text().replace(/\s+/g, ' ').trim();
+    if (text.endsWith('?')) count += 1;
+  });
+  return count;
+}
+
 interface ExaSearchResponse {
   results: { url: string }[];
 }
@@ -176,7 +186,36 @@ export async function checkAiReadiness(args: {
     }),
   );
 
-  // 5. Citabilité : blocs factuels autosuffisants que les IA peuvent citer.
+  // 5. FAQPage (AEO) : check dédié, distinct de la richesse globale du schema.
+  // Les moteurs de réponse reprennent directement les paires question/réponse.
+  const hasFaqPage = jsonLdTypes(jsonLd).includes('FAQPage');
+  ms.push(
+    M({
+      id: 'ai.faq.schema',
+      label: 'Balisage FAQ (FAQPage dans le JSON-LD)',
+      status: hasFaqPage ? 'pass' : 'fail',
+      value: hasFaqPage,
+      proof: 'présence d\'un type FAQPage dans le JSON-LD de la homepage',
+      details: hasFaqPage
+        ? undefined
+        : 'le balisage FAQPage aide les moteurs de réponse à reprendre vos questions/réponses',
+    }),
+  );
+
+  // 6. Titres en question (AEO) : h2/h3 de la homepage se terminant par « ? ».
+  const questionHeadings = countQuestionHeadings($);
+  ms.push(
+    M({
+      id: 'ai.headings.questions',
+      label: 'Titres formulés en question (h2/h3)',
+      status: questionHeadings >= 2 ? 'pass' : questionHeadings === 1 ? 'warn' : 'fail',
+      value: questionHeadings,
+      proof: 'h2/h3 de la homepage se terminant par « ? »',
+      details: 'les contenus en question/réponse sont la matière première des moteurs de réponse (AEO)',
+    }),
+  );
+
+  // 7. Citabilité : blocs factuels autosuffisants que les IA peuvent citer.
   const factualBlocks = countFactualBlocks($);
   ms.push(
     M({
@@ -189,7 +228,7 @@ export async function checkAiReadiness(args: {
     }),
   );
 
-  // 6. Mentions externes de la marque (recherche Exa). En cas d'erreur : info,
+  // 8. Mentions externes de la marque (recherche Exa). En cas d'erreur : info,
   // jamais de fausse conclusion.
   const auditedDomain = new URL(finalUrl).hostname.replace(/^www\./, '');
   try {

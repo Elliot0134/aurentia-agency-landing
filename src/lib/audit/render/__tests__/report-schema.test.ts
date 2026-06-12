@@ -41,6 +41,7 @@ const valid = () => ({
   funnelAnalysis: 'Sur 100 visiteurs, environ 32 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction des lenteurs, la perte estimée tombe sous 10 visiteurs sur 100, estimation prudente.',
   recommendationSummary: 'Le site repose sur de bonnes fondations mais perd ses visiteurs mobiles. Nous recommandons une refonte ciblée de la performance avant tout travail de contenu.',
+  aiVisibilityAnalysis: 'Votre site reste peu lisible pour les moteurs de réponse comme ChatGPT ou Perplexity. Structurer des passages factuels citables et relier vos profils externes ouvre un canal de découverte en forte croissance.',
 });
 
 describe('ProContentSchema', () => {
@@ -110,6 +111,12 @@ describe('ProContentSchema', () => {
   it('rejette un recommendationSummary trop court ou absent', () => {
     expect(ProContentSchema.safeParse({ ...valid(), recommendationSummary: 'Refonte.' }).success).toBe(false);
     const { recommendationSummary: _omitted, ...rest } = valid();
+    expect(ProContentSchema.safeParse(rest).success).toBe(false);
+  });
+
+  it('rejette une aiVisibilityAnalysis trop courte (moins de 80 caractères) ou absente', () => {
+    expect(ProContentSchema.safeParse({ ...valid(), aiVisibilityAnalysis: 'Site invisible pour les IA.' }).success).toBe(false);
+    const { aiVisibilityAnalysis: _omitted, ...rest } = valid();
     expect(ProContentSchema.safeParse(rest).success).toBe(false);
   });
 

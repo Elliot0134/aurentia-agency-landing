@@ -38,7 +38,8 @@ function isProContent(content: ReportContent | ProReportContent): content is Pro
  * 5. zéro montant € (on n'estime plus aucun montant en self-service, l'impact s'exprime
  *    en % de visiteurs perdus). Les checks texte couvrent aussi les champs Pro
  *    (auditTable, recommendations, strategicRecommendations, funnelAnalysis,
- *    funnelProjection, recommendationSummary) quand ils sont présents.
+ *    funnelProjection, recommendationSummary, aiVisibilityAnalysis) quand ils
+ *    sont présents.
  */
 export function validateReportContract(content: ReportContent | ProReportContent, audit: AuditData): void {
   // Références valides : les mesures + les items d'impact calculés (ex impact.lcp),
@@ -62,6 +63,7 @@ export function validateReportContract(content: ReportContent | ProReportContent
       content.funnelAnalysis,
       content.funnelProjection,
       content.recommendationSummary,
+      content.aiVisibilityAnalysis,
     );
   }
   const allText = texts.join('\n');

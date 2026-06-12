@@ -87,6 +87,7 @@ const okProContent = (): ProReportContent => ({
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
   recommendationSummary: 'Le site perd la majorité de ses visiteurs mobiles avant la prise de contact. Nous recommandons une refonte axée performance en priorité.',
+  aiVisibilityAnalysis: 'Votre site reste peu lisible pour les moteurs de réponse comme ChatGPT ou Perplexity. Structurer des passages factuels citables et relier vos profils externes ouvre un canal de découverte en forte croissance.',
 });
 
 describe('validateReportContract (contenu Pro)', () => {
@@ -127,6 +128,18 @@ describe('validateReportContract (contenu Pro)', () => {
     const c = okProContent();
     c.strategicRecommendations[1].rationale = 'Notre algorithme a identifié que votre site doit renforcer sa présence locale et sa réputation.';
     expect(() => validateReportContract(c, audit())).toThrow(/IA/i);
+  });
+
+  it('rejette un tiret long dans aiVisibilityAnalysis', () => {
+    const c = okProContent();
+    c.aiVisibilityAnalysis = 'Votre site est invisible pour les moteurs de réponse — un canal pourtant en forte croissance.';
+    expect(() => validateReportContract(c, audit())).toThrow(/tiret long/i);
+  });
+
+  it('rejette un montant € dans aiVisibilityAnalysis', () => {
+    const c = okProContent();
+    c.aiVisibilityAnalysis = 'Être cité par les moteurs de réponse vous rapporterait environ 1 500 € de chiffre par mois.';
+    expect(() => validateReportContract(c, audit())).toThrow(/montant/i);
   });
 
   it("accepte de parler des moteurs IA comme sujet d'analyse (AI Readiness)", () => {

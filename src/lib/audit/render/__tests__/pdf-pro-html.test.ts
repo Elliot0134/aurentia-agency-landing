@@ -266,6 +266,63 @@ describe('buildProReportHtml', () => {
     expect(local).not.toContain('/ 100');
   });
 
+  it('visibilité IA (GEO/AEO) : section présente pour un site NATIONAL, score X/N pondéré, breakdown, analyse LLM', async () => {
+    const a = bareAudit(); // national → prouve que la section n'est pas conditionnelle au type local
+    a.measurements.push(
+      { id: 'ai.robots.ai-agents', module: 'ai-readiness', label: 'Accès des crawlers IA (robots.txt)', status: 'pass', value: 'aucun blocage' },
+      { id: 'ai.schema.richness', module: 'ai-readiness', label: 'Richesse des données structurées', status: 'warn', value: 'Organization' },
+      { id: 'ai.faq.schema', module: 'ai-readiness', label: 'Balisage FAQ (FAQPage dans le JSON-LD)', status: 'fail', value: false },
+      { id: 'ai.headings.questions', module: 'ai-readiness', label: 'Titres formulés en question (h2/h3)', status: 'warn', value: 1 },
+      { id: 'ai.mentions.external', module: 'ai-readiness', label: 'Mentions externes de la marque', status: 'info', value: null },
+    );
+    const pro: ProContent = {
+      ...richContent(),
+      aiVisibilityAnalysis:
+        'Votre site reste peu lisible pour les moteurs de réponse. Corriger le balisage FAQ et publier un llms.txt ouvre un canal de découverte en forte croissance.',
+    };
+    const html = await buildProReportHtml(a, pro, { score: 55 });
+    const sec = section(html, 'ai-visibility');
+    expect(sec).toContain('Visibilité dans les recherches IA (GEO / AEO)');
+    // intro pédagogique statique
+    expect(sec).toContain('ChatGPT, Perplexity');
+    expect(sec).toContain('Generative Engine Optimization');
+    expect(sec).toContain('Answer Engine Optimization');
+    // score : llms-txt fail (0) + robots pass (1) + richness warn (0,5) + faq fail (0) + headings warn (0,5) = 2, info exclue → 2 / 5
+    expect(sec).toContain('2 / 5');
+    expect(sec).toContain('Score de visibilité IA');
+    // breakdown : libellés courts, pastilles color-codées, valeurs
+    for (const label of ['llms.txt', 'Accès des crawlers IA', 'Données structurées', 'Balisage FAQ', 'Titres en question', 'Mentions externes']) {
+      expect(sec).toContain(label);
+    }
+    expect(sec).toContain('ai-dot');
+    expect(sec).toContain('OK'); // pass
+    expect(sec).toContain('À améliorer'); // warn
+    expect(sec).toContain('Manquant'); // fail
+    expect(sec).toContain('À vérifier'); // info : affichée mais hors score
+    // analyse rédigée par le LLM en dessous du breakdown
+    expect(sec).toContain('Analyse');
+    expect(sec).toContain('canal de découverte en forte croissance');
+    expect(sec.indexOf('canal de découverte')).toBeGreaterThan(sec.indexOf('ai-dot'));
+  });
+
+  it('visibilité IA : après la section Local SEO quand le site est local, omise sans mesure ai-readiness, analyse omise sans champ', async () => {
+    const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
+    // richAudit (local) : la section suit le Local SEO dans le flux
+    expect(html.indexOf('id="ai-visibility"')).toBeGreaterThan(html.indexOf('id="local-seo"'));
+    expect(html.indexOf('id="ai-visibility"')).toBeLessThan(html.indexOf('id="score-target"'));
+    // ai.llms-txt seul (fail) → 0 / 1
+    const sec = section(html, 'ai-visibility');
+    expect(sec).toContain('0 / 1');
+    // pas d'aiVisibilityAnalysis → pas de bloc Analyse, jamais de trou
+    expect(sec).not.toContain('<h3>Analyse</h3>');
+    // aucune mesure ai-readiness → section omise
+    const a = bareAudit();
+    a.measurements = a.measurements.filter((m) => m.module !== 'ai-readiness');
+    const without = await buildProReportHtml(a, richContent(), { score: 55 });
+    expect(without).not.toContain('id="ai-visibility"');
+    expect(without).not.toContain('GEO / AEO');
+  });
+
   it('funnel et état actuel vs cible : charts inline + analyse + tableau axes', async () => {
     const pro: ProContent = {
       ...richContent(),
@@ -443,7 +500,10 @@ describe('buildProReportHtml', () => {
     expect(html).not.toContain('Aurentia Agency · Audit confidentiel');
     expect(html).not.toContain('counter(page)');
     expect(html.toLowerCase()).not.toMatch(/\broadmap\b|\bsprint\b|\btjm\b/);
-    expect(html.toLowerCase()).not.toMatch(/intelligence artificielle|chatgpt|\bllm\b/);
+    // ChatGPT/Perplexity sont désormais légitimes comme SUJET d'analyse (section GEO/AEO) ;
+    // l'auto-attribution IA du rapport reste interdite.
+    expect(html.toLowerCase()).not.toMatch(/intelligence artificielle|\bllm\b/);
+    expect(html.toLowerCase()).not.toMatch(/généré par|notre ia|notre algorithme/);
   });
 
   it('état vs cible : axe déjà au niveau → cible jamais sous l\'actuel et badge Maintenir', async () => {
