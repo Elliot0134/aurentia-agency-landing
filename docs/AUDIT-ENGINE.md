@@ -148,6 +148,7 @@ curl -X POST https://www.aurentia.agency/api/audit/jobs \
 | `impactPercent` | int \| null | après `running` |
 | `email` | string | toujours |
 | `url` | string | toujours |
+| `pdfUrl` | string \| null | quand `pdfPath` est renseigné : URL signée Supabase (30 min) du PDF dans le bucket privé `audit-pdfs` |
 
 **Exemple curl**
 
@@ -250,6 +251,31 @@ await supabase
 ```
 
 Supabase est la source de vérité des statuts. La clause `.eq('status', 'ready_to_send')` garantit qu'une double exécution n8n ne réécrase pas un statut ultérieur.
+
+### Archivage Drive des PDF Pro (n8n)
+
+Une fois un audit Pro `delivered`, n8n archive le PDF sur Google Drive. Trois appels, tous avec `x-audit-secret` :
+
+1. **Lister les jobs à archiver** (delivered + pro + `pdf_path` présent + `drive_url` absent) :
+
+```
+GET /api/audit/jobs?status=delivered&tier=pro&archived=false&limit=20
+→ 200 { "jobs": [{ "id", "leadId", "email", "url", "pdfPath", "score", "pdfUrl" }] }
+```
+
+Seule cette combinaison de filtres est acceptée (tout autre filtre → 400). `pdfUrl` est une URL signée Supabase du bucket privé `audit-pdfs`, valable **30 min** : télécharger le PDF avec, aucune clé Supabase nécessaire côté n8n.
+
+2. **Uploader le PDF sur Google Drive** (nœud Drive n8n), récupérer l'URL du fichier.
+
+3. **Marquer le job archivé** :
+
+```
+PATCH /api/audit/jobs?id=<jobId>
+Body: { "driveUrl": "https://drive.google.com/file/d/.../view" }
+→ 200 { "id": "<jobId>", "driveUrl": "..." }
+```
+
+404 si le job est inconnu ou pas `delivered` (on n'archive jamais un job non livré). Idempotent : un re-PATCH écrase `drive_url` et répond 200. Migration : `20260612220000_audit_jobs_drive_url.sql`.
 
 ### Ce que n8n ne doit jamais faire
 

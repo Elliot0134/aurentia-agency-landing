@@ -6,6 +6,7 @@ import {
   findLatestJobByEmail,
   findJobByStripeSessionId,
   findActiveFlashJobByLeadId,
+  listArchivableProJobs,
   type AuditJobsDb,
 } from '../jobs';
 
@@ -27,6 +28,7 @@ function fakeRow(overrides: Record<string, unknown> = {}): Record<string, unknow
     subject: null,
     html: null,
     pdf_path: null,
+    drive_url: null,
     error: null,
     review_token: null,
     created_at: '2026-06-12T10:00:00Z',
@@ -41,6 +43,8 @@ interface FakeCalls {
   selected: Array<{ column: string; value: string }>;
   ordered: Array<{ column: string; ascending: boolean; limit: number | null }>;
   inFiltered: Array<{ column: string; values: readonly string[]; limit: number | null }>;
+  notFiltered: Array<{ column: string; operator: string; value: null }>;
+  isFiltered: Array<{ column: string; value: null; limit: number | null }>;
 }
 
 /** Fake structurel du client Supabase : capture les appels, zéro réseau. */
@@ -50,7 +54,7 @@ function fakeDb(opts: {
   listResult?: { data: unknown; error: { message: string } | null };
   updateError?: { message: string } | null;
 }): { db: AuditJobsDb; calls: FakeCalls } {
-  const calls: FakeCalls = { inserted: [], updated: [], selected: [], ordered: [], inFiltered: [] };
+  const calls: FakeCalls = { inserted: [], updated: [], selected: [], ordered: [], inFiltered: [], notFiltered: [], isFiltered: [] };
   const db: AuditJobsDb = {
     from: () => ({
       insert: (values: Record<string, unknown>) => {
@@ -86,6 +90,21 @@ function fakeDb(opts: {
                     limit: (count: number) => {
                       filtered.limit = count;
                       return Promise.resolve(opts.listResult ?? { data: [], error: null });
+                    },
+                  };
+                },
+                not: (notColumn: string, operator: 'is', notValue: null) => {
+                  calls.notFiltered.push({ column: notColumn, operator, value: notValue });
+                  return {
+                    is: (isColumn: string, isValue: null) => {
+                      const filtered = { column: isColumn, value: isValue, limit: null as number | null };
+                      calls.isFiltered.push(filtered);
+                      return {
+                        limit: (count: number) => {
+                          filtered.limit = count;
+                          return Promise.resolve(opts.listResult ?? { data: [], error: null });
+                        },
+                      };
                     },
                   };
                 },
@@ -168,7 +187,14 @@ describe('updateJob', () => {
     const { db, calls } = fakeDb({});
     await updateJob(
       'job-1',
-      { status: 'delivered', score: 62, impactPercent: 14, writerModel: 'gemini', pdfPath: 'pro/job-1/audit.pdf' },
+      {
+        status: 'delivered',
+        score: 62,
+        impactPercent: 14,
+        writerModel: 'gemini',
+        pdfPath: 'pro/job-1/audit.pdf',
+        driveUrl: 'https://drive.google.com/file/d/abc/view',
+      },
       db,
     );
     expect(calls.updated).toEqual([
@@ -180,6 +206,7 @@ describe('updateJob', () => {
           impact_percent: 14,
           writer_model: 'gemini',
           pdf_path: 'pro/job-1/audit.pdf',
+          drive_url: 'https://drive.google.com/file/d/abc/view',
         },
       },
     ]);
@@ -249,6 +276,46 @@ describe('findActiveFlashJobByLeadId', () => {
   it('throw si la lecture échoue', async () => {
     const { db } = fakeDb({ listResult: { data: null, error: { message: 'timeout' } } });
     await expect(findActiveFlashJobByLeadId('lead-1', db)).rejects.toThrow(/timeout/);
+  });
+});
+
+describe('listArchivableProJobs', () => {
+  it('filtre status=delivered + tier=pro + pdf_path non null + drive_url null, avec limit', async () => {
+    const { db, calls } = fakeDb({
+      listResult: {
+        data: [
+          fakeRow({
+            id: 'job-pro-1',
+            tier: 'pro',
+            status: 'delivered',
+            pdf_path: 'pro/job-pro-1/audit.pdf',
+            score: 58,
+          }),
+        ],
+        error: null,
+      },
+    });
+    const jobs = await listArchivableProJobs(20, db);
+    expect(calls.selected).toEqual([
+      { column: 'status', value: 'delivered' },
+      { column: 'tier', value: 'pro' },
+    ]);
+    expect(calls.notFiltered).toEqual([{ column: 'pdf_path', operator: 'is', value: null }]);
+    expect(calls.isFiltered).toEqual([{ column: 'drive_url', value: null, limit: 20 }]);
+    expect(jobs).toHaveLength(1);
+    expect(jobs[0].id).toBe('job-pro-1');
+    expect(jobs[0].pdfPath).toBe('pro/job-pro-1/audit.pdf');
+    expect(jobs[0].driveUrl).toBeNull();
+  });
+
+  it('retourne [] quand rien à archiver', async () => {
+    const { db } = fakeDb({ listResult: { data: [], error: null } });
+    expect(await listArchivableProJobs(20, db)).toEqual([]);
+  });
+
+  it('throw si la lecture échoue', async () => {
+    const { db } = fakeDb({ listResult: { data: null, error: { message: 'timeout' } } });
+    await expect(listArchivableProJobs(20, db)).rejects.toThrow(/timeout/);
   });
 });
 

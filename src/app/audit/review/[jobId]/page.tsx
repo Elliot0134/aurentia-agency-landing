@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
-import { getJob, type AuditJob } from '@/lib/audit/jobs';
+import { getJob } from '@/lib/audit/jobs';
+import { signedPdfUrl } from '@/lib/audit/pdf-url';
 import { evaluateReviewGate } from '@/lib/audit/review-gate';
-import { supabaseAdmin } from '@/lib/supabase/admin';
 
 /**
  * Gate humain de relecture des PDF Pro. Page utilitaire INTERNE (lien Slack
@@ -19,7 +19,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const BUCKET = 'audit-pdfs';
 const SIGNED_URL_TTL_SECONDS = 3600; // 1h : le temps d'une relecture.
 
 const styles = {
@@ -97,18 +96,6 @@ function formatDate(iso: string): string {
   return new Date(iso).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Paris' });
 }
 
-async function signedPdfUrl(job: AuditJob): Promise<string | null> {
-  if (!job.pdfPath) return null;
-  const { data, error } = await supabaseAdmin.storage
-    .from(BUCKET)
-    .createSignedUrl(job.pdfPath, SIGNED_URL_TTL_SECONDS);
-  if (error || !data?.signedUrl) {
-    console.error(`[audit/review] URL signée impossible pour ${job.pdfPath}`, error);
-    return null;
-  }
-  return data.signedUrl;
-}
-
 export default async function ReviewPage({
   params,
   searchParams,
@@ -155,7 +142,7 @@ export default async function ReviewPage({
   }
 
   const delivered = job.status === 'delivered';
-  const pdfUrl = await signedPdfUrl(job);
+  const pdfUrl = job.pdfPath ? await signedPdfUrl(job.pdfPath, SIGNED_URL_TTL_SECONDS) : null;
 
   return (
     <Shell>
