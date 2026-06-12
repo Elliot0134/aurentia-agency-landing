@@ -121,7 +121,12 @@ function discoverFromLinks(homepageUrl: string, html: string): string[] {
   return urls;
 }
 
-/** Même origine, hors homepage/légal/fichiers, dédup par pathname normalisé. */
+/** Hostname sans le préfixe www. : apex et www sont le même site (sitemaps souvent déclarés sans www). */
+function bareHost(hostname: string): string {
+  return hostname.toLowerCase().replace(/^www\./, '');
+}
+
+/** Même site (apex/www confondus), hors homepage/légal/fichiers, dédup par pathname normalisé. */
 function filterInternal(candidates: string[], homepage: URL): URL[] {
   const homePath = normalizePath(homepage.pathname);
   const seen = new Set<string>();
@@ -133,7 +138,11 @@ function filterInternal(candidates: string[], homepage: URL): URL[] {
     } catch {
       continue;
     }
-    if (u.origin !== homepage.origin) continue;
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') continue;
+    if (bareHost(u.hostname) !== bareHost(homepage.hostname)) continue;
+    // Aligne l'hôte sur celui de la homepage auditée (suit la même variante www/apex)
+    u.hostname = homepage.hostname;
+    u.protocol = homepage.protocol;
     u.hash = '';
     u.search = '';
     const pathname = normalizePath(u.pathname);
