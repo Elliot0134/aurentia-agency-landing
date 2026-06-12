@@ -87,6 +87,12 @@ export interface AuditJobsDb {
         value: string,
       ): {
         maybeSingle(): PromiseLike<{ data: unknown; error: DbError | null }>;
+        order(
+          column: string,
+          options: { ascending: boolean },
+        ): {
+          limit(count: number): PromiseLike<{ data: unknown; error: DbError | null }>;
+        };
       };
     };
     update(values: Record<string, unknown>): {
@@ -183,6 +189,32 @@ export async function createJob(input: CreateJobInput, db: AuditJobsDb = adminDb
 export async function getJob(id: string, db: AuditJobsDb = adminDb): Promise<AuditJob | null> {
   const { data, error } = await db.from('audit_jobs').select().eq('id', id).maybeSingle();
   if (error) throw new Error(`Lecture du job d'audit ${id} échouée : ${error.message}`);
+  if (!data) return null;
+  return mapRow(data as AuditJobRow);
+}
+
+/**
+ * Dernier job (tous tiers) créé pour cet email, ou null. Utilisé par le
+ * webhook Stripe : le Payment Link ne porte pas l'URL du site, on la reprend
+ * du dernier job de l'acheteur (typiquement son Flash).
+ */
+export async function findLatestJobByEmail(email: string, db: AuditJobsDb = adminDb): Promise<AuditJob | null> {
+  const { data, error } = await db
+    .from('audit_jobs')
+    .select()
+    .eq('email', email)
+    .order('created_at', { ascending: false })
+    .limit(1);
+  if (error) throw new Error(`Recherche du dernier job de ${email} échouée : ${error.message}`);
+  const rows = (data ?? []) as AuditJobRow[];
+  if (rows.length === 0) return null;
+  return mapRow(rows[0]);
+}
+
+/** Job déjà créé pour cette session Checkout, ou null (idempotence webhook). */
+export async function findJobByStripeSessionId(sessionId: string, db: AuditJobsDb = adminDb): Promise<AuditJob | null> {
+  const { data, error } = await db.from('audit_jobs').select().eq('stripe_session_id', sessionId).maybeSingle();
+  if (error) throw new Error(`Recherche du job de la session Stripe ${sessionId} échouée : ${error.message}`);
   if (!data) return null;
   return mapRow(data as AuditJobRow);
 }

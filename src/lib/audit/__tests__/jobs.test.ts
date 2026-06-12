@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { createJob, getJob, updateJob, type AuditJobsDb } from '../jobs';
+import {
+  createJob,
+  getJob,
+  updateJob,
+  findLatestJobByEmail,
+  findJobByStripeSessionId,
+  type AuditJobsDb,
+} from '../jobs';
 
 /** Ligne snake_case complète telle que renvoyée par PostgREST. */
 function fakeRow(overrides: Record<string, unknown> = {}): Record<string, unknown> {
@@ -30,16 +37,18 @@ function fakeRow(overrides: Record<string, unknown> = {}): Record<string, unknow
 interface FakeCalls {
   inserted: Record<string, unknown>[];
   updated: Array<{ values: Record<string, unknown>; id: string }>;
-  selectedIds: string[];
+  selected: Array<{ column: string; value: string }>;
+  ordered: Array<{ column: string; ascending: boolean; limit: number | null }>;
 }
 
 /** Fake structurel du client Supabase : capture les appels, zéro réseau. */
 function fakeDb(opts: {
   insertResult?: { data: unknown; error: { message: string } | null };
   selectResult?: { data: unknown; error: { message: string } | null };
+  listResult?: { data: unknown; error: { message: string } | null };
   updateError?: { message: string } | null;
 }): { db: AuditJobsDb; calls: FakeCalls } {
-  const calls: FakeCalls = { inserted: [], updated: [], selectedIds: [] };
+  const calls: FakeCalls = { inserted: [], updated: [], selected: [], ordered: [] };
   const db: AuditJobsDb = {
     from: () => ({
       insert: (values: Record<string, unknown>) => {
@@ -51,10 +60,20 @@ function fakeDb(opts: {
         };
       },
       select: () => ({
-        eq: (_col: string, id: string) => {
-          calls.selectedIds.push(id);
+        eq: (column: string, value: string) => {
+          calls.selected.push({ column, value });
           return {
             maybeSingle: () => Promise.resolve(opts.selectResult ?? { data: null, error: null }),
+            order: (orderColumn: string, options: { ascending: boolean }) => {
+              const ordered = { column: orderColumn, ascending: options.ascending, limit: null as number | null };
+              calls.ordered.push(ordered);
+              return {
+                limit: (count: number) => {
+                  ordered.limit = count;
+                  return Promise.resolve(opts.listResult ?? { data: [], error: null });
+                },
+              };
+            },
           };
         },
       }),
@@ -111,7 +130,7 @@ describe('getJob', () => {
       selectResult: { data: fakeRow({ status: 'running', workflow_run_id: 'wrun_1' }), error: null },
     });
     const job = await getJob('job-1', db);
-    expect(calls.selectedIds).toEqual(['job-1']);
+    expect(calls.selected).toEqual([{ column: 'id', value: 'job-1' }]);
     expect(job?.status).toBe('running');
     expect(job?.workflowRunId).toBe('wrun_1');
   });
@@ -158,5 +177,50 @@ describe('updateJob', () => {
   it('throw si la mise à jour échoue', async () => {
     const { db } = fakeDb({ updateError: { message: 'connection refused' } });
     await expect(updateJob('job-1', { status: 'failed' }, db)).rejects.toThrow(/connection refused/);
+  });
+});
+
+describe('findLatestJobByEmail', () => {
+  it('filtre par email, trie created_at desc, limite à 1 et mappe la ligne', async () => {
+    const { db, calls } = fakeDb({
+      listResult: { data: [fakeRow({ id: 'job-flash', url: 'https://exemple.fr/' })], error: null },
+    });
+    const job = await findLatestJobByEmail('prospect@example.fr', db);
+    expect(calls.selected).toEqual([{ column: 'email', value: 'prospect@example.fr' }]);
+    expect(calls.ordered).toEqual([{ column: 'created_at', ascending: false, limit: 1 }]);
+    expect(job?.id).toBe('job-flash');
+    expect(job?.url).toBe('https://exemple.fr/');
+  });
+
+  it("retourne null quand aucun job n'existe pour cet email", async () => {
+    const { db } = fakeDb({ listResult: { data: [], error: null } });
+    expect(await findLatestJobByEmail('inconnu@example.fr', db)).toBeNull();
+  });
+
+  it('throw si la lecture échoue', async () => {
+    const { db } = fakeDb({ listResult: { data: null, error: { message: 'timeout' } } });
+    await expect(findLatestJobByEmail('p@e.fr', db)).rejects.toThrow(/timeout/);
+  });
+});
+
+describe('findJobByStripeSessionId', () => {
+  it('retourne le job mappé quand la session est connue', async () => {
+    const { db, calls } = fakeDb({
+      selectResult: { data: fakeRow({ id: 'job-pro', tier: 'pro', stripe_session_id: 'cs_123' }), error: null },
+    });
+    const job = await findJobByStripeSessionId('cs_123', db);
+    expect(calls.selected).toEqual([{ column: 'stripe_session_id', value: 'cs_123' }]);
+    expect(job?.id).toBe('job-pro');
+    expect(job?.stripeSessionId).toBe('cs_123');
+  });
+
+  it('retourne null quand la session est inconnue', async () => {
+    const { db } = fakeDb({ selectResult: { data: null, error: null } });
+    expect(await findJobByStripeSessionId('cs_inconnu', db)).toBeNull();
+  });
+
+  it('throw si la lecture échoue', async () => {
+    const { db } = fakeDb({ selectResult: { data: null, error: { message: 'timeout' } } });
+    await expect(findJobByStripeSessionId('cs_123', db)).rejects.toThrow(/timeout/);
   });
 });

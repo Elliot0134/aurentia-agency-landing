@@ -4,7 +4,12 @@ import path from 'node:path';
 export default defineConfig({
   test: {
     environment: 'node',
-    include: ['src/lib/audit/**/*.test.ts', 'src/workflows/**/*.test.ts', 'src/app/api/audit/jobs/**/*.test.ts'],
+    include: [
+      'src/lib/audit/**/*.test.ts',
+      'src/workflows/**/*.test.ts',
+      'src/app/api/audit/jobs/**/*.test.ts',
+      'src/app/api/stripe/**/*.test.ts',
+    ],
     passWithNoTests: true,
   },
   resolve: {
