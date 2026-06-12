@@ -444,7 +444,7 @@ describe('computeDueSends — signature et score depuis le lead', () => {
     const l = lead({ assignedTo: 'stephane' });
     const db = fakeDb({ leads: [l], touches: [touch(l.id, 'flash', '2026-06-07T08:00:00Z')] });
     const result = await computeDueSends(db, NOW);
-    expect(result.due[0].text).toContain('Stéphane\nAurentia Agency');
+    expect(result.due[0].text).toContain('Stéphane - Aurentia.agency');
   });
 
   it('assignedTo null ou inconnu → signature Elliot (fallback)', async () => {
@@ -456,7 +456,7 @@ describe('computeDueSends — signature et score depuis le lead', () => {
     });
     const result = await computeDueSends(db, NOW);
     for (const payload of result.due) {
-      expect(payload.text).toContain('Elliot\nAurentia Agency');
+      expect(payload.text).toContain('Estrade Elliot - Founder / AI lead - Aurentia.agency');
     }
   });
 
