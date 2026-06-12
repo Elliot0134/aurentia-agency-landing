@@ -15,6 +15,8 @@ export interface ProVisualFinding {
   imageDataUri: string;
   legend: string[];
   analysis: string;
+  /** Orientation de la capture : mobile → affichage étroit centré (~300px). Défaut : desktop. */
+  kind?: 'desktop' | 'mobile';
 }
 
 export interface ProReportOptions {
@@ -51,6 +53,11 @@ export interface ProRecommendation {
   expectedImpact: string;
 }
 
+export interface ProStrategicRecommendation {
+  title: string;
+  rationale: string;
+}
+
 /**
  * Type élargi local consommé par le template. Le contenu Pro rédigé par le LLM
  * (`ProReportContent` de report-schema, tâche A3) y est structurellement
@@ -61,6 +68,7 @@ export type ProContent = ReportContent &
   Partial<{
     auditTable: ProAuditTableRow[];
     recommendations: ProRecommendation[];
+    strategicRecommendations: ProStrategicRecommendation[];
     funnelAnalysis: string;
     funnelProjection: string;
     recommendationSummary: string;
@@ -72,6 +80,9 @@ export type ProContent = ReportContent &
 
 const BANNER_BG = '#2b2017'; // sombre chaud de la marque (utilisé pour le QR code)
 const TABLE_HEAD_BG = '#3d3929'; // en-têtes de tableau : sombre chaud
+
+/** Lien de prise de rendez-vous (les <a href> restent cliquables dans le PDF Chromium). */
+const CAL_URL = 'https://cal.com/elliot-estrade-ixfuya/appel-decouverte';
 
 const BADGE = {
   Critique: { cls: 'badge-critique', fg: '#C62828', bg: '#FDECEA' },
@@ -472,6 +483,10 @@ td.rec-id { background: ${TABLE_HEAD_BG} !important; color: #ffffff; font-weight
   border: 1px solid ${C.border};
   break-inside: avoid;
 }
+/* Capture mobile (portrait étroit) : largeur d'un téléphone, centrée. */
+.visual-finding img.visual-mobile {
+  max-width: 300px;
+}
 .annot-legend { list-style: none; padding: 0; margin: 6pt 0 10pt; }
 .annot-legend li {
   position: relative;
@@ -549,6 +564,15 @@ td.rec-id { background: ${TABLE_HEAD_BG} !important; color: #ffffff; font-weight
   border-radius: 6pt;
   text-decoration: none;
 }
+.btn-row { display: flex; gap: 12pt; justify-content: center; flex-wrap: wrap; }
+
+/* --- Bloc appel à l'action (fin des recommandations) --- */
+.cta-block {
+  text-align: center;
+  margin: 20pt 0 6pt;
+  page-break-inside: avoid;
+}
+.cta-block p { margin: 0 0 8pt; color: ${C.muted}; }
 .qr { width: 24mm; height: 24mm; margin: 0 auto; }
 .qr svg { width: 100%; height: 100%; }
 .back-contact { text-align: center; color: ${C.muted}; font-size: 10pt; line-height: 1.7; }
@@ -856,10 +880,11 @@ function buildVisuals(visuals: ProVisualFinding[] | undefined): string {
             .map((note, i) => `<li><span class="annot-num">${i + 1}</span>${esc(note)}</li>`)
             .join('')}</ul>`
         : '';
+      const mobileCls = v.kind === 'mobile' ? ' class="visual-mobile"' : '';
       return `
       <div class="visual-finding">
         <h3>${esc(v.title)}</h3>
-        <img src="${escapeHtml(v.imageDataUri)}" alt="${esc(v.title)}" />
+        <img${mobileCls} src="${escapeHtml(v.imageDataUri)}" alt="${esc(v.title)}" />
         ${legend}
         <p>${esc(v.analysis)}</p>
       </div>`;
@@ -1044,7 +1069,32 @@ function buildRecommendations(audit: AuditData, pro: ProContent): string {
       <thead><tr><th>#</th><th>Recommandation</th><th>Action concrète</th><th>Impact attendu</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
+    ${buildStrategicRecommendations(pro)}
+    <div class="cta-block">
+      <p>Envie d'en discuter ? 15 minutes suffisent.</p>
+      <a class="btn-contact" href="${CAL_URL}">Réserver mon appel découverte</a>
+    </div>
   </section>`;
+}
+
+/**
+ * Recommandations stratégiques (vision 6-12 mois) : axes de fond rédigés par
+ * le LLM (positionnement, contenu, présence locale, visibilité sur les
+ * nouveaux moteurs de recherche, réputation), par opposition aux correctifs
+ * techniques R1..Rn. Absentes → bloc omis, jamais de trou.
+ */
+function buildStrategicRecommendations(pro: ProContent): string {
+  const recs = pro.strategicRecommendations;
+  if (!recs || recs.length === 0) return '';
+  const blocks = recs
+    .map((r) => `<h3>${esc(r.title)}</h3><p>${esc(r.rationale)}</p>`)
+    .join('');
+  return `
+    <div id="strategic-recommendations">
+      <h2>Recommandations stratégiques</h2>
+      <p>Au-delà des correctifs techniques, ces axes de fond construisent votre visibilité sur 6 à 12 mois.</p>
+      ${blocks}
+    </div>`;
 }
 
 /* ----------------------------------------------------------------------------
@@ -1117,7 +1167,10 @@ function buildBackCover(qrSvg: string): string {
     ${brandBanner()}
     <div class="back-cover-middle">
       <p class="lead">Parlons de votre site.</p>
-      <a class="btn-contact" href="mailto:agency@aurentia.fr">Nous contacter</a>
+      <div class="btn-row">
+        <a class="btn-contact" href="mailto:agency@aurentia.fr">Nous contacter</a>
+        <a class="btn-contact" href="${CAL_URL}">Réserver mon appel découverte</a>
+      </div>
       <div class="qr">${qrSvg}</div>
       <div class="back-contact">
         <div class="brand-name">Aurentia Agency</div>
@@ -1141,8 +1194,9 @@ function buildBackCover(qrSvg: string): string {
  * Sections fixes : cover page 1 complète (bannière image + composition centrée
  * + 2 boxes + synthèse exécutive), synthèse (score 64pt + impact % + priorités +
  * box recommandation), tableau d'audit complet (bandes de catégorie + badges),
- * état actuel vs cible, recommandations R1..Rn, annexe technique (pre
- * monospace), back cover (bannière image + bouton contact + QR).
+ * état actuel vs cible, recommandations R1..Rn (+ recommandations stratégiques
+ * 6-12 mois si rédigées, et bouton de prise de rendez-vous), annexe technique
+ * (pre monospace), back cover (bannière image + boutons contact/rendez-vous + QR).
  * Sections conditionnelles : comparatif (si concurrents), constats visuels
  * (si opts.visuals), Local SEO (si business local), funnel (si chart ou analyse).
  *

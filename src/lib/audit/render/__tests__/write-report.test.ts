@@ -13,7 +13,12 @@ const audit = (): AuditData => ({
 const valid: ReportContent = {
   execSummary: 'Votre site est lent et perd des visiteurs.',
   recommendation: 'refonte',
-  findings: [{ title: 'Lenteur', body: 'Le contenu met 11,8s a charger.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
+  findings: [{
+    title: 'Lenteur',
+    body: 'Vos visiteurs partent avant de voir votre offre. Le contenu principal met 11,8 s a apparaitre sur mobile, bien au-dela du seuil recommande. Une fois corrige, la page s affiche en moins de 3 secondes.',
+    priority: 'P0',
+    measurementIds: ['perf.mobile.lcp'],
+  }],
   competitorAnalysis: null,
   scoreJustification: 'Texte de justification du score global pour ce test.',
 };
@@ -44,7 +49,7 @@ const proAudit = (): AuditData => ({ ...audit(), tier: 'pro' });
 
 const validPro: ProReportContent = {
   ...valid,
-  auditTable: [1, 2, 3, 4, 5].map((i) => ({
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({
     category: 'PERFORMANCE & TECHNIQUE' as const,
     domain: `Domaine ${i}`,
     finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
@@ -57,6 +62,10 @@ const validPro: ProReportContent = {
     action: 'Réduire le poids des images et différer les scripts non essentiels.',
     expectedImpact: 'Affichage du contenu sous 3 secondes.',
   })),
+  strategicRecommendations: [1, 2, 3].map((i) => ({
+    title: `Axe stratégique ${i}`,
+    rationale: 'Justification ancrée dans les constats mesurés du site, sur trois à quatre phrases de fond pour le dirigeant.',
+  })),
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
   recommendationSummary: 'Le site perd la majorité de ses visiteurs mobiles avant la prise de contact. Nous recommandons une refonte axée performance en priorité.',
@@ -67,7 +76,7 @@ describe('writeProReport', () => {
     const gen: GenerateProFn = vi.fn(async () => validPro);
     const r = await writeProReport(proAudit(), { generateFn: gen });
     expect(r).toEqual(validPro);
-    expect(r.auditTable).toHaveLength(5);
+    expect(r.auditTable).toHaveLength(10);
     expect(gen).toHaveBeenCalledTimes(1);
   });
   it('réessaie après une violation de contrat dans un champ Pro, puis réussit', async () => {

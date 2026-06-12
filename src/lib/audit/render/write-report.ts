@@ -23,12 +23,14 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - INTERDIT : affirmer une position Google précise ("vous êtes en position 8").
 - INTERDIT : citer un montant en euros (€). Tu exprimes l'impact en POURCENTAGE de visiteurs perdus, jamais en argent.
 - Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).
+- Chaque finding : 3 a 5 phrases, la consequence business d'abord, puis la cause technique avec les valeurs mesurees, puis ce que la correction change.
 - Exprime toujours les durees en secondes avec une decimale et virgule francaise (ex : 10,2 s), jamais en millisecondes.
 - Rédige aussi "scoreJustification" : 2 à 3 phrases expliquant à quoi correspond le score global du site (ce qui le tire vers le haut ou le bas), en langage simple pour un dirigeant.`;
 
 const PRO_CONSIGNE = `Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis. Exprime l'impact en % de visiteurs perdus, jamais en euros.
-Rédige aussi auditTable : 6 à 14 lignes couvrant les domaines mesurés, chaque ligne = constat factuel issu des mesures (measurementIds obligatoires), impact = conséquence business concrète, priority selon la gravité.
+Rédige aussi auditTable : 12 à 18 lignes, couvre TOUS les domaines mesurés, y compris les points forts (priorité 'A optimiser' n'est pas une insulte : mentionne aussi 2-3 constats POSITIFS avec la priorité la plus basse), chaque constat cite la valeur mesurée. Chaque ligne = constat factuel issu des mesures (measurementIds obligatoires), impact = conséquence business concrète, priority selon la gravité.
 recommendations : 4 à 8 actions concrètes priorisées (R1 = le levier numéro 1), action = concrète et actionnable, expectedImpact = effet attendu.
+strategicRecommendations : 3 a 5 axes STRATEGIQUES a 6-12 mois, distincts des correctifs techniques : positionnement et differenciation, strategie de contenu/SEO durable, presence locale et reputation (avis clients), visibilite sur les moteurs IA (ChatGPT, Perplexity), mesure et pilotage. Chaque axe : titre + 3-4 phrases de justification ancrees dans les constats.
 funnelAnalysis : 3 à 5 phrases sur où se perd le visiteur (base : les mesures, l'impact %).
 funnelProjection : 2 à 4 phrases prudentes sur l'effet attendu des corrections, en % uniquement, jamais en euros, toujours présenté comme une estimation.
 recommendationSummary : 2 a 3 phrases, le verdict et la marche a suivre recommandee, sans montant en euros.`;

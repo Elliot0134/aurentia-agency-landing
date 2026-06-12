@@ -19,7 +19,12 @@ const audit = (): AuditData => ({
 const okContent = (): ReportContent => ({
   execSummary: 'Votre site perd des visiteurs à cause de sa lenteur de chargement.',
   recommendation: 'refonte',
-  findings: [{ title: 'Site lent', body: 'Le contenu met 11,8s à apparaitre, vos visiteurs partent.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] }],
+  findings: [{
+    title: 'Site lent',
+    body: 'Vos visiteurs partent avant de voir votre offre. Le contenu principal met 11,8 s à apparaitre sur mobile, bien au-delà du seuil recommandé. Une fois corrigé, la page s affiche en moins de 3 secondes.',
+    priority: 'P0',
+    measurementIds: ['perf.mobile.lcp'],
+  }],
   competitorAnalysis: null,
   scoreJustification: 'Le score est tiré vers le bas par des temps de chargement excessifs. Les fondations techniques sont en place mais les performances freinent la conversion.',
 });
@@ -62,7 +67,7 @@ describe('validateReportContract', () => {
 
 const okProContent = (): ProReportContent => ({
   ...okContent(),
-  auditTable: [1, 2, 3, 4, 5].map((i) => ({
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({
     category: 'PERFORMANCE & TECHNIQUE' as const,
     domain: `Domaine ${i}`,
     finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
@@ -74,6 +79,10 @@ const okProContent = (): ProReportContent => ({
     title: `Recommandation ${i}`,
     action: 'Réduire le poids des images et différer les scripts non essentiels.',
     expectedImpact: 'Affichage du contenu sous 3 secondes.',
+  })),
+  strategicRecommendations: [1, 2, 3].map((i) => ({
+    title: `Axe stratégique ${i}`,
+    rationale: 'Justification ancrée dans les constats mesurés du site, sur trois à quatre phrases de fond pour le dirigeant.',
   })),
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
@@ -108,5 +117,15 @@ describe('validateReportContract (contenu Pro)', () => {
     const c = okProContent();
     c.recommendationSummary = 'Une refonte du site vous fera récupérer environ 3 000 € de chiffre par mois.';
     expect(() => validateReportContract(c, audit())).toThrow(/montant/i);
+  });
+  it('rejette un tiret long dans une recommandation stratégique', () => {
+    const c = okProContent();
+    c.strategicRecommendations[0].rationale = 'Construire un positionnement local fort — quartier par quartier.';
+    expect(() => validateReportContract(c, audit())).toThrow(/tiret long/i);
+  });
+  it("rejette une mention d'IA dans une recommandation stratégique", () => {
+    const c = okProContent();
+    c.strategicRecommendations[1].rationale = 'Rendre votre site lisible par ChatGPT et les assistants conversationnels du marché.';
+    expect(() => validateReportContract(c, audit())).toThrow(/IA/i);
   });
 });

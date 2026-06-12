@@ -28,6 +28,27 @@ export interface RenderResult {
   pdfBuffer?: Buffer;
 }
 
+/** Pathnames qui signalent une page commerciale clé (contact, tarifs, offres...). */
+const KEY_PAGE_PATTERN = /contact|tarif|prix|service|offre|audit|reservation/;
+
+/**
+ * Sélectionne la page clé du crawl pour le 3e constat visuel : page en 200,
+ * hors homepage, priorité aux pathnames commerciaux, sinon la première page.
+ */
+function selectKeyPage(audit: AuditData): { url: string; title: string | null } | undefined {
+  const pages = (audit.crawl?.pages ?? []).filter((p) => p.status === 200 && p.url !== audit.finalUrl);
+  if (pages.length === 0) return undefined;
+  const match = pages.find((p) => {
+    try {
+      return KEY_PAGE_PATTERN.test(new URL(p.url).pathname.toLowerCase());
+    } catch {
+      return false;
+    }
+  });
+  const page = match ?? pages[0];
+  return { url: page.url, title: page.title };
+}
+
 export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<RenderResult> {
   const score = computeScore(audit.measurements);
 
@@ -61,14 +82,16 @@ export async function renderReport(audit: AuditData, deps: RenderDeps): Promise<
   const heatmap = buildHeatmapData(audit);
   if (heatmap) charts.heatmap = svgHeatmap(heatmap.pageLabels, heatmap.criteriaLabels, heatmap.cells);
 
-  // Constats visuels (B5) : captures desktop + mobile de la homepage, analysées
-  // par vision. buildVisualFindings ne throw jamais ; [] → section omise (A1).
+  // Constats visuels (B5) : captures desktop + mobile de la homepage, plus le
+  // premier écran desktop d'une page clé du crawl. Analysées par vision.
+  // buildVisualFindings ne throw jamais ; [] → section omise (A1).
   const visualsFn = deps.buildVisualsFn ?? buildVisualFindings;
   const visuals = await visualsFn({
     homepageUrl: audit.finalUrl,
     pageTitle: audit.crawl?.pages.find((p) => p.url === audit.finalUrl)?.title ?? null,
     browserless: deps.browserless,
     fetchFn: deps.fetchFn,
+    keyPage: selectKeyPage(audit),
   });
 
   const html = await buildProReportHtml(audit, content, {

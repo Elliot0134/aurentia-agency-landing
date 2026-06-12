@@ -46,7 +46,7 @@ describe('buildVisualFindings', () => {
     vi.useRealTimers();
   });
 
-  it('desktop + mobile OK → 2 findings (data URI jpeg, legend, titres, viewports)', async () => {
+  it('desktop + mobile OK → 2 findings (data URI jpeg, legend, titres, viewports, kind)', async () => {
     const desktopPng = await makePng(1440, 1400);
     const mobilePng = await makePng(390, 2000);
     const bodies: { viewport: { width: number; height: number; isMobile?: boolean; hasTouch?: boolean } }[] = [];
@@ -74,7 +74,9 @@ describe('buildVisualFindings', () => {
 
     expect(findings).toHaveLength(2);
     expect(findings[0].title).toBe('Accueil sur ordinateur');
+    expect(findings[0].kind).toBe('desktop');
     expect(findings[1].title).toBe('Accueil sur smartphone');
+    expect(findings[1].kind).toBe('mobile');
 
     for (const f of findings) {
       expect(f.imageDataUri.startsWith('data:image/jpeg;base64,')).toBe(true);
@@ -86,11 +88,13 @@ describe('buildVisualFindings', () => {
       expect(f.analysis).toContain("1 point d'amélioration");
     }
 
-    // tailles : crop premier écran puis resize (900 desktop, 420 mobile)
+    // tailles : crop premier écran puis resize (900 desktop, 360 mobile)
     const meta0 = await sharp(Buffer.from(findings[0].imageDataUri.split(',')[1], 'base64')).metadata();
     const meta1 = await sharp(Buffer.from(findings[1].imageDataUri.split(',')[1], 'base64')).metadata();
     expect(meta0.width).toBe(900);
-    expect(meta1.width).toBe(420);
+    expect(meta1.width).toBe(360);
+    // mobile : UN écran de téléphone (crop 844 sur 390 de large, ratio conservé au resize)
+    expect(meta1.height).toBe(Math.round((844 / 390) * 360));
 
     // payloads Browserless : desktop par défaut puis viewport mobile avec hasTouch
     expect(bodies[0].viewport).toMatchObject({ width: 1440, height: 1200 });
@@ -99,6 +103,70 @@ describe('buildVisualFindings', () => {
     // contextes vision : desktop puis mobile
     expect(contexts[0]).toContain('ordinateur');
     expect(contexts[1]).toContain('smartphone');
+  });
+
+  it('keyPage fournie → 3e finding desktop de la page intérieure (titre pathname, capture de la bonne URL)', async () => {
+    const desktopPng = await makePng(1440, 1400);
+    const mobilePng = await makePng(390, 2000);
+    const urls: string[] = [];
+
+    const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { url: string; viewport: { width: number } };
+      urls.push(body.url);
+      const png = body.viewport.width === 390 ? mobilePng : desktopPng;
+      return new Response(new Uint8Array(png), { status: 200 });
+    }) as typeof fetch;
+
+    const contexts: string[] = [];
+    const analyzeFn: VisualAnalyzeFn = async (png, context) => {
+      contexts.push(context);
+      return stubAnalyze(png, context);
+    };
+
+    const findings = await buildVisualFindings({
+      homepageUrl: 'https://exemple.fr',
+      pageTitle: 'Exemple',
+      browserless,
+      fetchFn,
+      analyzeFn,
+      keyPage: { url: 'https://exemple.fr/contact', title: 'Contact' },
+    });
+
+    expect(findings).toHaveLength(3);
+    expect(findings[2].title).toBe('Page /contact sur ordinateur');
+    expect(findings[2].kind).toBe('desktop');
+    expect(contexts[2]).toContain('page intérieure');
+    expect(urls[2]).toBe('https://exemple.fr/contact');
+
+    // capture desktop standard : crop 1000 puis resize 900
+    const meta2 = await sharp(Buffer.from(findings[2].imageDataUri.split(',')[1], 'base64')).metadata();
+    expect(meta2.width).toBe(900);
+  });
+
+  it('échec de la capture keyPage → les 2 findings homepage restent (robuste)', async () => {
+    const desktopPng = await makePng(1440, 1400);
+    const mobilePng = await makePng(390, 2000);
+    vi.useFakeTimers({ toFake: ['setTimeout'] });
+
+    const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { url: string; viewport: { width: number } };
+      if (body.url.endsWith('/tarifs')) throw new Error('network down');
+      const png = body.viewport.width === 390 ? mobilePng : desktopPng;
+      return new Response(new Uint8Array(png), { status: 200 });
+    }) as typeof fetch;
+
+    const findings = await settleWithFakeTimers(
+      buildVisualFindings({
+        homepageUrl: 'https://exemple.fr',
+        browserless,
+        fetchFn,
+        analyzeFn: stubAnalyze,
+        keyPage: { url: 'https://exemple.fr/tarifs', title: 'Tarifs' },
+      }),
+    );
+
+    expect(findings).toHaveLength(2);
+    expect(findings.map((f) => f.title)).toEqual(['Accueil sur ordinateur', 'Accueil sur smartphone']);
   });
 
   it('échec de la capture mobile (après retries) → 1 seul finding desktop', async () => {

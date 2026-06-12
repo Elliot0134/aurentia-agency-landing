@@ -254,6 +254,74 @@ describe('buildProReportHtml', () => {
     expect(target).toContain('/10');
   });
 
+  it('constats visuels : la capture mobile (kind) est affichée étroite et centrée, desktop inchangé', async () => {
+    const opts = richOpts();
+    opts.visuals = [
+      {
+        title: 'Accueil sur ordinateur',
+        imageDataUri: 'data:image/jpeg;base64,REVTS1RPUA==',
+        legend: ['Accroche claire'],
+        analysis: '1 point fort relevé sur ce premier écran.',
+        kind: 'desktop',
+      },
+      {
+        title: 'Accueil sur smartphone',
+        imageDataUri: 'data:image/jpeg;base64,TU9CSUxF',
+        legend: ['Bouton peu visible'],
+        analysis: "1 point d'amélioration relevé sur ce premier écran.",
+        kind: 'mobile',
+      },
+    ];
+    const html = await buildProReportHtml(richAudit(), richContent(), opts);
+    const vis = section(html, 'visuals');
+    expect(vis).toContain('class="visual-mobile"');
+    expect(vis).toContain('<img class="visual-mobile" src="data:image/jpeg;base64,TU9CSUxF"');
+    expect(vis).toContain('<img src="data:image/jpeg;base64,REVTS1RPUA=="'); // desktop sans classe
+    expect(html).toContain('img.visual-mobile'); // règle CSS max-width 300px
+    expect(html).toContain('max-width: 300px');
+  });
+
+  it('recommandations stratégiques : section après le tableau R1..Rn, un h3 par axe + paragraphe', async () => {
+    const pro: ProContent = {
+      ...richContent(),
+      strategicRecommendations: [
+        { title: 'Renforcer la présence locale', rationale: 'Vos clients vous cherchent localement et la fiche entreprise reste invisible. Un travail de fond sur les avis change la donne.' },
+        { title: 'Construire une stratégie de contenu', rationale: 'Le site ne couvre aucune recherche informative de vos prospects. Publier régulièrement installe votre crédibilité.' },
+        { title: 'Devenir lisible pour les assistants de recherche', rationale: 'Les nouveaux moteurs de recherche conversationnels ne trouvent aucune donnée structurée sur votre activité.' },
+      ],
+    };
+    const html = await buildProReportHtml(richAudit(), pro, richOpts());
+    const rec = section(html, 'recommendations');
+    expect(rec).toContain('Recommandations stratégiques');
+    expect(rec).toContain('<h3>Renforcer la présence locale</h3>');
+    expect(rec).toContain('<h3>Construire une stratégie de contenu</h3>');
+    expect(rec).toContain('Un travail de fond sur les avis change la donne.');
+    // après le tableau R1..Rn
+    expect(rec.indexOf('Recommandations stratégiques')).toBeGreaterThan(rec.indexOf('>R1<'));
+    // sans recos stratégiques : bloc omis
+    const bare = section(await buildProReportHtml(richAudit(), richContent(), richOpts()), 'recommendations');
+    expect(bare).not.toContain('Recommandations stratégiques');
+  });
+
+  it('bouton Réserver mon appel : fin de la section recommandations (centré + phrase) et back cover', async () => {
+    const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
+    const calUrl = 'https://cal.com/elliot-estrade-ixfuya/appel-decouverte';
+    expect(html.split(calUrl).length - 1).toBe(2); // recommandations + back cover
+
+    const rec = section(html, 'recommendations');
+    expect(rec).toContain('cta-block');
+    expect(rec).toContain("Envie d'en discuter ? 15 minutes suffisent.");
+    expect(rec).toContain(`<a class="btn-contact" href="${calUrl}">Réserver mon appel découverte</a>`);
+    // à la fin : après le tableau R1..Rn
+    expect(rec.indexOf('cta-block')).toBeGreaterThan(rec.indexOf('>R1<'));
+
+    const back = html.slice(html.indexOf('id="back-cover"'));
+    expect(back).toContain(calUrl);
+    expect(back).toContain('Réserver mon appel découverte');
+    expect(back).toContain('mailto:agency@aurentia.fr'); // les deux boutons côte à côte
+    expect(back).toContain('btn-row');
+  });
+
   it('recommandations : R1..Rn, devis transmis séparément, fallback depuis P0/P1', async () => {
     const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
     const rec = section(html, 'recommendations');

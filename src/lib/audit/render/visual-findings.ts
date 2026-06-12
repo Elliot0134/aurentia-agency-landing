@@ -17,6 +17,8 @@ export interface VisualFinding {
   imageDataUri: string;
   legend: string[];
   analysis: string;
+  /** Orientation de la capture : pilote la largeur d'affichage dans le PDF. */
+  kind: 'desktop' | 'mobile';
 }
 
 /** Sortie minimale attendue de l'analyse vision (HeroAnalysis y est assignable). */
@@ -32,9 +34,11 @@ const defaultAnalyze: VisualAnalyzeFn = (png, context) => analyzeHero(png, { con
 interface ShotSpec {
   title: string;
   context: string;
+  url: string; // page capturée (homepage ou page clé du crawl)
   viewport?: ScreenshotViewport; // absent → desktop 1440x1200 (défaut captureScreenshot)
   cropHeight: number; // hauteur du premier écran conservée (px de la capture)
   resizeWidth: number; // largeur finale du JPEG embarqué dans le PDF
+  kind: VisualFinding['kind'];
 }
 
 /** Crop le premier écran (haut de page) puis resize + JPEG qualité 80. */
@@ -59,11 +63,21 @@ function buildAnalysisSentence(points: VisualAnalysis['points']): string {
   return `${fort} et ${amelioration} relevés sur ce premier écran.`;
 }
 
+/** Pathname d'une URL, fallback sur la chaîne brute si illisible. */
+function pathnameOf(url: string): string {
+  try {
+    return new URL(url).pathname;
+  } catch {
+    return url;
+  }
+}
+
 /**
- * Construit les constats visuels de la homepage : desktop puis mobile,
- * séquentiel (free tier Browserless mono-session). Chaque étape est robuste :
- * si la capture OU l'analyse échoue (après les retries internes), le constat
- * est sauté ; si tout échoue, retourne []. Ne throw jamais.
+ * Construit les constats visuels : homepage desktop, homepage mobile, puis
+ * (si fournie) le premier écran desktop d'une page clé du crawl. Séquentiel
+ * (free tier Browserless mono-session). Chaque étape est robuste : si la
+ * capture OU l'analyse échoue (après les retries internes), le constat est
+ * sauté ; si tout échoue, retourne []. Ne throw jamais.
  */
 export async function buildVisualFindings(args: {
   homepageUrl: string;
@@ -71,6 +85,8 @@ export async function buildVisualFindings(args: {
   browserless: BrowserlessConfig;
   fetchFn?: typeof fetch;
   analyzeFn?: VisualAnalyzeFn;
+  /** Page clé du crawl (pas la homepage) : 3e constat desktop. */
+  keyPage?: { url: string; title: string | null };
 }): Promise<VisualFinding[]> {
   const fetchFn = args.fetchFn ?? fetch;
   const analyzeFn = args.analyzeFn ?? defaultAnalyze;
@@ -80,22 +96,40 @@ export async function buildVisualFindings(args: {
     {
       title: 'Accueil sur ordinateur',
       context: `premier écran de la page d'accueil${site} sur ordinateur (desktop)`,
+      url: args.homepageUrl,
       cropHeight: 1000,
       resizeWidth: 900,
+      kind: 'desktop',
     },
     {
+      // UN écran de téléphone : crop à la hauteur du viewport (844), pas plus.
       title: 'Accueil sur smartphone',
       context: `premier écran de la page d'accueil${site} sur smartphone (mobile)`,
+      url: args.homepageUrl,
       viewport: { width: 390, height: 844, isMobile: true },
-      cropHeight: 1700,
-      resizeWidth: 420,
+      cropHeight: 844,
+      resizeWidth: 360,
+      kind: 'mobile',
     },
   ];
+
+  if (args.keyPage) {
+    const pathname = pathnameOf(args.keyPage.url);
+    const titled = args.keyPage.title ? ` « ${args.keyPage.title} »` : '';
+    specs.push({
+      title: `Page ${pathname} sur ordinateur`,
+      context: `premier écran d'une page intérieure${titled} (${pathname})${site} sur ordinateur (desktop)`,
+      url: args.keyPage.url,
+      cropHeight: 1000,
+      resizeWidth: 900,
+      kind: 'desktop',
+    });
+  }
 
   const findings: VisualFinding[] = [];
   for (const spec of specs) {
     try {
-      const png = await captureScreenshot(args.homepageUrl, args.browserless, fetchFn, spec.viewport);
+      const png = await captureScreenshot(spec.url, args.browserless, fetchFn, spec.viewport);
       const jpeg = await cropResizeJpeg(png, spec.cropHeight, spec.resizeWidth);
       const analysis = await analyzeFn(jpeg, spec.context);
       findings.push({
@@ -103,6 +137,7 @@ export async function buildVisualFindings(args: {
         imageDataUri: `data:image/jpeg;base64,${jpeg.toString('base64')}`,
         legend: analysis.points.map((p) => p.comment),
         analysis: buildAnalysisSentence(analysis.points),
+        kind: spec.kind,
       });
     } catch {
       // Capture ou analyse en échec après retries : on saute ce constat.

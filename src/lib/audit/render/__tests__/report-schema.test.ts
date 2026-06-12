@@ -16,16 +16,28 @@ const rec = (i: number) => ({
   expectedImpact: 'Effet attendu mesurable.',
 });
 
+const strategic = (i: number) => ({
+  title: `Axe stratégique ${i}`,
+  rationale:
+    'Justification ancrée dans les constats mesurés du site, sur trois à quatre phrases de fond pour le dirigeant.',
+});
+
 const valid = () => ({
   execSummary: 'Votre site perd des visiteurs avant la prise de contact.',
   recommendation: 'refonte',
   findings: [
-    { title: 'Lenteur', body: 'Le contenu met 11,8s a charger.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] },
+    {
+      title: 'Lenteur',
+      body: 'Vos visiteurs partent avant de voir votre offre. Le contenu principal met 11,8 s a apparaitre sur mobile, bien au-dela du seuil recommande. Une fois corrige, la page s affiche en moins de 3 secondes.',
+      priority: 'P0',
+      measurementIds: ['perf.mobile.lcp'],
+    },
   ],
   competitorAnalysis: null,
   scoreJustification: 'Le score est tiré vers le bas par la performance mobile.',
-  auditTable: [1, 2, 3, 4, 5].map(row),
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(row),
   recommendations: [1, 2, 3, 4].map(rec),
+  strategicRecommendations: [1, 2, 3].map(strategic),
   funnelAnalysis: 'Sur 100 visiteurs, environ 32 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction des lenteurs, la perte estimée tombe sous 10 visiteurs sur 100, estimation prudente.',
   recommendationSummary: 'Le site repose sur de bonnes fondations mais perd ses visiteurs mobiles. Nous recommandons une refonte ciblée de la performance avant tout travail de contenu.',
@@ -34,18 +46,36 @@ const valid = () => ({
 describe('ProContentSchema', () => {
   it('accepte un contenu Pro complet et conforme', () => {
     const parsed = ProContentSchema.parse(valid());
-    expect(parsed.auditTable).toHaveLength(5);
+    expect(parsed.auditTable).toHaveLength(10);
     expect(parsed.recommendations).toHaveLength(4);
+    expect(parsed.strategicRecommendations).toHaveLength(3);
   });
 
-  it('rejette moins de 5 lignes de tableau d\'audit', () => {
-    const c = { ...valid(), auditTable: [1, 2, 3, 4].map(row) };
+  it('rejette moins de 10 lignes de tableau d\'audit', () => {
+    const c = { ...valid(), auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(row) };
     expect(ProContentSchema.safeParse(c).success).toBe(false);
   });
 
   it('rejette moins de 4 recommandations', () => {
     const c = { ...valid(), recommendations: [1, 2, 3].map(rec) };
     expect(ProContentSchema.safeParse(c).success).toBe(false);
+  });
+
+  it('rejette un finding au body trop court (moins de 80 caractères)', () => {
+    const c = valid();
+    c.findings[0] = { ...c.findings[0], body: 'Le contenu met 11,8s a charger.' };
+    expect(ProContentSchema.safeParse(c).success).toBe(false);
+  });
+
+  it('rejette moins de 3 recommandations stratégiques ou une justification trop courte', () => {
+    expect(
+      ProContentSchema.safeParse({ ...valid(), strategicRecommendations: [1, 2].map(strategic) }).success,
+    ).toBe(false);
+    const c = valid();
+    c.strategicRecommendations[0] = { title: 'Positionnement', rationale: 'Trop court.' };
+    expect(ProContentSchema.safeParse(c).success).toBe(false);
+    const { strategicRecommendations: _omitted, ...rest } = valid();
+    expect(ProContentSchema.safeParse(rest).success).toBe(false);
   });
 
   it('rejette une catégorie hors des 7 domaines', () => {

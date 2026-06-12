@@ -3,7 +3,7 @@ import { z } from 'zod';
 /** Un finding rédigé par le LLM. `measurementIds` = preuve : ids de mesures existantes. */
 export const FindingSchema = z.object({
   title: z.string().min(3),
-  body: z.string().min(10), // conséquence business avant cause technique
+  body: z.string().min(80), // 3 à 5 phrases : conséquence business avant cause technique
   priority: z.enum(['P0', 'P1', 'P2']),
   measurementIds: z.array(z.string()).min(1), // AU MOINS une mesure référencée
 });
@@ -55,9 +55,17 @@ export const RecommendationSchema = z.object({
 });
 export type Recommendation = z.infer<typeof RecommendationSchema>;
 
+/** Un axe stratégique de fond (6-12 mois), distinct des correctifs techniques. */
+export const StrategicRecommendationSchema = z.object({
+  title: z.string().min(5),
+  rationale: z.string().min(60), // 3-4 phrases de justification ancrées dans les constats
+});
+export type StrategicRecommendation = z.infer<typeof StrategicRecommendationSchema>;
+
 export const ProContentSchema = ReportContentSchema.extend({
-  auditTable: z.array(AuditTableRowSchema).min(5),
+  auditTable: z.array(AuditTableRowSchema).min(10), // 12 à 18 lignes attendues, tous domaines couverts
   recommendations: z.array(RecommendationSchema).min(4),
+  strategicRecommendations: z.array(StrategicRecommendationSchema).min(3), // 3 à 5 axes 6-12 mois
   funnelAnalysis: z.string().min(30), // où se perd le visiteur
   funnelProjection: z.string().min(30), // effet attendu des corrections, prudent, en %
   recommendationSummary: z.string().min(40), // 2-3 phrases : verdict global + chemin recommandé, ton consultant, sans prix

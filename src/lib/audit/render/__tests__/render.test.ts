@@ -31,7 +31,12 @@ const flashContent: ReportContent = {
   execSummary: 'Votre site est lent et perd des visiteurs chaque mois.',
   recommendation: 'refonte',
   findings: [
-    { title: 'Lenteur', body: 'Le contenu met 11,8s a charger.', priority: 'P0', measurementIds: ['perf.mobile.lcp'] },
+    {
+      title: 'Lenteur',
+      body: 'Vos visiteurs partent avant de voir votre offre. Le contenu principal met 11,8 s a apparaitre sur mobile, bien au-dela du seuil recommande. Une fois corrige, la page s affiche en moins de 3 secondes.',
+      priority: 'P0',
+      measurementIds: ['perf.mobile.lcp'],
+    },
   ],
   competitorAnalysis: null,
   scoreJustification: 'Texte de justification du score global pour ce test.',
@@ -40,7 +45,7 @@ const flashContent: ReportContent = {
 const proContent: ProReportContent = {
   ...flashContent,
   competitorAnalysis: 'Vos concurrents chargent plus vite et captent les visiteurs.',
-  auditTable: [1, 2, 3, 4, 5].map((i) => ({
+  auditTable: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({
     category: 'PERFORMANCE & TECHNIQUE' as const,
     domain: i === 1 ? 'Navigation mobile distinctive' : `Domaine ${i}`,
     finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
@@ -52,6 +57,11 @@ const proContent: ProReportContent = {
     title: i === 1 ? 'Accélérer le chargement mobile en priorité' : `Recommandation ${i}`,
     action: 'Réduire le poids des images et différer les scripts non essentiels.',
     expectedImpact: 'Affichage du contenu sous 3 secondes.',
+  })),
+  strategicRecommendations: [1, 2, 3].map((i) => ({
+    title: i === 1 ? 'Construire une stratégie de contenu locale durable' : `Axe stratégique ${i}`,
+    rationale:
+      'Vos pages actuelles ne couvrent pas les recherches locales de vos clients. Publier des contenus dédiés à chaque zone renforce durablement votre visibilité.',
   })),
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
@@ -132,8 +142,50 @@ describe('renderReport', () => {
     const payload = JSON.parse(String(init?.body)) as { html: string };
     expect(payload.html).toContain('Navigation mobile distinctive'); // ligne auditTable du stub
     expect(payload.html).toContain('Accélérer le chargement mobile en priorité'); // titre de reco du stub
+    expect(payload.html).toContain('Recommandations stratégiques'); // section des axes 6-12 mois
+    expect(payload.html).toContain('Construire une stratégie de contenu locale durable'); // axe du stub
     expect(payload.html).toContain('Sur 100 visiteurs, environ 60 partent'); // funnelAnalysis
     expect(payload.html).toContain('estimation prudente'); // funnelProjection
+  });
+
+  it('pro avec crawl → la page clé (pathname commercial, status 200, hors homepage) est passée à buildVisualsFn', async () => {
+    const audit = baseAudit('pro');
+    audit.crawl = {
+      analyzedPages: 4,
+      discoveredCount: 6,
+      pages: [
+        { url: 'https://x.fr', title: 'Accueil', status: 200 }, // homepage : exclue
+        { url: 'https://x.fr/blog', title: 'Blog', status: 200 },
+        { url: 'https://x.fr/tarifs', title: 'Tarifs', status: 200 }, // prioritaire (pathname commercial)
+        { url: 'https://x.fr/contact', title: 'Contact', status: 404 }, // exclue (pas 200)
+      ],
+    };
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    const buildVisualsFn = vi.fn<typeof buildVisualFindings>(async () => []);
+    await renderReport(audit, { browserless, generateProFn, fetchFn: pdfFetch, buildVisualsFn });
+
+    expect(buildVisualsFn.mock.calls[0]?.[0].keyPage).toEqual({ url: 'https://x.fr/tarifs', title: 'Tarifs' });
+  });
+
+  it('pro avec crawl sans pathname commercial → première page 200 hors homepage ; sans crawl → keyPage undefined', async () => {
+    const audit = baseAudit('pro');
+    audit.crawl = {
+      analyzedPages: 3,
+      discoveredCount: 3,
+      pages: [
+        { url: 'https://x.fr/a-propos', title: 'A propos', status: 200 },
+        { url: 'https://x.fr/blog', title: 'Blog', status: 200 },
+      ],
+    };
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    const buildVisualsFn = vi.fn<typeof buildVisualFindings>(async () => []);
+    await renderReport(audit, { browserless, generateProFn, fetchFn: pdfFetch, buildVisualsFn });
+    expect(buildVisualsFn.mock.calls[0]?.[0].keyPage).toEqual({ url: 'https://x.fr/a-propos', title: 'A propos' });
+
+    const noCrawl = baseAudit('pro'); // crawl: null
+    const buildVisualsFn2 = vi.fn<typeof buildVisualFindings>(async () => []);
+    await renderReport(noCrawl, { browserless, generateProFn, fetchFn: pdfFetch, buildVisualsFn: buildVisualsFn2 });
+    expect(buildVisualsFn2.mock.calls[0]?.[0].keyPage).toBeUndefined();
   });
 
   it('pro avec impact mesuré → le funnel SVG (base 100) est injecté dans le HTML envoyé', async () => {
@@ -178,6 +230,7 @@ describe('renderReport', () => {
         imageDataUri: 'data:image/jpeg;base64,QUJDRA==',
         legend: ['Accroche claire et lisible'],
         analysis: '1 point fort relevé sur ce premier écran.',
+        kind: 'desktop' as const,
       },
     ]);
 
