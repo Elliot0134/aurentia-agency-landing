@@ -54,9 +54,11 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     ...(await checkImages(page.$, page.finalUrl, fetchFn)),
   ];
 
-  // 4. Performance (mobile toujours ; desktop en pro)
+  // 4. Performance : mobile ET desktop, en flash comme en pro.
   const psiMobile = await runPsi(page.finalUrl, 'mobile', deps.psiApiKey, fetchFn);
   measurements.push(...psiToMeasurements(psiMobile));
+  const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
+  measurements.push(...psiToMeasurements(psiDesktop));
 
   // 5. Détection business
   const business = detectBusinessType(page.$);
@@ -94,11 +96,9 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     fetchFn,
   );
 
-  // 9. Pro : desktop PSI + estimation d'impact
+  // 9. Pro : estimation d'impact
   let impact: AuditData['impact'] = null;
   if (tier === 'pro') {
-    const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
-    measurements.push(...psiToMeasurements(psiDesktop));
     impact = estimateImpact(measurements);
   }
 

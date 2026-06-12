@@ -8,8 +8,10 @@ const audit = (): AuditData => ({
   description: null,
   business: { type: 'local', scoreLocal: 5, scoreNational: 0, city: 'marseille', sector: 'conciergerie' },
   measurements: [
-    { id: 'perf.mobile.lcp', module: 'perf', label: 'Affichage du contenu principal', status: 'fail', value: 11.8, unit: 's' },
-    { id: 'perf.mobile.score', module: 'perf', label: 'Performance mobile', status: 'fail', value: 32, unit: '/100' },
+    { id: 'perf.mobile.lcp', module: 'perf', label: 'LCP — affichage du contenu principal (mobile)', status: 'fail', value: 11.8, unit: 's' },
+    { id: 'perf.mobile.score', module: 'perf', label: 'Score performance Lighthouse (mobile)', status: 'fail', value: 32, unit: '/100' },
+    { id: 'perf.desktop.lcp', module: 'perf', label: 'LCP — affichage du contenu principal (desktop)', status: 'warn', value: 3.4, unit: 's' },
+    { id: 'perf.desktop.score', module: 'perf', label: 'Score performance Lighthouse (desktop)', status: 'warn', value: 68, unit: '/100' },
   ],
   annotations: [{ x: 1, y: 1, width: 1, height: 1, measurementId: 'perf.mobile.lcp', note: 'Zone lente' }],
   screenshotPath: null, competitors: [],
@@ -42,6 +44,19 @@ describe('buildFlashEmailHtml', () => {
     expect(html).toContain('99'); // prix audit Pro
     expect(html).toContain('buy.stripe.com/28E6oGaA43WGgL72Bf0x200'); // bouton Pro vers Stripe
     expect(html).toContain('cal.com/elliot-estrade-ixfuya/appel-decouverte'); // RDV cal.com par défaut
+  });
+  it('affiche le tableau metriques en 4 colonnes Mobile/Desktop', () => {
+    const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });
+    // en-têtes des deux colonnes de mesure
+    expect(html).toContain('>Mobile<');
+    expect(html).toContain('>Desktop<');
+    // valeur mobile (LCP) et valeur desktop (LCP) toutes deux présentes
+    expect(html).toContain('11,8'); // LCP mobile
+    expect(html).toContain('3,4'); // LCP desktop
+    expect(html).toContain('68/100'); // score desktop
+    // le libellé de ligne ne porte plus de suffixe (mobile)/(desktop)
+    expect(html).not.toContain('(mobile)');
+    expect(html).not.toContain('(desktop)');
   });
   it("ne contient plus le bloc 'audit offert' et place le bloc Pro avant la signature", () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });

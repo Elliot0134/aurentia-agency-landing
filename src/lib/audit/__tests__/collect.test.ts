@@ -55,6 +55,9 @@ describe('collectAudit', () => {
     expect(audit.measurements.length).toBeGreaterThan(10);
     expect(audit.competitors).toEqual([]);
     expect(audit.impact).toBeNull();
+    // desktop PSI tourne désormais aussi en flash (pas seulement en pro)
+    expect(audit.measurements.some((m) => m.id === 'perf.desktop.score')).toBe(true);
+    expect(audit.measurements.some((m) => m.id === 'perf.mobile.score')).toBe(true);
     // toutes les measurements ont un id unique
     const ids = audit.measurements.map((m) => m.id);
     expect(new Set(ids).size).toBe(ids.length);

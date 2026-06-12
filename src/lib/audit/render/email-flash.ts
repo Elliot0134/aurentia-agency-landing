@@ -43,12 +43,19 @@ function formatMeasurement(m: Measurement): string {
   return m.value === null ? '' : escapeHtml(String(m.value));
 }
 
-/** Valeur "recommandée" par mesure, libellé fixe (pas de chiffre inventé). */
-const RECOMMENDED: Record<string, string> = {
-  'perf.mobile.lcp': 'moins de 2,5 s',
-  'perf.mobile.cls': 'moins de 0,10',
-  'perf.mobile.score': '90/100',
-};
+/**
+ * Lignes du tableau métriques (une par type de mesure). Pour chaque ligne :
+ * `key` = suffixe partagé par les ids `perf.mobile.<key>` / `perf.desktop.<key>`,
+ * `label` = libellé sans suffixe (mobile)/(desktop) puisqu'on a deux colonnes,
+ * `recommended` = seuil cible (libellé fixe, jamais un chiffre inventé).
+ */
+const METRIC_ROWS: ReadonlyArray<{ key: string; label: string; recommended: string }> = [
+  { key: 'score', label: 'Score performance Lighthouse', recommended: '90/100' },
+  { key: 'seo-score', label: 'Score SEO Lighthouse', recommended: '90/100' },
+  { key: 'lcp', label: 'LCP (affichage du contenu principal)', recommended: 'moins de 2,5 s' },
+  { key: 'cls', label: 'CLS (stabilité visuelle)', recommended: 'moins de 0,10' },
+  { key: 'weight', label: 'Poids total de la page', recommended: '' },
+];
 
 /** Formate un score sur 100 (`32/100`) ou "n/d" si la valeur manque. */
 function formatScore100(value: number | null): string {
@@ -109,7 +116,7 @@ function buildCompetitorBlock(audit: AuditData): string {
 /**
  * Construit le mail Flash HTML : structure du template de prospection
  * (intro, capture annotée, pastilles numérotées, constat mobile, tableau
- * métriques 3 colonnes, présentation agence, CTA, désinscription) habillée
+ * métriques 4 colonnes Mobile/Desktop, présentation agence, CTA, désinscription) habillée
  * à la charte orange Aurentia.agency. Fonction pure, aucun réseau.
  *
  * Règles : zéro tiret long, zéro mention IA, valeurs numériques injectées
@@ -135,17 +142,29 @@ export function buildFlashEmailHtml(
     })
     .join('');
 
-  // Tableau métriques 3 colonnes, construit depuis les mesures perf.mobile.*.
-  const perfMeasurements = audit.measurements.filter((m) => m.id.startsWith('perf.mobile.'));
-  const metricRows = perfMeasurements
-    .map((m) => {
-      const color = statusColor(m.status);
-      const recommended = RECOMMENDED[m.id] ?? '';
+  // Tableau métriques 4 colonnes (Mesure | Mobile | Desktop | Recommandé),
+  // une ligne par type de mesure, valeurs tirées de perf.mobile.<key> et
+  // perf.desktop.<key>. Cellule colorée via statusColor ; "n/d" si la mesure manque.
+  const cell = (m: Measurement | undefined): string => {
+    if (!m) {
+      return `<td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${C.muted};font-size:14px;">n/d</td>`;
+    }
+    return `<td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${statusColor(m.status)};font-weight:bold;font-size:14px;">${formatMeasurement(m)}</td>`;
+  };
+  const metricRows = METRIC_ROWS.filter(
+    (row) =>
+      audit.measurements.some((m) => m.id === `perf.mobile.${row.key}`) ||
+      audit.measurements.some((m) => m.id === `perf.desktop.${row.key}`),
+  )
+    .map((row) => {
+      const mobile = audit.measurements.find((m) => m.id === `perf.mobile.${row.key}`);
+      const desktop = audit.measurements.find((m) => m.id === `perf.desktop.${row.key}`);
       return `
               <tr>
-                <td style="border:1px solid ${C.border};padding:8px 12px;color:${C.text};font-size:14px;">${escapeHtml(m.label)}</td>
-                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${color};font-weight:bold;font-size:14px;">${formatMeasurement(m)}</td>
-                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${C.muted};font-size:14px;">${escapeHtml(recommended)}</td>
+                <td style="border:1px solid ${C.border};padding:8px 12px;color:${C.text};font-size:14px;">${escapeHtml(row.label)}</td>
+                ${cell(mobile)}
+                ${cell(desktop)}
+                <td style="border:1px solid ${C.border};padding:8px 12px;text-align:center;color:${C.muted};font-size:14px;">${escapeHtml(row.recommended)}</td>
               </tr>`;
     })
     .join('');
@@ -241,12 +260,13 @@ export function buildFlashEmailHtml(
           <p style="margin:0 0 16px;"><strong>Sur téléphone, c'est encore plus marqué.</strong> Le chargement est plus lent et la mise en page bouge pendant l'affichage, ce qui pousse vos visiteurs à repartir avant de voir votre offre.</p>
           <p style="margin:0 0 8px;"><strong>J'ai aussi passé votre page d'accueil dans nos outils de mesure</strong> (les mêmes critères que Google utilise pour classer les sites) :</p>
         </td></tr>
-        <!-- Tableau métriques 3 colonnes -->
+        <!-- Tableau métriques 4 colonnes -->
         <tr><td style="padding:8px 36px;">
           <table role="presentation" style="border-collapse:collapse;width:100%;margin:0;">
             <tr style="background:${C.surface};">
               <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;color:${C.text};font-size:14px;">Mesure</td>
-              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Votre site</td>
+              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Mobile</td>
+              <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Desktop</td>
               <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Recommandé</td>
             </tr>${metricRows}
           </table>
