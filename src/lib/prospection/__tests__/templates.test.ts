@@ -152,17 +152,22 @@ describe('renderTemplate', () => {
     'cold_1 (%s) ne contient aucun lien CTA et finit sur la question ouverte',
     (nicheKey) => {
       const email = renderTemplate('cold_1', { ...FULL_VARS, nicheKey });
-      // Seules URLs tolérées : le site du prospect (corps) et aurentia.agency (signature HTML).
+      // Seules URLs tolérées : le site du prospect (corps), la bannière et
+      // www.aurentia.agency (signature).
+      const SIGNATURE_URLS = [
+        'https://www.aurentia.agency',
+        'https://brfsrpbfqlydzhguqexj.supabase.co/storage/v1/object/public/audit-captures/brand/aurentia-banner.jpg',
+      ];
       for (const url of extractUrls(email.html)) {
-        expect([FULL_VARS.siteUrl, 'https://aurentia.agency']).toContain(url);
+        expect([FULL_VARS.siteUrl, ...SIGNATURE_URLS]).toContain(url);
       }
       for (const url of extractUrls(email.text)) {
-        expect(url).toBe(FULL_VARS.siteUrl);
+        expect([FULL_VARS.siteUrl, 'https://www.aurentia.agency']).toContain(url);
       }
       expect(email.html).not.toContain('stripe');
       expect(email.html).not.toContain('cal.com');
       // Le corps se termine par la question ouverte, juste avant la signature.
-      expect(email.text).toMatch(/\?\n\nStéphane\n/);
+      expect(email.text).toMatch(/\?\n\nStéphane - Aurentia\.agency\n/);
     },
   );
 
@@ -273,44 +278,68 @@ describe('renderTemplate — variantes par niche (cold uniquement)', () => {
 });
 
 describe('renderTemplate — signature dynamique', () => {
-  /** Regex d'un numéro FR au format 0X XX XX XX XX (espaces ou points). */
-  const PHONE_RE = /0\d(?:[ .]\d{2}){4}/;
+  /** Regex d'un numéro FR, formats 0X XX XX XX XX ou +33 X XX XX XX XX. */
+  const PHONE_RE = /(?:\+33[ .]?|0)\d(?:[ .]?\d{2}){4}/;
+  const BANNER_URL =
+    'https://brfsrpbfqlydzhguqexj.supabase.co/storage/v1/object/public/audit-captures/brand/aurentia-banner.jpg';
 
-  it('signe avec senderName, agence, descriptif court et filet de séparation', () => {
+  it('signe avec la ligne nom du senderName et le filet de séparation', () => {
     const email = renderTemplate('cold_1', FULL_VARS);
-    expect(email.text).toContain('Stéphane\nAurentia Agency, Développeurs & designers, Vaucluse');
-    expect(email.html).toContain('<strong');
+    expect(email.text).toContain('Stéphane - Aurentia.agency\nSite web : https://www.aurentia.agency');
+    expect(email.html).toContain('<strong>Stéphane</strong> - Aurentia.agency');
     expect(email.html).toContain('border-top:1px solid #ddd');
   });
 
-  it('Elliot signe avec son téléphone réel', () => {
-    const email = renderTemplate('cold_1', { ...FULL_VARS, senderName: 'Elliot' });
-    expect(email.text).toContain('07 81 95 80 90');
-    expect(email.html).toContain('07 81 95 80 90');
+  it('inclut la bannière Aurentia dans le HTML, jamais dans le text', () => {
+    const email = renderTemplate('cold_1', FULL_VARS);
+    expect(email.html).toContain(`<img src="${BANNER_URL}"`);
+    expect(email.html).toContain('alt="Aurentia.agency"');
+    expect(email.text).not.toContain(BANNER_URL);
   });
 
-  it("les autres signataires n'ont aucun téléphone (numéro inconnu, jamais inventé)", () => {
+  it('Elliot signe avec ses coordonnées complètes (nom, rôle, mail, tél, Linkedin)', () => {
+    const email = renderTemplate('cold_1', { ...FULL_VARS, senderName: 'Elliot' });
+    expect(email.html).toContain('<strong>Estrade Elliot</strong> - Founder / AI lead - Aurentia.agency');
+    expect(email.html).toContain('<strong>Mail</strong> : <a href="mailto:elliot.estrade@gmail.com"');
+    expect(email.html).toContain('<strong>Tél</strong> : +33 7 81 95 80 90');
+    expect(email.html).toContain(
+      '<strong>Linkedin</strong> : <a href="https://www.linkedin.com/in/elliot-estrade-8b7754201/"',
+    );
+    expect(email.text).toContain('Estrade Elliot - Founder / AI lead - Aurentia.agency');
+    expect(email.text).toContain('Mail : elliot.estrade@gmail.com');
+    expect(email.text).toContain('Tél : +33 7 81 95 80 90');
+    expect(email.text).toContain('Linkedin : https://www.linkedin.com/in/elliot-estrade-8b7754201/');
+  });
+
+  it("les autres signataires n'ont ni tél, ni mail, ni Linkedin (inconnus, jamais inventés)", () => {
     for (const senderName of ['Stéphane', 'Olivier', 'Matthieu', 'Fabien']) {
       const email = renderTemplate('inbound_1', { ...FULL_VARS, senderName });
-      expect(email.text).not.toMatch(PHONE_RE);
-      expect(email.html).not.toMatch(PHONE_RE);
+      expect(email.text).toContain(`${senderName} - Aurentia.agency`);
+      for (const rendered of [email.text, email.html]) {
+        expect(rendered).not.toMatch(PHONE_RE);
+        expect(rendered).not.toContain('elliot.estrade@gmail.com');
+        expect(rendered).not.toContain('linkedin.com');
+        expect(rendered).not.toContain('Founder / AI lead');
+      }
     }
   });
 
-  it('retombe sur Elliot (avec son téléphone) si senderName absent, null ou vide', () => {
+  it('retombe sur Elliot (coordonnées complètes) si senderName absent, null ou vide', () => {
     for (const senderName of [undefined, null, '', '   ']) {
       const email = renderTemplate('cold_1', { ...MIN_VARS, senderName });
-      expect(email.text).toContain('Elliot\nAurentia Agency');
-      expect(email.text).toContain('07 81 95 80 90');
+      expect(email.text).toContain('Estrade Elliot - Founder / AI lead - Aurentia.agency');
+      expect(email.text).toContain('+33 7 81 95 80 90');
     }
   });
 
   it.each(ALL_VARIANT_CASES)(
-    '$type ($nicheKey) inclut le lien aurentia.agency en signature',
+    '$type ($nicheKey) inclut le lien www.aurentia.agency et la bannière en signature',
     ({ type, nicheKey }) => {
       const email = renderTemplate(type, { ...FULL_VARS, nicheKey });
-      expect(email.html).toContain('href="https://aurentia.agency"');
-      expect(email.text).toContain('aurentia.agency');
+      expect(email.html).toContain('href="https://www.aurentia.agency"');
+      expect(email.html).toContain(BANNER_URL);
+      expect(email.text).toContain('Site web : https://www.aurentia.agency');
+      expect(email.text).not.toContain(BANNER_URL);
     },
   );
 });

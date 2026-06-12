@@ -58,18 +58,42 @@ export const DEFAULT_AUDIT_URL = 'https://buy.stripe.com/28E6oGaA43WGgL72Bf0x200
 export const DEFAULT_CAL_URL = 'https://cal.com/elliot-estrade-ixfuya/appel-decouverte';
 
 const SIGNATURE_FALLBACK = 'Elliot';
-const SIGNATURE_ORG = 'Aurentia Agency';
-const SIGNATURE_TAGLINE = 'Développeurs & designers, Vaucluse';
-const SIGNATURE_SITE_URL = 'https://aurentia.agency';
-const SIGNATURE_SITE_LABEL = 'aurentia.agency';
+const SIGNATURE_ORG = 'Aurentia.agency';
+const SIGNATURE_SITE_URL = 'https://www.aurentia.agency';
+const SIGNATURE_BANNER_URL =
+  'https://brfsrpbfqlydzhguqexj.supabase.co/storage/v1/object/public/audit-captures/brand/aurentia-banner.jpg';
+
+/** Coordonnées de signature d'un expéditeur. Tout l'optionnel est omis tant qu'il est inconnu. */
+interface SenderSignature {
+  /** Nom affiché en gras sur la ligne nom (prénom seul si le nom de famille est inconnu). */
+  fullName: string;
+  /** Rôle affiché entre le nom et Aurentia.agency ; omis si inconnu. */
+  role?: string;
+  email?: string;
+  /** Affiché tel quel, ex "+33 7 81 95 80 90". */
+  phone?: string;
+  linkedinUrl?: string;
+}
 
 /**
- * Téléphone par prénom signataire. Seul celui d'Elliot est connu : un
- * signataire absent de cette table signe SANS téléphone, on n'invente
- * jamais un numéro.
+ * Signature par expéditeur (clé = prénom signé, cf SENDER_BY_ASSIGNEE).
+ * Seules les coordonnées d'Elliot sont connues : pour les autres, on signe
+ * prénom + Site web uniquement. On n'invente JAMAIS un rôle, un nom de
+ * famille, un mail, un numéro ou un profil Linkedin.
  */
-const PHONE_BY_SENDER: Record<string, string> = {
-  Elliot: '07 81 95 80 90',
+const SIGNATURES: Record<string, SenderSignature> = {
+  Elliot: {
+    fullName: 'Estrade Elliot',
+    role: 'Founder / AI lead',
+    email: 'elliot.estrade@gmail.com',
+    phone: '+33 7 81 95 80 90',
+    linkedinUrl: 'https://www.linkedin.com/in/elliot-estrade-8b7754201/',
+  },
+  // Compléter ici (fullName, role, email, phone, linkedinUrl) quand les données seront connues :
+  Stéphane: { fullName: 'Stéphane' },
+  Olivier: { fullName: 'Olivier' },
+  Matthieu: { fullName: 'Matthieu' },
+  Fabien: { fullName: 'Fabien' },
 };
 
 /** Prénoms signataires par valeur normalisée du champ Assigné Airtable. */
@@ -399,31 +423,54 @@ const TEMPLATES: Record<string, TemplateEntry> = {
 /** Les 13 types de touches couverts par un template (hors `flash`, qui a son propre rendu). */
 export const TEMPLATE_TYPES: readonly string[] = Object.keys(TEMPLATES);
 
+/** Signature de l'expéditeur ; fallback Elliot (un mail signe toujours avec des données réelles). */
+function senderSignature(vars: TemplateVars): SenderSignature {
+  return SIGNATURES[senderName(vars)] ?? SIGNATURES[SIGNATURE_FALLBACK];
+}
+
+/** Ligne nom : "Nom - Rôle - Aurentia.agency", le rôle seulement s'il est connu. */
+function signatureNameLine(sig: SenderSignature, nameHtml: string): string {
+  return [nameHtml, ...(sig.role ? [sig.role] : []), SIGNATURE_ORG].join(' - ');
+}
+
 /**
- * Bloc signature HTML : nom en gras, agence + descriptif, ligne contact
- * (lien aurentia.agency, téléphone seulement s'il est connu). Séparé du
- * corps par un filet discret. Aucune image, aucun tiret long.
+ * Bloc signature HTML, réplique de la signature Gmail d'Elliot : bannière
+ * Aurentia en tête, puis lignes 14px Arial aérées (nom en gras, Site web,
+ * et Mail / Tél / Linkedin seulement s'ils sont connus). Séparée du corps
+ * par le filet discret. Aucun tiret long (le " - " est un tiret court).
  */
 function renderSignatureHtml(vars: TemplateVars): string {
-  const name = senderName(vars);
-  const phone = PHONE_BY_SENDER[name];
-  const site = `<a href="${SIGNATURE_SITE_URL}" style="color:#e8550f;">${SIGNATURE_SITE_LABEL}</a>`;
-  const contact = phone ? `${site} &middot; ${phone}` : site;
+  const sig = senderSignature(vars);
+  const link = (url: string): string => `<a href="${url}" style="color:#e8550f;">${url}</a>`;
+  const lines = [
+    signatureNameLine(sig, `<strong>${escapeHtml(sig.fullName)}</strong>`),
+    `<strong>Site web</strong> : ${link(SIGNATURE_SITE_URL)}`,
+    ...(sig.email
+      ? [`<strong>Mail</strong> : <a href="mailto:${sig.email}" style="color:#e8550f;">${sig.email}</a>`]
+      : []),
+    ...(sig.phone ? [`<strong>Tél</strong> : ${escapeHtml(sig.phone)}`] : []),
+    ...(sig.linkedinUrl ? [`<strong>Linkedin</strong> : ${link(sig.linkedinUrl)}`] : []),
+  ];
   return [
-    '<p style="margin:24px 0 0;padding-top:12px;border-top:1px solid #ddd;font-size:13px;color:#555;">',
-    `<strong style="font-size:15px;color:#1f2937;">${escapeHtml(name)}</strong><br/>`,
-    `${escapeHtml(SIGNATURE_ORG)}, ${escapeHtml(SIGNATURE_TAGLINE)}<br/>`,
-    contact,
+    '<div style="margin:24px 0 0;padding-top:12px;border-top:1px solid #ddd;">',
+    `<img src="${SIGNATURE_BANNER_URL}" alt="Aurentia.agency" width="420" style="display:block;max-width:100%;border-radius:4px;" />`,
+    '<p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.8;color:#1f2937;">',
+    lines.join('<br/>'),
     '</p>',
+    '</div>',
   ].join('');
 }
 
-/** Équivalent text de la signature : trois lignes simples, sans protocole. */
+/** Équivalent text de la signature : mêmes lignes que le HTML, sans la bannière. */
 function renderSignatureText(vars: TemplateVars): string {
-  const name = senderName(vars);
-  const phone = PHONE_BY_SENDER[name];
-  const contact = phone ? `${SIGNATURE_SITE_LABEL}, ${phone}` : SIGNATURE_SITE_LABEL;
-  return `${name}\n${SIGNATURE_ORG}, ${SIGNATURE_TAGLINE}\n${contact}`;
+  const sig = senderSignature(vars);
+  return [
+    signatureNameLine(sig, sig.fullName),
+    `Site web : ${SIGNATURE_SITE_URL}`,
+    ...(sig.email ? [`Mail : ${sig.email}`] : []),
+    ...(sig.phone ? [`Tél : ${sig.phone}`] : []),
+    ...(sig.linkedinUrl ? [`Linkedin : ${sig.linkedinUrl}`] : []),
+  ].join('\n');
 }
 
 function renderHtml(vars: TemplateVars, def: TemplateDef): string {
