@@ -559,6 +559,8 @@ function buildCover(audit: AuditData): string {
   const domain = domainOf(audit.finalUrl);
   const date = new Date(audit.collectedAt).toLocaleDateString('fr-FR');
   const domains = auditedDomains(audit).join(' · ');
+  const pagesAnalyzed =
+    audit.crawl !== null ? esc(String(audit.crawl.analyzedPages)) : "1 (page d'accueil)";
 
   const siteRows = [
     `<div class="box-row"><span class="k">Domaine :</span> <strong>${esc(domain)}</strong></div>`,
@@ -589,7 +591,7 @@ function buildCover(audit: AuditData): string {
         <div class="cover-box">
           <div class="box-label">INFORMATIONS RAPPORT</div>
           <div class="box-row"><span class="k">Date :</span> ${esc(date)}</div>
-          <div class="box-row"><span class="k">Pages analysées :</span> 1 (page d'accueil)</div>
+          <div class="box-row"><span class="k">Pages analysées :</span> ${pagesAnalyzed}</div>
           <div class="box-row"><span class="k">Auditeur :</span> Aurentia Agency</div>
         </div>
       </div>

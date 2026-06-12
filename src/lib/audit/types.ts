@@ -79,6 +79,17 @@ export interface BusinessDetection {
   sector: string | null; // clé de SECTOR_BENCHMARKS
 }
 
+/**
+ * Résumé léger du crawl multi-pages (pro uniquement). Les measurements des
+ * pages crawlées sont fusionnées dans AuditData.measurements (ids préfixés
+ * page[<pathname>].), seul le résumé vit ici.
+ */
+export interface CrawlSummary {
+  analyzedPages: number; // pages crawlées + 1 (homepage)
+  discoveredCount: number; // URLs internes découvertes (avant cap)
+  pages: { url: string; title: string | null; status: number }[];
+}
+
 export interface AuditData {
   url: string;
   finalUrl: string;
@@ -91,4 +102,5 @@ export interface AuditData {
   screenshotPath: string | null; // PNG full-page sur disque
   competitors: CompetitorSummary[];
   impact: ImpactEstimate | null; // pro uniquement
+  crawl: CrawlSummary | null; // pro uniquement
 }

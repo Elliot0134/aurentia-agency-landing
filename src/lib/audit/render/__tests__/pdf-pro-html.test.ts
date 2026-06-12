@@ -43,6 +43,16 @@ const richAudit = (): AuditData => ({
     headlinePercent: 32,
     assumptions: ['Trafic suppose constant.'],
   },
+  crawl: {
+    analyzedPages: 5,
+    discoveredCount: 12,
+    pages: [
+      { url: 'https://www.exemple.fr/contact', title: 'Contact', status: 200 },
+      { url: 'https://www.exemple.fr/services', title: 'Services', status: 200 },
+      { url: 'https://www.exemple.fr/tarifs', title: 'Tarifs', status: 200 },
+      { url: 'https://www.exemple.fr/blog', title: 'Blog', status: 200 },
+    ],
+  },
 });
 
 const richContent = (): ReportContent => ({
@@ -84,6 +94,7 @@ const bareAudit = (): AuditData => {
     measurements: a.measurements.filter((m) => !m.id.startsWith('local.')),
     competitors: [],
     impact: null,
+    crawl: null,
   };
 };
 
@@ -102,6 +113,13 @@ describe('buildProReportHtml', () => {
     expect(cover).toContain('Cavaillon');
     expect(cover).toContain('Aurentia Agency');
     expect(cover).not.toMatch(/<img/); // bandeau recréé en HTML/CSS, pas d'image bitmap
+  });
+
+  it('cover : Pages analysées branchée sur audit.crawl quand présent, fallback homepage sinon', async () => {
+    const withCrawl = section(await buildProReportHtml(richAudit(), richContent(), richOpts()), 'cover');
+    expect(withCrawl).toContain('Pages analysées :</span> 5');
+    const noCrawl = section(await buildProReportHtml(bareAudit(), richContent(), richOpts()), 'cover');
+    expect(noCrawl).toContain("Pages analysées :</span> 1 (page d'accueil)");
   });
 
   it('synthèse : score color-codé, radar inline, impact en %, priorités à pastilles, box recommandation', async () => {

@@ -13,6 +13,7 @@ const audit = (): AuditData => ({
   ],
   annotations: [], screenshotPath: null, competitors: [],
   impact: { items: [{ id: 'impact.lcp', label: 'LCP', lossPercent: 60, basis: '...' }], headlinePercent: 60, assumptions: [] },
+  crawl: null,
 });
 
 const okContent = (): ReportContent => ({

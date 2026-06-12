@@ -8,7 +8,7 @@ const audit = (): AuditData => ({
   description: null,
   business: { type: 'local', scoreLocal: 5, scoreNational: 0, city: 'marseille', sector: 'conciergerie' },
   measurements: [{ id: 'perf.mobile.lcp', module: 'perf', label: 'LCP', status: 'fail', value: 11.8, unit: 's' }],
-  annotations: [], screenshotPath: null, competitors: [], impact: null,
+  annotations: [], screenshotPath: null, competitors: [], impact: null, crawl: null,
 });
 const valid: ReportContent = {
   execSummary: 'Votre site est lent et perd des visiteurs.',

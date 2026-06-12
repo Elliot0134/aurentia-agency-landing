@@ -20,6 +20,7 @@ const audit = (): AuditData => ({
     headlinePercent: 32,
     assumptions: ['Estimation sans donnee de trafic.'],
   },
+  crawl: null,
 });
 const content = (): ReportContent => ({
   execSummary: "Votre site est lent et perd des visiteurs avant meme qu'ils voient votre offre.",

@@ -23,6 +23,7 @@ const baseAudit = (tier: 'flash' | 'pro'): AuditData => ({
   screenshotPath: null,
   competitors: [],
   impact: null,
+  crawl: null,
 });
 
 const flashContent: ReportContent = {

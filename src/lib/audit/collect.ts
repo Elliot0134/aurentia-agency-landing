@@ -19,6 +19,7 @@ import {
   type ScopeClassifyFn,
 } from './competitors';
 import { estimateImpact } from './impact';
+import { crawlSite, aggregateCrawlMeasurements, type CrawlOptions } from './crawl';
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -33,6 +34,8 @@ export interface CollectDeps {
    * éviter l'appel réseau LLM. Absent en prod → vrai appel OpenRouter.
    */
   classifyFn?: ScopeClassifyFn;
+  /** Options du crawl multi-pages (pro). Injectable en test (sleepFn, maxPages). */
+  crawlOpts?: Pick<CrawlOptions, 'maxPages' | 'throttleMs' | 'sleepFn'>;
 }
 
 export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps): Promise<AuditData> {
@@ -96,9 +99,22 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     fetchFn,
   );
 
-  // 9. Pro : estimation d'impact
+  // 9. Pro : crawl multi-pages (sitemap/liens internes) + estimation d'impact.
+  // Les measurements des pages crawlées (ids préfixés page[<pathname>].) et les
+  // agrégats sont fusionnés dans le même tableau ; seul le résumé va dans crawl.
   let impact: AuditData['impact'] = null;
+  let crawl: AuditData['crawl'] = null;
   if (tier === 'pro') {
+    const crawlResult = await crawlSite(page.finalUrl, page.html, { fetchFn, ...deps.crawlOpts });
+    for (const crawled of crawlResult.pages) {
+      measurements.push(...crawled.measurements);
+    }
+    measurements.push(...aggregateCrawlMeasurements(crawlResult.pages));
+    crawl = {
+      analyzedPages: crawlResult.pages.length + 1, // + homepage
+      discoveredCount: crawlResult.discoveredCount,
+      pages: crawlResult.pages.map(({ url, title, status }) => ({ url, title, status })),
+    };
     impact = estimateImpact(measurements);
   }
 
@@ -114,5 +130,6 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     screenshotPath,
     competitors,
     impact,
+    crawl,
   };
 }
