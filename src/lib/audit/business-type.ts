@@ -14,7 +14,8 @@ export const FRENCH_CITIES = [
   'cavaillon', 'salon-de-provence', 'martigues', 'aubagne', 'istres', 'gap', 'draguignan',
 ] as const;
 
-const LOCAL_SCHEMA_TYPES = [
+/** @type JSON-LD considérés comme business local (partagé avec local-seo.ts). */
+export const LOCAL_SCHEMA_TYPES = [
   'LocalBusiness', 'Restaurant', 'Plumber', 'RealEstateAgent', 'Dentist', 'Physician',
   'AutoRepair', 'HairSalon', 'Hotel', 'BarOrPub', 'Store', 'LegalService', 'Electrician',
   'HousePainter', 'RoofingContractor', 'HomeAndConstructionBusiness', 'LodgingBusiness',
@@ -32,7 +33,8 @@ const SECTOR_KEYWORDS: Record<string, string> = {
   boutique: 'ecommerce', 'e-commerce': 'ecommerce',
 };
 
-const FRENCH_PHONE = /(?:\+33|0)\s?[1-9](?:[\s.\-]?\d{2}){4}/;
+/** Numéro de téléphone FR (partagé avec local-seo.ts). */
+export const FRENCH_PHONE = /(?:\+33|0)\s?[1-9](?:[\s.\-]?\d{2}){4}/;
 const POSTAL_ADDRESS = /\b\d{5}\b/; // code postal présent près d'un nom de ville
 
 export function detectBusinessType($: CheerioAPI): BusinessDetection {

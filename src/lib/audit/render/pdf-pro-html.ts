@@ -1,5 +1,6 @@
 import { toString as qrToString } from 'qrcode';
 import type { AuditData, CompetitorSummary, Measurement, ModuleId } from '../types';
+import { localSeoBreakdown } from '../local-seo';
 import type { Finding, ReportContent } from './report-schema';
 import { COLORS } from './theme';
 
@@ -109,6 +110,7 @@ const CATEGORY_DISPLAY: Record<string, string> = {
 
 const MODULE_CATEGORY: Record<ModuleId, string> = {
   business: 'VISIBILITÉ & GOOGLE',
+  'local-seo': 'VISIBILITÉ & GOOGLE',
   competitors: 'VISIBILITÉ & GOOGLE',
   'seo-onpage': 'SEO & CONTENU',
   'seo-tech': 'SEO & CONTENU',
@@ -122,6 +124,7 @@ const MODULE_CATEGORY: Record<ModuleId, string> = {
 
 const MODULE_DOMAIN: Record<ModuleId, string> = {
   business: 'Visibilité',
+  'local-seo': 'Visibilité locale',
   competitors: 'Concurrence',
   'seo-onpage': 'SEO on-page',
   'seo-tech': 'SEO technique',
@@ -844,48 +847,31 @@ function buildVisuals(visuals: ProVisualFinding[] | undefined): string {
  * Local SEO (conditionnel : business local)
  * ------------------------------------------------------------------------- */
 
-const LOCAL_BREAKDOWN = [
-  { key: 'gbp', label: 'GBP', max: 25 },
-  { key: 'onpage', label: 'ON PAGE', max: 20 },
-  { key: 'schema', label: 'SCHEMA', max: 20 },
-  { key: 'nap', label: 'NAP', max: 15 },
-  { key: 'citations', label: 'CITATIONS', max: 10 },
-  { key: 'reviews', label: 'REVIEWS', max: 10 },
-] as const;
-
 function buildLocalSeo(audit: AuditData): string {
   if (audit.business.type !== 'local') return '';
 
-  let measuredPoints = 0;
-  let measuredMax = 0;
-  const rows = LOCAL_BREAKDOWN.map((item) => {
-    const ms = audit.measurements.filter(
-      (m) => m.id.startsWith(`local.${item.key}.`) || m.id === `local.${item.key}`,
-    );
-    const scored = ms.filter((m) => m.status !== 'info');
-    if (scored.length === 0) {
-      return `<tr><td class="k">${item.label}</td><td class="v"><span class="tech-detail" style="display:inline;">à évaluer en relecture</span></td></tr>`;
-    }
-    const passRate = scored.filter((m) => m.status === 'pass').length / scored.length;
-    const pts = Math.round(passRate * item.max);
-    measuredPoints += pts;
-    measuredMax += item.max;
-    return `<tr><td class="k">${item.label}</td><td class="v">${pts} / ${item.max}</td></tr>`;
-  }).join('');
+  const { total, max, rows } = localSeoBreakdown(audit.measurements);
 
-  const localScore = measuredMax > 0 ? Math.round((measuredPoints / measuredMax) * 100) : null;
+  const rowsHtml = rows
+    .map((r) =>
+      r.measured
+        ? `<tr><td class="k">${esc(r.label)}</td><td class="v">${r.score} / ${r.max}</td></tr>`
+        : `<tr><td class="k">${esc(r.label)}</td><td class="v"><span style="color:${COLORS.muted};">à vérifier</span></td></tr>`,
+    )
+    .join('');
+
   const scoreHtml =
-    localScore !== null
-      ? `<div class="local-score-big" style="color:${scoreColor(localScore)};">${localScore}</div>
-         <div class="score-meta">Score Local / 100 (sur les critères mesurables)</div>`
+    max > 0
+      ? `<div class="local-score-big" style="color:${scoreColor(Math.round((total / max) * 100))};">${total} / ${max}</div>
+         <div class="score-meta">Score local (mesurable) : ${total}/${max}</div>`
       : `<div class="local-score-big" style="color:${COLORS.muted};">n.d.</div>
-         <div class="score-meta">Score Local / 100</div>`;
+         <div class="score-meta">Score local (mesurable)</div>`;
 
   const sector = audit.business.sector;
   const city = audit.business.city;
-  const intro = `Votre activité${sector !== null ? ` (${esc(sector)})` : ''} est détectée comme un business local${
-    city !== null ? ` à ${esc(city)}` : ''
-  }. La visibilité locale (fiche Google, pack Maps, avis clients) représente souvent 20 à 40% du levier de visibilité total pour ce type d'activité.`;
+  const intro = `Section spécifique : votre activité${sector !== null ? ` (${esc(sector)})` : ''} est détectée comme locale${
+    city !== null ? `, à ${esc(city)}` : ''
+  }. GBP, avis et citations sont vérifiés pendant la relecture.`;
 
   return `
   <section class="section" id="local-seo">
@@ -893,13 +879,14 @@ function buildLocalSeo(audit: AuditData): string {
     <p>${intro}</p>
     <div class="local-score-block">
       <div>${scoreHtml}</div>
-      <div style="flex:1;"><table class="breakdown-table"><tbody>${rows}</tbody></table></div>
+      <div style="flex:1;"><table class="breakdown-table"><tbody>${rowsHtml}</tbody></table></div>
     </div>
     <h3>Ce qui est mesuré, ce qui reste à vérifier</h3>
-    <p>Les lignes chiffrées ci-dessus proviennent de mesures effectuées sur votre site.
-    Les critères externes (fiche Google Business Profile, avis, citations) demandent une vérification
-    manuelle : ils sont contrôlés lors de la relecture du rapport.
-    <span class="tech-detail">Critères notés : GBP /25 · ON PAGE /20 · SCHEMA /20 · NAP /15 · CITATIONS /10 · REVIEWS /10</span></p>
+    <p>Les lignes chiffrées ci-dessus proviennent de mesures effectuées sur votre site
+    (on-page, données structurées, coordonnées). Les critères externes (fiche Google Business
+    Profile, avis, citations) ne sont pas mesurables automatiquement : ils sont contrôlés lors
+    de la relecture du rapport, jamais notés à l'aveugle.
+    <span class="tech-detail">Critères mesurés : ON PAGE /20 · SCHEMA /20 · NAP /15. À vérifier en relecture : GBP, CITATIONS, REVIEWS.</span></p>
   </section>`;
 }
 

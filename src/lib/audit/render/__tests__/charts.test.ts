@@ -170,6 +170,15 @@ describe('radarAxesFromMeasurements', () => {
     expect(radarAxesFromMeasurements([])).toEqual([]);
   });
 
+  it("le module local-seo apparaît sous le label 'Local SEO' (business non scoré)", () => {
+    const axes = radarAxesFromMeasurements([
+      m('local-seo', 'pass', 'local.nap.phone'),
+      m('local-seo', 'fail', 'local.schema.geo'),
+      m('business', 'pass', 'b1'), // ne porte plus le label Local SEO
+    ]);
+    expect(axes).toEqual([{ label: 'Local SEO', score: 5 }]);
+  });
+
   it("le module ai-readiness apparaît sous le label 'AI Readiness'", () => {
     const axes = radarAxesFromMeasurements([
       m('ai-readiness', 'pass', 'ai.llms-txt'),

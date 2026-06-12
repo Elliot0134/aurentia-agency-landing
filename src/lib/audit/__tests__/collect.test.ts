@@ -152,6 +152,29 @@ describe('collectAudit', () => {
     });
   });
 
+  describe('Local SEO', () => {
+    it('pro + business local : measurements local.* présents (module local-seo)', async () => {
+      const audit = await collectAudit('exemple.fr', 'pro', deps);
+      expect(audit.business.type).toBe('local');
+      const local = audit.measurements.filter((m) => m.module === 'local-seo');
+      expect(local.length).toBeGreaterThanOrEqual(7);
+      expect(local.every((m) => m.id.startsWith('local.'))).toBe(true);
+      // fixture : téléphone visible, adresse uniquement en footer, schema LocalBusiness présent
+      expect(audit.measurements.find((m) => m.id === 'local.nap.phone')!.status).toBe('pass');
+      expect(audit.measurements.find((m) => m.id === 'local.nap.address')!.status).toBe('warn');
+      expect(audit.measurements.find((m) => m.id === 'local.schema.localbusiness')!.status).toBe('pass');
+      // GBP/avis/citations : jamais scorés automatiquement, ligne info pour la relecture
+      const gbp = audit.measurements.find((m) => m.id === 'local.gbp.unverified')!;
+      expect(gbp.status).toBe('info');
+      expect(gbp.value).toBeNull();
+    });
+
+    it('flash : pas de Local SEO', async () => {
+      const audit = await collectAudit('exemple.fr', 'flash', deps);
+      expect(audit.measurements.some((m) => m.module === 'local-seo')).toBe(false);
+    });
+  });
+
   describe('accessibilité (axe-core)', () => {
     afterEach(() => {
       vi.useRealTimers();

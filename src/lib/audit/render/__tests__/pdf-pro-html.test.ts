@@ -29,8 +29,13 @@ const richAudit = (): AuditData => ({
     { id: 'tech.https', module: 'seo-tech', label: 'HTTPS', status: 'pass', value: true },
     { id: 'tech.schema.present', module: 'seo-tech', label: 'Donnees structurees', status: 'warn', value: false },
     { id: 'images.broken', module: 'images', label: 'Images en erreur', status: 'info', value: 2 },
-    { id: 'local.schema.localbusiness', module: 'business', label: 'Schema LocalBusiness', status: 'fail', value: false },
-    { id: 'local.nap.phone', module: 'business', label: 'Telephone visible sur la page', status: 'pass', value: true },
+    { id: 'local.nap.phone', module: 'local-seo', label: 'Telephone visible sur la page', status: 'pass', value: '04 90 00 00 00' },
+    { id: 'local.nap.address', module: 'local-seo', label: 'Adresse postale visible', status: 'warn', value: '84300 Cavaillon', details: 'adresse seulement en pied de page' },
+    { id: 'local.schema.localbusiness', module: 'local-seo', label: 'Schema LocalBusiness', status: 'fail', value: false },
+    { id: 'local.schema.geo', module: 'local-seo', label: 'Geolocalisation dans le schema', status: 'fail', value: false },
+    { id: 'local.schema.hours', module: 'local-seo', label: 'Horaires dans le schema', status: 'fail', value: false },
+    { id: 'local.city.title', module: 'local-seo', label: 'Ville dans le title ou le h1', status: 'pass', value: 'cavaillon' },
+    { id: 'local.gbp.unverified', module: 'local-seo', label: 'Fiche Google Business, avis, citations', status: 'info', value: null, details: 'A evaluer pendant la relecture humaine.' },
     { id: 'ai.llms-txt', module: 'ai-readiness', label: 'Fichier llms.txt (guidage des moteurs IA)', status: 'fail', value: false, proof: 'GET https://www.exemple.fr/llms.txt → 404' },
   ],
   annotations: [],
@@ -178,18 +183,26 @@ describe('buildProReportHtml', () => {
     expect(vis).toContain('Le visiteur mobile ne voit jamais votre bouton principal.');
   });
 
-  it('local SEO : score local /100 et breakdown GBP..REVIEWS quand business local', async () => {
+  it('local SEO : score mesurable /55, breakdown, non-mesurés en "à vérifier"', async () => {
     const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
     const local = section(html, 'local-seo');
     expect(local).toContain('Local SEO');
     for (const label of ['GBP', 'ON PAGE', 'SCHEMA', 'NAP', 'CITATIONS', 'REVIEWS']) {
       expect(local).toContain(label);
     }
-    expect(local).toContain('0 / 20'); // schema mesuré en échec
-    expect(local).toContain('15 / 15'); // nap mesuré et conforme
-    // nap mesuré (pass → 15/15), schema mesuré (fail → 0/20) → score local 43/100
-    expect(local).toContain('>43<');
-    expect(local).toContain('à évaluer'); // GBP non mesurable automatiquement
+    // ON PAGE : city.title pass (10) + adresse warn (5) = 15/20
+    expect(local).toContain('15 / 20');
+    // SCHEMA : tout fail = 0/20
+    expect(local).toContain('0 / 20');
+    // NAP : phone pass (8) + adresse warn (3) = 11/15
+    expect(local).toContain('11 / 15');
+    // gros score = total mesurable uniquement (26/55), jamais un /100 inventé
+    expect(local).toContain('26 / 55');
+    expect(local).toContain('mesurable');
+    // GBP, avis, citations : pas de score inventé, marqués à vérifier en relecture
+    expect(local).toContain('à vérifier');
+    expect(local).toContain('détectée comme locale');
+    expect(local).not.toContain('/ 100');
   });
 
   it('funnel et état actuel vs cible : charts inline + analyse + tableau axes', async () => {

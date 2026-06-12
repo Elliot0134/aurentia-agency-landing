@@ -22,6 +22,7 @@ import { estimateImpact } from './impact';
 import { crawlSite, aggregateCrawlMeasurements, type CrawlOptions } from './crawl';
 import { runAxe, a11yToMeasurements, type A11yPageResult } from './a11y';
 import { checkAiReadiness } from './ai-readiness';
+import { checkLocalSeo } from './local-seo';
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -171,6 +172,12 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
         fetchFn,
       })),
     );
+
+    // Local SEO mesurable (NAP, schema, on-page) : uniquement pour un business
+    // local. GBP/avis/citations ne sont jamais scorés (ligne info → relecture).
+    if (business.type === 'local') {
+      measurements.push(...checkLocalSeo(page.$, business));
+    }
 
     impact = estimateImpact(measurements);
   }
