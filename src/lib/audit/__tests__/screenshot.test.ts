@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { captureScreenshot, getImageRects, buildAnnotations } from '../screenshot';
+import { captureScreenshot, getImageRects, getHeroElementRects, buildAnnotations } from '../screenshot';
 import type { Measurement } from '../types';
 
 describe('captureScreenshot', () => {
@@ -29,6 +29,31 @@ describe('getImageRects', () => {
       new Response(JSON.stringify({ type: 'application/json' }), { status: 200 })) as typeof fetch;
     const rects = await getImageRects('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
     expect(rects).toEqual([]);
+  });
+});
+
+describe('getHeroElementRects', () => {
+  it('parse json.data et normalise les champs manquants a null', async () => {
+    const fakeFetch: typeof fetch = (async () =>
+      new Response(JSON.stringify({ data: { headline: { x: 1, y: 2, width: 3, height: 4 }, cta: null }, type: 'application/json' }), { status: 200 })) as typeof fetch;
+    const rects = await getHeroElementRects('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+    expect(rects.headline).toMatchObject({ x: 1, y: 2, width: 3, height: 4 });
+    expect(rects.cta).toBeNull();
+    expect(rects.nav).toBeNull();
+    expect(rects.heroImage).toBeNull();
+    expect(rects.logos).toBeNull();
+  });
+
+  it('retourne tous les champs a null sur erreur reseau (ne throw pas)', async () => {
+    vi.useFakeTimers();
+    const fakeFetch: typeof fetch = (async () => {
+      throw new Error('network down');
+    }) as typeof fetch;
+    const promise = getHeroElementRects('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+    await vi.runAllTimersAsync();
+    const rects = await promise;
+    expect(rects).toEqual({ headline: null, cta: null, nav: null, heroImage: null, logos: null });
+    vi.useRealTimers();
   });
 });
 
