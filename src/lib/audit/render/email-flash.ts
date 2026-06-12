@@ -8,12 +8,15 @@ export interface FlashEmailOptions {
   scoreGaugeUrl?: string;
   /** Lien de prise de rendez-vous (défaut : cal.com Elliot). */
   calUrl?: string;
+  /** Lien d'achat de l'audit Pro (défaut : page de paiement Stripe). */
+  proUrl?: string;
   /** URL du logo de l'en-tête (défaut : logo clair hébergé). */
   logoUrl?: string;
 }
 
-const DEFAULT_LOGO_URL = 'https://www.aurentia.agency/images/logo-light.png';
+const DEFAULT_LOGO_URL = 'https://www.aurentia.agency/images/logo-aurentia-email.png';
 const DEFAULT_CAL_URL = 'https://cal.com/elliot-estrade-ixfuya/appel-decouverte';
+const DEFAULT_PRO_URL = 'https://buy.stripe.com/28E6oGaA43WGgL72Bf0x200';
 
 /** Échappe l'input (texte LLM) avant injection dans le HTML du mail. */
 function escapeHtml(s: string): string {
@@ -156,6 +159,7 @@ export function buildFlashEmailHtml(
   const safeCta = escapeHtml(opts.ctaUrl);
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
   const safeCal = escapeHtml(opts.calUrl ?? DEFAULT_CAL_URL);
+  const safePro = escapeHtml(opts.proUrl ?? DEFAULT_PRO_URL);
 
   // Encart "audit Pro à 99 €" : explique l'offre payante et propose deux CTA
   // (bouton primaire Pro + bouton secondaire prise de RDV).
@@ -165,7 +169,7 @@ export function buildFlashEmailHtml(
             <tr><td style="padding:24px 24px 26px;">
               <div style="font-size:17px;font-weight:700;color:${C.text};margin-bottom:8px;">Vous voulez l'analyse complète ?</div>
               <p style="margin:0 0 18px;font-size:15px;line-height:1.6;color:${C.muted};">Ce pré-audit ne couvre que votre page d'accueil. L'audit Pro à 99 € HT passe TOUT votre site au crible : SEO technique et contenu, performance détaillée, expérience utilisateur, accessibilité, votre visibilité sur les IA (ChatGPT, Perplexity), et un comparatif approfondi de vos concurrents. Vous recevez un PDF complet avec votre score détaillé et un plan d'action priorisé, relu par un humain et livré sous 24h.</p>
-              <a href="${safeCta}" style="display:inline-block;background:${C.accent};color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:14px 26px;border-radius:12px;margin:0 0 12px;">Obtenir l'audit Pro (99 €)</a>
+              <a href="${safePro}" style="display:inline-block;background:${C.accent};color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:14px 26px;border-radius:12px;margin:0 0 12px;">Obtenir l'audit Pro (99 €)</a>
               <br>
               <a href="${safeCal}" style="display:inline-block;background:${C.card};color:${C.accent};font-size:16px;font-weight:600;text-decoration:none;padding:13px 25px;border-radius:12px;border:1px solid ${C.accent};">Prendre rendez-vous pour en parler</a>
             </td></tr>

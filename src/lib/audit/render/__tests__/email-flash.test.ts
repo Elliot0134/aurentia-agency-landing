@@ -38,9 +38,10 @@ describe('buildFlashEmailHtml', () => {
     expect(html).toContain('32'); // impact en % de visiteurs perdus
     expect(html.toLowerCase()).toContain('visiteurs'); // libelle impact
     expect(html).toContain('%'); // exprime en pourcentage, pas en euros
-    expect(html).toContain('logo-light.png'); // vrai logo image en en-tête
+    expect(html).toContain('logo-aurentia-email.png'); // vrai wordmark en en-tête
     expect(html.toLowerCase()).toContain('audit pro'); // section audit Pro
     expect(html).toContain('99'); // prix audit Pro
+    expect(html).toContain('buy.stripe.com/28E6oGaA43WGgL72Bf0x200'); // bouton Pro vers Stripe
     expect(html).toContain('cal.com/elliot-estrade-ixfuya/appel-decouverte'); // RDV cal.com par défaut
   });
   it("ne contient ni tiret long, ni mention IA, ni montant euros d'impact", () => {

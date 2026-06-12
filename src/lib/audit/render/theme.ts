@@ -1,20 +1,20 @@
 import type { MeasurementStatus } from '../types';
 
 export const COLORS = {
-  accent: '#c96442',       // terracotta (bouton "Prendre RDV", CTA primaire)
-  accentDark: '#b05730',   // terracotta foncé (hover)
-  accentLight: '#d97757',  // coral clair
-  tintBg: '#f5efe7',       // tint crème chaud pour encarts
-  tintBorder: '#e7dccf',   // bordure d'encart
-  surface: '#ede9de',      // fond crème (bg-base)
-  card: '#faf9f6',         // carte (warm off-white)
-  border: '#e3dfd4',       // bordure
-  text: '#3d3929',         // texte principal (brun chaud foncé)
-  muted: '#5c5a50',        // texte secondaire
-  dim: '#83827d',          // texte tertiaire
-  bad: '#C62828',          // mauvais (inchangé, feu rouge universel)
-  mid: '#E8710A',          // moyen
-  good: '#2E7D32',         // bon
+  accent: '#c96442',       // terracotta (BOUTONS / CTA : couleur de marque)
+  accentDark: '#b05730',
+  accentLight: '#d97757',
+  tintBg: '#FBF4EF',       // tint terracotta très clair pour l'encart Pro
+  tintBorder: '#EBDDD2',
+  surface: '#F4F4F5',      // RETOUR neutre clair (fond)
+  card: '#FFFFFF',         // carte blanche
+  border: '#E5E5E5',       // bordure neutre
+  text: '#0A0A0A',         // texte noir (retour avant)
+  muted: '#767676',        // texte secondaire neutre
+  dim: '#999999',          // texte tertiaire
+  bad: '#C62828',
+  mid: '#E8710A',
+  good: '#2E7D32',
 } as const;
 
 export function statusColor(status: MeasurementStatus): string {
