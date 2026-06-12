@@ -25,12 +25,19 @@ export interface ProReportOptions {
 
 export type ProPriority = 'Critique' | 'Important' | 'À optimiser';
 
+/**
+ * Forme acceptée en entrée pour la priorité : le schéma LLM (report-schema)
+ * produit la forme accentuée, mais on tolère "A optimiser" sans accent.
+ * Le badge affiché reste TOUJOURS "À optimiser".
+ */
+export type ProPriorityInput = ProPriority | 'A optimiser';
+
 export interface ProAuditTableRow {
   category: string;
   domain: string;
   finding: string;
   impact: string;
-  priority: ProPriority;
+  priority: ProPriorityInput;
 }
 
 export interface ProRecommendation {
@@ -40,9 +47,10 @@ export interface ProRecommendation {
 }
 
 /**
- * Type élargi local : champs Pro futurs du content (tâche A3 côté schéma).
- * Défini ici pour ne PAS modifier report-schema.ts. Tous optionnels : le
- * template a un fallback complet construit depuis `audit.measurements`.
+ * Type élargi local consommé par le template. Le contenu Pro rédigé par le LLM
+ * (`ProReportContent` de report-schema, tâche A3) y est structurellement
+ * assignable : champs requis côté LLM, optionnels ici car le template garde un
+ * fallback complet construit depuis `audit.measurements` quand ils manquent.
  */
 export type ProContent = ReportContent &
   Partial<{
@@ -82,6 +90,12 @@ const CATEGORY_ORDER = [
   'ACCESSIBILITÉ',
   'AI READINESS',
 ] as const;
+
+/** Alias sans accent tolérés en entrée → forme canonique affichée. */
+const CATEGORY_ALIASES: Record<string, string> = {
+  'VISIBILITE & GOOGLE': 'VISIBILITÉ & GOOGLE',
+  ACCESSIBILITE: 'ACCESSIBILITÉ',
+};
 
 const CATEGORY_DISPLAY: Record<string, string> = {
   'VISIBILITÉ & GOOGLE': 'Visibilité & Google',
@@ -184,9 +198,15 @@ function domainLabelOf(m: Measurement): string {
   return MODULE_DOMAIN[m.module];
 }
 
-function badgeHtml(priority: ProPriority): string {
-  const b = BADGE[priority];
-  return `<span class="badge ${b.cls}">${esc(priority)}</span>`;
+/** Normalise la priorité d'entrée ("A optimiser" toléré) vers la forme affichée. */
+function normalizePriority(priority: ProPriorityInput): ProPriority {
+  return priority === 'A optimiser' ? 'À optimiser' : priority;
+}
+
+function badgeHtml(priority: ProPriorityInput): string {
+  const p = normalizePriority(priority);
+  const b = BADGE[p];
+  return `<span class="badge ${b.cls}">${esc(p)}</span>`;
 }
 
 function chartHtml(svg: string | undefined): string {
@@ -740,7 +760,8 @@ function buildAuditTable(audit: AuditData, pro: ProContent): string {
   // Groupage par bande de catégorie : ordre canonique d'abord, inconnues ensuite.
   const byCategory = new Map<string, ProAuditTableRow[]>();
   for (const row of rows) {
-    const key = stripLongDashes(row.category).toUpperCase();
+    const upper = stripLongDashes(row.category).toUpperCase();
+    const key = CATEGORY_ALIASES[upper] ?? upper;
     const list = byCategory.get(key) ?? [];
     list.push(row);
     byCategory.set(key, list);
@@ -1096,7 +1117,7 @@ function buildBackCover(qrSvg: string): string {
  */
 export async function buildProReportHtml(
   audit: AuditData,
-  content: ReportContent,
+  content: ProContent,
   opts: ProReportOptions,
 ): Promise<string> {
   const pro: ProContent = content;

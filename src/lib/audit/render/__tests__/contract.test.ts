@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { validateReportContract, ContractViolation } from '../contract';
 import type { AuditData } from '../../types';
-import type { ReportContent } from '../report-schema';
+import type { ProReportContent, ReportContent } from '../report-schema';
 
 const audit = (): AuditData => ({
   url: 'https://x.fr', finalUrl: 'https://x.fr', tier: 'pro', collectedAt: '2026-06-11T00:00:00Z',
@@ -56,5 +56,50 @@ describe('validateReportContract', () => {
     const c = okContent();
     c.findings[0].body = "Environ 32% de vos visiteurs partent avant de voir votre offre.";
     expect(() => validateReportContract(c, audit())).not.toThrow();
+  });
+});
+
+const okProContent = (): ProReportContent => ({
+  ...okContent(),
+  auditTable: [1, 2, 3, 4, 5].map((i) => ({
+    category: 'PERFORMANCE & TECHNIQUE' as const,
+    domain: `Domaine ${i}`,
+    finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
+    impact: 'Une majorité de visiteurs mobiles partent avant de voir votre offre.',
+    priority: 'Critique' as const,
+    measurementIds: ['perf.mobile.lcp'],
+  })),
+  recommendations: [1, 2, 3, 4].map((i) => ({
+    title: `Recommandation ${i}`,
+    action: 'Réduire le poids des images et différer les scripts non essentiels.',
+    expectedImpact: 'Affichage du contenu sous 3 secondes.',
+  })),
+  funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
+  funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
+});
+
+describe('validateReportContract (contenu Pro)', () => {
+  it('accepte un contenu Pro conforme', () => {
+    expect(() => validateReportContract(okProContent(), audit())).not.toThrow();
+  });
+  it('rejette un montant € dans funnelProjection', () => {
+    const c = okProContent();
+    c.funnelProjection = 'Après correction, vous récupérez environ 2 500 € de chiffre par mois.';
+    expect(() => validateReportContract(c, audit())).toThrow(/montant/i);
+  });
+  it("rejette un measurementId inexistant dans une ligne du tableau d'audit", () => {
+    const c = okProContent();
+    c.auditTable[2].measurementIds = ['mesure.inventee'];
+    expect(() => validateReportContract(c, audit())).toThrow(ContractViolation);
+  });
+  it('rejette un tiret long dans une recommandation', () => {
+    const c = okProContent();
+    c.recommendations[0].action = 'Compresser les images — puis différer les scripts.';
+    expect(() => validateReportContract(c, audit())).toThrow(/tiret long/i);
+  });
+  it("rejette une mention d'IA dans le tableau d'audit", () => {
+    const c = okProContent();
+    c.auditTable[0].finding = 'Notre intelligence artificielle a repéré une lenteur importante.';
+    expect(() => validateReportContract(c, audit())).toThrow(/IA|intelligence artificielle/i);
   });
 });

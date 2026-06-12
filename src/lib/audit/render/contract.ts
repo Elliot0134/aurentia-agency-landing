@@ -1,5 +1,5 @@
 import type { AuditData } from '../types';
-import type { ReportContent } from './report-schema';
+import type { ProReportContent, ReportContent } from './report-schema';
 
 export class ContractViolation extends Error {}
 
@@ -20,20 +20,36 @@ function extractEuros(text: string): number[] {
   return out;
 }
 
+function isProContent(content: ReportContent | ProReportContent): content is ProReportContent {
+  return 'auditTable' in content;
+}
+
 /**
  * Vérifie que le contenu rédigé respecte le contrat de véracité. Lève ContractViolation sinon.
- * 1. tout measurementId référencé existe ; 2. zéro tiret long ; 3. zéro mention IA ;
- * 4. zéro position Google affirmée ; 5. zéro montant € (on n'estime plus aucun montant
- *    en self-service, l'impact s'exprime en % de visiteurs perdus).
+ * 1. tout measurementId référencé existe (findings ET lignes du tableau d'audit Pro) ;
+ * 2. zéro tiret long ; 3. zéro mention IA ; 4. zéro position Google affirmée ;
+ * 5. zéro montant € (on n'estime plus aucun montant en self-service, l'impact s'exprime
+ *    en % de visiteurs perdus). Les checks texte couvrent aussi les champs Pro
+ *    (auditTable, recommendations, funnelAnalysis, funnelProjection) quand ils sont présents.
  */
-export function validateReportContract(content: ReportContent, audit: AuditData): void {
+export function validateReportContract(content: ReportContent | ProReportContent, audit: AuditData): void {
   const validIds = new Set(audit.measurements.map((m) => m.id));
 
-  const allText = [
+  const texts = [
     content.execSummary,
+    content.scoreJustification,
     content.competitorAnalysis ?? '',
     ...content.findings.flatMap((f) => [f.title, f.body]),
-  ].join('\n');
+  ];
+  if (isProContent(content)) {
+    texts.push(
+      ...content.auditTable.flatMap((r) => [r.domain, r.finding, r.impact]),
+      ...content.recommendations.flatMap((r) => [r.title, r.action, r.expectedImpact]),
+      content.funnelAnalysis,
+      content.funnelProjection,
+    );
+  }
+  const allText = texts.join('\n');
   const lower = allText.toLowerCase();
 
   if (allText.includes('—') || allText.includes('–')) {
@@ -51,6 +67,17 @@ export function validateReportContract(content: ReportContent, audit: AuditData)
     for (const id of f.measurementIds) {
       if (!validIds.has(id)) {
         throw new ContractViolation(`Finding "${f.title}" référence une mesure inexistante : ${id}`);
+      }
+    }
+  }
+  if (isProContent(content)) {
+    for (const row of content.auditTable) {
+      for (const id of row.measurementIds) {
+        if (!validIds.has(id)) {
+          throw new ContractViolation(
+            `Ligne du tableau d'audit "${row.domain}" référence une mesure inexistante : ${id}`,
+          );
+        }
       }
     }
   }

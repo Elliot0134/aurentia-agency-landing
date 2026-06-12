@@ -1,10 +1,16 @@
 import { generateObject } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import type { AuditData } from '../types';
-import { ReportContentSchema, type ReportContent } from './report-schema';
+import {
+  ProContentSchema,
+  ReportContentSchema,
+  type ProReportContent,
+  type ReportContent,
+} from './report-schema';
 import { validateReportContract } from './contract';
 
 export type GenerateFn = (audit: AuditData, attemptNote: string) => Promise<ReportContent>;
+export type GenerateProFn = (audit: AuditData, attemptNote: string) => Promise<ProReportContent>;
 
 const SYSTEM = `Tu rédiges un audit de site web pour un dirigeant non-technique (CEO).
 Tu ne mesures rien : on te fournit des mesures, tu les mets en mots.
@@ -19,6 +25,12 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).
 - Rédige aussi "scoreJustification" : 2 à 3 phrases expliquant à quoi correspond le score global du site (ce qui le tire vers le haut ou le bas), en langage simple pour un dirigeant.`;
 
+const PRO_CONSIGNE = `Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis. Exprime l'impact en % de visiteurs perdus, jamais en euros.
+Rédige aussi auditTable : 6 à 14 lignes couvrant les domaines mesurés, chaque ligne = constat factuel issu des mesures (measurementIds obligatoires), impact = conséquence business concrète, priority selon la gravité.
+recommendations : 4 à 8 actions concrètes priorisées (R1 = le levier numéro 1), action = concrète et actionnable, expectedImpact = effet attendu.
+funnelAnalysis : 3 à 5 phrases sur où se perd le visiteur (base : les mesures, l'impact %).
+funnelProjection : 2 à 4 phrases prudentes sur l'effet attendu des corrections, en % uniquement, jamais en euros, toujours présenté comme une estimation.`;
+
 /** Construit le prompt utilisateur à partir des mesures (sérialisation compacte). */
 function buildPrompt(audit: AuditData, attemptNote: string): string {
   const fails = audit.measurements.filter((m) => m.status === 'fail' || m.status === 'warn');
@@ -31,19 +43,23 @@ function buildPrompt(audit: AuditData, attemptNote: string): string {
     impact: audit.impact,
     concurrents: audit.competitors,
     consigne: audit.tier === 'pro'
-      ? "Rédige execSummary, recommendation, findings (P0/P1/P2 priorisés) et competitorAnalysis. Exprime l'impact en % de visiteurs perdus, jamais en euros."
+      ? PRO_CONSIGNE
       : 'Rédige execSummary, recommendation et 2 à 4 findings. competitorAnalysis = null.',
   });
 }
 
-const defaultGenerate: GenerateFn = async (audit, attemptNote) => {
+function openrouterModel(): string {
   const model = process.env.OPENROUTER_MODEL;
   if (!model) {
     throw new Error('OPENROUTER_MODEL manquant dans l\'environnement');
   }
+  return model;
+}
+
+const defaultGenerate: GenerateFn = async (audit, attemptNote) => {
   const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
   const { object } = await generateObject({
-    model: openrouter(model),
+    model: openrouter(openrouterModel()),
     schema: ReportContentSchema,
     system: SYSTEM,
     prompt: buildPrompt(audit, attemptNote),
@@ -51,21 +67,32 @@ const defaultGenerate: GenerateFn = async (audit, attemptNote) => {
   return object;
 };
 
-export interface WriteReportOptions {
-  generateFn?: GenerateFn;
-  maxAttempts?: number;
-}
+const defaultGeneratePro: GenerateProFn = async (audit, attemptNote) => {
+  const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
+  const { object } = await generateObject({
+    model: openrouter(openrouterModel()),
+    schema: ProContentSchema,
+    system: SYSTEM,
+    prompt: buildPrompt(audit, attemptNote),
+  });
+  return object;
+};
 
-/** Génère le contenu rédigé, en réessayant si le contrat de véracité échoue. */
-export async function writeReport(audit: AuditData, opts: WriteReportOptions = {}): Promise<ReportContent> {
-  const generateFn = opts.generateFn ?? defaultGenerate;
-  const maxAttempts = opts.maxAttempts ?? 3;
+/**
+ * Boucle de retry commune flash/pro : génère, valide le contrat de véracité,
+ * réinjecte la violation dans la note d'essai suivante, abandonne après maxAttempts.
+ */
+async function withContractRetry<T extends ReportContent | ProReportContent>(
+  audit: AuditData,
+  generate: (audit: AuditData, attemptNote: string) => Promise<T>,
+  maxAttempts: number,
+): Promise<T> {
   let lastErr: unknown;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const note = attempt === 1
       ? 'Premier essai.'
       : `Essai ${attempt}. L'essai précédent a violé le contrat : ${String(lastErr)}. Corrige.`;
-    const content = await generateFn(audit, note);
+    const content = await generate(audit, note);
     try {
       validateReportContract(content, audit);
       return content;
@@ -74,4 +101,30 @@ export async function writeReport(audit: AuditData, opts: WriteReportOptions = {
     }
   }
   throw new Error(`writeReport: contrat de véracité violé après ${maxAttempts} essais : ${String(lastErr)}`);
+}
+
+export interface WriteReportOptions {
+  generateFn?: GenerateFn;
+  maxAttempts?: number;
+}
+
+/** Génère le contenu rédigé (flash), en réessayant si le contrat de véracité échoue. */
+export async function writeReport(audit: AuditData, opts: WriteReportOptions = {}): Promise<ReportContent> {
+  return withContractRetry(audit, opts.generateFn ?? defaultGenerate, opts.maxAttempts ?? 3);
+}
+
+export interface WriteProReportOptions {
+  generateFn?: GenerateProFn;
+  maxAttempts?: number;
+}
+
+/**
+ * Génère le contenu rédigé Pro (tableau d'audit, recommandations, analyses funnel),
+ * sous le même contrat de véracité, étendu aux champs Pro.
+ */
+export async function writeProReport(
+  audit: AuditData,
+  opts: WriteProReportOptions = {},
+): Promise<ProReportContent> {
+  return withContractRetry(audit, opts.generateFn ?? defaultGeneratePro, opts.maxAttempts ?? 3);
 }

@@ -2,8 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { renderReport } from '../render';
 import { computeScore } from '../score';
 import type { AuditData } from '../../types';
-import type { GenerateFn } from '../write-report';
-import type { ReportContent } from '../report-schema';
+import type { GenerateFn, GenerateProFn } from '../write-report';
+import type { ProReportContent, ReportContent } from '../report-schema';
 import type { BrowserlessConfig } from '../../screenshot';
 
 const browserless: BrowserlessConfig = { token: 'tok', baseUrl: 'https://bl.test' };
@@ -35,9 +35,24 @@ const flashContent: ReportContent = {
   scoreJustification: 'Texte de justification du score global pour ce test.',
 };
 
-const proContent: ReportContent = {
+const proContent: ProReportContent = {
   ...flashContent,
   competitorAnalysis: 'Vos concurrents chargent plus vite et captent les visiteurs.',
+  auditTable: [1, 2, 3, 4, 5].map((i) => ({
+    category: 'PERFORMANCE & TECHNIQUE' as const,
+    domain: i === 1 ? 'Navigation mobile distinctive' : `Domaine ${i}`,
+    finding: 'Le contenu principal met 11,8 s à apparaitre sur mobile.',
+    impact: 'Une majorité de visiteurs mobiles partent avant de voir votre offre.',
+    priority: 'Critique' as const,
+    measurementIds: ['perf.mobile.lcp'],
+  })),
+  recommendations: [1, 2, 3, 4].map((i) => ({
+    title: i === 1 ? 'Accélérer le chargement mobile en priorité' : `Recommandation ${i}`,
+    action: 'Réduire le poids des images et différer les scripts non essentiels.',
+    expectedImpact: 'Affichage du contenu sous 3 secondes.',
+  })),
+  funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
+  funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
 };
 
 /** fetchFn stub : /pdf renvoie un binaire commençant par %PDF. */
@@ -61,8 +76,8 @@ describe('renderReport', () => {
 
   it('pro → pdfBuffer commence par %PDF, competitorAnalysis présent, score cohérent', async () => {
     const audit = baseAudit('pro');
-    const generateFn: GenerateFn = vi.fn(async () => proContent);
-    const r = await renderReport(audit, { browserless, generateFn, fetchFn: pdfFetch });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    const r = await renderReport(audit, { browserless, generateProFn, fetchFn: pdfFetch });
 
     expect(r.pdfBuffer).toBeInstanceOf(Buffer);
     expect(r.pdfBuffer!.subarray(0, 4).toString('latin1')).toBe('%PDF');
@@ -79,12 +94,29 @@ describe('renderReport', () => {
       const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
       return new Response(body, { status: 200 });
     });
-    const generateFn: GenerateFn = vi.fn(async () => proContent);
-    await renderReport(audit, { browserless, generateFn, fetchFn: fetchSpy as unknown as typeof fetch });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    await renderReport(audit, { browserless, generateProFn, fetchFn: fetchSpy as unknown as typeof fetch });
 
     const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
     const payload = JSON.parse(String(init?.body)) as { html: string };
     expect(payload.html).toContain('<polygon'); // radar
     expect(payload.html).toContain('cible 9'); // barres état/cible
+  });
+
+  it('pro → le contenu rédigé par le LLM (auditTable, recommandations, funnel) alimente le HTML', async () => {
+    const audit = baseAudit('pro');
+    const fetchSpy = vi.fn(async (..._args: Parameters<typeof fetch>) => {
+      const body = Buffer.concat([Buffer.from('%PDF-1.4'), Buffer.from([0x00])]);
+      return new Response(body, { status: 200 });
+    });
+    const generateProFn: GenerateProFn = vi.fn(async () => proContent);
+    await renderReport(audit, { browserless, generateProFn, fetchFn: fetchSpy as unknown as typeof fetch });
+
+    const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
+    const payload = JSON.parse(String(init?.body)) as { html: string };
+    expect(payload.html).toContain('Navigation mobile distinctive'); // ligne auditTable du stub
+    expect(payload.html).toContain('Accélérer le chargement mobile en priorité'); // titre de reco du stub
+    expect(payload.html).toContain('Sur 100 visiteurs, environ 60 partent'); // funnelAnalysis
+    expect(payload.html).toContain('estimation prudente'); // funnelProjection
   });
 });
