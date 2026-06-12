@@ -283,6 +283,8 @@ Supabase est la source de vérité des statuts. La clause `.eq('status', 'ready_
 | `NEXT_PUBLIC_SUPABASE_URL` | Client Supabase admin | URL du projet Supabase. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Client Supabase admin | Clé service-role (jamais exposée côté client). |
 | `PROSPECTION_API_SECRET` | Routes `/api/prospection/*` | Secret du header `x-webhook-token` (auth M2M n8n). Absent = endpoints fermés (503). |
+| `AIRTABLE_API_KEY` | Couche données prospection (`src/lib/prospection/db.ts`) | PAT Airtable : le CRM (Leads/Touches/Réponses/Config) vit dans Airtable. |
+| `AIRTABLE_BASE_ID` | Couche données prospection | Id de la base Airtable du CRM (`appXXXX`). |
 
 ---
 
@@ -327,3 +329,40 @@ Smoke test réel exécuté en local (`pnpm dev`, port 3002, workflows WDK exécu
 | Auth | header absent → 401, mauvais token → 401 | — |
 
 Notes : `html` est volontairement null en DB pour un Flash inbound `delivered` (le mail est parti, seul le cold persiste le brouillon). `impact_percent` peut être null sur un Flash (non bloquant). Coût estimé du smoke : ~0,25-0,30 EUR (2 Flash + 1 Pro + 1 classification LLM). Données de test purgées, `sequences_paused` remis à `true`.
+
+---
+
+## 9. Prospection : Airtable est la base maître (pivot 2026-06-12)
+
+Le CRM prospection (leads, touches, réponses, config) vit dans **Airtable**
+(décision Elliot 2026-06-12). Supabase ne garde que `audit_jobs` et le storage.
+Il n'y a **plus de miroir ni de sync** : l'humain édite Airtable directement,
+le backend lit/écrit Airtable en direct via `src/lib/prospection/airtable.ts`
+(client REST : throttle ~4 req/s, retry 429, pagination) et
+`src/lib/prospection/db.ts` (mapping champs FR ↔ camelCase, libellés de statut
+↔ codes internes — la traduction ne se fait QUE là).
+
+### Tables (base `AIRTABLE_BASE_ID`)
+
+| Table | Id | Rôle |
+|---|---|---|
+| Leads | `tblwtKYIVLLl1Yosf` | Un lead par entreprise. `ProspectionLead.id` = record id Airtable (`recXXXX`). |
+| Touches | `tblVq7AHFd3dr7ukP` | Chaque email parti (flash, cold_1..3, inbound_1..5, refonte_1..5). L'état de séquence se calcule depuis les touches. |
+| Réponses | `tblB2mX0IE3Xq7deP` | Réponses classifiées (idempotence par Gmail Message ID, recherche avant insertion). |
+| Config | `tblp1MhcjAoS79NWr` | Clé/Valeur texte : `sequences_paused` ('true'/'false', fail-closed : tout sauf 'false' = pause), `cold_daily_cap` ('10'...). |
+
+### Points de contrat
+
+- **`audit_jobs.lead_id` est le record id Airtable** (colonne `text` depuis la
+  migration `20260612210000_audit_jobs_lead_ref_text.sql`). Les payloads n8n
+  (`/touches/confirm`, etc.) passent ce `recXXXX` en `leadId`.
+- **Phase dérivée du statut** : Airtable n'a pas de champ Phase. `pro_paye` →
+  audit (gate humain, zéro relance), `pro_envoye`/`gagne` → refonte, le reste →
+  pre_audit. Conséquence : la séquence refonte cible les leads `Pro envoyé`.
+- **Routes supprimées** : `POST /api/prospection/leads/sync` et
+  `GET /api/prospection/leads/changed` (elles ne servaient qu'au miroir
+  Notion/Airtable). Les WF n8n de sync sont à décommissionner.
+- Les routes restantes (`intake/run`, `sequences/due`, `touches/confirm`,
+  `replies/classify`, `events/resend`) gardent le même contrat ; seuls les
+  `leadId` changent de forme (record id au lieu d'uuid).
+- `/touches/confirm` met aussi à jour le champ **Dernier contact** du lead.
