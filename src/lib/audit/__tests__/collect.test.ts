@@ -48,7 +48,20 @@ const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: Request
   }
   if (u.includes('api.exa.ai/contents')) return new Response(JSON.stringify({ results: [{ summary: 'desc test' }] }), { status: 200 });
   if (u.includes('api.exa.ai/findSimilar')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
+  if (u.includes('api.exa.ai/search'))
+    // mentions externes : 3 résultats dont 1 du domaine audité → 2 externes
+    return new Response(
+      JSON.stringify({
+        results: [
+          { url: 'https://exemple.fr/page' },
+          { url: 'https://annuaire.fr/exemple' },
+          { url: 'https://blog-local.fr/exemple' },
+        ],
+      }),
+      { status: 200 },
+    );
   if (u.includes('api.exa.ai')) return new Response(JSON.stringify({ results: [] }), { status: 200 });
+  if (u.endsWith('/llms.txt')) return new Response('# Exemple\nConciergerie à Marseille.', { status: 200 });
   if (u.endsWith('/robots.txt'))
     return new Response('User-agent: *\nSitemap: https://exemple.fr/sitemap.xml', { status: 200 });
   if (u.endsWith('/sitemap.xml')) return new Response(SITEMAP, { status: 200 });
@@ -113,6 +126,30 @@ describe('collectAudit', () => {
     // unicité globale des ids préservée
     const ids = audit.measurements.map((m) => m.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  describe('AI Readiness', () => {
+    it('pro : inclut les measurements ai.* (llms.txt, robots IA, schema, citabilité, mentions)', async () => {
+      const audit = await collectAudit('exemple.fr', 'pro', deps);
+      const ai = audit.measurements.filter((m) => m.module === 'ai-readiness');
+      expect(ai.length).toBeGreaterThanOrEqual(6);
+      expect(ai.every((m) => m.id.startsWith('ai.'))).toBe(true);
+      // llms.txt servi en texte par le stub → pass
+      expect(audit.measurements.find((m) => m.id === 'ai.llms-txt')!.status).toBe('pass');
+      // robots.txt du stub ne bloque aucun agent IA → pass
+      const robots = audit.measurements.find((m) => m.id === 'ai.robots.ai-agents')!;
+      expect(robots.status).toBe('pass');
+      expect(robots.value).toBe('aucun blocage');
+      // mentions : 3 résultats Exa dont 1 du domaine audité → 2 externes → warn
+      const mentions = audit.measurements.find((m) => m.id === 'ai.mentions.external')!;
+      expect(mentions.value).toBe(2);
+      expect(mentions.status).toBe('warn');
+    });
+
+    it("flash : pas d'AI Readiness", async () => {
+      const audit = await collectAudit('exemple.fr', 'flash', deps);
+      expect(audit.measurements.some((m) => m.module === 'ai-readiness')).toBe(false);
+    });
   });
 
   describe('accessibilité (axe-core)', () => {

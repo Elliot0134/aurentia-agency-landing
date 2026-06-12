@@ -117,6 +117,7 @@ const MODULE_CATEGORY: Record<ModuleId, string> = {
   perf: 'PERFORMANCE & TECHNIQUE',
   images: 'PERFORMANCE & TECHNIQUE',
   a11y: 'ACCESSIBILITÉ',
+  'ai-readiness': 'AI READINESS',
 };
 
 const MODULE_DOMAIN: Record<ModuleId, string> = {
@@ -129,6 +130,7 @@ const MODULE_DOMAIN: Record<ModuleId, string> = {
   perf: 'Performance',
   images: 'Images',
   a11y: 'Accessibilité',
+  'ai-readiness': 'AI Readiness',
 };
 
 /* ----------------------------------------------------------------------------
@@ -1027,6 +1029,7 @@ const ANNEX_GROUPS: { title: string; match: (m: Measurement) => boolean }[] = [
   { title: 'SEO technique', match: (m) => m.module === 'seo-tech' || m.module === 'seo-onpage' },
   { title: 'Performance', match: (m) => m.module === 'perf' || m.module === 'images' },
   { title: 'Accessibilité (axe-core, WCAG 2.2 AA)', match: (m) => m.module === 'a11y' || m.id.startsWith('a11y.') },
+  { title: 'AI Readiness', match: (m) => m.module === 'ai-readiness' || m.id.startsWith('ai.') },
   {
     title: 'Conversion / stack',
     match: (m) =>

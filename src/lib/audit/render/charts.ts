@@ -331,6 +331,7 @@ const RADAR_MODULES: ReadonlyArray<readonly [ModuleId, string]> = [
   ['mobile', 'Mobile'],
   ['business', 'Local SEO'],
   ['a11y', 'Accessibilité'],
+  ['ai-readiness', 'AI Readiness'],
 ];
 
 /**

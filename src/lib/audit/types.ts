@@ -11,7 +11,8 @@ export type ModuleId =
   | 'business'
   | 'competitors'
   | 'impact'
-  | 'a11y';
+  | 'a11y'
+  | 'ai-readiness';
 
 /**
  * L'unité atomique de vérité du système. Chaque donnée du rapport final

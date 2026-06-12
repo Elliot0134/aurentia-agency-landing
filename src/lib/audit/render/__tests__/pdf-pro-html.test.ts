@@ -31,6 +31,7 @@ const richAudit = (): AuditData => ({
     { id: 'images.broken', module: 'images', label: 'Images en erreur', status: 'info', value: 2 },
     { id: 'local.schema.localbusiness', module: 'business', label: 'Schema LocalBusiness', status: 'fail', value: false },
     { id: 'local.nap.phone', module: 'business', label: 'Telephone visible sur la page', status: 'pass', value: true },
+    { id: 'ai.llms-txt', module: 'ai-readiness', label: 'Fichier llms.txt (guidage des moteurs IA)', status: 'fail', value: false, proof: 'GET https://www.exemple.fr/llms.txt → 404' },
   ],
   annotations: [],
   screenshotPath: null,
@@ -252,6 +253,9 @@ describe('buildProReportHtml', () => {
     expect(annex).toContain('Sources des estimations');
     expect(annex).toContain('Etude Google sur le taux d abandon mobile.');
     expect(annex).toContain('Balise title'); // les pass restent visibles dans l'annexe
+    // bloc AI Readiness présent avec ses mesures ai.*
+    expect(annex).toContain('AI Readiness');
+    expect(annex).toContain('ai.llms-txt');
   });
 
   it('back cover : bandeau, bouton mailto, QR svg, coordonnées centrées', async () => {

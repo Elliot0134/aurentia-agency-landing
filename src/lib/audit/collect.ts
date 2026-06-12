@@ -21,6 +21,7 @@ import {
 import { estimateImpact } from './impact';
 import { crawlSite, aggregateCrawlMeasurements, type CrawlOptions } from './crawl';
 import { runAxe, a11yToMeasurements, type A11yPageResult } from './a11y';
+import { checkAiReadiness } from './ai-readiness';
 
 export interface CollectDeps {
   fetchFn?: typeof fetch;
@@ -145,6 +146,31 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
         details: "Audit d'accessibilité indisponible pendant la génération, à vérifier en relecture",
       });
     }
+
+    // AI Readiness : visibilité auprès des moteurs IA (llms.txt, robots IA,
+    // schema, citabilité, mentions Exa). checkTech ne retourne pas le contenu
+    // du robots.txt, donc on le refetch ici (GET simple, déjà en cache serveur).
+    let robotsTxt: string | null = null;
+    try {
+      const robotsRes = await fetchFn(`${new URL(page.finalUrl).origin}/robots.txt`, {
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (robotsRes.ok) robotsTxt = await robotsRes.text();
+    } catch {
+      robotsTxt = null;
+    }
+    const hostname = new URL(page.finalUrl).hostname.replace(/^www\./, '');
+    const brand = hostname.split('.')[0] ?? hostname;
+    measurements.push(
+      ...(await checkAiReadiness({
+        finalUrl: page.finalUrl,
+        $: page.$,
+        robotsTxt,
+        brand,
+        exaApiKey: deps.exaApiKey,
+        fetchFn,
+      })),
+    );
 
     impact = estimateImpact(measurements);
   }

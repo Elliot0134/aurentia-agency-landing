@@ -169,4 +169,12 @@ describe('radarAxesFromMeasurements', () => {
   it('retourne [] sans mesure scorable', () => {
     expect(radarAxesFromMeasurements([])).toEqual([]);
   });
+
+  it("le module ai-readiness apparaît sous le label 'AI Readiness'", () => {
+    const axes = radarAxesFromMeasurements([
+      m('ai-readiness', 'pass', 'ai.llms-txt'),
+      m('ai-readiness', 'fail', 'ai.citability'),
+    ]);
+    expect(axes).toEqual([{ label: 'AI Readiness', score: 5 }]);
+  });
 });
