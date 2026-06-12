@@ -48,3 +48,6 @@ next-env.d.ts
 # superpowers brainstorm sessions
 .superpowers/
 .mcp.json
+
+# moteur d'audit : sorties CLI (screenshots, JSON)
+output/
