@@ -39,6 +39,12 @@ export interface CollectDeps {
   classifyFn?: ScopeClassifyFn;
   /** Options du crawl multi-pages (pro). Injectable en test (sleepFn, maxPages). */
   crawlOpts?: Pick<CrawlOptions, 'maxPages' | 'throttleMs' | 'sleepFn'>;
+  /**
+   * Conserve le PNG full-page en mémoire dans AuditData.screenshotBuffer
+   * (cf. types.ts : champ non sérialisable). Pour les flux productisés
+   * (runFlashAudit) qui croppent la capture sans écrire sur disque.
+   */
+  keepScreenshotBuffer?: boolean;
 }
 
 export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps): Promise<AuditData> {
@@ -192,6 +198,7 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     measurements,
     annotations,
     screenshotPath,
+    ...(deps.keepScreenshotBuffer ? { screenshotBuffer: png } : {}),
     competitors,
     impact,
     crawl,

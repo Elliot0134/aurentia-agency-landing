@@ -102,6 +102,13 @@ describe('collectAudit', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('flash : keepScreenshotBuffer conserve le PNG full-page en mémoire (jamais par défaut)', async () => {
+    const withBuffer = await collectAudit('exemple.fr', 'flash', { ...deps, keepScreenshotBuffer: true });
+    expect(withBuffer.screenshotBuffer).toBeInstanceOf(Buffer);
+    const without = await collectAudit('exemple.fr', 'flash', deps);
+    expect(without.screenshotBuffer).toBeUndefined();
+  });
+
   it("pro : inclut l'estimation d'impact", async () => {
     const audit = await collectAudit('exemple.fr', 'pro', deps);
     expect(audit.impact).not.toBeNull();

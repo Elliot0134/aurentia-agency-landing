@@ -103,6 +103,13 @@ export interface AuditData {
   measurements: Measurement[];
   annotations: Annotation[];
   screenshotPath: string | null; // PNG full-page sur disque
+  /**
+   * PNG full-page en mémoire, opt-in via CollectDeps.keepScreenshotBuffer
+   * (flux productisés qui croppent la capture sans passer par le disque).
+   * JAMAIS sérialisé : ne pas JSON.stringify un AuditData qui le porte
+   * (un Buffer se sérialise en tableau d'octets géant).
+   */
+  screenshotBuffer?: Buffer;
   competitors: CompetitorSummary[];
   impact: ImpactEstimate | null; // pro uniquement
   crawl: CrawlSummary | null; // pro uniquement
