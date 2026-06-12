@@ -18,7 +18,10 @@
  *   montants autorisés viennent des fiches niche d'Elliot : 2 000 à 4 000 €
  *   de marge/an par mandat (conciergeries), 8 000 à 25 000 € la cuisine
  *   posée (cuisinistes), 99 € HT l'audit Pro (inbound) ;
- * - cold_* : relance du pré-audit dans le fil Gmail (angle niche + lien audit) ;
+ * - cold_1 : AUCUN lien CTA, le mail se termine par une question ouverte
+ *   (le but est une réponse, pas un clic) ;
+ * - cold_2/cold_3 : CTA prise de RDV (`calUrl`), jamais le lien Stripe : un
+ *   prospect cold a reçu un pré-audit gratuit, il n'a rien à acheter ;
  * - inbound_* : nurture vers l'audit Pro 99 € HT (lien Stripe `auditUrl`) ;
  * - refonte_* : CTA prise de RDV (`calUrl`) UNIQUEMENT, à CHAQUE touche.
  */
@@ -56,6 +59,18 @@ export const DEFAULT_CAL_URL = 'https://cal.com/elliot-estrade-ixfuya/appel-deco
 
 const SIGNATURE_FALLBACK = 'Elliot';
 const SIGNATURE_ORG = 'Aurentia Agency';
+const SIGNATURE_TAGLINE = 'Développeurs & designers, Vaucluse';
+const SIGNATURE_SITE_URL = 'https://aurentia.agency';
+const SIGNATURE_SITE_LABEL = 'aurentia.agency';
+
+/**
+ * Téléphone par prénom signataire. Seul celui d'Elliot est connu : un
+ * signataire absent de cette table signe SANS téléphone, on n'invente
+ * jamais un numéro.
+ */
+const PHONE_BY_SENDER: Record<string, string> = {
+  Elliot: '07 81 95 80 90',
+};
 
 /** Prénoms signataires par valeur normalisée du champ Assigné Airtable. */
 const SENDER_BY_ASSIGNEE: Record<string, string> = {
@@ -132,7 +147,8 @@ function scoreSentence(vars: TemplateVars): string {
 interface TemplateDef {
   subject(vars: TemplateVars): string;
   paragraphs(vars: TemplateVars): string[];
-  cta(vars: TemplateVars): { label: string; url: string };
+  /** Absent (cold_1) → aucun paragraphe lien, ni en html ni en text. */
+  cta?(vars: TemplateVars): { label: string; url: string };
 }
 
 interface TemplateEntry {
@@ -141,12 +157,12 @@ interface TemplateEntry {
   variants?: Partial<Record<NicheKey, TemplateDef>>;
 }
 
-const CTA_COLD_1 = "Voir le détail complet de l'audit";
-const CTA_COLD_2 = 'Le détail complet est ici';
-const CTA_COLD_3 = "Accéder à l'audit complet";
+const CTA_COLD_2 = '15 minutes pour en parler ? Choisissez un créneau';
+const CTA_COLD_3 = 'Réserver un créneau';
 
 const TEMPLATES: Record<string, TemplateEntry> = {
   // ── Séquence cold (relance du pré-audit envoyé, Gmail dans le fil) ──────
+  // cold_1 : aucun CTA, le mail finit sur une question ouverte (objectif : une réponse).
   cold_1: {
     generic: {
       subject: (v) => `Votre pré-audit ${siteLabel(v)} : qu'en pensez-vous ?`,
@@ -154,7 +170,6 @@ const TEMPLATES: Record<string, TemplateEntry> = {
         `Je reviens vers vous au sujet du pré-audit de ${v.siteUrl} que je vous ai envoyé il y a quelques jours.${scoreSentence(v)}`,
         'Les points relevés touchent à la vitesse de votre site, à sa visibilité et à ce que vivent vos visiteurs. Avez-vous pu y jeter un oeil ?',
       ],
-      cta: (v) => ({ label: CTA_COLD_1, url: auditUrl(v) }),
     },
     variants: {
       conciergeries: {
@@ -163,15 +178,13 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je reviens vers vous au sujet du pré-audit de ${v.siteUrl}.${scoreSentence(v)} Pour le préparer, je me suis mis dans la peau d'un propriétaire qui cherche à qui confier son bien.`,
           'Avant de signer un mandat, ce propriétaire compare plusieurs conciergeries, et son premier réflexe est de regarder leur site. Avez-vous pu parcourir les points relevés ?',
         ],
-        cta: (v) => ({ label: CTA_COLD_1, url: auditUrl(v) }),
       },
       'of-edtech': {
         subject: () => 'Le test ChatGPT sur votre domaine de formation',
         paragraphs: (v) => [
           `Je reviens vers vous au sujet du pré-audit de ${v.siteUrl}.${scoreSentence(v)}`,
-          'Un test simple : posez à ChatGPT ou Perplexity la question que vos prospects se posent avant de choisir une formation, et regardez quels organismes sont cités. Le pré-audit montre ce qui se joue pour votre site dans ces réponses.',
+          'Un test simple : posez à ChatGPT ou Perplexity la question que vos prospects se posent avant de choisir une formation, et regardez quels organismes sont cités. Avez-vous déjà fait le test pour votre domaine ?',
         ],
-        cta: (v) => ({ label: CTA_COLD_1, url: auditUrl(v) }),
       },
       'agences-immo': {
         subject: (v) => `${siteLabel(v)} face aux agences d'à côté`,
@@ -179,7 +192,6 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je reviens vers vous au sujet du pré-audit de ${v.siteUrl}.${scoreSentence(v)}`,
           "Avant de confier son mandat, un vendeur compare deux ou trois agences, souvent la vôtre face à un réseau comme Orpi ou iad. Son premier point de contact, c'est votre site. Avez-vous pu parcourir les points relevés ?",
         ],
-        cta: (v) => ({ label: CTA_COLD_1, url: auditUrl(v) }),
       },
       cuisinistes: {
         subject: () => 'Votre site et vos demandes de devis',
@@ -187,7 +199,6 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je reviens vers vous au sujet du pré-audit de ${v.siteUrl}.${scoreSentence(v)}`,
           "Une cuisine posée, c'est entre 8 000 et 25 000 €. Si votre site fait fuir une seule personne prête à demander un devis, le manque à gagner se chiffre vite. Avez-vous pu regarder les points relevés ?",
         ],
-        cta: (v) => ({ label: CTA_COLD_1, url: auditUrl(v) }),
       },
     },
   },
@@ -198,7 +209,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
         `Je me permets une relance au sujet du pré-audit de ${v.siteUrl}. Chaque point relevé a été mesuré sur votre site, rien de théorique.`,
         'Certains se corrigent vite et changent ce que vivent vos visiteurs. Y a-t-il un sujet prioritaire de votre côté ?',
       ],
-      cta: (v) => ({ label: CTA_COLD_2, url: auditUrl(v) }),
+      cta: (v) => ({ label: CTA_COLD_2, url: v.calUrl }),
     },
     variants: {
       conciergeries: {
@@ -207,7 +218,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je me permets une relance au sujet du pré-audit de ${v.siteUrl}. Les points relevés sont précisément ce qui fait hésiter un propriétaire au moment de choisir sa conciergerie.`,
           "Un seul propriétaire convaincu, c'est 2 000 à 4 000 € de marge par an. Corriger ces points rend la décision plus simple pour le prochain qui visite votre site.",
         ],
-        cta: (v) => ({ label: CTA_COLD_2, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_2, url: v.calUrl }),
       },
       'of-edtech': {
         subject: () => 'Vos prospects ne cherchent plus seulement sur Google',
@@ -215,7 +226,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je me permets une relance au sujet du pré-audit de ${v.siteUrl}. Vos prospects posent de plus en plus leurs questions à ChatGPT ou Perplexity avant même d'ouvrir Google.`,
           'Quand ces outils répondent, ils citent les organismes dont le site leur donne de la matière. Les points relevés montrent ce qui manque au vôtre pour en faire partie.',
         ],
-        cta: (v) => ({ label: CTA_COLD_2, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_2, url: v.calUrl }),
       },
       'agences-immo': {
         subject: () => 'Le vendeur compare avant de confier son mandat',
@@ -223,7 +234,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je me permets une relance au sujet du pré-audit de ${v.siteUrl}. Un site lent ou qui ne montre pas vos ventes fait pencher la comparaison du mauvais côté.`,
           "Chaque vendeur qui choisit l'agence d'à côté, c'est un mandat perdu. Les points relevés se corrigent, et la plupart rapidement.",
         ],
-        cta: (v) => ({ label: CTA_COLD_2, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_2, url: v.calUrl }),
       },
       cuisinistes: {
         subject: () => 'Le client regarde votre site avant de pousser la porte',
@@ -231,7 +242,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
           `Je me permets une relance au sujet du pré-audit de ${v.siteUrl}. La plupart de vos clients regardent votre site sur leur téléphone avant de venir au magasin.`,
           'Si la visite se passe mal ou si demander un devis est compliqué, ils vont voir ailleurs. Une seule demande récupérée par mois rembourse largement les corrections.',
         ],
-        cta: (v) => ({ label: CTA_COLD_2, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_2, url: v.calUrl }),
       },
     },
   },
@@ -240,42 +251,42 @@ const TEMPLATES: Record<string, TemplateEntry> = {
       subject: (v) => `Dernier message au sujet de ${siteLabel(v)}`,
       paragraphs: (v) => [
         `Dernier message de ma part au sujet de ${v.siteUrl}. Si le sujet n'est pas d'actualité, aucun souci, je ne vous relancerai plus.`,
-        "Si vous souhaitez avancer un jour sur les points relevés, l'audit complet reste disponible, avec l'ordre dans lequel corriger.",
+        'Si vous souhaitez avancer un jour sur les points relevés, 15 minutes au téléphone suffisent pour décider par où commencer.',
       ],
-      cta: (v) => ({ label: CTA_COLD_3, url: auditUrl(v) }),
+      cta: (v) => ({ label: CTA_COLD_3, url: v.calUrl }),
     },
     variants: {
       conciergeries: {
         subject: (v) => `Dernier message au sujet de ${siteLabel(v)}`,
         paragraphs: (v) => [
           `Dernier message de ma part au sujet de ${v.siteUrl}. Si rentrer de nouveaux mandats n'est pas une priorité en ce moment, aucun souci, je ne vous relancerai plus.`,
-          "Si le sujet revient sur la table, l'audit complet reprend chaque point relevé, avec quoi corriger en premier pour rassurer les propriétaires.",
+          'Si le sujet revient sur la table, 15 minutes au téléphone suffisent pour voir quoi corriger en premier pour rassurer les propriétaires.',
         ],
-        cta: (v) => ({ label: CTA_COLD_3, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_3, url: v.calUrl }),
       },
       'of-edtech': {
         subject: (v) => `Dernier message au sujet de ${siteLabel(v)}`,
         paragraphs: (v) => [
           `Dernier message de ma part au sujet de ${v.siteUrl}. Si votre visibilité dans les réponses de ChatGPT et Perplexity n'est pas un sujet pour l'instant, aucun souci, je ne vous relancerai plus.`,
-          "Si vous voulez creuser un jour, l'audit complet détaille chaque point relevé et par où commencer.",
+          'Si vous voulez creuser un jour, un court échange suffit pour reprendre les points relevés et décider par où commencer.',
         ],
-        cta: (v) => ({ label: CTA_COLD_3, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_3, url: v.calUrl }),
       },
       'agences-immo': {
         subject: (v) => `Dernier message au sujet de ${siteLabel(v)}`,
         paragraphs: (v) => [
           `Dernier message de ma part au sujet de ${v.siteUrl}. Si la rentrée de mandats passe par d'autres canaux chez vous, aucun souci, je ne vous relancerai plus.`,
-          "Si vous voulez remettre votre site dans la comparaison, l'audit complet détaille chaque point relevé et par où commencer.",
+          'Si vous voulez remettre votre site dans la comparaison, un court échange suffit pour passer les points relevés en revue et prioriser.',
         ],
-        cta: (v) => ({ label: CTA_COLD_3, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_3, url: v.calUrl }),
       },
       cuisinistes: {
         subject: (v) => `Dernier message au sujet de ${siteLabel(v)}`,
         paragraphs: (v) => [
           `Dernier message de ma part au sujet de ${v.siteUrl}. Si votre carnet de commandes est plein, tant mieux, je ne vous relancerai plus.`,
-          "Si vous voulez que votre site ramène des demandes de devis, l'audit complet liste quoi corriger, point par point, sans jargon.",
+          'Si vous voulez que votre site ramène des demandes de devis, on peut reprendre les points relevés ensemble au téléphone, point par point, sans jargon.',
         ],
-        cta: (v) => ({ label: CTA_COLD_3, url: auditUrl(v) }),
+        cta: (v) => ({ label: CTA_COLD_3, url: v.calUrl }),
       },
     },
   },
@@ -388,29 +399,57 @@ const TEMPLATES: Record<string, TemplateEntry> = {
 /** Les 13 types de touches couverts par un template (hors `flash`, qui a son propre rendu). */
 export const TEMPLATE_TYPES: readonly string[] = Object.keys(TEMPLATES);
 
+/**
+ * Bloc signature HTML : nom en gras, agence + descriptif, ligne contact
+ * (lien aurentia.agency, téléphone seulement s'il est connu). Séparé du
+ * corps par un filet discret. Aucune image, aucun tiret long.
+ */
+function renderSignatureHtml(vars: TemplateVars): string {
+  const name = senderName(vars);
+  const phone = PHONE_BY_SENDER[name];
+  const site = `<a href="${SIGNATURE_SITE_URL}" style="color:#e8550f;">${SIGNATURE_SITE_LABEL}</a>`;
+  const contact = phone ? `${site} &middot; ${phone}` : site;
+  return [
+    '<p style="margin:24px 0 0;padding-top:12px;border-top:1px solid #ddd;font-size:13px;color:#555;">',
+    `<strong style="font-size:15px;color:#1f2937;">${escapeHtml(name)}</strong><br/>`,
+    `${escapeHtml(SIGNATURE_ORG)}, ${escapeHtml(SIGNATURE_TAGLINE)}<br/>`,
+    contact,
+    '</p>',
+  ].join('');
+}
+
+/** Équivalent text de la signature : trois lignes simples, sans protocole. */
+function renderSignatureText(vars: TemplateVars): string {
+  const name = senderName(vars);
+  const phone = PHONE_BY_SENDER[name];
+  const contact = phone ? `${SIGNATURE_SITE_LABEL}, ${phone}` : SIGNATURE_SITE_LABEL;
+  return `${name}\n${SIGNATURE_ORG}, ${SIGNATURE_TAGLINE}\n${contact}`;
+}
+
 function renderHtml(vars: TemplateVars, def: TemplateDef): string {
-  const cta = def.cta(vars);
+  const cta = def.cta?.(vars);
   const paragraphs = [hello(vars), ...def.paragraphs(vars)]
     .map((p) => `<p style="margin:0 0 16px;">${escapeHtml(p)}</p>`)
     .join('\n');
-  const link = `<p style="margin:0 0 16px;"><a href="${escapeHtml(cta.url)}" style="color:#e8550f;">${escapeHtml(cta.label)}</a></p>`;
-  const signature = `<p style="margin:24px 0 0;">${escapeHtml(senderName(vars))}<br/>${escapeHtml(SIGNATURE_ORG)}</p>`;
+  const link = cta
+    ? `<p style="margin:0 0 16px;"><a href="${escapeHtml(cta.url)}" style="color:#e8550f;">${escapeHtml(cta.label)}</a></p>`
+    : null;
   return [
     '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f2937;max-width:560px;">',
     paragraphs,
-    link,
-    signature,
+    ...(link ? [link] : []),
+    renderSignatureHtml(vars),
     '</div>',
   ].join('\n');
 }
 
 function renderText(vars: TemplateVars, def: TemplateDef): string {
-  const cta = def.cta(vars);
+  const cta = def.cta?.(vars);
   return [
     hello(vars),
     ...def.paragraphs(vars),
-    `${cta.label} : ${cta.url}`,
-    `${senderName(vars)}\n${SIGNATURE_ORG}`,
+    ...(cta ? [`${cta.label} : ${cta.url}`] : []),
+    renderSignatureText(vars),
   ].join('\n\n');
 }
 
