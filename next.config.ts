@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withWorkflow } from "workflow/next";
 
 const nextConfig: NextConfig = {
   images: {
@@ -28,4 +29,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// withWorkflow (WDK) : active la transformation des directives "use workflow" /
+// "use step" (cf. node_modules/workflow/docs/getting-started/next.mdx).
+export default withWorkflow(nextConfig);

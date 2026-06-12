@@ -1,0 +1,162 @@
+import { describe, it, expect } from 'vitest';
+import { createJob, getJob, updateJob, type AuditJobsDb } from '../jobs';
+
+/** Ligne snake_case complète telle que renvoyée par PostgREST. */
+function fakeRow(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    id: 'job-1',
+    lead_id: null,
+    email: 'prospect@example.fr',
+    url: 'https://exemple.fr/',
+    tier: 'flash',
+    channel: 'inbound',
+    status: 'queued',
+    stripe_session_id: null,
+    workflow_run_id: null,
+    score: null,
+    impact_percent: null,
+    writer_model: null,
+    subject: null,
+    html: null,
+    pdf_path: null,
+    error: null,
+    review_token: null,
+    created_at: '2026-06-12T10:00:00Z',
+    updated_at: '2026-06-12T10:00:00Z',
+    ...overrides,
+  };
+}
+
+interface FakeCalls {
+  inserted: Record<string, unknown>[];
+  updated: Array<{ values: Record<string, unknown>; id: string }>;
+  selectedIds: string[];
+}
+
+/** Fake structurel du client Supabase : capture les appels, zéro réseau. */
+function fakeDb(opts: {
+  insertResult?: { data: unknown; error: { message: string } | null };
+  selectResult?: { data: unknown; error: { message: string } | null };
+  updateError?: { message: string } | null;
+}): { db: AuditJobsDb; calls: FakeCalls } {
+  const calls: FakeCalls = { inserted: [], updated: [], selectedIds: [] };
+  const db: AuditJobsDb = {
+    from: () => ({
+      insert: (values: Record<string, unknown>) => {
+        calls.inserted.push(values);
+        return {
+          select: () => ({
+            single: () => Promise.resolve(opts.insertResult ?? { data: fakeRow(), error: null }),
+          }),
+        };
+      },
+      select: () => ({
+        eq: (_col: string, id: string) => {
+          calls.selectedIds.push(id);
+          return {
+            maybeSingle: () => Promise.resolve(opts.selectResult ?? { data: null, error: null }),
+          };
+        },
+      }),
+      update: (values: Record<string, unknown>) => ({
+        eq: (_col: string, id: string) => {
+          calls.updated.push({ values, id });
+          return Promise.resolve({ error: opts.updateError ?? null });
+        },
+      }),
+    }),
+  };
+  return { db, calls };
+}
+
+describe('createJob', () => {
+  it('insère les colonnes snake_case et retourne le job mappé en camelCase', async () => {
+    const { db, calls } = fakeDb({ insertResult: { data: fakeRow(), error: null } });
+    const job = await createJob(
+      { email: 'prospect@example.fr', url: 'https://exemple.fr/', tier: 'flash', channel: 'inbound' },
+      db,
+    );
+    expect(calls.inserted).toEqual([
+      { email: 'prospect@example.fr', url: 'https://exemple.fr/', tier: 'flash', channel: 'inbound' },
+    ]);
+    expect(job.id).toBe('job-1');
+    expect(job.status).toBe('queued');
+    expect(job.stripeSessionId).toBeNull();
+    expect(job.createdAt).toBe('2026-06-12T10:00:00Z');
+  });
+
+  it('transmet stripe_session_id quand fourni (job pro payé)', async () => {
+    const { db, calls } = fakeDb({
+      insertResult: { data: fakeRow({ tier: 'pro', stripe_session_id: 'cs_123' }), error: null },
+    });
+    const job = await createJob(
+      { email: 'p@e.fr', url: 'https://exemple.fr/', tier: 'pro', channel: 'inbound', stripeSessionId: 'cs_123' },
+      db,
+    );
+    expect(calls.inserted[0].stripe_session_id).toBe('cs_123');
+    expect(job.stripeSessionId).toBe('cs_123');
+  });
+
+  it("throw si l'insert échoue", async () => {
+    const { db } = fakeDb({ insertResult: { data: null, error: { message: 'duplicate key' } } });
+    await expect(
+      createJob({ email: 'p@e.fr', url: 'https://exemple.fr/', tier: 'flash', channel: 'cold' }, db),
+    ).rejects.toThrow(/duplicate key/);
+  });
+});
+
+describe('getJob', () => {
+  it('retourne le job mappé quand la ligne existe', async () => {
+    const { db, calls } = fakeDb({
+      selectResult: { data: fakeRow({ status: 'running', workflow_run_id: 'wrun_1' }), error: null },
+    });
+    const job = await getJob('job-1', db);
+    expect(calls.selectedIds).toEqual(['job-1']);
+    expect(job?.status).toBe('running');
+    expect(job?.workflowRunId).toBe('wrun_1');
+  });
+
+  it('retourne null quand la ligne est absente', async () => {
+    const { db } = fakeDb({ selectResult: { data: null, error: null } });
+    expect(await getJob('inconnu', db)).toBeNull();
+  });
+
+  it('throw si la lecture échoue', async () => {
+    const { db } = fakeDb({ selectResult: { data: null, error: { message: 'timeout' } } });
+    await expect(getJob('job-1', db)).rejects.toThrow(/timeout/);
+  });
+});
+
+describe('updateJob', () => {
+  it('mappe le patch camelCase vers les colonnes snake_case', async () => {
+    const { db, calls } = fakeDb({});
+    await updateJob(
+      'job-1',
+      { status: 'delivered', score: 62, impactPercent: 14, writerModel: 'gemini', pdfPath: 'pro/job-1/audit.pdf' },
+      db,
+    );
+    expect(calls.updated).toEqual([
+      {
+        id: 'job-1',
+        values: {
+          status: 'delivered',
+          score: 62,
+          impact_percent: 14,
+          writer_model: 'gemini',
+          pdf_path: 'pro/job-1/audit.pdf',
+        },
+      },
+    ]);
+  });
+
+  it('ignore les champs undefined et ne touche pas la DB sur un patch vide', async () => {
+    const { db, calls } = fakeDb({});
+    await updateJob('job-1', {}, db);
+    expect(calls.updated).toEqual([]);
+  });
+
+  it('throw si la mise à jour échoue', async () => {
+    const { db } = fakeDb({ updateError: { message: 'connection refused' } });
+    await expect(updateJob('job-1', { status: 'failed' }, db)).rejects.toThrow(/connection refused/);
+  });
+});
