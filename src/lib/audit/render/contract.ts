@@ -3,9 +3,16 @@ import type { ProReportContent, ReportContent } from './report-schema';
 
 export class ContractViolation extends Error {}
 
+/**
+ * La règle n'est PAS « ne jamais parler d'IA » : la section AI Readiness du rapport
+ * analyse précisément la visibilité du site sur ChatGPT/Perplexity (sujet légitime).
+ * La règle est : ne JAMAIS révéler que l'audit lui-même est produit par une IA.
+ * Seules les formulations d'auto-attribution sont interdites.
+ */
 const IA_LEXICON = [
-  'intelligence artificielle', "l'ia", ' ia ', 'algorithme d', 'chatgpt', 'gpt', 'llm',
-  'machine learning', 'réseau de neurones', 'généré par ',
+  'généré par ', 'génère ce rapport', 'notre ia', 'notre intelligence artificielle',
+  'notre algorithme', "l'algorithme d'analyse", 'notre modèle', 'assistant ia',
+  'rédigé par une ia', 'analyse automatisée par ia',
 ];
 
 /** Extrait tous les montants € d'un texte (ex "1 760 €", "1760€"). Retourne les entiers. */

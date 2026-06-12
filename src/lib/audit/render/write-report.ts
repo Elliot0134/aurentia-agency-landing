@@ -19,7 +19,7 @@ Règles ABSOLUES (le texte est rejeté sinon) :
 - Chiffre tout, mais UNIQUEMENT avec les valeurs des mesures fournies. N'invente aucun chiffre.
 - Tout finding doit lister les measurementIds des mesures qui le prouvent.
 - INTERDIT : le tiret long (— ou –). Utilise des virgules ou des points.
-- INTERDIT : mentionner l'IA, l'intelligence artificielle, un algorithme, ChatGPT, un LLM.
+- INTERDIT : laisser entendre que ce rapport est produit ou rédigé par une IA ("notre IA", "généré par", "notre algorithme"). En revanche, analyser la visibilité du SITE AUDITÉ sur les moteurs IA (ChatGPT, Perplexity, moteurs de réponse) est autorisé et attendu (partie AI Readiness).
 - INTERDIT : affirmer une position Google précise ("vous êtes en position 8").
 - INTERDIT : citer un montant en euros (€). Tu exprimes l'impact en POURCENTAGE de visiteurs perdus, jamais en argent.
 - Ton direct, concret, sans jargon en titre. Varie la forme des findings (pas de structure répétée).

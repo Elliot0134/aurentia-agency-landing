@@ -123,9 +123,15 @@ describe('validateReportContract (contenu Pro)', () => {
     c.strategicRecommendations[0].rationale = 'Construire un positionnement local fort — quartier par quartier.';
     expect(() => validateReportContract(c, audit())).toThrow(/tiret long/i);
   });
-  it("rejette une mention d'IA dans une recommandation stratégique", () => {
+  it("rejette l'auto-attribution IA dans une recommandation stratégique", () => {
     const c = okProContent();
-    c.strategicRecommendations[1].rationale = 'Rendre votre site lisible par ChatGPT et les assistants conversationnels du marché.';
+    c.strategicRecommendations[1].rationale = 'Notre algorithme a identifié que votre site doit renforcer sa présence locale et sa réputation.';
     expect(() => validateReportContract(c, audit())).toThrow(/IA/i);
+  });
+
+  it("accepte de parler des moteurs IA comme sujet d'analyse (AI Readiness)", () => {
+    const c = okProContent();
+    c.strategicRecommendations[1].rationale = 'Rendre votre site lisible par ChatGPT et Perplexity : structurer des passages factuels citables et relier vos profils externes.';
+    expect(() => validateReportContract(c, audit())).not.toThrow();
   });
 });
