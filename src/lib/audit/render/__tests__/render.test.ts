@@ -55,6 +55,7 @@ const proContent: ProReportContent = {
   })),
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
+  recommendationSummary: 'Le site perd la majorité de ses visiteurs mobiles avant la prise de contact. Nous recommandons une refonte axée performance en priorité.',
 };
 
 /** fetchFn stub : /pdf renvoie un binaire commençant par %PDF. */
@@ -157,8 +158,11 @@ describe('renderReport', () => {
 
     const init = fetchSpy.mock.calls[0]?.[1] as RequestInit | undefined;
     const payload = JSON.parse(String(init?.body)) as { html: string };
-    expect(payload.html).toContain('Visiteurs qui arrivent sur le site (base)'); // étage 1 du funnel SVG
-    expect(payload.html).toContain('Visiteurs qui peuvent devenir contact/client'); // étage final
+    // Les labels d'étages sont wrappés sur 2 lignes au-delà de 38 caractères :
+    // on vérifie les fragments de chaque ligne, pas la chaîne entière.
+    expect(payload.html).toContain('Visiteurs qui arrivent sur le site'); // étage 1 du funnel SVG (ligne 1)
+    expect(payload.html).toContain('(base)'); // étage 1 (ligne 2)
+    expect(payload.html).toContain('contact/client'); // étage final
   });
 
   it('pro → les constats visuels (B5) sont injectés dans le HTML envoyé à /pdf', async () => {

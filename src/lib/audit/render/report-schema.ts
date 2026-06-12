@@ -60,5 +60,6 @@ export const ProContentSchema = ReportContentSchema.extend({
   recommendations: z.array(RecommendationSchema).min(4),
   funnelAnalysis: z.string().min(30), // où se perd le visiteur
   funnelProjection: z.string().min(30), // effet attendu des corrections, prudent, en %
+  recommendationSummary: z.string().min(40), // 2-3 phrases : verdict global + chemin recommandé, ton consultant, sans prix
 });
 export type ProReportContent = z.infer<typeof ProContentSchema>;

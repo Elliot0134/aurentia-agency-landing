@@ -53,6 +53,15 @@ describe('svgRadar', () => {
   it('refuse moins de 3 axes', () => {
     expect(() => svgRadar(axes.slice(0, 2), 50)).toThrow();
   });
+
+  it('centre dégagé : pas de "/ 100" et 2 graduations max (cercles extérieurs)', () => {
+    const svg = svgRadar(axes, 55);
+    expect(svg).not.toContain('/ 100');
+    // les graduations utilisent font-size="9" : seules les 2 extérieures (8 et 10) restent
+    expect((svg.match(/font-size="9"/g) ?? []).length).toBe(2);
+    expect(svg).toContain('>8</text>');
+    expect(svg).toContain('>10</text>');
+  });
 });
 
 describe('svgFunnel', () => {
@@ -73,6 +82,29 @@ describe('svgFunnel', () => {
     expect(svg).toContain('10 240 perdus (CTA peu clair)');
     expect(svg).toContain('1 680 abandonnent');
     expect(svg).toContain('Funnel de perte');
+  });
+
+  it("titre honnête : sur 100 visiteurs, X restent en capacité d'agir (pas de fausse conversion)", () => {
+    const svg = svgFunnel(stages); // 80/12000 → 1 sur 100
+    expect(svg).toContain('Funnel de perte : sur 100 visiteurs, 1 restent en capacité d&apos;agir (est.)');
+    expect(svg).not.toContain('conversion finale');
+  });
+
+  it('wrappe les labels longs (> 38 chars) et les lossNotes longues (> 48 chars) sur 2 lignes', () => {
+    const longLabel = 'Visiteurs encore presents apres le chargement (est.)';
+    const longNote = 'experience mobile degradee (score Lighthouse mesure), est. -20%';
+    const svg = svgFunnel([
+      { label: 'Visiteurs qui arrivent sur le site (base)', value: 100 },
+      { label: longLabel, value: 70, lossNote: longNote },
+    ]);
+    // label coupé : les 2 morceaux présents, la chaîne entière absente (2 <text> distincts)
+    expect(svg).not.toContain(longLabel);
+    expect(svg).toContain('Visiteurs encore presents apres le');
+    expect(svg).toContain('chargement (est.)');
+    // lossNote coupée aussi
+    expect(svg).not.toContain(longNote);
+    expect(svg).toContain('experience mobile degradee');
+    expect(svg).toContain('est. -20%');
   });
 
   it('échappe les labels', () => {
@@ -109,6 +141,12 @@ describe('svgScoreTargetBars', () => {
     const svg = svgScoreTargetBars([{ label: 'Vitesse & <cache>', current: 5, target: 9 }]);
     expect(svg).toContain('Vitesse &amp; &lt;cache&gt;');
     expect(svg).not.toContain('<cache>');
+  });
+
+  it('la cible ne descend jamais sous la note actuelle (actuel 9,5 / cible 9 → cible 10)', () => {
+    const svg = svgScoreTargetBars([{ label: 'SEO', current: 9.5, target: 9 }]);
+    expect(svg).toContain('cible 10');
+    expect(svg).not.toContain('cible 9<');
   });
 });
 

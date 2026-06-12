@@ -72,8 +72,43 @@ function r2(n: number): string {
   return (Math.round(n * 100) / 100).toString();
 }
 
-function svgOpen(height: number): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${height}" viewBox="0 0 ${W} ${height}" font-family="${FONT}">`;
+/**
+ * Coupe un texte en lignes de `maxChars` max (coupure aux espaces).
+ * Plafonné à 2 lignes : l'éventuel surplus est fusionné dans la seconde.
+ */
+function wrap2(s: string, maxChars: number): string[] {
+  if (s.length <= maxChars) return [s];
+  const words = s.split(' ');
+  const lines: string[] = [];
+  let current = '';
+  for (const word of words) {
+    const candidate = current === '' ? word : `${current} ${word}`;
+    if (candidate.length > maxChars && current !== '') {
+      lines.push(current);
+      current = word;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current !== '') lines.push(current);
+  return lines.length <= 2 ? lines : [lines[0], lines.slice(1).join(' ')];
+}
+
+/** Un <text> mono ou bi-ligne, centré verticalement sur midY. */
+function multilineText(lines: string[], x: number, midY: number, attrs: string, lineGap = 13): string {
+  if (lines.length === 1) {
+    return `<text x="${r2(x)}" y="${r2(midY)}" ${attrs}>${escapeXml(lines[0])}</text>`;
+  }
+  return lines
+    .map(
+      (line, i) =>
+        `<text x="${r2(x)}" y="${r2(midY + (i === 0 ? -lineGap / 2 : lineGap / 2))}" ${attrs}>${escapeXml(line)}</text>`,
+    )
+    .join('');
+}
+
+function svgOpen(height: number, width: number = W): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" font-family="${FONT}">`;
 }
 
 function title(text: string): string {
@@ -101,11 +136,16 @@ export function svgRadar(axes: RadarAxis[], globalScore: number): string {
     return [cx + ((R * s) / 10) * Math.cos(angle(i)), cy + ((R * s) / 10) * Math.sin(angle(i))];
   };
 
-  // Grille : cercles concentriques aux notes 2/4/6/8/10
+  // Grille : cercles concentriques aux notes 2/4/6/8/10. Graduations limitées
+  // aux 2 cercles extérieurs (8 et 10), placées en haut : les labels des cercles
+  // intérieurs chevauchaient le score central.
   const grid = [1, 2, 3, 4, 5]
     .map((k) => {
       const r = (R * k) / 5;
-      const tick = `<text x="${r2(cx + 6)}" y="${r2(cy - r + 4)}" font-size="9" fill="${COLORS.dim}">${k * 2}</text>`;
+      const tick =
+        k >= 4
+          ? `<text x="${r2(cx + 6)}" y="${r2(cy - r + 4)}" font-size="9" fill="${COLORS.dim}">${k * 2}</text>`
+          : '';
       return `<circle cx="${cx}" cy="${cy}" r="${r2(r)}" fill="none" stroke="${COLORS.border}" stroke-width="1"/>${tick}`;
     })
     .join('\n  ');
@@ -136,7 +176,6 @@ export function svgRadar(axes: RadarAxis[], globalScore: number): string {
   <circle cx="${cx}" cy="${cy}" r="${r2(R * 0.7)}" fill="none" stroke="${COLORS.good}" stroke-width="1" stroke-dasharray="5 4" opacity="0.5"/>
   <polygon points="${polyPoints}" fill="${COLORS.accent}" fill-opacity="0.2" stroke="${COLORS.accent}" stroke-width="2.5" stroke-linejoin="round"/>
   <text x="${cx}" y="${cy + 12}" font-size="42" font-weight="700" fill="${scoreColor100(score)}" text-anchor="middle">${score}</text>
-  <text x="${cx}" y="${cy + 36}" font-size="12" fill="${COLORS.muted}" text-anchor="middle">/ 100</text>
 </svg>`;
 }
 
@@ -145,20 +184,23 @@ export function svgRadar(axes: RadarAxis[], globalScore: number): string {
  * ------------------------------------------------------------------------- */
 
 export function svgFunnel(stages: FunnelStage[]): string {
+  const FUNNEL_W = 760; // plus large que les autres charts : labels + lossNotes lisibles
   const rowH = 52;
   const barH = 30;
   const headerH = 48;
   const H = headerH + stages.length * rowH + 16;
 
-  const barCx = 345; // centre des barres
-  const maxBarW = 260;
+  const labelRight = 240; // colonne labels élargie (wrap 2 lignes au-delà de 38 chars)
+  const barCx = 372; // centre des barres
+  const maxBarW = 240;
+  const lossX = 504; // lossNotes : wrap 2 lignes au-delà de 48 chars
   const maxV = Math.max(...stages.map((s) => s.value), 1);
 
   const first = stages[0];
   const last = stages[stages.length - 1];
   const titleText =
     stages.length >= 2 && first !== undefined && last !== undefined && first.value > 0
-      ? `Funnel de perte (conversion finale : ${((last.value / first.value) * 100).toFixed(2).replace('.', ',')}%)`
+      ? `Funnel de perte : sur 100 visiteurs, ${Math.round((last.value / first.value) * 100)} restent en capacité d'agir (est.)`
       : 'Funnel de perte';
 
   const rows = stages
@@ -176,11 +218,24 @@ export function svgFunnel(stages: FunnelStage[]): string {
         : `<text x="${r2(barCx + width / 2 + 6)}" y="${r2(midY)}" font-size="12" font-weight="700" fill="${COLORS.accent}">${valueText}</text>`;
 
       const loss = stage.lossNote
-        ? `<text x="502" y="${r2(midY)}" font-size="9.5" font-style="italic" fill="${COLORS.bad}">- ${escapeXml(stage.lossNote)}</text>`
+        ? multilineText(
+            wrap2(`- ${stage.lossNote}`, 48),
+            lossX,
+            midY,
+            `font-size="9.5" font-style="italic" fill="${COLORS.bad}"`,
+            12,
+          )
         : '';
 
+      const label = multilineText(
+        wrap2(stage.label, 38),
+        labelRight,
+        midY,
+        `font-size="11" font-weight="700" fill="${COLORS.text}" text-anchor="end"`,
+      );
+
       return (
-        `<text x="200" y="${r2(midY)}" font-size="11" font-weight="700" fill="${COLORS.text}" text-anchor="end">${escapeXml(stage.label)}</text>` +
+        label +
         `<rect x="${r2(x0)}" y="${r2(y)}" width="${r2(width)}" height="${barH}" rx="2" fill="${COLORS.accent}" fill-opacity="0.9"/>` +
         value +
         loss
@@ -188,7 +243,7 @@ export function svgFunnel(stages: FunnelStage[]): string {
     })
     .join('\n  ');
 
-  return `${svgOpen(H)}
+  return `${svgOpen(H, FUNNEL_W)}
   ${title(titleText)}
   ${rows}
 </svg>`;
@@ -223,7 +278,9 @@ export function svgScoreTargetBars(rows: ScoreTargetRow[]): string {
     .map((row, i) => {
       const y = top + i * rowH + (rowH - barH) / 2 - 8;
       const midY = y + barH / 2 + 4;
-      const wTarget = xAt(row.target) - x0;
+      // La cible ne descend jamais sous l'actuel (axe déjà au niveau → cible = actuel arrondi sup)
+      const target = row.current >= row.target ? Math.max(row.target, Math.ceil(row.current)) : row.target;
+      const wTarget = xAt(target) - x0;
       const wCurrent = xAt(row.current) - x0;
       const color = noteColor10(row.current);
 
@@ -237,7 +294,7 @@ export function svgScoreTargetBars(rows: ScoreTargetRow[]): string {
         `<rect x="${x0}" y="${r2(y)}" width="${r2(wTarget)}" height="${barH}" rx="2" fill="${COLORS.good}" fill-opacity="0.18"/>` +
         `<rect x="${x0}" y="${r2(y)}" width="${r2(Math.max(wCurrent, 2))}" height="${barH}" rx="2" fill="${color}"/>` +
         value +
-        `<text x="${r2(x0 + wTarget + 8)}" y="${r2(midY)}" font-size="10" font-weight="700" fill="${COLORS.good}">cible ${fmtFr(row.target)}</text>`
+        `<text x="${r2(x0 + wTarget + 8)}" y="${r2(midY)}" font-size="10" font-weight="700" fill="${COLORS.good}">cible ${fmtFr(target)}</text>`
       );
     })
     .join('\n  ');

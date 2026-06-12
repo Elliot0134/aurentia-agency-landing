@@ -299,7 +299,7 @@ describe('buildProReportHtml', () => {
     expect(html).toContain('id="back-cover"');
   });
 
-  it('charte : terracotta, zéro bleu de référence, zéro €, zéro tiret long, footer @page', async () => {
+  it('charte : terracotta, zéro bleu de référence, zéro €, zéro tiret long, footer Chromium uniquement', async () => {
     const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
     expect(html).toContain('#c96442');
     expect(html).not.toContain('#1e40af');
@@ -307,9 +307,52 @@ describe('buildProReportHtml', () => {
     expect(html).not.toMatch(/€|&euro;/);
     expect(html).not.toMatch(/—|–/); // y compris le label LCP qui contenait un tiret long
     expect(html).toContain('<meta charset="utf-8"');
-    expect(html).toContain('Aurentia Agency · Audit confidentiel');
-    expect(html).toContain('counter(page)');
+    // le footer est rendu UNIQUEMENT par Chromium (render-pdf.ts), pas par le template
+    // (les deux superposés = footer doublé sur chaque page)
+    expect(html).not.toContain('Aurentia Agency · Audit confidentiel');
+    expect(html).not.toContain('counter(page)');
     expect(html.toLowerCase()).not.toMatch(/\broadmap\b|\bsprint\b|\btjm\b/);
     expect(html.toLowerCase()).not.toMatch(/intelligence artificielle|chatgpt|\bllm\b/);
+  });
+
+  it('état vs cible : axe déjà au niveau → cible jamais sous l\'actuel et badge Maintenir', async () => {
+    const a = bareAudit();
+    a.measurements = [
+      { id: 'perf.mobile.score', module: 'perf', label: 'Score performance', status: 'pass', value: 95, unit: '/100' },
+      { id: 'seo.title.present', module: 'seo-onpage', label: 'Balise title', status: 'pass', value: true },
+    ];
+    const html = await buildProReportHtml(a, richContent(), { score: 90 });
+    const target = section(html, 'score-target');
+    expect(target).toContain('10/10'); // note 10 → cible relevée à 10, jamais 9 < actuel
+    expect(target).toContain('badge-maintenir');
+    expect(target).toContain('Maintenir');
+    expect(target).not.toContain('>9/10<');
+  });
+
+  it('libellés humanisés : secteur mappé, ville capitalisée (cover + intro Local SEO)', async () => {
+    const html = await buildProReportHtml(richAudit(), richContent(), richOpts());
+    const cover = section(html, 'cover');
+    expect(cover).toContain('Secteur :</span> Conciergerie');
+    const local = section(html, 'local-seo');
+    expect(local).toContain('(Conciergerie)');
+
+    const a = richAudit();
+    a.business = { ...a.business, sector: 'saas-b2b', city: 'aix-en-provence' };
+    const cover2 = section(await buildProReportHtml(a, richContent(), richOpts()), 'cover');
+    expect(cover2).toContain('SaaS / B2B');
+    expect(cover2).toContain('Aix-En-Provence');
+  });
+
+  it('box recommandation : recommendationSummary rédigé si présent, label enum en fallback', async () => {
+    const withSummary: ProContent = {
+      ...richContent(),
+      recommendationSummary:
+        'Votre site repose sur des fondations saines mais perd ses visiteurs mobiles. Nous recommandons de traiter la performance en priorité, puis la visibilité locale.',
+    };
+    const html = await buildProReportHtml(richAudit(), withSummary, richOpts());
+    const syn = section(html, 'synthese');
+    expect(syn).toContain('Nous recommandons de traiter la performance en priorité');
+    expect(syn).not.toContain('Refonte recommandée'); // le résumé remplace le label enum
+    // fallback sans summary : couvert par le test synthèse (Refonte recommandée)
   });
 });

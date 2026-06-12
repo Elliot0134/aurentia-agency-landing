@@ -30,7 +30,8 @@ function isProContent(content: ReportContent | ProReportContent): content is Pro
  * 2. zéro tiret long ; 3. zéro mention IA ; 4. zéro position Google affirmée ;
  * 5. zéro montant € (on n'estime plus aucun montant en self-service, l'impact s'exprime
  *    en % de visiteurs perdus). Les checks texte couvrent aussi les champs Pro
- *    (auditTable, recommendations, funnelAnalysis, funnelProjection) quand ils sont présents.
+ *    (auditTable, recommendations, funnelAnalysis, funnelProjection,
+ *    recommendationSummary) quand ils sont présents.
  */
 export function validateReportContract(content: ReportContent | ProReportContent, audit: AuditData): void {
   const validIds = new Set(audit.measurements.map((m) => m.id));
@@ -47,6 +48,7 @@ export function validateReportContract(content: ReportContent | ProReportContent
       ...content.recommendations.flatMap((r) => [r.title, r.action, r.expectedImpact]),
       content.funnelAnalysis,
       content.funnelProjection,
+      content.recommendationSummary,
     );
   }
   const allText = texts.join('\n');

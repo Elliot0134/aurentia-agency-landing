@@ -77,6 +77,7 @@ const okProContent = (): ProReportContent => ({
   })),
   funnelAnalysis: 'Sur 100 visiteurs, environ 60 partent avant que le contenu principal ne soit affiché.',
   funnelProjection: 'Après correction, la perte estimée tombe sous 20 visiteurs sur 100, estimation prudente.',
+  recommendationSummary: 'Le site perd la majorité de ses visiteurs mobiles avant la prise de contact. Nous recommandons une refonte axée performance en priorité.',
 });
 
 describe('validateReportContract (contenu Pro)', () => {
@@ -102,5 +103,10 @@ describe('validateReportContract (contenu Pro)', () => {
     const c = okProContent();
     c.auditTable[0].finding = 'Notre intelligence artificielle a repéré une lenteur importante.';
     expect(() => validateReportContract(c, audit())).toThrow(/IA|intelligence artificielle/i);
+  });
+  it('rejette un montant € dans recommendationSummary', () => {
+    const c = okProContent();
+    c.recommendationSummary = 'Une refonte du site vous fera récupérer environ 3 000 € de chiffre par mois.';
+    expect(() => validateReportContract(c, audit())).toThrow(/montant/i);
   });
 });

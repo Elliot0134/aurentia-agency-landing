@@ -26,12 +26,15 @@ export interface ProReportOptions {
 
 export type ProPriority = 'Critique' | 'Important' | 'À optimiser';
 
+/** Badge affichable : les 3 priorités + "Maintenir" (axe déjà au niveau cible). */
+export type ProBadge = ProPriority | 'Maintenir';
+
 /**
  * Forme acceptée en entrée pour la priorité : le schéma LLM (report-schema)
  * produit la forme accentuée, mais on tolère "A optimiser" sans accent.
  * Le badge affiché reste TOUJOURS "À optimiser".
  */
-export type ProPriorityInput = ProPriority | 'A optimiser';
+export type ProPriorityInput = ProBadge | 'A optimiser';
 
 export interface ProAuditTableRow {
   category: string;
@@ -59,6 +62,7 @@ export type ProContent = ReportContent &
     recommendations: ProRecommendation[];
     funnelAnalysis: string;
     funnelProjection: string;
+    recommendationSummary: string;
   }>;
 
 /* ----------------------------------------------------------------------------
@@ -73,6 +77,8 @@ const BADGE = {
   Critique: { cls: 'badge-critique', fg: '#C62828', bg: '#FDECEA' },
   Important: { cls: 'badge-important', fg: '#B45309', bg: '#FEF3C7' },
   'À optimiser': { cls: 'badge-optimiser', fg: '#2E7D32', bg: '#E8F5E9' },
+  // Gris neutre : l'axe est déjà au niveau cible, rien à corriger.
+  Maintenir: { cls: 'badge-maintenir', fg: '#57534E', bg: '#F0EEEC' },
 } as const;
 
 const RECO_LABEL: Record<ReportContent['recommendation'], string> = {
@@ -169,6 +175,27 @@ function scoreColor(score: number): string {
   return COLORS.good;
 }
 
+/** Clés de secteur internes → libellé humain affiché dans le PDF. */
+const SECTOR_LABELS: Record<string, string> = {
+  'saas-b2b': 'SaaS / B2B',
+  'service-pro': 'Services professionnels',
+  conciergerie: 'Conciergerie',
+  artisan: 'Artisanat',
+  restaurant: 'Restauration',
+  ecommerce: 'E-commerce',
+  default: 'Multi-secteurs',
+};
+
+/** Libellé humain du secteur ; fallback : clé capitalisée. */
+function sectorLabel(sector: string): string {
+  return SECTOR_LABELS[sector] ?? sector.charAt(0).toUpperCase() + sector.slice(1);
+}
+
+/** "avignon" → "Avignon", "aix-en-provence" → "Aix-En-Provence" (majuscule après espace et tiret). */
+function cityLabel(city: string): string {
+  return city.replace(/(^|[\s-])(\p{L})/gu, (_m, sep: string, ch: string) => sep + ch.toUpperCase());
+}
+
 /** Extrait le nom de domaine de l'URL finale. */
 function domainOf(url: string): string {
   try {
@@ -206,7 +233,7 @@ function domainLabelOf(m: Measurement): string {
 }
 
 /** Normalise la priorité d'entrée ("A optimiser" toléré) vers la forme affichée. */
-function normalizePriority(priority: ProPriorityInput): ProPriority {
+function normalizePriority(priority: ProPriorityInput): ProBadge {
   return priority === 'A optimiser' ? 'À optimiser' : priority;
 }
 
@@ -227,26 +254,14 @@ function chartHtml(svg: string | undefined): string {
 function styleBlock(): string {
   const C = COLORS;
   return `
+/* Footer : rendu UNIQUEMENT par le footer natif Chromium (render-pdf.ts).
+   Pas de margin boxes @bottom-* ici, sinon footer doublé sur chaque page. */
 @page {
   size: A4;
   margin: 20mm 18mm 20mm 18mm;
-  @bottom-left {
-    content: "Aurentia Agency · Audit confidentiel";
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 8.5pt;
-    color: ${C.muted};
-  }
-  @bottom-right {
-    content: "Page " counter(page) " / " counter(pages);
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 9pt;
-    color: ${C.muted};
-  }
 }
 @page :first {
   margin: 0;
-  @bottom-left { content: none; }
-  @bottom-right { content: none; }
 }
 
 body {
@@ -436,6 +451,7 @@ td.rec-id { background: ${TABLE_HEAD_BG} !important; color: #ffffff; font-weight
 .badge-critique { color: ${BADGE.Critique.fg}; background: ${BADGE.Critique.bg}; }
 .badge-important { color: ${BADGE.Important.fg}; background: ${BADGE.Important.bg}; }
 .badge-optimiser { color: ${BADGE['À optimiser'].fg}; background: ${BADGE['À optimiser'].bg}; }
+.badge-maintenir { color: ${BADGE.Maintenir.fg}; background: ${BADGE.Maintenir.bg}; }
 
 .badges-legend { font-size: 9pt; color: ${C.muted}; margin: 6pt 0; }
 .badges-legend .badge { margin-right: 6pt; }
@@ -573,10 +589,10 @@ function buildCover(audit: AuditData): string {
     `<div class="box-row"><span class="k">Domaine :</span> <strong>${esc(domain)}</strong></div>`,
     audit.description !== null ? `<div class="box-row">${esc(audit.description)}</div>` : '',
     audit.business.sector !== null
-      ? `<div class="box-row"><span class="k">Secteur :</span> ${esc(audit.business.sector)}</div>`
+      ? `<div class="box-row"><span class="k">Secteur :</span> ${esc(sectorLabel(audit.business.sector))}</div>`
       : '',
     audit.business.city !== null
-      ? `<div class="box-row"><span class="k">Ville :</span> ${esc(audit.business.city)}</div>`
+      ? `<div class="box-row"><span class="k">Ville :</span> ${esc(cityLabel(audit.business.city))}</div>`
       : '',
   ].join('');
 
@@ -612,7 +628,7 @@ function buildCover(audit: AuditData): string {
 
 const PRIORITY_RANK: Record<Finding['priority'], number> = { P0: 0, P1: 1, P2: 2 };
 
-function buildSynthese(audit: AuditData, content: ReportContent, opts: ProReportOptions): string {
+function buildSynthese(audit: AuditData, content: ProContent, opts: ProReportOptions): string {
   const score = opts.score;
   const radar = opts.charts?.radar;
 
@@ -653,7 +669,11 @@ function buildSynthese(audit: AuditData, content: ReportContent, opts: ProReport
     <ol class="priority-list">${prioritiesHtml}</ol>
 
     <div class="reco-box">
-      <strong>Recommandation :</strong> ${esc(RECO_LABEL[content.recommendation])}.
+      <strong>Recommandation :</strong> ${
+        content.recommendationSummary
+          ? esc(content.recommendationSummary)
+          : `${esc(RECO_LABEL[content.recommendation])}.`
+      }
     </div>
   </section>`;
 }
@@ -869,8 +889,8 @@ function buildLocalSeo(audit: AuditData): string {
 
   const sector = audit.business.sector;
   const city = audit.business.city;
-  const intro = `Section spécifique : votre activité${sector !== null ? ` (${esc(sector)})` : ''} est détectée comme locale${
-    city !== null ? `, à ${esc(city)}` : ''
+  const intro = `Section spécifique : votre activité${sector !== null ? ` (${esc(sectorLabel(sector))})` : ''} est détectée comme locale${
+    city !== null ? `, à ${esc(cityLabel(city))}` : ''
   }. GBP, avis et citations sont vérifiés pendant la relecture.`;
 
   return `
@@ -937,13 +957,22 @@ function buildScoreTarget(audit: AuditData, opts: ProReportOptions): string {
 
   const rows = axes
     .map((a) => {
-      const target = a.note >= 8 ? 9 : 8;
-      const priority: ProPriority = a.note < 4 ? 'Critique' : a.note < 7 ? 'Important' : 'À optimiser';
+      const baseTarget = a.note >= 8 ? 9 : 8;
+      // Axe déjà au niveau cible : cible >= actuel (jamais en dessous) et badge neutre.
+      const maintain = a.note >= baseTarget;
+      const target = maintain ? Math.max(baseTarget, Math.ceil(a.note)) : baseTarget;
+      const badge: ProBadge = maintain
+        ? 'Maintenir'
+        : a.note < 4
+          ? 'Critique'
+          : a.note < 7
+            ? 'Important'
+            : 'À optimiser';
       return `<tr>
         <td>${esc(a.label)}</td>
         <td class="note-now">${formatNumberFr(a.note)}/10</td>
         <td class="note-target">${target}/10</td>
-        <td>${badgeHtml(priority)}</td>
+        <td>${badgeHtml(badge)}</td>
       </tr>`;
     })
     .join('');
