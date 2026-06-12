@@ -9,6 +9,7 @@ import {
   getLeadByEmail,
   getLeadByGmailThreadId,
   getLeadById,
+  getNicheName,
   insertReply,
   insertTouch,
   listLeadsByStatus,
@@ -400,6 +401,29 @@ describe('replies', () => {
 
     const { api: apiEmpty } = fakeApi({ list: () => [] });
     expect(await findReplyByGmailMessageId('gm-absent', apiEmpty)).toBeNull();
+  });
+});
+
+describe('niches', () => {
+  it('getNicheName : GET du record (table Niches), retourne le champ primaire Niche', async () => {
+    const { api, captured } = fakeApi({
+      get: (_table, recordId) =>
+        recordId === 'recNICHE1'
+          ? { id: 'recNICHE1', createdTime: '2026-06-12T10:00:00.000Z', fields: { Niche: 'Cuisinistes — PACA' } }
+          : null,
+    });
+    expect(await getNicheName('recNICHE1', api)).toBe('Cuisinistes — PACA');
+    expect(captured.get[0]).toEqual({ table: AIRTABLE_TABLES.niches, recordId: 'recNICHE1' });
+  });
+
+  it('getNicheName : null si record absent (404) ou champ Niche vide', async () => {
+    const { api } = fakeApi({ get: () => null });
+    expect(await getNicheName('recZZZ', api)).toBeNull();
+
+    const { api: apiVide } = fakeApi({
+      get: () => ({ id: 'recN2', createdTime: '2026-06-12T10:00:00.000Z', fields: {} }),
+    });
+    expect(await getNicheName('recN2', apiVide)).toBeNull();
   });
 });
 

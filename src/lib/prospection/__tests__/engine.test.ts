@@ -17,6 +17,8 @@ interface FakeData {
   config?: Record<string, string>;
   leads?: ProspectionLead[];
   touches?: ProspectionTouch[];
+  /** Record id de niche → nom (champ primaire Niche de la table Niches). */
+  niches?: Record<string, string>;
 }
 
 const DEFAULT_CONFIG: Record<string, string> = {
@@ -24,13 +26,19 @@ const DEFAULT_CONFIG: Record<string, string> = {
   cold_daily_cap: '10',
 };
 
-function fakeDb(data: FakeData): EngineDb {
+function fakeDb(data: FakeData): EngineDb & { nicheCalls: string[] } {
   const config = data.config ?? DEFAULT_CONFIG;
+  const nicheCalls: string[] = [];
   return {
     getConfig: async (key) => config[key] ?? null,
     listLeadsByStatus: async (statuts) =>
       (data.leads ?? []).filter((lead) => statuts.includes(lead.statutFunnel)),
     listTouches: async () => data.touches ?? [],
+    getNicheName: async (nicheId) => {
+      nicheCalls.push(nicheId);
+      return (data.niches ?? {})[nicheId] ?? null;
+    },
+    nicheCalls,
   };
 }
 
@@ -151,7 +159,7 @@ describe('computeDueSends — cold (Gmail, ancre = flash)', () => {
     expect(payload.type).toBe('cold_1');
     expect(payload.channel).toBe('gmail');
     expect(payload.gmailThreadId).toBe(l.gmailThreadId);
-    expect(payload.templateVersion).toBe('cold_1@v1');
+    expect(payload.templateVersion).toBe('cold_1@v2');
     expect(payload.subject.length).toBeGreaterThan(0);
     expect(payload.html).toContain('<p');
     expect(payload.text.length).toBeGreaterThan(0);
@@ -348,6 +356,115 @@ describe('computeDueSends — ancre refonte', () => {
     const db2 = fakeDb({ leads: [sansContact], touches: [] });
     const result2 = await computeDueSends(db2, NOW);
     expect(result2.due.map((p) => p.type)).toEqual(['refonte_1']);
+  });
+});
+
+describe('computeDueSends — variantes cold par niche (résolution Airtable)', () => {
+  const FLASH_5J = '2026-06-07T08:00:00Z';
+
+  it('lead cold avec niche OF/EdTech → variante of-edtech (ChatGPT) et version suffixée', async () => {
+    const l = lead({ nicheId: 'recNicheOF' });
+    const db = fakeDb({
+      leads: [l],
+      touches: [touch(l.id, 'flash', FLASH_5J)],
+      niches: { recNicheOF: 'OF / EdTech B2B — France' },
+    });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due).toHaveLength(1);
+    expect(result.due[0].templateVersion).toBe('cold_1.of-edtech@v2');
+    expect(result.due[0].text).toContain('ChatGPT');
+  });
+
+  it('niche inconnue ou lead sans niche → variante générique @v2', async () => {
+    const sansNiche = lead({ nicheId: null, createdAt: '2026-06-01T08:00:00Z' });
+    const nicheInconnue = lead({ nicheId: 'recNicheResto', createdAt: '2026-06-02T08:00:00Z' });
+    const db = fakeDb({
+      leads: [sansNiche, nicheInconnue],
+      touches: [touch(sansNiche.id, 'flash', FLASH_5J), touch(nicheInconnue.id, 'flash', FLASH_5J)],
+      niches: { recNicheResto: 'Restaurants — Lyon' },
+    });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due.map((p) => p.templateVersion)).toEqual(['cold_1@v2', 'cold_1@v2']);
+    expect(result.due[0].text).not.toContain('ChatGPT');
+  });
+
+  it('cache par run : deux leads de la même niche → un seul fetch Airtable', async () => {
+    const l1 = lead({ nicheId: 'recNicheCui', createdAt: '2026-06-01T08:00:00Z' });
+    const l2 = lead({ nicheId: 'recNicheCui', createdAt: '2026-06-02T08:00:00Z' });
+    const db = fakeDb({
+      leads: [l1, l2],
+      touches: [touch(l1.id, 'flash', FLASH_5J), touch(l2.id, 'flash', FLASH_5J)],
+      niches: { recNicheCui: 'Cuisinistes — PACA' },
+    });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due.map((p) => p.templateVersion)).toEqual([
+      'cold_1.cuisinistes@v2',
+      'cold_1.cuisinistes@v2',
+    ]);
+    expect(db.nicheCalls).toEqual(['recNicheCui']);
+  });
+
+  it('lead non cold (inbound/refonte) → la niche n’est jamais résolue', async () => {
+    const inbound = lead({ source: 'inbound', nicheId: 'recNicheOF', createdAt: '2026-06-01T08:00:00Z' });
+    const refonte = lead({
+      phase: 'refonte',
+      statutFunnel: 'pro_envoye',
+      nicheId: 'recNicheOF',
+      createdAt: '2026-06-02T08:00:00Z',
+    });
+    const db = fakeDb({
+      leads: [inbound, refonte],
+      touches: [
+        touch(inbound.id, 'flash', '2026-06-09T08:00:00Z', 'resend'),
+        touch(refonte.id, 'flash', '2026-06-05T08:00:00Z'),
+      ],
+      niches: { recNicheOF: 'OF / EdTech B2B — France' },
+    });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due.map((p) => p.templateVersion)).toEqual(['inbound_1@v2', 'refonte_1@v2']);
+    expect(db.nicheCalls).toEqual([]);
+  });
+
+  it("erreur Airtable sur la niche → fallback générique, l'envoi part quand même", async () => {
+    const l = lead({ nicheId: 'recNicheKO' });
+    const base = fakeDb({ leads: [l], touches: [touch(l.id, 'flash', FLASH_5J)] });
+    const db: EngineDb = {
+      ...base,
+      getNicheName: async () => {
+        throw new Error('Airtable 503');
+      },
+    };
+    const result = await computeDueSends(db, NOW);
+    expect(result.due.map((p) => p.templateVersion)).toEqual(['cold_1@v2']);
+  });
+});
+
+describe('computeDueSends — signature et score depuis le lead', () => {
+  it("assignedTo 'stephane' → le mail est signé Stéphane", async () => {
+    const l = lead({ assignedTo: 'stephane' });
+    const db = fakeDb({ leads: [l], touches: [touch(l.id, 'flash', '2026-06-07T08:00:00Z')] });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due[0].text).toContain('Stéphane\nAurentia Agency');
+  });
+
+  it('assignedTo null ou inconnu → signature Elliot (fallback)', async () => {
+    const l = lead({ assignedTo: null, createdAt: '2026-06-01T08:00:00Z' });
+    const l2 = lead({ assignedTo: 'mystere', createdAt: '2026-06-02T08:00:00Z' });
+    const db = fakeDb({
+      leads: [l, l2],
+      touches: [touch(l.id, 'flash', '2026-06-07T08:00:00Z'), touch(l2.id, 'flash', '2026-06-07T08:00:00Z')],
+    });
+    const result = await computeDueSends(db, NOW);
+    for (const payload of result.due) {
+      expect(payload.text).toContain('Elliot\nAurentia Agency');
+    }
+  });
+
+  it('scoreFlash du lead → cité dans la relance (mesure réelle, jamais inventée)', async () => {
+    const l = lead({ scoreFlash: 62 });
+    const db = fakeDb({ leads: [l], touches: [touch(l.id, 'flash', '2026-06-07T08:00:00Z')] });
+    const result = await computeDueSends(db, NOW);
+    expect(result.due[0].text).toContain('62/100');
   });
 });
 
