@@ -152,22 +152,24 @@ describe('renderTemplate', () => {
     'cold_1 (%s) ne contient aucun lien CTA et finit sur la question ouverte',
     (nicheKey) => {
       const email = renderTemplate('cold_1', { ...FULL_VARS, nicheKey });
-      // Seules URLs tolérées : le site du prospect (corps), la bannière et
-      // www.aurentia.agency (signature).
+      // Seules URLs tolérées : le site du prospect (corps), la bannière,
+      // www.aurentia.agency et le profil Linkedin du signataire (signature).
+      const STEPHANE_LINKEDIN = 'https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/';
       const SIGNATURE_URLS = [
         'https://www.aurentia.agency',
         'https://brfsrpbfqlydzhguqexj.supabase.co/storage/v1/object/public/audit-captures/brand/aurentia-banner.jpg',
+        STEPHANE_LINKEDIN,
       ];
       for (const url of extractUrls(email.html)) {
         expect([FULL_VARS.siteUrl, ...SIGNATURE_URLS]).toContain(url);
       }
       for (const url of extractUrls(email.text)) {
-        expect([FULL_VARS.siteUrl, 'https://www.aurentia.agency']).toContain(url);
+        expect([FULL_VARS.siteUrl, 'https://www.aurentia.agency', STEPHANE_LINKEDIN]).toContain(url);
       }
       expect(email.html).not.toContain('stripe');
       expect(email.html).not.toContain('cal.com');
       // Le corps se termine par la question ouverte, juste avant la signature.
-      expect(email.text).toMatch(/\?\n\nStéphane - Aurentia\.agency\n/);
+      expect(email.text).toMatch(/\?\n\nGuillemot Stéphane - Co-founder & Advisor - Aurentia\.agency\n/);
     },
   );
 
@@ -285,8 +287,10 @@ describe('renderTemplate — signature dynamique', () => {
 
   it('signe avec la ligne nom du senderName et le filet de séparation', () => {
     const email = renderTemplate('cold_1', FULL_VARS);
-    expect(email.text).toContain('Stéphane - Aurentia.agency\nSite web : https://www.aurentia.agency');
-    expect(email.html).toContain('<strong>Stéphane</strong> - Aurentia.agency');
+    expect(email.text).toContain(
+      'Guillemot Stéphane - Co-founder & Advisor - Aurentia.agency\nSite web : https://www.aurentia.agency',
+    );
+    expect(email.html).toContain('<strong>Guillemot Stéphane</strong> - Co-founder & Advisor - Aurentia.agency');
     expect(email.html).toContain('border-top:1px solid #ddd');
   });
 
@@ -311,16 +315,63 @@ describe('renderTemplate — signature dynamique', () => {
     expect(email.text).toContain('Linkedin : https://www.linkedin.com/in/elliot-estrade-8b7754201/');
   });
 
-  it("les autres signataires n'ont ni tél, ni mail, ni Linkedin (inconnus, jamais inventés)", () => {
-    for (const senderName of ['Stéphane', 'Olivier', 'Matthieu', 'Fabien']) {
+  it('Stéphane, Olivier et Matthieu signent avec leurs coordonnées réelles', () => {
+    const cofounders: Array<{
+      senderName: string;
+      nameLine: string;
+      email: string;
+      phone: string;
+      linkedinUrl: string;
+    }> = [
+      {
+        senderName: 'Stéphane',
+        nameLine: 'Guillemot Stéphane - Co-founder & Advisor - Aurentia.agency',
+        email: 'stephane@aurentia.fr',
+        phone: '+33 6 75 08 78 03',
+        linkedinUrl: 'https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/',
+      },
+      {
+        senderName: 'Olivier',
+        nameLine: "Le Floc'h Olivier - Co-founder & Advisor - Aurentia.agency",
+        email: 'olivier@aurentia.fr',
+        phone: '+33 6 62 47 95 99',
+        linkedinUrl: 'https://www.linkedin.com/in/olivier-le-floch-0899a9/',
+      },
+      {
+        senderName: 'Matthieu',
+        nameLine: 'Bousquet Matthieu - Co-founder & CTO - Aurentia.agency',
+        email: 'matthieu@aurentia.fr',
+        phone: '+33 6 22 76 33 37',
+        linkedinUrl: 'https://www.linkedin.com/in/matthieu-bousquet-8070a7262/',
+      },
+    ];
+    for (const { senderName, nameLine, email: mail, phone, linkedinUrl } of cofounders) {
       const email = renderTemplate('inbound_1', { ...FULL_VARS, senderName });
-      expect(email.text).toContain(`${senderName} - Aurentia.agency`);
-      for (const rendered of [email.text, email.html]) {
-        expect(rendered).not.toMatch(PHONE_RE);
-        expect(rendered).not.toContain('elliot.estrade@gmail.com');
-        expect(rendered).not.toContain('linkedin.com');
-        expect(rendered).not.toContain('Founder / AI lead');
-      }
+      // text
+      expect(email.text).toContain(nameLine);
+      expect(email.text).toContain(`Mail : ${mail}`);
+      expect(email.text).toContain(`Tél : ${phone}`);
+      expect(email.text).toContain(`Linkedin : ${linkedinUrl}`);
+      // html : liens cliquables
+      expect(email.html).toContain(`<strong>Mail</strong> : <a href="mailto:${mail}"`);
+      expect(email.html).toContain(`<strong>Tél</strong> : ${phone}`);
+      expect(email.html).toContain(`<strong>Linkedin</strong> : <a href="${linkedinUrl}"`);
+      // jamais les coordonnées d'Elliot pour eux
+      expect(email.html).not.toContain('elliot.estrade@gmail.com');
+      expect(email.html).not.toContain('Founder / AI lead');
+    }
+  });
+
+  it("Fabien n'a ni tél, ni mail, ni Linkedin (inconnus, jamais inventés)", () => {
+    const email = renderTemplate('inbound_1', { ...FULL_VARS, senderName: 'Fabien' });
+    expect(email.text).toContain('Fabien - Aurentia.agency');
+    for (const rendered of [email.text, email.html]) {
+      expect(rendered).not.toMatch(PHONE_RE);
+      expect(rendered).not.toContain('@aurentia.fr');
+      expect(rendered).not.toContain('elliot.estrade@gmail.com');
+      expect(rendered).not.toContain('linkedin.com');
+      expect(rendered).not.toContain('Founder / AI lead');
+      expect(rendered).not.toContain('Co-founder');
     }
   });
 

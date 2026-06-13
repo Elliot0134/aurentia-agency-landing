@@ -77,9 +77,10 @@ interface SenderSignature {
 
 /**
  * Signature par expéditeur (clé = prénom signé, cf SENDER_BY_ASSIGNEE).
- * Seules les coordonnées d'Elliot sont connues : pour les autres, on signe
- * prénom + Site web uniquement. On n'invente JAMAIS un rôle, un nom de
- * famille, un mail, un numéro ou un profil Linkedin.
+ * Coordonnées réelles (source : projet lien-aurentia). Fabien reste en
+ * fallback minimal (prénom + Site web) tant que ses coordonnées sont
+ * inconnues : on n'invente JAMAIS un rôle, un nom, un mail, un numéro ou
+ * un profil Linkedin.
  */
 const SIGNATURES: Record<string, SenderSignature> = {
   Elliot: {
@@ -89,10 +90,28 @@ const SIGNATURES: Record<string, SenderSignature> = {
     phone: '+33 7 81 95 80 90',
     linkedinUrl: 'https://www.linkedin.com/in/elliot-estrade-8b7754201/',
   },
-  // Compléter ici (fullName, role, email, phone, linkedinUrl) quand les données seront connues :
-  Stéphane: { fullName: 'Stéphane' },
-  Olivier: { fullName: 'Olivier' },
-  Matthieu: { fullName: 'Matthieu' },
+  Stéphane: {
+    fullName: 'Guillemot Stéphane',
+    role: 'Co-founder & Advisor',
+    email: 'stephane@aurentia.fr',
+    phone: '+33 6 75 08 78 03',
+    linkedinUrl: 'https://www.linkedin.com/in/st%C3%A9phane-guillemot-26763a5/',
+  },
+  Olivier: {
+    fullName: "Le Floc'h Olivier",
+    role: 'Co-founder & Advisor',
+    email: 'olivier@aurentia.fr',
+    phone: '+33 6 62 47 95 99',
+    linkedinUrl: 'https://www.linkedin.com/in/olivier-le-floch-0899a9/',
+  },
+  Matthieu: {
+    fullName: 'Bousquet Matthieu',
+    role: 'Co-founder & CTO',
+    email: 'matthieu@aurentia.fr',
+    phone: '+33 6 22 76 33 37',
+    linkedinUrl: 'https://www.linkedin.com/in/matthieu-bousquet-8070a7262/',
+  },
+  // Fabien : coordonnées inconnues, fallback minimal (prénom + Site web).
   Fabien: { fullName: 'Fabien' },
 };
 

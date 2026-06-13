@@ -444,7 +444,7 @@ describe('computeDueSends — signature et score depuis le lead', () => {
     const l = lead({ assignedTo: 'stephane' });
     const db = fakeDb({ leads: [l], touches: [touch(l.id, 'flash', '2026-06-07T08:00:00Z')] });
     const result = await computeDueSends(db, NOW);
-    expect(result.due[0].text).toContain('Stéphane - Aurentia.agency');
+    expect(result.due[0].text).toContain('Guillemot Stéphane - Co-founder & Advisor - Aurentia.agency');
   });
 
   it('assignedTo null ou inconnu → signature Elliot (fallback)', async () => {
