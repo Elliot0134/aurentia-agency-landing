@@ -52,10 +52,12 @@ export async function captureScreenshot(
           height: vp.height,
           ...(vp.isMobile !== undefined && { isMobile: vp.isMobile, hasTouch: vp.isMobile }),
         },
-        gotoOptions: { waitUntil: 'load', timeout: 30_000 },
-        // Règle d'acier : laisser les animations d'apparition se jouer avant de capturer,
-        // sinon on photographie une page "vide" et on affirme un faux défaut au client.
-        waitForTimeout: 3_000,
+        // networkidle2 : attendre que le réseau se calme (images/hero lazy chargés),
+        // sinon sur un site lent on capture une page à moitié vide (hero invisible).
+        gotoOptions: { waitUntil: 'networkidle2', timeout: 30_000 },
+        // Règle d'acier : laisser le rendu + les animations d'apparition se finir avant
+        // de capturer. 5s couvre les sites lents / lazy-loading tardif.
+        waitForTimeout: 5_000,
       }),
       signal: AbortSignal.timeout(60_000),
     });
