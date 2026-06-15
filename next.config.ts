@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
   // AUCUN step ne démarre (loadJob bloque, le Flash n'est jamais généré). Externaliser
   // embarque les .node/.so avec la fonction. Voir .npmrc (binaires linux-x64 glibc).
   serverExternalPackages: ["sharp"],
+  // Sur linux, sharp charge libvips par dlopen("libvips-cpp.so...") à l'exécution :
+  // l'analyse statique (nft) ne voit pas ce require dynamique et n'inclut PAS le .so
+  // dans la fonction de la route step WDK -> ERR_DLOPEN_FAILED. On force l'inclusion
+  // des binaires linux pour cette route (le binding @img/sharp-linux-x64 est, lui,
+  // tracé normalement, mais on l'ajoute par sécurité).
+  outputFileTracingIncludes: {
+    "/.well-known/workflow/v1/step": [
+      "./node_modules/@img/sharp-libvips-linux-x64/**",
+      "./node_modules/@img/sharp-linux-x64/**",
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
