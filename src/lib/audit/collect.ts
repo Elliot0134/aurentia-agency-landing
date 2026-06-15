@@ -45,6 +45,11 @@ export interface CollectDeps {
    * (runFlashAudit) qui croppent la capture sans écrire sur disque.
    */
   keepScreenshotBuffer?: boolean;
+  /**
+   * Notification best-effort d'une dégradation non bloquante (ex : PSI
+   * indisponible). Câblé sur Slack en prod. Ne doit jamais throw.
+   */
+  onDegraded?: (msg: string) => void;
 }
 
 export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps): Promise<AuditData> {
@@ -66,11 +71,30 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     ...(await checkImages(page.$, page.finalUrl, fetchFn)),
   ];
 
-  // 4. Performance : mobile ET desktop, en flash comme en pro.
-  const psiMobile = await runPsi(page.finalUrl, 'mobile', deps.psiApiKey, fetchFn);
-  measurements.push(...psiToMeasurements(psiMobile));
-  const psiDesktop = await runPsi(page.finalUrl, 'desktop', deps.psiApiKey, fetchFn);
-  measurements.push(...psiToMeasurements(psiDesktop));
+  // 4. Performance : mobile ET desktop, en flash comme en pro. PSI (Google) est
+  //    une dépendance externe flaky (5xx intermittents sur les pages lourdes).
+  //    On ne laisse PAS son indisponibilité faire planter tout l'audit — et
+  //    surtout rembourser un client Pro qui a payé — au même titre que les
+  //    concurrents injoignables (cf. step 8). Dégradation gracieuse + flag, mais
+  //    JAMAIS de chiffre inventé : si PSI échoue, on omet la perf, on ne la simule pas.
+  for (const strategy of ['mobile', 'desktop'] as const) {
+    try {
+      measurements.push(...psiToMeasurements(await runPsi(page.finalUrl, strategy, deps.psiApiKey, fetchFn)));
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      console.error(`[collectAudit] PSI ${strategy} indisponible pour ${page.finalUrl} : ${detail}`);
+      deps.onDegraded?.(`PSI ${strategy} indisponible pour ${page.finalUrl} : perf non mesurée (${detail})`);
+      measurements.push({
+        id: `perf.${strategy}.unavailable`,
+        module: 'perf',
+        label: `Performance ${strategy} non mesurée`,
+        status: 'info',
+        value: null,
+        proof: `PageSpeed Insights indisponible (${strategy})`,
+        details: 'Mesure de performance temporairement indisponible. Aucune donnée perf affirmée pour cet audit.',
+      });
+    }
+  }
 
   // 5. Détection business
   const business = detectBusinessType(page.$);

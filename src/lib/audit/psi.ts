@@ -18,17 +18,22 @@ export async function runPsi(
   url: string,
   strategy: PsiStrategy,
   apiKey: string,
-  fetchFn: typeof fetch = fetch
+  fetchFn: typeof fetch = fetch,
+  // Délais avant chaque retry, en ms. Le nombre de tentatives = délais + 1.
+  // Backoff exponentiel par défaut : PSI renvoie des 5xx en grappes (run
+  // Lighthouse interne qui déborde sur une page lourde, ~60s d'analyse), espacer
+  // les retries augmente nettement le taux de succès. Injectable à [0, 0] en test.
+  retryDelaysMs: number[] = [2_000, 8_000]
 ): Promise<PsiResult> {
   const qs = new URLSearchParams({ url, strategy, key: apiKey });
   qs.append('category', 'PERFORMANCE');
   qs.append('category', 'SEO');
 
-  // PSI peut prendre ~56s sur un site lourd : timeout large + 1 retry sur timeout/5xx.
+  // PSI peut prendre ~60s sur un site lourd : timeout large + retries sur timeout/5xx.
   let res: Response | null = null;
   let lastErr: unknown = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    if (attempt > 0) await new Promise((r) => setTimeout(r, 2_000));
+  for (let attempt = 0; attempt <= retryDelaysMs.length; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, retryDelaysMs[attempt - 1]));
     try {
       const r = await fetchFn(`${ENDPOINT}?${qs}`, { signal: AbortSignal.timeout(90_000) });
       if (r.status >= 500) {

@@ -28,8 +28,15 @@ describe('runPsi', () => {
     expect(r.inpMs).toBe(350);
     expect(r.totalByteWeight).toBe(8_300_000);
   });
-  it('jette sur une erreur HTTP', async () => {
-    await expect(runPsi('https://exemple.fr', 'mobile', 'KEY', fakeFetch({}, 500))).rejects.toThrow();
+  it('retente sur 5xx puis jette une fois les essais épuisés', async () => {
+    let calls = 0;
+    const countingFetch = (async () => {
+      calls += 1;
+      return new Response('{}', { status: 500 });
+    }) as typeof fetch;
+    // délais nuls : 2 retries → 3 tentatives au total, sans attente réelle.
+    await expect(runPsi('https://exemple.fr', 'mobile', 'KEY', countingFetch, [0, 0])).rejects.toThrow();
+    expect(calls).toBe(3);
   });
 });
 

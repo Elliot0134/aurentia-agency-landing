@@ -72,6 +72,8 @@ export interface RunFlashDeps {
   logoUrl?: string;
   /** Cible du CTA principal. Défaut : la page /audit du site. */
   ctaUrl?: string;
+  /** Notification best-effort d'une dégradation non bloquante (PSI indispo...). */
+  onDegraded?: (msg: string) => void;
 }
 
 export interface RunFlashResult {
@@ -116,6 +118,7 @@ export async function runFlashAudit(input: RunFlashInput, deps: RunFlashDeps): P
     outDir: null,
     keepScreenshotBuffer: true,
     classifyFn: deps.classifyFn,
+    onDegraded: deps.onDegraded,
   });
   if (!audit.screenshotBuffer) {
     throw new Error('Capture full-page absente de la collecte (keepScreenshotBuffer)');
