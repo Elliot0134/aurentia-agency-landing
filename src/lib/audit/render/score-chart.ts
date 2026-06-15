@@ -1,11 +1,6 @@
 import sharp from 'sharp';
-import { SANS_FONT_DATA_URI } from './font-asset';
-
-// Police embarquée : sur le runtime serverless (Vercel), aucune police système
-// n'est disponible, donc le <text> SVG rasterisé par sharp affichait des glyphes
-// manquants (carrés). On déclare la police en @font-face avec la donnée inline.
-const FONT_FAMILY = 'AuditSans';
-const FONT_FACE_STYLE = `<defs><style type="text/css">@font-face{font-family:'${FONT_FAMILY}';font-style:normal;font-weight:400 700;src:url('${SANS_FONT_DATA_URI}') format('truetype');}</style></defs>`;
+import { withBrowserlessRetry } from '../browserless-retry';
+import type { BrowserlessConfig } from '../screenshot';
 
 const SIZE = 220;
 const CX = SIZE / 2;
@@ -30,7 +25,6 @@ export function buildScoreGaugeSvg(score: number): string {
   const dashOffset = CIRCUMFERENCE * (1 - clamped / 100);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">
-  ${FONT_FACE_STYLE}
   <!-- fond gris -->
   <circle
     cx="${CX}"
@@ -59,7 +53,7 @@ export function buildScoreGaugeSvg(score: number): string {
     y="${CY + 2}"
     text-anchor="middle"
     dominant-baseline="middle"
-    font-family="'AuditSans', 'Helvetica Neue', Arial, sans-serif"
+    font-family="'Helvetica Neue', Arial, sans-serif"
     font-size="48"
     font-weight="700"
     fill="#0A0A0A"
@@ -70,7 +64,7 @@ export function buildScoreGaugeSvg(score: number): string {
     y="${CY + 34}"
     text-anchor="middle"
     dominant-baseline="middle"
-    font-family="'AuditSans', 'Helvetica Neue', Arial, sans-serif"
+    font-family="'Helvetica Neue', Arial, sans-serif"
     font-size="16"
     font-weight="400"
     fill="#0A0A0A"
@@ -78,10 +72,48 @@ export function buildScoreGaugeSvg(score: number): string {
 </svg>`;
 }
 
+const browserlessBase = (c: BrowserlessConfig) => c.baseUrl ?? 'https://production-sfo.browserless.io';
+
 /**
- * Rasterise le gauge SVG en PNG via sharp.
+ * Rasterise le gauge dans un vrai navigateur (browserless), seul moyen fiable
+ * d'avoir le texte rendu en prod : sharp/librsvg ne trouve aucune police sur le
+ * runtime Vercel (le nombre sortait en carrés ▢▢) et n'honore pas @font-face.
+ * Le navigateur, lui, a ses polices système.
  */
-export async function renderScoreGaugePng(score: number): Promise<Buffer> {
+async function renderGaugeViaBrowserless(
+  svg: string,
+  config: BrowserlessConfig,
+  fetchFn: typeof fetch,
+): Promise<Buffer> {
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;}</style></head><body>${svg}</body></html>`;
+  return withBrowserlessRetry('gauge', async () => {
+    const res = await fetchFn(`${browserlessBase(config)}/screenshot?token=${config.token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        html,
+        options: { type: 'png', omitBackground: true },
+        viewport: { width: SIZE, height: SIZE, deviceScaleFactor: 2 },
+        gotoOptions: { waitUntil: 'networkidle0', timeout: 15_000 },
+      }),
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!res.ok) throw new Error(`Browserless gauge → ${res.status}`);
+    return Buffer.from(await res.arrayBuffer());
+  });
+}
+
+/**
+ * Rendu PNG du gauge. En prod, passer `browserless` (rendu navigateur, texte
+ * fiable). Sans `browserless` (tests / local), fallback sharp — OK seulement là
+ * où des polices système existent.
+ */
+export async function renderScoreGaugePng(
+  score: number,
+  browserless?: BrowserlessConfig,
+  fetchFn: typeof fetch = fetch,
+): Promise<Buffer> {
   const svg = buildScoreGaugeSvg(score);
+  if (browserless) return renderGaugeViaBrowserless(svg, browserless, fetchFn);
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
