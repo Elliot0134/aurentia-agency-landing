@@ -3,15 +3,19 @@ import { NextRequest } from "next/server";
 import { UnsafeUrlError } from "@/lib/audit/url-safety";
 import type { AuditJob } from "@/lib/audit/jobs";
 
-const { startMock, createJobMock, updateJobMock, assertSafeUrlMock } = vi.hoisted(() => ({
-  startMock: vi.fn(),
-  createJobMock: vi.fn(),
-  updateJobMock: vi.fn(),
-  assertSafeUrlMock: vi.fn(),
-}));
+const { startMock, createJobMock, updateJobMock, assertSafeUrlMock, getLeadByEmailMock, createLeadMock } =
+  vi.hoisted(() => ({
+    startMock: vi.fn(),
+    createJobMock: vi.fn(),
+    updateJobMock: vi.fn(),
+    assertSafeUrlMock: vi.fn(),
+    getLeadByEmailMock: vi.fn(),
+    createLeadMock: vi.fn(),
+  }));
 
 vi.mock("workflow/api", () => ({ start: startMock }));
 vi.mock("@/lib/audit/jobs", () => ({ createJob: createJobMock, updateJob: updateJobMock }));
+vi.mock("@/lib/prospection/db", () => ({ getLeadByEmail: getLeadByEmailMock, createLead: createLeadMock }));
 // Le workflow réel tire tout le moteur (sharp, browserless...) : inutile ici,
 // la route ne fait que le passer à start() qui est mocké.
 vi.mock("@/workflows/audit-workflows", () => ({ flashAuditWorkflow: vi.fn() }));
@@ -62,21 +66,52 @@ describe("POST /api/audit (formulaire public Flash)", () => {
     createJobMock.mockResolvedValue(fakeJob());
     startMock.mockResolvedValue({ runId: "wrun_test" });
     updateJobMock.mockResolvedValue(undefined);
+    getLeadByEmailMock.mockResolvedValue(null);
+    createLeadMock.mockResolvedValue({ id: "lead-1" });
   });
 
-  it("crée un job Flash inbound et lance le workflow", async () => {
+  it("crée un lead inbound Airtable + un job Flash inbound, et lance le workflow", async () => {
     const res = await POST(postReq({ site: "exemple.fr", email: "Visiteur@Exemple.fr", source: "hero" }));
     expect(res.status).toBe(200);
     await expect(res.json()).resolves.toEqual({ ok: true });
 
+    expect(createLeadMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        source: "inbound",
+        email: "visiteur@exemple.fr",
+        siteUrl: "https://exemple.fr/",
+        statutFunnel: "flash_envoye",
+      }),
+    );
     expect(createJobMock).toHaveBeenCalledWith({
       email: "visiteur@exemple.fr",
       url: "https://exemple.fr/",
       tier: "flash",
       channel: "inbound",
+      leadId: "lead-1",
     });
     expect(startMock).toHaveBeenCalledWith(flashAuditWorkflow, ["job-1"]);
     expect(updateJobMock).toHaveBeenCalledWith("job-1", { workflowRunId: "wrun_test" });
+  });
+
+  it("ne crée pas de doublon si le lead existe déjà (dédup par email)", async () => {
+    getLeadByEmailMock.mockResolvedValueOnce({ id: "lead-existant" });
+    const res = await POST(postReq({ site: "exemple.fr", email: "visiteur@exemple.fr" }));
+    expect(res.status).toBe(200);
+    expect(createLeadMock).not.toHaveBeenCalled();
+    expect(createJobMock).toHaveBeenCalledWith(
+      expect.objectContaining({ leadId: "lead-existant", channel: "inbound" }),
+    );
+  });
+
+  it("envoie quand même le Flash si Airtable échoue (best-effort)", async () => {
+    getLeadByEmailMock.mockRejectedValueOnce(new Error("airtable down"));
+    const res = await POST(postReq({ site: "exemple.fr", email: "visiteur@exemple.fr" }));
+    expect(res.status).toBe(200);
+    expect(createJobMock).toHaveBeenCalledWith(
+      expect.objectContaining({ channel: "inbound", leadId: undefined }),
+    );
+    expect(startMock).toHaveBeenCalled();
   });
 
   it("refuse un email invalide sans rien lancer", async () => {

@@ -3,6 +3,7 @@ import { start } from "workflow/api";
 import { flashAuditWorkflow } from "@/workflows/audit-workflows";
 import { createJob, updateJob } from "@/lib/audit/jobs";
 import { assertSafeUrl, UnsafeUrlError } from "@/lib/audit/url-safety";
+import { getLeadByEmail, createLead } from "@/lib/prospection/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -61,14 +62,40 @@ export async function POST(req: NextRequest) {
       throw err;
     }
 
+    // Trace le lead dans Airtable (CRM maître) avant de lancer le Flash.
+    // Best-effort : si Airtable échoue, on n'empêche pas l'envoi du Flash.
+    // Statut `flash_envoye` (et NON `nouveau`) : le Flash inbound part tout de
+    // suite ci-dessous, donc le lead ne doit pas être repris par WF0/intake (qui
+    // traite les `nouveau` cold) — ça éviterait un doublon. `flash_envoye` l'inscrit
+    // aussi dans la séquence de nurture inbound. Dédup par email (pas de doublon).
+    let leadId: string | undefined;
+    try {
+      const existing = await getLeadByEmail(cleanEmail);
+      if (existing) {
+        leadId = existing.id;
+      } else {
+        const lead = await createLead({
+          source: "inbound",
+          email: cleanEmail,
+          siteUrl: safeUrl.toString(),
+          statutFunnel: "flash_envoye",
+          notes: `Demande de pré-audit Flash via le formulaire du site (${cleanSource}).`,
+        });
+        leadId = lead.id;
+      }
+    } catch (err) {
+      console.error("[api/audit] création/lookup lead Airtable échoué", err);
+    }
+
     // Crée le job Flash inbound et lance le workflow durable (fire and forget :
     // start() retourne dès l'enqueue). Le canal inbound déclenche l'envoi direct
-    // du Flash au visiteur.
+    // du Flash au visiteur. leadId relie le job au lead Airtable.
     const job = await createJob({
       email: cleanEmail,
       url: safeUrl.toString(),
       tier: "flash",
       channel: "inbound",
+      leadId,
     });
     const run = await start(flashAuditWorkflow, [job.id]);
     await updateJob(job.id, { workflowRunId: run.runId });
