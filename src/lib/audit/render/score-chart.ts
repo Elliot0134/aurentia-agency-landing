@@ -1,4 +1,11 @@
 import sharp from 'sharp';
+import { SANS_FONT_DATA_URI } from './font-asset';
+
+// Police embarquée : sur le runtime serverless (Vercel), aucune police système
+// n'est disponible, donc le <text> SVG rasterisé par sharp affichait des glyphes
+// manquants (carrés). On déclare la police en @font-face avec la donnée inline.
+const FONT_FAMILY = 'AuditSans';
+const FONT_FACE_STYLE = `<defs><style type="text/css">@font-face{font-family:'${FONT_FAMILY}';font-style:normal;font-weight:400 700;src:url('${SANS_FONT_DATA_URI}') format('truetype');}</style></defs>`;
 
 const SIZE = 220;
 const CX = SIZE / 2;
@@ -23,6 +30,7 @@ export function buildScoreGaugeSvg(score: number): string {
   const dashOffset = CIRCUMFERENCE * (1 - clamped / 100);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">
+  ${FONT_FACE_STYLE}
   <!-- fond gris -->
   <circle
     cx="${CX}"
@@ -51,7 +59,7 @@ export function buildScoreGaugeSvg(score: number): string {
     y="${CY + 2}"
     text-anchor="middle"
     dominant-baseline="middle"
-    font-family="'Helvetica Neue', Arial, sans-serif"
+    font-family="'AuditSans', 'Helvetica Neue', Arial, sans-serif"
     font-size="48"
     font-weight="700"
     fill="#0A0A0A"
@@ -62,7 +70,7 @@ export function buildScoreGaugeSvg(score: number): string {
     y="${CY + 34}"
     text-anchor="middle"
     dominant-baseline="middle"
-    font-family="'Helvetica Neue', Arial, sans-serif"
+    font-family="'AuditSans', 'Helvetica Neue', Arial, sans-serif"
     font-size="16"
     font-weight="400"
     fill="#0A0A0A"
