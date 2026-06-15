@@ -150,7 +150,7 @@ export async function runFlashAudit(input: RunFlashInput, deps: RunFlashDeps): P
   const score = computeScore(audit.measurements);
   let scoreGaugeUrl: string | undefined;
   try {
-    const gaugePng = await renderScoreGaugePng(score);
+    const gaugePng = await renderScoreGaugePng(score, deps.browserless, deps.fetchFn);
     const gaugePath = `flash/${slug}/score-${ts}.png`;
     const { error: gaugeError } = await bucket.upload(gaugePath, gaugePng, {
       contentType: 'image/png',
