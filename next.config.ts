@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 import { withWorkflow } from "workflow/next";
 
 const nextConfig: NextConfig = {
+  // sharp (recadrage des captures dans run-flash) doit rester un package externe :
+  // sinon il est bundlé dans la fonction du step WDK (/.well-known/workflow/v1/step)
+  // sans ses binaires natifs libvips → ERR_DLOPEN_FAILED sur le runtime Vercel, et
+  // AUCUN step ne démarre (loadJob bloque, le Flash n'est jamais généré). Externaliser
+  // embarque les .node/.so avec la fonction. Voir .npmrc (binaires linux-x64 glibc).
+  serverExternalPackages: ["sharp"],
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
