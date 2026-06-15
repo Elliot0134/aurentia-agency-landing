@@ -52,7 +52,7 @@ export function AuditLeadForm({ source, className, tone = "default" }: AuditLead
       >
         <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent-primary" />
         <p className="text-foreground/85">
-          Merci ! Votre pré-audit gratuit arrive par email. Pensez à vérifier vos spams.
+          Merci ! Votre pré-audit gratuit a été envoyé par email — vous le recevrez d&rsquo;ici quelques minutes. Pensez à vérifier vos spams.
         </p>
       </div>
     );

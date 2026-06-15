@@ -68,7 +68,7 @@ export default function OpengraphImage() {
               letterSpacing: -2,
             }}
           >
-            <span style={{ display: "flex" }}>Votre site est-il invisible</span>
+            <span style={{ display: "flex" }}>Votre site est-il visible</span>
             <span style={{ display: "flex" }}>
               sur Google&nbsp;<span style={{ color: CORAL }}>et sur ChatGPT&nbsp;?</span>
             </span>

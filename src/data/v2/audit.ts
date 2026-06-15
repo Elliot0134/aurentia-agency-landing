@@ -43,7 +43,7 @@ export type AuditAxis = {
 export const auditData = {
   hero: {
     eyebrow: "Audit de site web · Aurentia Agency",
-    headline: "Votre site est-il invisible sur Google",
+    headline: "Votre site est-il visible sur Google",
     headlineAccent: "et sur ChatGPT ?",
     subHeadline:
       "On mesure, on compare à vos concurrents, et on vous montre ce que votre site vous fait perdre — chaque mois.",
