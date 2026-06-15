@@ -9,6 +9,9 @@ const {
   updateJobMock,
   findLatestJobByEmailMock,
   findJobByStripeSessionIdMock,
+  getLeadByEmailMock,
+  createLeadMock,
+  updateLeadMock,
 } = vi.hoisted(() => ({
   constructEventMock: vi.fn(),
   startMock: vi.fn(),
@@ -16,6 +19,9 @@ const {
   updateJobMock: vi.fn(),
   findLatestJobByEmailMock: vi.fn(),
   findJobByStripeSessionIdMock: vi.fn(),
+  getLeadByEmailMock: vi.fn(),
+  createLeadMock: vi.fn(),
+  updateLeadMock: vi.fn(),
 }));
 
 // Le SDK Stripe réel exige une vraie clé et signe en crypto : on ne teste pas
@@ -37,6 +43,11 @@ vi.mock('@/lib/audit/jobs', () => ({
   updateJob: updateJobMock,
   findLatestJobByEmail: findLatestJobByEmailMock,
   findJobByStripeSessionId: findJobByStripeSessionIdMock,
+}));
+vi.mock('@/lib/prospection/db', () => ({
+  getLeadByEmail: getLeadByEmailMock,
+  createLead: createLeadMock,
+  updateLead: updateLeadMock,
 }));
 
 import { POST } from '../route';
@@ -114,6 +125,9 @@ beforeEach(() => {
   createJobMock.mockResolvedValue(fakeJob());
   updateJobMock.mockResolvedValue(undefined);
   startMock.mockResolvedValue({ runId: 'wrun_pro_1' });
+  getLeadByEmailMock.mockResolvedValue(null);
+  createLeadMock.mockResolvedValue({ id: 'lead-pro' });
+  updateLeadMock.mockResolvedValue(undefined);
 });
 
 afterEach(() => {
@@ -183,15 +197,39 @@ describe('POST /api/stripe/webhook : checkout.session.completed', () => {
     expect(await res.json()).toEqual({ received: true });
 
     expect(findLatestJobByEmailMock).toHaveBeenCalledWith('client@example.fr');
+    // Lead Airtable : créé en pro_paye (pas de lead existant), relié au job.
+    expect(createLeadMock).toHaveBeenCalledWith(
+      expect.objectContaining({ source: 'inbound', email: 'client@example.fr', statutFunnel: 'pro_paye' }),
+    );
     expect(createJobMock).toHaveBeenCalledWith({
       email: 'client@example.fr',
       url: 'https://exemple.fr/',
       tier: 'pro',
       channel: 'inbound',
       stripeSessionId: 'cs_test_1',
+      leadId: 'lead-pro',
     });
     expect(startMock).toHaveBeenCalledWith(proAuditWorkflow, ['job-pro-1']);
     expect(updateJobMock).toHaveBeenCalledWith('job-pro-1', { workflowRunId: 'wrun_pro_1' });
+  });
+
+  it('lead existant : passe le lead en pro_paye (pas de doublon)', async () => {
+    findLatestJobByEmailMock.mockResolvedValue(fakeJob({ url: 'https://exemple.fr/' }));
+    getLeadByEmailMock.mockResolvedValue({ id: 'lead-existant', siteUrl: 'https://exemple.fr/' });
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(updateLeadMock).toHaveBeenCalledWith('lead-existant', expect.objectContaining({ statutFunnel: 'pro_paye' }));
+    expect(createLeadMock).not.toHaveBeenCalled();
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ leadId: 'lead-existant' }));
+  });
+
+  it('paiement encaissé même si Airtable échoue (best-effort)', async () => {
+    findLatestJobByEmailMock.mockResolvedValue(fakeJob({ url: 'https://exemple.fr/' }));
+    getLeadByEmailMock.mockRejectedValue(new Error('airtable down'));
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ tier: 'pro', leadId: undefined }));
+    expect(startMock).toHaveBeenCalled();
   });
 
   it('retombe sur customer_email quand customer_details est vide', async () => {

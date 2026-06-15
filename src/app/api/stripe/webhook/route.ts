@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { start } from 'workflow/api';
 import { proAuditWorkflow } from '@/workflows/audit-workflows';
 import { createJob, findJobByStripeSessionId, findLatestJobByEmail, updateJob } from '@/lib/audit/jobs';
+import { getLeadByEmail, createLead, updateLead, type LeadPatch } from '@/lib/prospection/db';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -91,7 +92,33 @@ export async function POST(req: NextRequest) {
     const latest = await findLatestJobByEmail(email);
     const url = latest?.url ?? '';
 
-    const job = await createJob({ email, url, tier: 'pro', channel: 'inbound', stripeSessionId: session.id });
+    // Trace/maj le lead dans Airtable (CRM maître) : un paiement Pro = lead
+    // `pro_paye`. Upsert par email (dédup) : si le lead existe déjà (il a reçu
+    // un Flash avant), on le fait passer en `pro_paye` ; sinon on le crée.
+    // Best-effort : un échec Airtable ne doit jamais faire perdre le paiement.
+    let leadId: string | undefined;
+    try {
+      const existing = await getLeadByEmail(email);
+      if (existing) {
+        leadId = existing.id;
+        const patch: LeadPatch = { statutFunnel: 'pro_paye' };
+        if (url && !existing.siteUrl) patch.siteUrl = url;
+        await updateLead(existing.id, patch);
+      } else {
+        const lead = await createLead({
+          source: 'inbound',
+          email,
+          siteUrl: url || null,
+          statutFunnel: 'pro_paye',
+          notes: `Paiement audit Pro via Stripe (session ${session.id}).`,
+        });
+        leadId = lead.id;
+      }
+    } catch (err) {
+      console.error('[stripe-webhook] upsert lead Airtable échoué', err);
+    }
+
+    const job = await createJob({ email, url, tier: 'pro', channel: 'inbound', stripeSessionId: session.id, leadId });
 
     if (url) {
       const run = await start(proAuditWorkflow, [job.id]);
