@@ -25,6 +25,8 @@ export interface EngineDeps {
   browserless: BrowserlessConfig;
   exaApiKey: string;
   supabase: AuditStorageClient;
+  /** Dégradation non bloquante (PSI indispo...) escaladée sur Slack. */
+  onDegraded?: (msg: string) => void;
 }
 
 export function depsProd(): EngineDeps {
@@ -40,6 +42,11 @@ export function depsProd(): EngineDeps {
     browserless: { token: browserlessToken, baseUrl: process.env.BROWSERLESS_URL },
     exaApiKey,
     supabase: supabaseAdmin,
+    // Best-effort : une dégradation (PSI down...) ne bloque pas l'audit mais
+    // remonte sur Slack pour qu'un humain décide de relancer la perf.
+    onDegraded: (msg) => {
+      void postSlack(`:warning: Audit dégradé : ${msg}`);
+    },
   };
 }
 

@@ -47,6 +47,8 @@ export interface RunProDeps {
   resolver?: DnsResolver;
   /** Options du crawl multi-pages, injectables en test (sleepFn, maxPages). */
   crawlOpts?: Pick<CrawlOptions, 'maxPages' | 'throttleMs' | 'sleepFn'>;
+  /** Notification best-effort d'une dégradation non bloquante (PSI indispo...). */
+  onDegraded?: (msg: string) => void;
 }
 
 export interface RunProResult {
@@ -69,6 +71,7 @@ export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise
     outDir: null,
     classifyFn: deps.classifyFn,
     crawlOpts: deps.crawlOpts,
+    onDegraded: deps.onDegraded,
   });
 
   // 2. Rendu : rédaction Pro sous contrat + charts + constats visuels → PDF.
