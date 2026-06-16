@@ -114,6 +114,62 @@ function buildCompetitorBlock(audit: AuditData): string {
 }
 
 /**
+ * Constats GEO/AEO affichables dans le mail, par id de mesure `ai-readiness`.
+ * La copie est FIXE (jamais un chiffre inventé) ; c'est le `status` réel de la
+ * mesure (fail/warn) qui déclenche l'affichage. L'ordre du tableau = priorité
+ * d'accroche à froid (blocage des crawlers IA en tête). Conforme à la règle
+ * projet : on parle de la visibilité IA du prospect, jamais de l'IA d'Aurentia.
+ */
+const GEO_FINDINGS: ReadonlyArray<{ id: string; bullet: string }> = [
+  { id: 'ai.robots.ai-agents', bullet: 'Les robots des moteurs IA sont bloqués par votre site' },
+  { id: 'ai.llms-txt', bullet: 'Aucun fichier llms.txt pour guider ChatGPT et Perplexity' },
+  { id: 'ai.schema.richness', bullet: 'Données structurées insuffisantes pour être compris des moteurs IA' },
+  { id: 'ai.faq.schema', bullet: 'Pas de balisage FAQ repris par les moteurs de réponse' },
+  { id: 'ai.schema.sameas', bullet: 'Vos profils externes ne sont pas reliés à votre site' },
+  { id: 'ai.citability', bullet: 'Peu de passages factuels citables par les IA' },
+  { id: 'ai.headings.questions', bullet: 'Peu de titres formulés en question, un format clé pour ces moteurs' },
+  { id: 'ai.mentions.external', bullet: 'Faible empreinte de votre marque hors de votre site' },
+];
+
+/**
+ * Encart "Visibilité sur les moteurs IA" : jusqu'à 3 constats GEO en échec
+ * (fail prioritaire sur warn), copie fixe pilotée par le status des mesures.
+ * Renvoie une chaîne vide si aucun constat négatif exploitable (tout au vert,
+ * mesures en info, ou module absent) : pas de remplissage, pas de fausse alerte.
+ */
+function buildGeoBlock(audit: AuditData): string {
+  const byId = new Map(
+    audit.measurements.filter((m) => m.module === 'ai-readiness').map((m) => [m.id, m] as const),
+  );
+  const found = GEO_FINDINGS.map((f) => ({ f, m: byId.get(f.id) }))
+    .filter((x): x is { f: (typeof GEO_FINDINGS)[number]; m: Measurement } =>
+      x.m !== undefined && (x.m.status === 'fail' || x.m.status === 'warn'),
+    )
+    .sort((a, b) => (a.m.status === 'fail' ? 0 : 1) - (b.m.status === 'fail' ? 0 : 1))
+    .slice(0, 3);
+  if (found.length === 0) return '';
+  const C = COLORS;
+  const items = found
+    .map(
+      ({ f, m }) => `
+              <tr>
+                <td style="padding:6px 10px 6px 0;vertical-align:top;color:${statusColor(m.status)};font-size:18px;font-weight:bold;line-height:1.4;">&bull;</td>
+                <td style="padding:6px 0;vertical-align:middle;color:${C.text};font-size:15px;line-height:1.5;">${escapeHtml(f.bullet)}</td>
+              </tr>`,
+    )
+    .join('');
+  return `
+        <tr><td style="padding:16px 36px 4px;color:${C.text};font-size:16px;line-height:1.65;">
+          <p style="margin:0;font-weight:bold;">Votre visibilité sur les moteurs IA (ChatGPT, Perplexity)</p>
+          <p style="margin:6px 0 0;font-size:15px;color:${C.muted};">De plus en plus de clients cherchent un prestataire via un moteur IA. Voici ce qui limite votre présence sur ces moteurs :</p>
+        </td></tr>
+        <tr><td style="padding:4px 36px 8px;">
+          <table role="presentation" style="border-collapse:collapse;margin:0;">${items}
+          </table>
+        </td></tr>`;
+}
+
+/**
  * Construit le mail Flash HTML : structure du template de prospection
  * (intro, capture annotée, pastilles numérotées, constat mobile, tableau
  * métriques 4 colonnes Mobile/Desktop, présentation agence, CTA, désinscription) habillée
@@ -173,6 +229,10 @@ export function buildFlashEmailHtml(
   // Affiché seulement si des concurrents ont été trouvés. Valeurs depuis les
   // mesures (votre site) et les CompetitorSummary (concurrents).
   const competitorBlock = buildCompetitorBlock(audit);
+
+  // Bloc GEO : visibilité auprès des moteurs IA, affiché seulement si des
+  // constats négatifs mesurés existent (sinon chaîne vide).
+  const geoBlock = buildGeoBlock(audit);
 
   const safeScreenshot = escapeHtml(opts.screenshotUrl);
   const safeCal = escapeHtml(opts.calUrl ?? DEFAULT_CAL_URL);
@@ -270,7 +330,7 @@ export function buildFlashEmailHtml(
               <td style="border:1px solid ${C.border};padding:8px 12px;font-weight:bold;text-align:center;color:${C.text};font-size:14px;">Recommandé</td>
             </tr>${metricRows}
           </table>
-        </td></tr>${competitorBlock}${impactBlock}
+        </td></tr>${competitorBlock}${impactBlock}${geoBlock}
         <!-- Présentation agence + offre -->
         <tr><td style="padding:16px 36px 8px;color:${C.text};font-size:16px;line-height:1.65;">
           <p style="margin:0 0 16px;">Là je ne vous parle que de votre page d'accueil. On a des outils d'analyse développés en interne qui passent un site complet au crible : toutes les pages, le référencement, la vitesse, les parcours de réservation.</p>

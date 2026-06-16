@@ -110,4 +110,31 @@ describe('buildFlashEmailHtml', () => {
     const html = buildFlashEmailHtml(audit(), content(), { screenshotUrl: 'x' });
     expect(html).not.toContain('Face à vos concurrents');
   });
+  it('affiche le bloc GEO avec les constats IA en échec (max 3, fail prioritaire)', () => {
+    const a = audit();
+    a.measurements.push(
+      { id: 'ai.robots.ai-agents', module: 'ai-readiness', label: 'Accès des crawlers IA (robots.txt)', status: 'fail', value: 'GPTBot' },
+      { id: 'ai.llms-txt', module: 'ai-readiness', label: 'Fichier llms.txt', status: 'fail', value: false },
+      { id: 'ai.faq.schema', module: 'ai-readiness', label: 'Balisage FAQ', status: 'fail', value: false },
+      { id: 'ai.citability', module: 'ai-readiness', label: 'Passages citables', status: 'warn', value: 1 },
+      { id: 'ai.schema.richness', module: 'ai-readiness', label: 'Richesse schema', status: 'pass', value: 'Organization, WebSite' },
+    );
+    const html = buildFlashEmailHtml(a, content(), { screenshotUrl: 'x' });
+    expect(html.toLowerCase()).toContain('moteurs ia'); // titre du bloc
+    expect(html).toContain('ChatGPT'); // moteurs nommés
+    // 3 constats négatifs max ; le warn citabilité est évincé par les 3 fail
+    expect(html).toContain('llms.txt');
+    expect(html).not.toContain('citables par les IA');
+    expect(html).not.toMatch(/—|–/); // zéro tiret long
+    expect(html.toLowerCase()).not.toContain('intelligence artificielle'); // pas d'auto-attribution
+  });
+  it("n'affiche pas le bloc GEO quand tout est au vert ou absent", () => {
+    const a = audit();
+    a.measurements.push(
+      { id: 'ai.llms-txt', module: 'ai-readiness', label: 'Fichier llms.txt', status: 'pass', value: true },
+      { id: 'ai.mentions.external', module: 'ai-readiness', label: 'Mentions externes', status: 'info', value: null },
+    );
+    const html = buildFlashEmailHtml(a, content(), { screenshotUrl: 'x' });
+    expect(html.toLowerCase()).not.toContain('moteurs ia');
+  });
 });

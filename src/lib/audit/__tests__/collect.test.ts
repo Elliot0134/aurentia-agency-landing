@@ -153,9 +153,12 @@ describe('collectAudit', () => {
       expect(mentions.status).toBe('warn');
     });
 
-    it("flash : pas d'AI Readiness", async () => {
+    it('flash : inclut désormais l\'AI Readiness (GEO sur la homepage)', async () => {
       const audit = await collectAudit('exemple.fr', 'flash', deps);
-      expect(audit.measurements.some((m) => m.module === 'ai-readiness')).toBe(false);
+      const ai = audit.measurements.filter((m) => m.module === 'ai-readiness');
+      expect(ai.length).toBeGreaterThanOrEqual(6);
+      expect(audit.measurements.find((m) => m.id === 'ai.llms-txt')!.status).toBe('pass');
+      expect(audit.measurements.find((m) => m.id === 'ai.robots.ai-agents')!.status).toBe('pass');
     });
   });
 
