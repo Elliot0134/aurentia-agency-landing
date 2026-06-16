@@ -161,6 +161,25 @@ describe('crawlSite — fallback liens internes', () => {
     expect(result.pages.map((p) => p.url).sort()).toEqual(['https://site.fr/contact', 'https://site.fr/services']);
     expect(result.discoveredCount).toBe(2);
   });
+
+  it('exclut les fichiers machine (.md type /agents.md) même quand ils répondent 200', async () => {
+    const home = `<html><body>
+      <a href="/contact">Contact</a>
+      <a href="/agents.md">Instructions agents IA</a>
+    </body></html>`;
+    const fetchFn: typeof fetch = (async (input: RequestInfo | URL) => {
+      const u = String(input);
+      if (u.endsWith('/robots.txt')) return new Response('User-agent: *', { status: 200 });
+      if (u.endsWith('/sitemap.xml')) return new Response('not found', { status: 404 });
+      if (u.endsWith('/contact')) return new Response(pageHtml('Contact'), { status: 200 });
+      // fichier machine servi en 200 (cas réel friendiz.fr) : ne doit JAMAIS devenir une page auditée
+      if (u.endsWith('/agents.md')) return new Response('# Agent Instructions', { status: 200 });
+      return new Response('not found', { status: 404 });
+    }) as typeof fetch;
+    const result = await crawlSite('https://site.fr/', home, { fetchFn, sleepFn: noSleep });
+    expect(result.pages.map((p) => p.url)).toEqual(['https://site.fr/contact']);
+    expect(result.pages.some((p) => p.url.endsWith('.md'))).toBe(false);
+  });
 });
 
 describe('aggregateCrawlMeasurements', () => {
