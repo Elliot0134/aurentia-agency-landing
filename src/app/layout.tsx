@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
@@ -69,7 +70,11 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Zone /admin : page utilitaire brandée mais SANS chrome du site (navbar,
+  // footer, chatbot, bandeau cookies). Pathname exposé par le middleware.
+  const pathname = (await headers()).get("x-pathname") ?? "";
+  const isAdmin = pathname.startsWith("/admin");
   return (
     <html
       lang="fr"
@@ -107,13 +112,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <SubNavProvider>
             <WipModalProvider>
-              <ScrollToTop />
-              <ScrollProgress />
-              <NavbarV2 />
+              {!isAdmin && <ScrollToTop />}
+              {!isAdmin && <ScrollProgress />}
+              {!isAdmin && <NavbarV2 />}
               <main className="flex flex-col">{children}</main>
-              <FooterV2 />
-              <ChatbotWidgetLazy />
-              <CookieConsent />
+              {!isAdmin && <FooterV2 />}
+              {!isAdmin && <ChatbotWidgetLazy />}
+              {!isAdmin && <CookieConsent />}
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>

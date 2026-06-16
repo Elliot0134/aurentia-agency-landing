@@ -188,10 +188,14 @@ export async function markReadyForReview(jobId: string, result: RunProResult, re
   });
 }
 
-/** Lien de relecture humaine du PDF Pro (gate humain 24h avant envoi). */
-export function buildReviewMessage(jobId: string, siteUrl: string, token: string): string {
+/**
+ * Lien de relecture humaine du PDF Pro (gate humain avant envoi). Pointe vers la
+ * zone /admin (protégée par mot de passe), avec ancre vers la carte du job.
+ * Le token n'est plus dans l'URL : l'accès est gardé par le cookie admin.
+ */
+export function buildReviewMessage(jobId: string, siteUrl: string, _token: string): string {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/+$/, '');
-  return `PDF Pro prêt à relire : ${siteUrl} — ${base}/audit/review/${jobId}?token=${token}`;
+  return `PDF Pro prêt à relire : ${siteUrl} — ${base}/admin/audits#${jobId}`;
 }
 
 export async function notifyReviewReady(jobId: string, siteUrl: string, token: string): Promise<void> {

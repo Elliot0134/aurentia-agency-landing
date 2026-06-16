@@ -72,11 +72,12 @@ describe('loadJob', () => {
 });
 
 describe('buildReviewMessage', () => {
-  it('contient le site et le lien de review avec jobId + token', () => {
+  it('contient le site et le lien vers la zone admin (ancre jobId, sans token)', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.aurentia.agency/');
     const msg = buildReviewMessage('job-1', 'https://exemple.fr/', 'abc123');
     expect(msg).toContain('PDF Pro prêt à relire : https://exemple.fr/');
-    expect(msg).toContain('https://www.aurentia.agency/audit/review/job-1?token=abc123');
+    expect(msg).toContain('https://www.aurentia.agency/admin/audits#job-1');
+    expect(msg).not.toContain('token=');
   });
 });
 
@@ -88,7 +89,7 @@ describe('notifyReviewReady', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe('https://hooks.slack.test/T1');
-    expect(JSON.parse(String(init.body)).text).toContain('/audit/review/job-1?token=tok');
+    expect(JSON.parse(String(init.body)).text).toContain('/admin/audits#job-1');
   });
 
   it('ne throw pas si la webhook est absente (log seulement)', async () => {

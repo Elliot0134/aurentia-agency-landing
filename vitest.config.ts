@@ -6,6 +6,7 @@ export default defineConfig({
     environment: 'node',
     include: [
       'src/lib/audit/**/*.test.ts',
+      'src/lib/admin/**/*.test.ts',
       'src/lib/prospection/**/*.test.ts',
       'src/workflows/**/*.test.ts',
       'src/app/api/audit/**/*.test.ts',
