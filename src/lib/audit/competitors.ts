@@ -191,26 +191,33 @@ export async function findSimilarCompetitors(
   }
 }
 
-/** Mini-audit PSI mobile de chaque concurrent (séquentiel : pas de rafale). */
+/**
+ * Mini-audit PSI mobile de chaque concurrent. En parallèle (≤3 sites) et SANS
+ * retry (`[]`) : c'est un benchmark best-effort, un concurrent lent ou en erreur
+ * est simplement sauté. Le séquentiel + retries faisait exploser la latence de
+ * l'audit (jusqu'à 3 sites × plusieurs tentatives × ~90s).
+ */
 export async function auditCompetitors(
   urls: string[],
   psiApiKey: string,
   fetchFn: typeof fetch = fetch
 ): Promise<CompetitorSummary[]> {
-  const out: CompetitorSummary[] = [];
-  for (const url of urls) {
-    try {
-      const psi = await runPsi(url, 'mobile', psiApiKey, fetchFn);
-      out.push({
-        domain: new URL(url).hostname.replace(/^www\./, ''),
-        url,
-        perfScoreMobile: psi.performanceScore,
-        seoScore: psi.seoScore,
-        lcpMs: psi.lcpMs,
-      });
-    } catch {
-      // concurrent injoignable : on le saute, on ne bloque pas l'audit
-    }
-  }
-  return out;
+  const results = await Promise.all(
+    urls.map(async (url): Promise<CompetitorSummary | null> => {
+      try {
+        const psi = await runPsi(url, 'mobile', psiApiKey, fetchFn, []);
+        return {
+          domain: new URL(url).hostname.replace(/^www\./, ''),
+          url,
+          perfScoreMobile: psi.performanceScore,
+          seoScore: psi.seoScore,
+          lcpMs: psi.lcpMs,
+        };
+      } catch {
+        // concurrent injoignable : on le saute, on ne bloque pas l'audit
+        return null;
+      }
+    }),
+  );
+  return results.filter((c): c is CompetitorSummary => c !== null);
 }

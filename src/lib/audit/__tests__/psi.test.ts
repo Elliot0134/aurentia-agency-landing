@@ -38,6 +38,25 @@ describe('runPsi', () => {
     await expect(runPsi('https://exemple.fr', 'mobile', 'KEY', countingFetch, [0, 0])).rejects.toThrow();
     expect(calls).toBe(3);
   });
+  it('par défaut : 2 tentatives max (latence bornée, la dégradation rattrape)', async () => {
+    let calls = 0;
+    const countingFetch = (async () => {
+      calls += 1;
+      return new Response('{}', { status: 500 });
+    }) as typeof fetch;
+    // délai par défaut [3000] mais on le neutralise pour le test
+    await expect(runPsi('https://exemple.fr', 'mobile', 'KEY', countingFetch, [0])).rejects.toThrow();
+    expect(calls).toBe(2);
+  });
+  it('retryDelaysMs vide : une seule tentative, aucun retry (concurrents)', async () => {
+    let calls = 0;
+    const countingFetch = (async () => {
+      calls += 1;
+      return new Response('{}', { status: 500 });
+    }) as typeof fetch;
+    await expect(runPsi('https://exemple.fr', 'mobile', 'KEY', countingFetch, [])).rejects.toThrow();
+    expect(calls).toBe(1);
+  });
 });
 
 describe('psiToMeasurements', () => {

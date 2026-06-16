@@ -6,6 +6,7 @@ import {
   findSimilarCompetitors,
   searchCompetitorsByQuery,
   classifyBusinessScope,
+  auditCompetitors,
   type ScopeClassifyFn,
 } from '../competitors';
 
@@ -141,5 +142,29 @@ describe('classifyBusinessScope', () => {
       throw new Error('LLM down');
     };
     expect(await classifyBusinessScope('Un SaaS', null, { classifyFn })).toEqual({ isLocal: false, geoQuery: null });
+  });
+});
+
+describe('auditCompetitors', () => {
+  const PSI_OK = {
+    lighthouseResult: { categories: { performance: { score: 0.8 }, seo: { score: 0.9 } }, audits: {} },
+  };
+
+  it('aucun retry : un concurrent en 500 ne déclenche qu\'UN appel PSI (best-effort)', async () => {
+    const calls = new Map<string, number>();
+    const fetchFn = (async (input: RequestInfo | URL) => {
+      const u = String(input);
+      calls.set(u, (calls.get(u) ?? 0) + 1);
+      // a.fr OK, b.fr toujours 500 (doit être sauté sans s'acharner)
+      return u.includes('strategy=mobile') && u.includes('b.fr')
+        ? new Response('{}', { status: 500 })
+        : new Response(JSON.stringify(PSI_OK), { status: 200 });
+    }) as typeof fetch;
+
+    const out = await auditCompetitors(['https://a.fr/', 'https://b.fr/'], 'KEY', fetchFn);
+    expect(out.map((c) => c.domain)).toEqual(['a.fr']); // b.fr sauté
+    // b.fr ne doit avoir été appelé qu'une fois (aucun retry)
+    const bCalls = [...calls.entries()].filter(([u]) => u.includes('b.fr')).reduce((n, [, c]) => n + c, 0);
+    expect(bCalls).toBe(1);
   });
 });
