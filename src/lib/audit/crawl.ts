@@ -23,8 +23,14 @@ export interface CrawlOptions {
   sleepFn?: (ms: number) => Promise<void>; // injectable en test pour éviter l'attente réelle
 }
 
-/** Extensions de fichiers sans valeur d'audit on-page. */
-const FILE_EXTENSION = /\.(pdf|jpe?g|png|gif|webp|avif|svg|ico|zip|rar|docx?|xlsx?|pptx?|mp[34]|webm|css|js|json|xml|txt)$/i;
+/**
+ * Extensions sans valeur d'audit on-page : médias, archives, données, et
+ * fichiers MACHINE (agents.md, llms.txt, .yaml...). Les auditer comme une page
+ * humaine produit de faux constats (« il manque un h1 » sur un .md d'instructions
+ * pour agents IA). Incident friendiz.fr /agents.md.
+ */
+const FILE_EXTENSION =
+  /\.(pdf|jpe?g|png|gif|webp|avif|svg|ico|zip|rar|docx?|xlsx?|pptx?|mp[34]|webm|css|js|json|xml|txt|md|mdx|ya?ml|csv|rss|atom)$/i;
 
 /** Pages légales : aucune valeur d'audit, exclues du crawl. */
 const LEGAL_PATTERNS = [
