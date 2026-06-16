@@ -19,7 +19,17 @@ vi.mock('@/lib/audit/jobs', () => ({
 }));
 
 import { FatalError } from 'workflow';
-import { depsProd, loadJob, handleProFailure, buildReviewMessage, notifyReviewReady } from '../audit-steps';
+import {
+  depsProd,
+  loadJob,
+  handleProFailure,
+  buildReviewMessage,
+  buildReviewUrl,
+  writeLeadReviewLink,
+  notifyReviewReady,
+} from '../audit-steps';
+import { AIRTABLE_TABLES } from '@/lib/prospection/db';
+import type { AirtableApi } from '@/lib/prospection/airtable';
 
 const fetchMock = vi.fn();
 
@@ -78,6 +88,26 @@ describe('buildReviewMessage', () => {
     expect(msg).toContain('PDF Pro prêt à relire : https://exemple.fr/');
     expect(msg).toContain('https://www.aurentia.agency/admin/audits#job-1');
     expect(msg).not.toContain('token=');
+  });
+});
+
+describe('writeLeadReviewLink', () => {
+  it('écrit le lien de relecture dans le champ "Audit PDF" du lead', async () => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.aurentia.agency');
+    const updateRecord = vi.fn().mockResolvedValue({});
+    const api = { updateRecord } as unknown as AirtableApi;
+    await writeLeadReviewLink(api, 'rec123', 'job-1');
+    expect(updateRecord).toHaveBeenCalledWith(AIRTABLE_TABLES.leads, 'rec123', {
+      'Audit PDF': 'https://www.aurentia.agency/admin/audits#job-1',
+    });
+  });
+  it('ne throw jamais si Airtable échoue (best-effort)', async () => {
+    const api = { updateRecord: vi.fn().mockRejectedValue(new Error('Airtable 500')) } as unknown as AirtableApi;
+    await expect(writeLeadReviewLink(api, 'rec123', 'job-1')).resolves.toBeUndefined();
+  });
+  it('buildReviewUrl pointe vers la zone admin avec ancre jobId', () => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.aurentia.agency/');
+    expect(buildReviewUrl('job-9')).toBe('https://www.aurentia.agency/admin/audits#job-9');
   });
 });
 

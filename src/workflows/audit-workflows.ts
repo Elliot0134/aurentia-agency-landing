@@ -10,6 +10,7 @@ import {
   makeReviewTokenStep,
   markReadyForReview,
   notifyReviewReady,
+  setLeadReviewLink,
   handleProFailure,
 } from './audit-steps';
 
@@ -78,6 +79,9 @@ export async function proAuditWorkflow(jobId: string) {
     const reviewToken = await makeReviewTokenStep(jobId);
     await markReadyForReview(jobId, result, reviewToken);
     await notifyReviewReady(jobId, job.url, reviewToken);
+    // Lien de relecture aussi dans Airtable (champ Audit PDF) pour relire depuis
+    // le CRM. Best-effort, no-op si l'audit n'est pas rattaché à un lead.
+    await setLeadReviewLink(job.leadId, jobId);
     return { jobId, status: 'ready_for_review' as const, score: result.score };
   } catch (err) {
     await handleProFailure(jobId, job.url, job.stripeSessionId, errorMessage(err));
