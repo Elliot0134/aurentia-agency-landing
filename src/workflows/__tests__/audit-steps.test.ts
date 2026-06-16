@@ -82,11 +82,11 @@ describe('loadJob', () => {
 });
 
 describe('buildReviewMessage', () => {
-  it('contient le site et le lien vers la zone admin (ancre jobId, sans token)', () => {
+  it('contient le site et le lien direct vers le PDF (/admin/pdf, sans token)', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.aurentia.agency/');
     const msg = buildReviewMessage('job-1', 'https://exemple.fr/', 'abc123');
     expect(msg).toContain('PDF Pro prêt à relire : https://exemple.fr/');
-    expect(msg).toContain('https://www.aurentia.agency/admin/audits#job-1');
+    expect(msg).toContain('https://www.aurentia.agency/admin/pdf/job-1');
     expect(msg).not.toContain('token=');
   });
 });
@@ -98,16 +98,16 @@ describe('writeLeadReviewLink', () => {
     const api = { updateRecord } as unknown as AirtableApi;
     await writeLeadReviewLink(api, 'rec123', 'job-1');
     expect(updateRecord).toHaveBeenCalledWith(AIRTABLE_TABLES.leads, 'rec123', {
-      'Audit PDF': 'https://www.aurentia.agency/admin/audits#job-1',
+      'Audit PDF': 'https://www.aurentia.agency/admin/pdf/job-1',
     });
   });
   it('ne throw jamais si Airtable échoue (best-effort)', async () => {
     const api = { updateRecord: vi.fn().mockRejectedValue(new Error('Airtable 500')) } as unknown as AirtableApi;
     await expect(writeLeadReviewLink(api, 'rec123', 'job-1')).resolves.toBeUndefined();
   });
-  it('buildReviewUrl pointe vers la zone admin avec ancre jobId', () => {
+  it('buildReviewUrl pointe vers le lien direct PDF /admin/pdf/<jobId>', () => {
     vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.aurentia.agency/');
-    expect(buildReviewUrl('job-9')).toBe('https://www.aurentia.agency/admin/audits#job-9');
+    expect(buildReviewUrl('job-9')).toBe('https://www.aurentia.agency/admin/pdf/job-9');
   });
 });
 
@@ -119,7 +119,7 @@ describe('notifyReviewReady', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe('https://hooks.slack.test/T1');
-    expect(JSON.parse(String(init.body)).text).toContain('/admin/audits#job-1');
+    expect(JSON.parse(String(init.body)).text).toContain('/admin/pdf/job-1');
   });
 
   it('ne throw pas si la webhook est absente (log seulement)', async () => {

@@ -191,13 +191,14 @@ export async function markReadyForReview(jobId: string, result: RunProResult, re
 }
 
 /**
- * URL de relecture du PDF Pro : zone /admin (protégée par mot de passe), ancre
- * vers la carte du job. Pas de token dans l'URL (gardé par le cookie admin).
- * Partagée par le message Slack et l'écriture Airtable.
+ * Lien direct vers le PDF de l'audit Pro : route stable /admin/pdf/<jobId>
+ * (gardée par le cookie admin) qui redirige vers une URL signée fraîche → ouvre
+ * le PDF directement. Pas de token dans l'URL. Partagé par Slack et Airtable.
+ * Pour gérer/envoyer/remplacer, la page liste reste /admin/audits.
  */
 export function buildReviewUrl(jobId: string): string {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/+$/, '');
-  return `${base}/admin/audits#${jobId}`;
+  return `${base}/admin/pdf/${jobId}`;
 }
 
 /** Message Slack de relecture (gate humain avant envoi). */
