@@ -6,6 +6,8 @@ import { runFlashAudit, type RunFlashResult, type AuditStorageClient } from '@/l
 import { runProAudit, type RunProResult } from '@/lib/audit/run-pro';
 import { makeReviewToken } from '@/lib/audit/review-token';
 import type { BrowserlessConfig } from '@/lib/audit/screenshot';
+import { defaultAirtableApi, type AirtableApi } from '@/lib/prospection/airtable';
+import { AIRTABLE_TABLES } from '@/lib/prospection/db';
 
 /**
  * Steps des workflows durables d'audit (directive "use step" : plein accès
@@ -188,10 +190,49 @@ export async function markReadyForReview(jobId: string, result: RunProResult, re
   });
 }
 
-/** Lien de relecture humaine du PDF Pro (gate humain 24h avant envoi). */
-export function buildReviewMessage(jobId: string, siteUrl: string, token: string): string {
+/**
+ * URL de relecture du PDF Pro : zone /admin (protégée par mot de passe), ancre
+ * vers la carte du job. Pas de token dans l'URL (gardé par le cookie admin).
+ * Partagée par le message Slack et l'écriture Airtable.
+ */
+export function buildReviewUrl(jobId: string): string {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/+$/, '');
-  return `PDF Pro prêt à relire : ${siteUrl} — ${base}/audit/review/${jobId}?token=${token}`;
+  return `${base}/admin/audits#${jobId}`;
+}
+
+/** Message Slack de relecture (gate humain avant envoi). */
+export function buildReviewMessage(jobId: string, siteUrl: string, _token: string): string {
+  return `PDF Pro prêt à relire : ${siteUrl} — ${buildReviewUrl(jobId)}`;
+}
+
+/**
+ * Écrit le lien de relecture dans le champ `Audit PDF` de la fiche lead Airtable,
+ * pour relire/corriger/envoyer depuis le CRM (pas seulement depuis Slack). À
+ * `delivered`, n8n WF6 écrasera ce champ par le lien Drive du PDF final.
+ * Best-effort : ne throw JAMAIS (une écriture CRM perdue ne doit pas faire
+ * échouer un audit déjà payé). Logique pure, injectable en test.
+ */
+export async function writeLeadReviewLink(api: AirtableApi, leadId: string, jobId: string): Promise<void> {
+  try {
+    await api.updateRecord(AIRTABLE_TABLES.leads, leadId, { 'Audit PDF': buildReviewUrl(jobId) });
+  } catch (err) {
+    console.error(`[audit-workflow] écriture du lien de relecture Airtable échouée (lead ${leadId})`, err);
+  }
+}
+
+/** Step best-effort : pousse le lien de relecture dans Airtable. No-op sans lead
+ * (audit inbound/Stripe non rattaché à une fiche) ou sans config Airtable. */
+export async function setLeadReviewLink(leadId: string | null, jobId: string): Promise<void> {
+  'use step';
+  if (!leadId) return;
+  let api: AirtableApi;
+  try {
+    api = defaultAirtableApi();
+  } catch (err) {
+    console.error('[audit-workflow] Airtable non configuré, lien de relecture non poussé', err);
+    return;
+  }
+  await writeLeadReviewLink(api, leadId, jobId);
 }
 
 export async function notifyReviewReady(jobId: string, siteUrl: string, token: string): Promise<void> {

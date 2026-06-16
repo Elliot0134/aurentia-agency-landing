@@ -296,6 +296,23 @@ export async function listArchivableProJobs(limit: number, db: AuditJobsDb = adm
   return ((data ?? []) as AuditJobRow[]).map(mapRow);
 }
 
+/**
+ * Jobs Pro en attente de relecture humaine (status ready_for_review), les plus
+ * récents d'abord. Consommé par la zone /admin. ready_for_review est pro-only par
+ * construction (le flash va directement en delivered/ready_to_send) ; on filtre
+ * tier='pro' par sécurité.
+ */
+export async function listReviewableProJobs(limit: number, db: AuditJobsDb = adminDb): Promise<AuditJob[]> {
+  const { data, error } = await db
+    .from('audit_jobs')
+    .select()
+    .eq('status', 'ready_for_review')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(`Liste des jobs Pro à relire échouée : ${error.message}`);
+  return ((data ?? []) as AuditJobRow[]).map(mapRow).filter((j) => j.tier === 'pro');
+}
+
 /** Job déjà créé pour cette session Checkout, ou null (idempotence webhook). */
 export async function findJobByStripeSessionId(sessionId: string, db: AuditJobsDb = adminDb): Promise<AuditJob | null> {
   const { data, error } = await db.from('audit_jobs').select().eq('stripe_session_id', sessionId).maybeSingle();

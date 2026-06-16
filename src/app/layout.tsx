@@ -13,6 +13,7 @@ import { FooterV2 } from "@/components/v2/layout/FooterV2";
 import { WipModalProvider } from "@/components/shared/WipModal";
 import { CookieConsent } from "@/components/shared/CookieConsent";
 import { ChatbotWidgetLazy } from "@/components/v2/chatbot/ChatbotWidgetLazy";
+import { ConditionalChrome } from "@/components/layout/ConditionalChrome";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-inter",
@@ -107,13 +108,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <SubNavProvider>
             <WipModalProvider>
-              <ScrollToTop />
-              <ScrollProgress />
-              <NavbarV2 />
+              <ConditionalChrome>
+                <ScrollToTop />
+                <ScrollProgress />
+                <NavbarV2 />
+              </ConditionalChrome>
               <main className="flex flex-col">{children}</main>
-              <FooterV2 />
-              <ChatbotWidgetLazy />
-              <CookieConsent />
+              <ConditionalChrome>
+                <FooterV2 />
+                <ChatbotWidgetLazy />
+                <CookieConsent />
+              </ConditionalChrome>
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>
