@@ -1,5 +1,7 @@
 import { getJob, updateJob, type AuditJobStatus } from './jobs';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { defaultAirtableApi, type AirtableApi } from '@/lib/prospection/airtable';
+import { AIRTABLE_TABLES } from '@/lib/prospection/db';
 
 /**
  * Envoi du PDF Pro au client : logique PARTAGÉE entre l'ancienne route de
@@ -63,6 +65,31 @@ export function buildDeliveryEmailHtml(domain: string): string {
   </html>`;
 }
 
+/**
+ * Passe le lead en "Pro envoyé" dans Airtable (Statut funnel). Logique pure
+ * testable. Best-effort : ne throw jamais (une MAJ CRM perdue ne doit pas faire
+ * échouer un envoi déjà parti).
+ */
+export async function writeLeadProSent(api: AirtableApi, leadId: string): Promise<void> {
+  try {
+    await api.updateRecord(AIRTABLE_TABLES.leads, leadId, { 'Statut funnel': 'Pro envoyé' });
+  } catch (err) {
+    console.error(`[send-pro] MAJ statut "Pro envoyé" Airtable échouée (lead ${leadId})`, err);
+  }
+}
+
+/** Best-effort : flip Airtable "Pro envoyé". No-op sans lead ou sans config Airtable. */
+async function pushProSent(leadId: string | null): Promise<void> {
+  if (!leadId) return;
+  let api: AirtableApi;
+  try {
+    api = defaultAirtableApi();
+  } catch {
+    return;
+  }
+  await writeLeadProSent(api, leadId);
+}
+
 export type SendProResult =
   | { ok: true }
   | { ok: false; code: 'not_found'; httpStatus: 404 }
@@ -121,7 +148,8 @@ export async function sendProAudit(jobId: string): Promise<SendProResult> {
     return { ok: false, code: 'resend_failed', httpStatus: 502 };
   }
 
-  // 3. Envoi confirmé → delivered.
+  // 3. Envoi confirmé → delivered (+ Airtable "Pro envoyé", best-effort).
   await updateJob(jobId, { status: 'delivered' });
+  await pushProSent(job.leadId);
   return { ok: true };
 }
