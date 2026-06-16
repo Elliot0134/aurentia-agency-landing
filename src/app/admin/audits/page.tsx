@@ -68,6 +68,8 @@ const styles = {
   },
   input: { fontSize: 15, padding: '11px 14px', borderRadius: 10, border: `1px solid ${C.border}`, background: C.card },
   banner: { padding: '12px 16px', borderRadius: 12, fontSize: 14, fontWeight: 600, marginBottom: 20 },
+  summary: { cursor: 'pointer', fontSize: 14, fontWeight: 600, color: C.accent },
+  iframe: { width: '100%', height: '75vh', border: `1px solid ${C.border}`, borderRadius: 12, marginTop: 12 },
 } satisfies Record<string, CSSProperties>;
 
 function Shell({ children }: { children: ReactNode }) {
@@ -190,6 +192,13 @@ function JobCard({ job, pdfUrl }: { job: AuditJob; pdfUrl: string | null }) {
           </button>
         </form>
       </div>
+
+      {pdfUrl && (
+        <details style={{ marginTop: 16 }}>
+          <summary style={styles.summary}>Prévisualiser le PDF</summary>
+          <iframe title={`Aperçu de l'audit ${domain}`} src={pdfUrl} style={styles.iframe} />
+        </details>
+      )}
     </div>
   );
 }
