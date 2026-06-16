@@ -20,7 +20,9 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      path: '/admin',
+      // path '/' (et non '/admin') : sinon le cookie n'est pas envoyé aux routes
+      // API sous /api/admin (send, pdf upload) → 401. HttpOnly + signé, donc sûr.
+      path: '/',
       maxAge: ADMIN_SESSION_MAX_AGE,
     });
     return res;
