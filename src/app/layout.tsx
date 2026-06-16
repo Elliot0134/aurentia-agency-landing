@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Script from "next/script";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
@@ -14,6 +13,7 @@ import { FooterV2 } from "@/components/v2/layout/FooterV2";
 import { WipModalProvider } from "@/components/shared/WipModal";
 import { CookieConsent } from "@/components/shared/CookieConsent";
 import { ChatbotWidgetLazy } from "@/components/v2/chatbot/ChatbotWidgetLazy";
+import { ConditionalChrome } from "@/components/layout/ConditionalChrome";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-inter",
@@ -70,11 +70,7 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  // Zone /admin : page utilitaire brandée mais SANS chrome du site (navbar,
-  // footer, chatbot, bandeau cookies). Pathname exposé par le middleware.
-  const pathname = (await headers()).get("x-pathname") ?? "";
-  const isAdmin = pathname.startsWith("/admin");
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="fr"
@@ -112,13 +108,17 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <ThemeProvider>
           <SubNavProvider>
             <WipModalProvider>
-              {!isAdmin && <ScrollToTop />}
-              {!isAdmin && <ScrollProgress />}
-              {!isAdmin && <NavbarV2 />}
+              <ConditionalChrome>
+                <ScrollToTop />
+                <ScrollProgress />
+                <NavbarV2 />
+              </ConditionalChrome>
               <main className="flex flex-col">{children}</main>
-              {!isAdmin && <FooterV2 />}
-              {!isAdmin && <ChatbotWidgetLazy />}
-              {!isAdmin && <CookieConsent />}
+              <ConditionalChrome>
+                <FooterV2 />
+                <ChatbotWidgetLazy />
+                <CookieConsent />
+              </ConditionalChrome>
             </WipModalProvider>
           </SubNavProvider>
         </ThemeProvider>
