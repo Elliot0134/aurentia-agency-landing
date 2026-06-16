@@ -20,10 +20,11 @@ export async function runPsi(
   apiKey: string,
   fetchFn: typeof fetch = fetch,
   // Délais avant chaque retry, en ms. Le nombre de tentatives = délais + 1.
-  // Backoff exponentiel par défaut : PSI renvoie des 5xx en grappes (run
-  // Lighthouse interne qui déborde sur une page lourde, ~60s d'analyse), espacer
-  // les retries augmente nettement le taux de succès. Injectable à [0, 0] en test.
-  retryDelaysMs: number[] = [2_000, 8_000]
+  // Un seul retry par défaut (2 tentatives) : PSI peut renvoyer un 5xx transitoire,
+  // mais chaque tentative coûte jusqu'à 90s sur une page lourde. Au-delà, la
+  // dégradation gracieuse de l'appelant rattrape l'échec sans bloquer l'audit
+  // (cf. collectAudit). Concurrents : `[]` (aucun retry, best-effort). Test : `[0]`.
+  retryDelaysMs: number[] = [3_000]
 ): Promise<PsiResult> {
   const qs = new URLSearchParams({ url, strategy, key: apiKey });
   qs.append('category', 'PERFORMANCE');

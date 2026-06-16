@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import type { AuditData, Tier } from './types';
+import type { AuditData, Measurement, Tier } from './types';
 import { assertSafeUrl, type DnsResolver } from './url-safety';
 import { fetchPage } from './fetch-page';
 import { checkOnPage } from './checks-onpage';
@@ -77,24 +77,32 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
   //    surtout rembourser un client Pro qui a payé — au même titre que les
   //    concurrents injoignables (cf. step 8). Dégradation gracieuse + flag, mais
   //    JAMAIS de chiffre inventé : si PSI échoue, on omet la perf, on ne la simule pas.
-  for (const strategy of ['mobile', 'desktop'] as const) {
-    try {
-      measurements.push(...psiToMeasurements(await runPsi(page.finalUrl, strategy, deps.psiApiKey, fetchFn)));
-    } catch (err) {
-      const detail = err instanceof Error ? err.message : String(err);
-      console.error(`[collectAudit] PSI ${strategy} indisponible pour ${page.finalUrl} : ${detail}`);
-      deps.onDegraded?.(`PSI ${strategy} indisponible pour ${page.finalUrl} : perf non mesurée (${detail})`);
-      measurements.push({
-        id: `perf.${strategy}.unavailable`,
-        module: 'perf',
-        label: `Performance ${strategy} non mesurée`,
-        status: 'info',
-        value: null,
-        proof: `PageSpeed Insights indisponible (${strategy})`,
-        details: 'Mesure de performance temporairement indisponible. Aucune donnée perf affirmée pour cet audit.',
-      });
-    }
-  }
+  //    Mobile et desktop tournent EN PARALLÈLE : deux appels séquentiels à ~60s
+  //    chacun doublaient inutilement la latence (et explosaient sur un site dont
+  //    PSI time-out à répétition). Chaque stratégie dégrade indépendamment.
+  const psiResults = await Promise.all(
+    (['mobile', 'desktop'] as const).map(async (strategy): Promise<Measurement[]> => {
+      try {
+        return psiToMeasurements(await runPsi(page.finalUrl, strategy, deps.psiApiKey, fetchFn));
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : String(err);
+        console.error(`[collectAudit] PSI ${strategy} indisponible pour ${page.finalUrl} : ${detail}`);
+        deps.onDegraded?.(`PSI ${strategy} indisponible pour ${page.finalUrl} : perf non mesurée (${detail})`);
+        return [
+          {
+            id: `perf.${strategy}.unavailable`,
+            module: 'perf',
+            label: `Performance ${strategy} non mesurée`,
+            status: 'info',
+            value: null,
+            proof: `PageSpeed Insights indisponible (${strategy})`,
+            details: 'Mesure de performance temporairement indisponible. Aucune donnée perf affirmée pour cet audit.',
+          },
+        ];
+      }
+    }),
+  );
+  for (const r of psiResults) measurements.push(...r);
 
   // 5. Détection business
   const business = detectBusinessType(page.$);
