@@ -24,9 +24,12 @@
 1. **GEO en Flash ET Pro.** Extraire le fetch robots.txt + `checkAiReadiness` du
    bloc pro-only vers une étape partagée qui tourne pour les deux tiers. Crawl,
    a11y, local SEO restent pro-only.
-2. **GEO compte dans le score Flash.** Les mesures GEO entrent dans
-   l'agrégation du score (décalage assumé des scores Flash existants : un défaut
-   GEO réel doit peser). Pas de traitement hors-score.
+2. **GEO hors-score (v1).** `computeScore` (`render/score.ts`) ne pondère
+   aujourd'hui que `perf`, `seo-onpage`, `seo-tech`, `images` : le module
+   `ai-readiness` est exclu du score pour **tous les tiers**, Pro compris.
+   Ajouter un poids GEO décalerait aussi les scores Pro existants, hors périmètre
+   de cette demande. On garde donc le GEO affiché mais hors-score (cohérent
+   Pro/Flash). La pondération du GEO dans le score est un chantier séparé.
 3. **Bloc mail piloté par les mesures, déterministe, zéro LLM.** Un helper
    `buildGeoBlock(audit)` sélectionne les mesures `module === 'ai-readiness'`,
    garde les 2-3 plus parlantes (priorité `fail` puis `warn`), rend un encart

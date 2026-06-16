@@ -132,7 +132,33 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
     fetchFn,
   );
 
-  // 9. Pro : crawl multi-pages (sitemap/liens internes) + estimation d'impact.
+  // 9. AI Readiness (GEO) : visibilité auprès des moteurs IA (llms.txt, robots IA,
+  // schema, citabilité, mentions Exa). Calculé en flash ET pro (homepage seule,
+  // pas besoin du crawl) : c'est un argument d'accroche du pré-audit. checkTech ne
+  // retourne pas le contenu du robots.txt, donc on le refetch ici (GET simple).
+  let robotsTxt: string | null = null;
+  try {
+    const robotsRes = await fetchFn(`${new URL(page.finalUrl).origin}/robots.txt`, {
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (robotsRes.ok) robotsTxt = await robotsRes.text();
+  } catch {
+    robotsTxt = null;
+  }
+  const aiHostname = new URL(page.finalUrl).hostname.replace(/^www\./, '');
+  const aiBrand = aiHostname.split('.')[0] ?? aiHostname;
+  measurements.push(
+    ...(await checkAiReadiness({
+      finalUrl: page.finalUrl,
+      $: page.$,
+      robotsTxt,
+      brand: aiBrand,
+      exaApiKey: deps.exaApiKey,
+      fetchFn,
+    })),
+  );
+
+  // 10. Pro : crawl multi-pages (sitemap/liens internes) + estimation d'impact.
   // Les measurements des pages crawlées (ids préfixés page[<pathname>].) et les
   // agrégats sont fusionnés dans le même tableau ; seul le résumé va dans crawl.
   let impact: AuditData['impact'] = null;
@@ -177,31 +203,6 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
         details: "Audit d'accessibilité indisponible pendant la génération, à vérifier en relecture",
       });
     }
-
-    // AI Readiness : visibilité auprès des moteurs IA (llms.txt, robots IA,
-    // schema, citabilité, mentions Exa). checkTech ne retourne pas le contenu
-    // du robots.txt, donc on le refetch ici (GET simple, déjà en cache serveur).
-    let robotsTxt: string | null = null;
-    try {
-      const robotsRes = await fetchFn(`${new URL(page.finalUrl).origin}/robots.txt`, {
-        signal: AbortSignal.timeout(10_000),
-      });
-      if (robotsRes.ok) robotsTxt = await robotsRes.text();
-    } catch {
-      robotsTxt = null;
-    }
-    const hostname = new URL(page.finalUrl).hostname.replace(/^www\./, '');
-    const brand = hostname.split('.')[0] ?? hostname;
-    measurements.push(
-      ...(await checkAiReadiness({
-        finalUrl: page.finalUrl,
-        $: page.$,
-        robotsTxt,
-        brand,
-        exaApiKey: deps.exaApiKey,
-        fetchFn,
-      })),
-    );
 
     // Local SEO mesurable (NAP, schema, on-page) : uniquement pour un business
     // local. GBP/avis/citations ne sont jamais scorés (ligne info → relecture).
