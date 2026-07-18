@@ -39,7 +39,15 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // Framing : autorisé uniquement en self + app Aurentia (univers « Aurentia
+          // Agency » qui encastre le site en iframe, mode ?embed=1). Remplace
+          // X-Frame-Options (obsolète, pas d'allow-list d'origine) par une CSP
+          // frame-ancestors — seule directive posée, ne restreint rien d'autre.
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://app.aurentia.fr https://*.aurentia.fr http://app.localhost:3000",
+          },
         ],
       },
     ];
