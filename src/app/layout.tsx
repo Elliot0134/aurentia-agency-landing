@@ -116,6 +116,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <main className="flex flex-col">{children}</main>
               <ConditionalChrome>
                 <FooterV2 />
+              </ConditionalChrome>
+              {/* Overlays masqués en embed (redondants dans l'app Aurentia). */}
+              <ConditionalChrome hideOnEmbed>
                 <ChatbotWidgetLazy />
                 <CookieConsent />
               </ConditionalChrome>
