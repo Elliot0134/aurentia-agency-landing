@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "frame-ancestors 'self' https://app.aurentia.fr https://*.aurentia.fr http://app.localhost:3000",
+              "frame-ancestors 'self' https://app.aurentia.fr https://*.aurentia.fr http://app.localhost:* http://localhost:*",
           },
         ],
       },
