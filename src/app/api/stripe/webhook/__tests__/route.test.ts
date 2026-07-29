@@ -12,6 +12,7 @@ const {
   getLeadByEmailMock,
   createLeadMock,
   updateLeadMock,
+  assertSafeUrlMock,
 } = vi.hoisted(() => ({
   constructEventMock: vi.fn(),
   startMock: vi.fn(),
@@ -22,6 +23,7 @@ const {
   getLeadByEmailMock: vi.fn(),
   createLeadMock: vi.fn(),
   updateLeadMock: vi.fn(),
+  assertSafeUrlMock: vi.fn(),
 }));
 
 // Le SDK Stripe réel exige une vraie clé et signe en crypto : on ne teste pas
@@ -49,9 +51,16 @@ vi.mock('@/lib/prospection/db', () => ({
   createLead: createLeadMock,
   updateLead: updateLeadMock,
 }));
+// assertSafeUrl fait une résolution DNS réelle : on garde UnsafeUrlError (vrai
+// type, utilisé dans les assertions) et on ne mocke que la fonction.
+vi.mock('@/lib/audit/url-safety', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/audit/url-safety')>();
+  return { ...actual, assertSafeUrl: assertSafeUrlMock };
+});
 
 import { POST } from '../route';
 import { proAuditWorkflow } from '@/workflows/audit-workflows';
+import { UnsafeUrlError } from '@/lib/audit/url-safety';
 
 const WEBHOOK_SECRET = 'whsec_test';
 const SLACK_URL = 'https://hooks.slack.test/services/T0/B0/x';
@@ -82,10 +91,22 @@ function fakeJob(overrides: Partial<AuditJob> = {}): AuditJob {
   };
 }
 
+interface FakeCustomField {
+  key: string;
+  type: string;
+  text?: { value: string | null };
+}
+
 interface FakeSession {
   id: string;
   customer_details: { email: string | null } | null;
   customer_email: string | null;
+  custom_fields?: FakeCustomField[];
+}
+
+/** Champ « URL à analyser » du Payment Link Pro, tel que Stripe le renvoie. */
+function urlField(value: string | null): FakeCustomField {
+  return { key: 'urlanalyser', type: 'text', text: { value } };
 }
 
 function completedEvent(session: Partial<FakeSession> = {}): { type: string; data: { object: FakeSession } } {
@@ -128,6 +149,7 @@ beforeEach(() => {
   getLeadByEmailMock.mockResolvedValue(null);
   createLeadMock.mockResolvedValue({ id: 'lead-pro' });
   updateLeadMock.mockResolvedValue(undefined);
+  assertSafeUrlMock.mockImplementation(async (raw: string) => new URL(raw));
 });
 
 afterEach(() => {
@@ -275,5 +297,85 @@ describe('POST /api/stripe/webhook : checkout.session.completed', () => {
     createJobMock.mockRejectedValue(new Error('db down'));
     const res = await POST(webhookRequest());
     expect(res.status).toBe(500);
+  });
+});
+
+/**
+ * Le Payment Link Pro demande « URL à analyser » en champ obligatoire : c'est
+ * le client qui déclare le site à auditer, c'est donc la SOURCE DE VÉRITÉ.
+ * Le repli sur le dernier flash de l'email reste utile (Flash cold puis achat)
+ * mais ne doit jamais primer : incident du 2026-07-29 (paiement avec un email
+ * sans flash antérieur → job bloqué alors que l'URL était dans Stripe).
+ */
+describe('POST /api/stripe/webhook : URL déclarée dans le champ Stripe', () => {
+  it("utilise l'URL du champ Stripe quand aucun flash n'existe pour cet email", async () => {
+    constructEventMock.mockReturnValue(
+      completedEvent({ custom_fields: [urlField('https://bimbo-cosmetique.com/')] }),
+    );
+    findLatestJobByEmailMock.mockResolvedValue(null);
+
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+
+    expect(assertSafeUrlMock).toHaveBeenCalledWith('https://bimbo-cosmetique.com/');
+    expect(createJobMock).toHaveBeenCalledWith(
+      expect.objectContaining({ url: 'https://bimbo-cosmetique.com/', tier: 'pro' }),
+    );
+    expect(startMock).toHaveBeenCalledWith(proAuditWorkflow, ['job-pro-1']);
+    expect(updateJobMock).toHaveBeenCalledWith('job-pro-1', { workflowRunId: 'wrun_pro_1' });
+  });
+
+  it("le champ Stripe prime sur le dernier flash quand le client a payé pour un AUTRE site", async () => {
+    constructEventMock.mockReturnValue(
+      completedEvent({ custom_fields: [urlField('https://site-paye.fr/')] }),
+    );
+    findLatestJobByEmailMock.mockResolvedValue(fakeJob({ tier: 'flash', url: 'https://ancien-flash.fr/' }));
+
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ url: 'https://site-paye.fr/' }));
+  });
+
+  it('champ Stripe vide : repli sur le dernier flash de cet email', async () => {
+    constructEventMock.mockReturnValue(completedEvent({ custom_fields: [urlField('   ')] }));
+    findLatestJobByEmailMock.mockResolvedValue(fakeJob({ tier: 'flash', url: 'https://exemple.fr/' }));
+
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ url: 'https://exemple.fr/' }));
+    expect(startMock).toHaveBeenCalled();
+  });
+
+  it("URL saisie inexploitable : escalade Slack, JAMAIS de repli sur un autre site", async () => {
+    constructEventMock.mockReturnValue(completedEvent({ custom_fields: [urlField('http://192.168.1.1/')] }));
+    // Un flash existe pour cet email, mais le client a DÉCLARÉ un autre site :
+    // auditer silencieusement l'ancien serait pire que bloquer.
+    findLatestJobByEmailMock.mockResolvedValue(fakeJob({ tier: 'flash', url: 'https://ancien-flash.fr/' }));
+    assertSafeUrlMock.mockRejectedValue(new UnsafeUrlError('IP privée'));
+    createJobMock.mockResolvedValue(fakeJob({ id: 'job-pro-3', url: '' }));
+
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+
+    expect(createJobMock).toHaveBeenCalledWith(expect.objectContaining({ url: '' }));
+    expect(startMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const text = JSON.parse(String(init.body)).text as string;
+    expect(text).toContain('sans URL connue');
+    // La saisie du client est reportée telle quelle : sans elle, impossible de
+    // savoir quoi corriger côté humain.
+    expect(text).toContain('http://192.168.1.1/');
+  });
+
+  it("normalise l'URL saisie (assertSafeUrl fait foi, pas la saisie brute)", async () => {
+    constructEventMock.mockReturnValue(completedEvent({ custom_fields: [urlField('bimbo-cosmetique.com')] }));
+    assertSafeUrlMock.mockResolvedValue(new URL('https://bimbo-cosmetique.com/'));
+
+    const res = await POST(webhookRequest());
+    expect(res.status).toBe(200);
+    expect(createJobMock).toHaveBeenCalledWith(
+      expect.objectContaining({ url: 'https://bimbo-cosmetique.com/' }),
+    );
   });
 });
