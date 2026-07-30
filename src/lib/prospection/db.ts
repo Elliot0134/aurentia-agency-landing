@@ -21,7 +21,11 @@ export const AIRTABLE_TABLES = {
   niches: 'tblWHeYzoUBRwaxYM',
   touches: 'tblVq7AHFd3dr7ukP',
   replies: 'tblB2mX0IE3Xq7deP',
-  config: 'tblp1MhcjAoS79NWr',
+  // Recréée le 2026-07-30 : l'ancienne table Config (tblp1MhcjAoS79NWr) avait
+  // été supprimée de la base, et Airtable ne réattribue jamais un id. getConfig
+  // levait donc à chaque appel, ce qui faisait échouer WF0 Intake toutes les
+  // heures depuis le 2026-07-02 sans qu'aucun Flash cold ne soit lancé.
+  config: 'tblRwM0jRH9OgkzpI',
 } as const;
 
 /** Les 14 types de touches (options du select Type de la table Touches). */
