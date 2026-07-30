@@ -224,4 +224,28 @@ describe('radarAxesFromMeasurements', () => {
     ]);
     expect(axes).toEqual([{ label: 'AI Readiness', score: 5 }]);
   });
+
+  /**
+   * L'axe a11y ne peut PAS utiliser le pass-rate générique : les mesures a11y
+   * sont fabriquées à partir des violations trouvées, donc toutes en fail/warn.
+   * Le pass-rate y vaut structurellement 0 dès la première violation, ce qui
+   * affichait 0/10 en accessibilité sur tout site réel. Le taux réel de règles
+   * axe respectées est porté par a11y.rules.passrate.
+   */
+  it("l'axe Accessibilité vient de a11y.rules.passrate, pas du pass-rate des mesures", () => {
+    const measurements: Measurement[] = [
+      { id: 'a11y.rules.passrate', module: 'a11y', label: 'Règles respectées', status: 'info', value: 96.9, unit: '%' },
+      m('a11y', 'fail', 'a11y.violations.total'),
+      m('a11y', 'fail', 'a11y.color-contrast'),
+      m('a11y', 'fail', 'a11y.link-name'),
+    ];
+    const axes = radarAxesFromMeasurements(measurements);
+    // Sans le correctif : 0 pass sur 3 mesures → score 0.
+    expect(axes).toEqual([{ label: 'Accessibilité', score: 9.7 }]);
+  });
+
+  it("sans a11y.rules.passrate (axe indisponible), aucun axe Accessibilité inventé", () => {
+    const axes = radarAxesFromMeasurements([m('a11y', 'info', 'a11y.unavailable')]);
+    expect(axes).toEqual([]);
+  });
 });

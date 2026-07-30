@@ -109,7 +109,14 @@ export async function collectAudit(rawUrl: string, tier: Tier, deps: CollectDeps
 
   // 6. Screenshot + annotations prouvables
   let screenshotPath: string | null = null;
-  const png = await captureScreenshot(page.finalUrl, deps.browserless, fetchFn);
+  // Le verdict de validité n'est pas consommé ici : les annotations de ce flux
+  // sont posées depuis des rects mesurés dans le DOM, jamais depuis un jugement
+  // sur l'image. La capture neutralise quand même les préchargeurs plein écran,
+  // ce qui évite une image blanche dans le mail Flash.
+  const { png, validity } = await captureScreenshot(page.finalUrl, deps.browserless, fetchFn);
+  if (!validity.usable) {
+    console.warn(`[collect] capture peu fiable pour ${page.finalUrl} : ${validity.reason}`);
+  }
   const rects = await getImageRects(page.finalUrl, deps.browserless, fetchFn);
   if (deps.outDir) {
     await mkdir(deps.outDir, { recursive: true });

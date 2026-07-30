@@ -129,8 +129,15 @@ export async function buildVisualFindings(args: {
   const findings: VisualFinding[] = [];
   for (const spec of specs) {
     try {
-      const png = await captureScreenshot(spec.url, args.browserless, fetchFn, spec.viewport);
-      const jpeg = await cropResizeJpeg(png, spec.cropHeight, spec.resizeWidth);
+      const shot = await captureScreenshot(spec.url, args.browserless, fetchFn, spec.viewport);
+      // Règle d'acier : une capture non validée ne va JAMAIS au rédacteur. Sinon
+      // il décrit l'artefact (préchargeur, page blanche) comme un défaut du site,
+      // dans un document facturé. Mieux vaut aucun constat visuel qu'un faux.
+      if (!shot.validity.usable) {
+        console.warn(`[visual-findings] capture écartée pour ${spec.url} : ${shot.validity.reason}`);
+        continue;
+      }
+      const jpeg = await cropResizeJpeg(shot.png, spec.cropHeight, spec.resizeWidth);
       const analysis = await analyzeFn(jpeg, spec.context);
       findings.push({
         title: spec.title,

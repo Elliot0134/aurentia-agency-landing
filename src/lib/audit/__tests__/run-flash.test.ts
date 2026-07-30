@@ -31,11 +31,23 @@ beforeAll(async () => {
 });
 
 /** fetch stub routeur (même motif que collect.test.ts) : zéro réseau. */
+/** Réponse Browserless /function du code de capture (PNG base64 + validité). */
+const captureFn = (png: Uint8Array | Buffer) =>
+  new Response(
+    JSON.stringify({
+      data: { png: Buffer.from(png).toString('base64'), bodyTextLength: 5091, overlaysRemoved: 0, blockedBy: null },
+      type: 'application/json',
+    }),
+    { status: 200 },
+  );
+
 const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const u = String(input);
   if (u.includes('pagespeedonline')) return new Response(PSI_FIXTURE, { status: 200 });
-  if (u.includes('/screenshot')) return new Response(new Uint8Array(screenshotPng), { status: 200 });
-  if (u.includes('/function')) return new Response(JSON.stringify([]), { status: 200 });
+  if (u.includes('/function')) {
+    if (String(init?.body ?? '').includes('page.screenshot')) return captureFn(screenshotPng);
+    return new Response(JSON.stringify([]), { status: 200 });
+  }
   if (u.includes('api.exa.ai/contents'))
     return new Response(JSON.stringify({ results: [{ summary: 'desc test' }] }), { status: 200 });
   if (u.includes('api.exa.ai')) return new Response(JSON.stringify({ results: [] }), { status: 200 });

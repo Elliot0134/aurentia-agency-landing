@@ -31,16 +31,27 @@ const SITEMAP = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </urlset>`;
 
 /** fetch stub global du test : route par motif d'URL. */
+/** Réponse Browserless /function du code de capture (PNG base64 + validité). */
+const captureFn = (png: Uint8Array | Buffer) =>
+  new Response(
+    JSON.stringify({
+      data: { png: Buffer.from(png).toString('base64'), bodyTextLength: 5091, overlaysRemoved: 0, blockedBy: null },
+      type: 'application/json',
+    }),
+    { status: 200 },
+  );
+
 const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const u = String(input);
   if (u.includes('pagespeedonline')) return new Response(PSI_FIXTURE, { status: 200 });
-  if (u.includes('/screenshot')) return new Response(new Uint8Array([1]), { status: 200 });
   if (u.includes('/function')) {
-    // deux appels /function distincts : axe (le code injecté charge axe.min.js) vs getImageRects
+    const code = String(init?.body ?? '');
+    // trois appels /function distincts : capture, axe (charge axe.min.js), getImageRects
+    if (code.includes('page.screenshot')) return captureFn(new Uint8Array([1]));
     if (String(init?.body ?? '').includes('axe.min.js'))
       return new Response(
         JSON.stringify({
-          data: { violations: [{ id: 'color-contrast', impact: 'serious', description: 'Contraste insuffisant', nodes: 5 }] },
+          data: { violations: [{ id: 'color-contrast', impact: 'serious', description: 'Contraste insuffisant', nodes: 5 }], passes: 94 },
         }),
         { status: 200 },
       );
