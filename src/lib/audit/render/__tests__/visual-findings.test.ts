@@ -14,6 +14,20 @@ async function makePng(width: number, height: number): Promise<Buffer> {
     .toBuffer();
 }
 
+/**
+ * Réponse Browserless /function du code de capture : PNG en base64 + verdict de
+ * validité (overlay bloquant, longueur du texte de la page).
+ */
+function shotResponse(png: Buffer, over: Partial<{ bodyTextLength: number; overlaysRemoved: number; blockedBy: string | null }> = {}): Response {
+  return new Response(
+    JSON.stringify({
+      data: { png: png.toString('base64'), bodyTextLength: 5091, overlaysRemoved: 0, blockedBy: null, ...over },
+      type: 'application/json',
+    }),
+    { status: 200 },
+  );
+}
+
 /** Stub analyse vision : 2 points (1 positif, 1 négatif). */
 const stubAnalyze: VisualAnalyzeFn = async () => ({
   points: [
@@ -52,10 +66,10 @@ describe('buildVisualFindings', () => {
     const bodies: { viewport: { width: number; height: number; isMobile?: boolean; hasTouch?: boolean } }[] = [];
 
     const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as (typeof bodies)[number];
+      const body = (JSON.parse(String(init?.body)) as { context: (typeof bodies)[number] }).context;
       bodies.push(body);
       const png = body.viewport.width === 390 ? mobilePng : desktopPng;
-      return new Response(new Uint8Array(png), { status: 200 });
+      return shotResponse(png);
     }) as typeof fetch;
 
     const contexts: string[] = [];
@@ -111,10 +125,10 @@ describe('buildVisualFindings', () => {
     const urls: string[] = [];
 
     const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as { url: string; viewport: { width: number } };
+      const body = (JSON.parse(String(init?.body)) as { context: { url: string; viewport: { width: number } } }).context;
       urls.push(body.url);
       const png = body.viewport.width === 390 ? mobilePng : desktopPng;
-      return new Response(new Uint8Array(png), { status: 200 });
+      return shotResponse(png);
     }) as typeof fetch;
 
     const contexts: string[] = [];
@@ -149,10 +163,10 @@ describe('buildVisualFindings', () => {
     vi.useFakeTimers({ toFake: ['setTimeout'] });
 
     const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as { url: string; viewport: { width: number } };
+      const body = (JSON.parse(String(init?.body)) as { context: { url: string; viewport: { width: number } } }).context;
       if (body.url.endsWith('/tarifs')) throw new Error('network down');
       const png = body.viewport.width === 390 ? mobilePng : desktopPng;
-      return new Response(new Uint8Array(png), { status: 200 });
+      return shotResponse(png);
     }) as typeof fetch;
 
     const findings = await settleWithFakeTimers(
@@ -175,7 +189,7 @@ describe('buildVisualFindings', () => {
     let calls = 0;
     const fetchFn: typeof fetch = (async () => {
       calls++;
-      if (calls === 1) return new Response(new Uint8Array(desktopPng), { status: 200 });
+      if (calls === 1) return shotResponse(desktopPng);
       throw new Error('network down');
     }) as typeof fetch;
 
@@ -192,9 +206,9 @@ describe('buildVisualFindings', () => {
     const desktopPng = await makePng(1440, 1400);
     const mobilePng = await makePng(390, 2000);
     const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as { viewport: { width: number } };
+      const body = (JSON.parse(String(init?.body)) as { context: { viewport: { width: number } } }).context;
       const png = body.viewport.width === 390 ? mobilePng : desktopPng;
-      return new Response(new Uint8Array(png), { status: 200 });
+      return shotResponse(png);
     }) as typeof fetch;
 
     let analyzeCalls = 0;
@@ -207,6 +221,38 @@ describe('buildVisualFindings', () => {
     const findings = await buildVisualFindings({ homepageUrl: 'https://exemple.fr', browserless, fetchFn, analyzeFn });
     expect(findings).toHaveLength(1);
     expect(findings[0].title).toBe('Accueil sur smartphone');
+  });
+
+  /**
+   * Incident pieces-chariot.com (2026-07-30) : la capture ne montrait qu'un
+   * spinner sur fond blanc (overlay jamais retiré en headless), et l'analyse
+   * vision a écrit « la page est totalement vide de contenu textuel » dans un
+   * PDF facturé 99 €. Une capture non validée ne doit JAMAIS atteindre le
+   * rédacteur : mieux vaut pas de constat visuel qu'un constat faux.
+   */
+  it("capture bloquée par un overlay → aucun appel à l'analyse, constat sauté", async () => {
+    const desktopPng = await makePng(1440, 1400);
+    const mobilePng = await makePng(390, 2000);
+    const fetchFn: typeof fetch = (async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = (JSON.parse(String(init?.body)) as { context: { viewport: { width: number } } }).context;
+      // Desktop bloqué par l'overlay, mobile propre.
+      if (body.viewport.width === 390) return shotResponse(mobilePng);
+      return shotResponse(desktopPng, { blockedBy: 'DIV.spinner-wrapper' });
+    }) as typeof fetch;
+
+    const analyzed: string[] = [];
+    const analyzeFn: VisualAnalyzeFn = async (png, context) => {
+      analyzed.push(context);
+      return stubAnalyze(png, context);
+    };
+
+    const findings = await buildVisualFindings({ homepageUrl: 'https://exemple.fr', browserless, fetchFn, analyzeFn });
+
+    expect(findings).toHaveLength(1);
+    expect(findings[0].title).toBe('Accueil sur smartphone');
+    // Le point qui compte : le desktop n'a jamais été soumis au rédacteur.
+    expect(analyzed).toHaveLength(1);
+    expect(analyzed[0]).toContain('smartphone');
   });
 
   it('tout échoue → [] (ne throw jamais)', async () => {

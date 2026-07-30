@@ -394,9 +394,20 @@ const RADAR_MODULES: ReadonlyArray<readonly [ModuleId, string]> = [
 /**
  * Note /10 par module présent = taux de réussite des mesures (hors `info`).
  * Les modules sans mesure scorable sont omis.
+ *
+ * Exception a11y : ses mesures sont FABRIQUÉES à partir des violations trouvées
+ * (une mesure par règle en échec), donc toutes en fail/warn. Le pass-rate y vaut
+ * structurellement 0 dès la première violation, soit 0/10 en accessibilité sur
+ * tout site réel. Son score vient donc de `a11y.rules.passrate`, qui porte le
+ * vrai taux de règles axe respectées (passes / (passes + violations)).
  */
 export function radarAxesFromMeasurements(measurements: Measurement[]): RadarAxis[] {
   return RADAR_MODULES.flatMap(([moduleId, label]) => {
+    if (moduleId === 'a11y') {
+      const rate = measurements.find((m) => m.id === 'a11y.rules.passrate');
+      if (typeof rate?.value !== 'number') return [];
+      return [{ label, score: Math.round(rate.value) / 10 }];
+    }
     const ms = measurements.filter((m) => m.module === moduleId && m.status !== 'info');
     if (ms.length === 0) return [];
     const passRate = ms.filter((m) => m.status === 'pass').length / ms.length;

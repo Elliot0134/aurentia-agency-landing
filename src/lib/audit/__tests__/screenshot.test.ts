@@ -2,17 +2,69 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { captureScreenshot, getImageRects, getHeroElementRects, buildAnnotations } from '../screenshot';
 import type { Measurement } from '../types';
 
+const PNG_B64 = Buffer.from([137, 80, 78, 71]).toString('base64');
+
+/** Réponse Browserless /function du code de capture. */
+const captureResponse = (over: Partial<{ png: string; bodyTextLength: number; overlaysRemoved: number; blockedBy: string | null }> = {}) =>
+  new Response(
+    JSON.stringify({
+      data: { png: PNG_B64, bodyTextLength: 5091, overlaysRemoved: 0, blockedBy: null, ...over },
+      type: 'application/json',
+    }),
+    { status: 200 },
+  );
+
 describe('captureScreenshot', () => {
-  it('POST sur /screenshot et retourne le binaire', async () => {
-    let captured: { url: string; body: unknown } | null = null;
+  it('POST sur /function, décode le PNG et déclare la capture utilisable', async () => {
+    let captured: { url: string; body: { code: string; context: { url: string } } } | null = null;
     const fakeFetch: typeof fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
-      captured = { url: String(input), body: JSON.parse(String(init?.body)) };
-      return new Response(new Uint8Array([137, 80, 78, 71]), { status: 200 });
+      captured = { url: String(input), body: JSON.parse(String(init?.body)) as { code: string; context: { url: string } } };
+      return captureResponse();
     }) as typeof fetch;
-    const buf = await captureScreenshot('https://exemple.fr', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
-    expect(buf.byteLength).toBe(4);
-    expect(captured!.url).toBe('https://bl.test/screenshot?token=T');
-    expect((captured!.body as { url: string }).url).toBe('https://exemple.fr');
+
+    const shot = await captureScreenshot('https://exemple.fr', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+
+    expect(shot.png.byteLength).toBe(4);
+    expect(shot.validity.usable).toBe(true);
+    expect(shot.validity.bodyTextLength).toBe(5091);
+    expect(captured!.url).toBe('https://bl.test/function?token=T');
+    expect(captured!.body.context.url).toBe('https://exemple.fr');
+  });
+
+  /**
+   * Incident pieces-chariot.com (2026-07-30) : overlay `spinner-wrapper` blanc
+   * opaque, z-index 999999, jamais retiré en headless même à 20 s. La page était
+   * rendue dessous (5091 caractères) mais la capture ne montrait qu'un spinner,
+   * et le rédacteur a décrit « une page totalement vide » à un client payant.
+   */
+  it('capture inutilisable quand un overlay opaque couvre encore la page', async () => {
+    const fakeFetch: typeof fetch = (async () =>
+      captureResponse({ blockedBy: 'DIV.spinner-wrapper', overlaysRemoved: 0 })) as typeof fetch;
+
+    const shot = await captureScreenshot('https://exemple.fr', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+
+    expect(shot.validity.usable).toBe(false);
+    expect(shot.validity.reason).toContain('spinner-wrapper');
+  });
+
+  it("retire les overlays bloquants avant le shot et le signale", async () => {
+    let code = '';
+    const fakeFetch: typeof fetch = (async (_i: RequestInfo | URL, init?: RequestInit) => {
+      code = (JSON.parse(String(init?.body)) as { code: string }).code;
+      return captureResponse({ overlaysRemoved: 1 });
+    }) as typeof fetch;
+
+    const shot = await captureScreenshot('https://exemple.fr', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+
+    expect(code).toContain('remove');
+    expect(shot.validity.overlaysRemoved).toBe(1);
+    expect(shot.validity.usable).toBe(true);
+  });
+
+  it("page réellement vide de texte → capture inutilisable (rien à commenter)", async () => {
+    const fakeFetch: typeof fetch = (async () => captureResponse({ bodyTextLength: 12 })) as typeof fetch;
+    const shot = await captureScreenshot('https://exemple.fr', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
+    expect(shot.validity.usable).toBe(false);
   });
 });
 
@@ -68,13 +120,14 @@ describe('retry Browserless', () => {
     const fakeFetch: typeof fetch = (async () => {
       calls++;
       if (calls < 3) return new Response('boom', { status: 500 });
-      return new Response(new Uint8Array([1, 2]), { status: 200 });
+      return captureResponse();
     }) as typeof fetch;
     const promise = captureScreenshot('https://x', { token: 'T', baseUrl: 'https://bl.test' }, fakeFetch);
     await vi.runAllTimersAsync();
-    const buf = await promise;
+    const shot = await promise;
     expect(calls).toBe(3);
-    expect(buf.byteLength).toBe(2);
+    expect(shot.png.byteLength).toBe(4);
+    expect(shot.validity.usable).toBe(true);
   });
 
   it('captureScreenshot abandonne après 5 échecs', async () => {

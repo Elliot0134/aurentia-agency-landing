@@ -13,6 +13,12 @@ export interface AxeViolation {
 export interface A11yPageResult {
   url: string;
   violations: AxeViolation[];
+  /**
+   * Nombre de règles WCAG que la page RESPECTE (axe `results.passes`).
+   * Obligatoire : c'est le dénominateur du score d'accessibilité. Sans lui, le
+   * seul ratio calculable serait « violations / violations », soit 0 partout.
+   */
+  passes: number;
 }
 
 const base = (c: BrowserlessConfig) => c.baseUrl ?? 'https://production-sfo.browserless.io';
@@ -48,6 +54,9 @@ export default async function ({ page, context }) {
         description: v.description,
         nodes: v.nodes.length,
       })),
+      // Règles respectées : dénominateur du score. axe le renvoie déjà, on ne
+      // le jetait pas par choix mais par oubli, d'où un score a11y toujours nul.
+      passes: results.passes.length,
     },
     type: 'application/json',
   };
@@ -60,12 +69,12 @@ export default async function ({ page, context }) {
       signal: AbortSignal.timeout(90_000),
     });
     if (!res.ok) throw new Error(`Browserless /function axe → ${res.status} pour ${url}`);
-    const json = (await res.json()) as { data?: { violations?: AxeViolation[] } };
+    const json = (await res.json()) as { data?: { violations?: AxeViolation[]; passes?: number } };
     const violations = json.data?.violations;
     if (!Array.isArray(violations)) {
       throw new Error(`Réponse axe inexploitable (data.violations absent) pour ${url}`);
     }
-    return { url, violations };
+    return { url, violations, passes: typeof json.data?.passes === 'number' ? json.data.passes : 0 };
   });
 }
 
@@ -95,8 +104,29 @@ export function a11yToMeasurements(results: A11yPageResult[]): Measurement[] {
     r.violations.map((violation) => ({ ...violation, pathname: pathnameOf(r.url) })),
   );
 
+  // Taux de règles WCAG respectées, toutes pages confondues. `info` volontaire :
+  // cette mesure sert de score à l'axe radar (cf. radarAxesFromMeasurements) et
+  // ne doit donc pas entrer elle-même dans un calcul de pass-rate, ni s'afficher
+  // comme un pass/fail. Omise si axe n'a exécuté aucune règle (rien à diviser).
+  const totalPasses = results.reduce((sum, r) => sum + r.passes, 0);
+  const rateMeasurements: Measurement[] =
+    totalPasses + all.length === 0
+      ? []
+      : [
+          {
+            id: 'a11y.rules.passrate',
+            module: 'a11y',
+            label: 'Règles WCAG 2.2 AA respectées (axe-core)',
+            status: 'info',
+            value: Math.round((totalPasses / (totalPasses + all.length)) * 1000) / 10,
+            unit: '%',
+            proof: `${totalPasses} règle(s) respectée(s) contre ${all.length} violation(s) sur ${results.length} page(s)`,
+          },
+        ];
+
   if (all.length === 0) {
     return [
+      ...rateMeasurements,
       {
         id: 'a11y.violations.total',
         module: 'a11y',
@@ -159,5 +189,5 @@ export function a11yToMeasurements(results: A11yPageResult[]): Measurement[] {
       details: entry.description,
     }));
 
-  return [total, ...perType];
+  return [...rateMeasurements, total, ...perType];
 }
