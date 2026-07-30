@@ -1,4 +1,5 @@
 import { collectAudit } from './collect';
+import type { AuditData } from './types';
 import type { CrawlOptions } from './crawl';
 import type { BrowserlessConfig } from './screenshot';
 import type { DnsResolver } from './url-safety';
@@ -59,10 +60,21 @@ export interface RunProResult {
   writerModel: string;
 }
 
-export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise<RunProResult> {
-  // 1. Collecte pro (crawl, a11y, AI Readiness, impact). Pas de screenshot buffer :
-  //    les constats visuels du Pro sont capturés par buildVisualFindings au rendu.
-  const audit = await collectAudit(input.url, 'pro', {
+/**
+ * Étape 1 : collecte pro (crawl, a11y, AI Readiness, impact).
+ *
+ * Séparée du rendu pour que le workflow durable en fasse un step distinct :
+ * `runPro` était un seul step de ~5 minutes, donc chaque retry du WDK
+ * repartait de zéro et refaisait tout (incident du 2026-07-29 : 5 tentatives,
+ * 36 minutes, aucun livrable).
+ *
+ * Le résultat traverse une frontière de step, donc il doit rester
+ * SÉRIALISABLE : pas de `keepScreenshotBuffer` ici, aucun Buffer dans
+ * l'AuditData. Les constats visuels du Pro sont capturés au rendu par
+ * buildVisualFindings, pas ici.
+ */
+export async function collectProAudit(url: string, deps: RunProDeps): Promise<AuditData> {
+  return collectAudit(url, 'pro', {
     fetchFn: deps.fetchFn,
     resolver: deps.resolver,
     psiApiKey: deps.psiApiKey,
@@ -73,8 +85,19 @@ export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise
     crawlOpts: deps.crawlOpts,
     onDegraded: deps.onDegraded,
   });
+}
 
-  // 2. Rendu : rédaction Pro sous contrat + charts + constats visuels → PDF.
+/**
+ * Étape 2 : rédaction sous contrat + charts + constats visuels → PDF → upload.
+ *
+ * Le rendu et l'upload restent dans le MÊME step à dessein : le PDF est un
+ * Buffer, il ne doit pas transiter par le store durable entre deux steps.
+ */
+export async function renderProAudit(
+  audit: AuditData,
+  input: Pick<RunProInput, 'jobId' | 'email'>,
+  deps: RunProDeps,
+): Promise<RunProResult> {
   const rendered = await renderReport(audit, {
     browserless: deps.browserless,
     fetchFn: deps.fetchFn,
@@ -85,7 +108,7 @@ export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise
     throw new Error('Rendu Pro sans pdfBuffer (incohérence de tier dans renderReport)');
   }
 
-  // 3. Upload dans le bucket PRIVÉ (pas de getPublicUrl : URLs signées en T6).
+  // Upload dans le bucket PRIVÉ (pas de getPublicUrl : URLs signées en T6).
   const pdfPath = `pro/${input.jobId}/audit.pdf`;
   const { error } = await deps.supabase.storage.from(BUCKET).upload(pdfPath, rendered.pdfBuffer, {
     contentType: 'application/pdf',
@@ -99,4 +122,10 @@ export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise
     impactPercent: audit.impact?.headlinePercent ?? null,
     writerModel: rendered.writerModel,
   };
+}
+
+/** Composition des deux étapes : conservée pour les appels hors workflow. */
+export async function runProAudit(input: RunProInput, deps: RunProDeps): Promise<RunProResult> {
+  const audit = await collectProAudit(input.url, deps);
+  return renderProAudit(audit, input, deps);
 }

@@ -3,7 +3,8 @@ import { FatalError } from 'workflow';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { getJob, updateJob, type AuditJob } from '@/lib/audit/jobs';
 import { runFlashAudit, type RunFlashResult, type AuditStorageClient } from '@/lib/audit/run-flash';
-import { runProAudit, type RunProResult } from '@/lib/audit/run-pro';
+import { collectProAudit, renderProAudit, type RunProResult } from '@/lib/audit/run-pro';
+import type { AuditData } from '@/lib/audit/types';
 import { makeReviewToken } from '@/lib/audit/review-token';
 import type { BrowserlessConfig } from '@/lib/audit/screenshot';
 import { defaultAirtableApi, type AirtableApi } from '@/lib/prospection/airtable';
@@ -165,9 +166,31 @@ export async function handleFlashFailure(jobId: string, url: string, message: st
 // Steps Pro
 // ---------------------------------------------------------------------------
 
-export async function runPro(jobId: string, url: string, email: string): Promise<RunProResult> {
+/**
+ * Le Pro est découpé en DEUX steps au lieu d'un.
+ *
+ * Avant, `runPro` faisait collecte + rendu + upload dans un seul step d'environ
+ * 5 minutes. Deux conséquences : la durée frôlait le plafond des fonctions, et
+ * surtout chaque retry du WDK repartait de zéro et refaisait TOUT. Incident du
+ * 2026-07-29 sur bimbo-cosmetique.com : 5 tentatives, 36 minutes, aucun
+ * livrable, et rien d'exploitable dans l'erreur remontée.
+ *
+ * Découpé, chaque moitié passe largement sous le plafond, et un incident au
+ * rendu ne fait plus rejeter la collecte (PSI, crawl, axe, Exa) déjà payée.
+ */
+export async function collectPro(url: string): Promise<AuditData> {
   'use step';
-  return runProAudit({ url, email, jobId }, depsProd());
+  return collectProAudit(url, depsProd());
+}
+
+/**
+ * Rendu + upload dans le MÊME step, volontairement : le PDF est un Buffer et
+ * n'a rien à faire dans le store durable entre deux steps. Ce qui traverse la
+ * frontière, c'est l'AuditData (JSON pur, aucun Buffer).
+ */
+export async function renderPro(jobId: string, audit: AuditData, email: string): Promise<RunProResult> {
+  'use step';
+  return renderProAudit(audit, { jobId, email }, depsProd());
 }
 
 export async function makeReviewTokenStep(jobId: string): Promise<string> {

@@ -6,7 +6,8 @@ import {
   markDelivered,
   saveDraft,
   handleFlashFailure,
-  runPro,
+  collectPro,
+  renderPro,
   makeReviewTokenStep,
   markReadyForReview,
   notifyReviewReady,
@@ -75,7 +76,11 @@ export async function proAuditWorkflow(jobId: string) {
 
   try {
     await markRunning(jobId);
-    const result = await runPro(jobId, job.url, job.email);
+    // Deux steps : la collecte (longue) est acquise avant que le rendu ne
+    // commence, donc un échec au rendu ne la refait pas. L'AuditData transite
+    // en JSON entre les deux, sans aucun Buffer.
+    const audit = await collectPro(job.url);
+    const result = await renderPro(jobId, audit, job.email);
     const reviewToken = await makeReviewTokenStep(jobId);
     await markReadyForReview(jobId, result, reviewToken);
     await notifyReviewReady(jobId, job.url, reviewToken);
