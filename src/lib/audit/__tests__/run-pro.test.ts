@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { runProAudit, type RunProDeps } from '../run-pro';
+import { runProAudit, collectProAudit, renderProAudit, type RunProDeps } from '../run-pro';
 import type { AuditStorageClient } from '../run-flash';
 import type { ProReportContent } from '../render/report-schema';
 
@@ -220,5 +220,60 @@ describe('runProAudit', () => {
     await expect(runProAudit(INPUT, makeDeps({ supabase: storage.client }))).rejects.toThrow(
       /bucket indisponible/,
     );
+  });
+});
+
+/**
+ * Découpage collecte / rendu, pour que le workflow durable puisse en faire deux
+ * steps distincts. Motif : `runPro` était UN step de ~5 minutes, donc chaque
+ * retry du WDK repartait de zéro et refaisait tout (incident du 2026-07-29 :
+ * 5 tentatives, 36 minutes, zéro livrable). Découpé, chaque moitié passe
+ * largement sous le plafond de durée et un incident ne coûte que son étape.
+ *
+ * L'invariant critique est la SÉRIALISABILITÉ : le résultat de la collecte
+ * traverse une frontière de step, donc il ne doit contenir aucun Buffer.
+ * (C'est aussi pourquoi le rendu et l'upload restent ensemble : le PDF, lui,
+ * ne doit surtout pas transiter par le store durable.)
+ */
+describe('runProAudit : découpage en deux étapes', () => {
+  it('collectProAudit rend un AuditData sérialisable, sans aucun Buffer', async () => {
+    const audit = await collectProAudit(INPUT.url, makeDeps());
+
+    expect(audit.tier).toBe('pro');
+    expect(audit.measurements.length).toBeGreaterThan(0);
+    expect(audit.screenshotBuffer).toBeUndefined();
+    // Le tour de force du step durable : ça doit passer par JSON sans perte.
+    const roundtrip = JSON.parse(JSON.stringify(audit)) as typeof audit;
+    expect(roundtrip.measurements.length).toBe(audit.measurements.length);
+    expect(roundtrip.url).toBe(audit.url);
+    expect(JSON.stringify(audit)).not.toContain('"type":"Buffer"');
+  });
+
+  it('renderProAudit part d’un AuditData et produit le PDF uploadé', async () => {
+    const storage = fakeStorage();
+    const deps = makeDeps({ supabase: storage.client });
+    const audit = await collectProAudit(INPUT.url, deps);
+
+    // Passage par JSON : exactement ce que fait la frontière de step.
+    const transmis = JSON.parse(JSON.stringify(audit)) as typeof audit;
+    const result = await renderProAudit(transmis, { jobId: INPUT.jobId, email: INPUT.email }, deps);
+
+    expect(result.pdfPath).toBe('pro/job-123/audit.pdf');
+    expect(storage.uploads).toHaveLength(1);
+    expect(typeof result.score).toBe('number');
+  });
+
+  it('runProAudit reste exactement la composition des deux (non-régression)', async () => {
+    const storageA = fakeStorage();
+    const direct = await runProAudit(INPUT, makeDeps({ supabase: storageA.client }));
+
+    const storageB = fakeStorage();
+    const deps = makeDeps({ supabase: storageB.client });
+    const audit = await collectProAudit(INPUT.url, deps);
+    const compose = await renderProAudit(audit, { jobId: INPUT.jobId, email: INPUT.email }, deps);
+
+    expect(compose.pdfPath).toBe(direct.pdfPath);
+    expect(compose.score).toBe(direct.score);
+    expect(compose.impactPercent).toBe(direct.impactPercent);
   });
 });
